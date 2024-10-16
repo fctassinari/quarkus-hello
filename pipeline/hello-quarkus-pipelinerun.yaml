@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: hello-quarkus-pipelinerun
+  namespace: tassinari
+spec:
+  pipelineRef:
+    name: hello-quarkus-pipeline
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: pvc-workspace
+    - name: maven-settings
+      persistentVolumeClaim:
+        claimName: pvc-maven-settings
+#    - name: maven-settings
+#      configMap:
+#        name: maven-settings
