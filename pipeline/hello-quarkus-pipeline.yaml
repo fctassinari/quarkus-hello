@@ -70,6 +70,42 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+    - name: code-analysis
+      params:
+        - name: GOALS
+          value:
+            - install
+            - 'sonar:sonar'
+            - '-f'
+            - hello-quarkus
+            - >-
+              -Dsonar.host.url=https://sonarqube-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com
+            - '-Dsonar.userHome=/tmp/sonar'
+            - '-Dsonar.login=squ_2946bd84ac48b6460a90ba4879c3598d1694a2d0'
+            - '-DskipTests=true'
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+    - name: dependency-report
+      taskRef:
+        name: dependency-report
+      runAfter:
+        - git-clone
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+      params:
+        - name: SOURCE_DIR
+          value: hello-quarkus
   workspaces:
     - name: maven-settings
     - name: workspace

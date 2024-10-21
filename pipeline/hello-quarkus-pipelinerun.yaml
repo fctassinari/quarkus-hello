@@ -9,10 +9,7 @@ spec:
   workspaces:
     - name: workspace
       persistentVolumeClaim:
-        claimName: pvc-workspace
+        claimName: pvc-workspace.yaml
     - name: maven-settings
-      persistentVolumeClaim:
-        claimName: pvc-maven-settings
-#    - name: maven-settings
-#      configMap:
-#        name: maven-settings
+      configMap:
+        name: maven-settings

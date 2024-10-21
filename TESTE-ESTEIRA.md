@@ -1,5 +1,28 @@
 # Instruções - Openshift Test Pipeline
 
+# Operators
+Red Hat OpenShift Pipelines
+
+Red Hat OpenShift GitOps
+
+Nexus Repository Operator
+
+GitLab
+
+# Recriar Ambiente
+1 - task-maven.yaml<br>
+2 - task-dependency-report.yaml<br>
+3 - maven-setings.yaml<br>
+4 - pvc-workspace.yaml<br>
+5 - hello-quarkus-pipeline.yaml<br>
+6 - hello-quarkus-pipelinerun.yaml<br>
+7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+relase<br>
+permissive<br>
+https://maven.repository.redhat.com/ga/<br>
+8 - Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
+maven-central<br>
+maven-redhat<br>
 
 
 ## 1- Deploy da aplicação com Pipeline:
