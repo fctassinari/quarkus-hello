@@ -23,6 +23,9 @@ https://maven.repository.redhat.com/ga/<br>
 8 - Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
 maven-central<br>
 maven-redhat<br>
+9 - Criar um repositorio mvn-release com Version Policy: Mixed<br>
+10 - Criar o secret roxsecret<br>
+
 
 
 ## 1- Deploy da aplicação com Pipeline:

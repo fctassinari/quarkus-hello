@@ -11,6 +11,10 @@ spec:
     - default: main
       name: APP_SOURCE_REVISION
       type: string
+    - name: APP_IMAGE_TAG
+      type: string
+      default: latest
+      description: The application image tag to build
   tasks:
     - name: git-clone
       params:
@@ -106,6 +110,67 @@ spec:
       params:
         - name: SOURCE_DIR
           value: hello-quarkus
+    - name: release-app
+      params:
+        - name: GOALS
+          value:
+            - deploy
+            - '-f'
+            - hello-quarkus
+            - '-DskipTests=true'
+            - >-
+              -DaltDeploymentRepository=nexus::default::http://nexus-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com/repository/mvn-release/
+      runAfter:
+        - code-analysis
+        - unit-tests
+        - dependency-report
+      taskRef:
+        kind: Task
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+    - name: build-image
+      taskRef:
+        name: s2i-java-17
+      runAfter:
+        - release-app
+      params:
+        - name: TLSVERIFY
+          value: "false"
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com/repository/maven-public/
+        - name: PATH_CONTEXT
+          value: hello-quarkus/target
+        - name: IMAGE_NAME
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+        - name: IMAGE_TAG
+          value: $(params.APP_IMAGE_TAG)
+      workspaces:
+        - name: source
+          workspace: workspace
+
+    - name: image-scan
+      runAfter:
+        - build-image
+      taskRef:
+        name: rox-image-scan
+        kind: ClusterTask
+      params:
+        - name: image
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: output_format
+          value: table
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+
+
   workspaces:
     - name: maven-settings
     - name: workspace
