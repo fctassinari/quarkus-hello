@@ -15,6 +15,11 @@ spec:
       type: string
       default: latest
       description: The application image tag to build
+    - name: APP_MANIFESTS_GIT
+      type: string
+      description: The application manifests git repository
+      default: 'https://github.com/fctassinari/quarkus-hello-config.git'
+#      default: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/spring-petclinic-config
   tasks:
     - name: git-clone
       params:
@@ -151,7 +156,6 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
-
     - name: image-scan
       runAfter:
         - build-image
@@ -160,7 +164,7 @@ spec:
         kind: ClusterTask
       params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -169,8 +173,64 @@ spec:
           value: table
         - name: image_digest
           value: $(tasks.build-image.results.IMAGE_DIGEST)
+    - name: image-check
+      runAfter:
+        - build-image
+      taskRef:
+        name: rox-image-check
+        kind: ClusterTask
+      params:
+        - name: image
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+    - name: deploy-check
+      runAfter:
+        - build-image
+      taskRef:
+        name: rox-deployment-check
+        kind: ClusterTask
+      params:
+        - name: GIT_REPOSITORY
+          value: "$(params.APP_MANIFESTS_GIT)"
+        - name: rox_api_token
+          value: roxsecrets
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: file
+          value: deployment.yaml
+        - name: deployment_files_path
+          value: app
+      workspaces:
+        - name: workspace
+          workspace: workspace
 
-
+    - name: update-deployment
+      runAfter:
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        name: git-update-deployment
+      params:
+        - name: GIT_REPOSITORY
+          value: "$(params.APP_MANIFESTS_GIT)"
+        - name: GIT_USERNAME
+          value: gogs
+        - name: GIT_PASSWORD
+          value: gogs
+        - name: CURRENT_IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+        - name: NEW_IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+        - name: NEW_DIGEST
+          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+        - name: KUSTOMIZATION_PATH
+          value: environments/dev
   workspaces:
     - name: maven-settings
     - name: workspace

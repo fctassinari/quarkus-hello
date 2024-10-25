@@ -24,7 +24,7 @@ https://maven.repository.redhat.com/ga/<br>
 maven-central<br>
 maven-redhat<br>
 9 - Criar um repositorio mvn-release com Version Policy: Mixed<br>
-10 - Criar o secret roxsecret<br>
+10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
 
 
 
