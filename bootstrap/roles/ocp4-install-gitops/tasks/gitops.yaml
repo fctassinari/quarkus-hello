@@ -82,17 +82,16 @@
 #    until: crds.resources|length > 0
 #    retries: 30
 #    delay: 10
-
-- name: Add ClusterRoleBinding to the openshift-gitops-controller
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'gitops-rb.yml.j2') }}"
-
-#- name: Install ArgoCD
-#  k8s:
+#- name: Add ClusterRoleBinding to the openshift-gitops-controller
+#  kubernetes.core.k8s:
 #    state: present
-#    definition: "{{ lookup('template', 'gitops-argocd.yaml.j2') | from_yaml }}"
-#
+#    definition: "{{ lookup('template', 'gitops-rb.yml.j2') }}"
+
+- name: Install ArgoCD
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitops-argocd.yaml.j2') | from_yaml }}"
+
 #- name: Patch the CM of Openshift GitOps to add role admin by default
 #  command: oc patch cm/argocd-rbac-cm -n openshift-gitops --type=merge -p '{"data":{"policy.default":"role:admin"}}'
 #
