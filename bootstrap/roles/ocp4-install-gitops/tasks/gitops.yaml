@@ -18,8 +18,8 @@
     state: present
     definition: "{{ lookup('template', 'subs-gitops.yml.j2') }}"
 
-- name: Adapt to the openshift_cluster_version LESS than 4.9
-  when: ocp4_cluster_version is version_compare('4.9', '<')
+- name: Adapt to the openshift_cluster_version
+  when: ocp4_cluster_version is version_compare('4.9', '>')
   block:
 
   - name: Wait for GitOps CRD to exist
