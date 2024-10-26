@@ -25,7 +25,7 @@ maven-central<br>
 maven-redhat<br>
 9 - Criar um repositorio mvn-release com Version Policy: Mixed<br>
 10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
-
+11 - Criar task git-update-deployment
 
 
 ## 1- Deploy da aplicação com Pipeline:
