@@ -8,18 +8,33 @@ Red Hat OpenShift GitOps
 Nexus Repository Operator
 
 GitLab
-# Instalar Infra
-Get cluster version
-Install GitOps Operator
-Install OCP Pipelines Operator
-Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação
-Install ArgoCD
-Patch the CM of Openshift GitOps to add role admin by default
-Add SSO Keycloak in Openshift GitOps by default
-Get ArgoCD route
-Get argocd password
-Add CM for ArgoCD env
+# Install Gitops
+Get cluster version<br>
+Install GitOps Operator<br>
+Install OCP Pipelines Operator<br>
+Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
+Install ArgoCD<br>
+Patch the CM of Openshift GitOps to add role admin by default<br>
+Add SSO Keycloak in Openshift GitOps by default<br>
+Get ArgoCD route<br>
+Get argocd password<br>
+Add CM for ArgoCD env<br>
 Add Secrets for ArgoCD env
+
+# Install CICD Infra
+Add RoleBinding to the devsecops projects<br>
+Install Gogs<br>
+Install nexus<br>
+Install sonarqube<br>
+Install reports repo<br>
+Get gogs route<br>
+Patch with specific route domain<br>
+Wait for gogs and gogs-postgresql to be running<br>
+Check Nexus Route<br>
+Wait for nexus to be running<br>
+Sonarqube Route<br>
+Wait for sonarqube to be running<br>
+Get reports route
 
 # Recriar Pipeline
 1 - task-maven.yaml<br>
