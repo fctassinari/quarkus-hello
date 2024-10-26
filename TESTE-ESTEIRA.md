@@ -13,7 +13,13 @@ Get cluster version
 Install GitOps Operator
 Install OCP Pipelines Operator
 Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação
-
+Install ArgoCD
+Patch the CM of Openshift GitOps to add role admin by default
+Add SSO Keycloak in Openshift GitOps by default
+Get ArgoCD route
+Get argocd password
+Add CM for ArgoCD env
+Add Secrets for ArgoCD env
 
 # Recriar Pipeline
 1 - task-maven.yaml<br>
