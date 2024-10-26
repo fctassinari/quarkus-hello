@@ -8,8 +8,14 @@ Red Hat OpenShift GitOps
 Nexus Repository Operator
 
 GitLab
+# Instalar Infra
+Get cluster version
+Install GitOps Operator
+Install OCP Pipelines Operator
+Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação
 
-# Recriar Ambiente
+
+# Recriar Pipeline
 1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>
 3 - maven-setings.yaml<br>
