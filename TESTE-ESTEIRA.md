@@ -36,6 +36,37 @@ Sonarqube Route<br>
 Wait for sonarqube to be running<br>
 Get reports route
 
+# Install Pipelines
+Create OpenShift Objects for Openshift Pipeline Tasks
+* argocd-task-sync-and-wait ```
+   This task syncs (deploys) an Argo CD application and waits for it to be healthy.
+   To do so, it requires the address of the Argo CD server and some form of 
+   authentication either a username/password or an authentication token.```
+* dependency-report
+* [gatling](https://gatling.io/)
+* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
+* rox-image-scan
+* maven-settings ``` ConfigMap ```
+* maven ``` This Task can be used to run a Maven build ```
+* rox-deployment-check 
+* rox-image-check ``` 
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+
+
 # Recriar Pipeline
 1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>

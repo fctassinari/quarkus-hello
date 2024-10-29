@@ -88,9 +88,9 @@ spec:
             - '-f'
             - hello-quarkus
             - >-
-              -Dsonar.host.url=https://sonarqube-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com
+              -Dsonar.host.url=https://sonarqube-cicd.apps.cluster-df6hj.sandbox169.opentlc.com
             - '-Dsonar.userHome=/tmp/sonar'
-            - '-Dsonar.login=squ_2946bd84ac48b6460a90ba4879c3598d1694a2d0'
+            - '-Dsonar.login=cf0e316085290b5479467ac53e3f6597da7e95e3'
             - '-DskipTests=true'
       runAfter:
         - git-clone
@@ -124,7 +124,7 @@ spec:
             - hello-quarkus
             - '-DskipTests=true'
             - >-
-              -DaltDeploymentRepository=nexus::default::http://nexus-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com/repository/mvn-release/
+              -DaltDeploymentRepository=nexus::default::http://nexus-cicd.apps.cluster-df6hj.sandbox169.opentlc.com/repository/mvn-release/
       runAfter:
         - code-analysis
         - unit-tests
@@ -146,7 +146,7 @@ spec:
         - name: TLSVERIFY
           value: "false"
         - name: MAVEN_MIRROR_URL
-          value: http://nexus-cicd.apps.cluster-ntsm8.sandbox564.opentlc.com/repository/maven-public/
+          value: http://nexus-cicd.apps.cluster-df6hj.sandbox169.opentlc.com/repository/maven-public/
         - name: PATH_CONTEXT
           value: hello-quarkus/target
         - name: IMAGE_NAME

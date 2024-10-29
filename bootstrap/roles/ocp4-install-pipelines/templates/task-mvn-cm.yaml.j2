@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maven-settings
-  namespace: tassinari
+  namespace: cicd
 data:
   settings.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
@@ -18,7 +18,7 @@ data:
         <mirror>
           <id>nexus</id>
           <name>nexus</name>
-          <url>http://nexus-cicd.apps.cluster-df6hj.sandbox169.opentlc.com/repository/maven-public/</url>
+          <url>http://nexus:8081/repository/maven-public/</url>
           <mirrorOf>*</mirrorOf>
         </mirror>
       </mirrors>
