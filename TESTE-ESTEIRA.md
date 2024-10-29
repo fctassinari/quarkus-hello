@@ -78,11 +78,11 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
 relase<br>
 permissive<br>
-https://maven.repository.redhat.com/ga/<br>
+https://maven.repository.redhat.com/ga/ <br>
 8 - Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
 maven-central<br>
 maven-redhat<br>
-9 - Criar um repositorio mvn-release com Version Policy: Mixed<br>
+9 - Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
 10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
 11 - Criar task git-update-deployment
 
