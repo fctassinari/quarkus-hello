@@ -68,9 +68,10 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 
 
 # Recriar Pipeline
+0 - Criar projeto tassinari<br>
 1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>
-3 - maven-setings.yaml<br>
+3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
 5 - hello-quarkus-pipeline.yaml<br>
 6 - hello-quarkus-pipelinerun.yaml<br>
