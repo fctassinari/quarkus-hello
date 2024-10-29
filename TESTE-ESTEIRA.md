@@ -85,7 +85,9 @@ maven-redhat<br>
 9 - Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
 10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
 11 - Criar task git-update-deployment
-
+12 - task-rox-image-check.yaml
+13 - task-rox-image-scan.yaml
+14 - task-s2i-java-21.yaml
 
 ## 1- Deploy da aplicação com Pipeline:
 

@@ -139,7 +139,7 @@ spec:
           workspace: maven-settings
     - name: build-image
       taskRef:
-        name: s2i-java-17
+        name: s2i-java-21
       runAfter:
         - release-app
       params:
