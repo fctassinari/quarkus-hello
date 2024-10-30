@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: pipeline
-    namespace: cicd
+    namespace: quarkus-hello-pipeline
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -20,7 +20,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: pipeline
-    namespace: cicd
+    namespace: quarkus-hello-pipeline
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -30,7 +30,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: system:image-puller-dev
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 subjects:
   - kind: ServiceAccount
     name: default
@@ -44,7 +44,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: system:image-puller-qa
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 subjects:
   - kind: ServiceAccount
     name: default

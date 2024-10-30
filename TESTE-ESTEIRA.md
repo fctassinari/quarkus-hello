@@ -15,14 +15,14 @@ Get cluster version<br>
 [//]: # (Install GitOps Operator<br>)
 
 [//]: # (Install OCP Pipelines Operator<br>)
-Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
-Install ArgoCD<br>
-Patch the CM of Openshift GitOps to add role admin by default<br>
-Add SSO Keycloak in Openshift GitOps by default<br>
+[//]: # (Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>)
+[//]: # (Install ArgoCD<br>)
+[//]: # (Patch the CM of Openshift GitOps to add role admin by default<br>)
+[//]: # (Add SSO Keycloak in Openshift GitOps by default<br>)
 Get ArgoCD route<br>
 Get argocd password<br>
-Add CM for ArgoCD env<br>
-Add Secrets for ArgoCD env
+Add CM for ArgoCD env in namespace quarkus-hello-pipeline<br>
+Add Secrets for ArgoCD env in namespace quarkus-hello-pipeline
 
 # Install CICD Infra
 Add RoleBinding to the devsecops projects<br>

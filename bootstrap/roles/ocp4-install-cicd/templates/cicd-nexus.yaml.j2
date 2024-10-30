@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: nexus
     app.kubernetes.io/part-of: nexus
   name: nexus
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 spec:
   replicas: 1
   selector:
@@ -71,7 +71,7 @@ metadata:
   labels:
     app: nexus
   name: nexus
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 spec:
   ports:
   - name: 8081-tcp
@@ -89,7 +89,7 @@ metadata:
   labels:
     app: nexus
   name: nexus
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 spec:
   port:
     targetPort: 8081-tcp
@@ -104,7 +104,7 @@ metadata:
   labels:
     app: nexus
   name: nexus-pv
-  namespace: cicd
+  namespace: quarkus-hello-pipeline
 spec:
   accessModes:
   - ReadWriteOnce
