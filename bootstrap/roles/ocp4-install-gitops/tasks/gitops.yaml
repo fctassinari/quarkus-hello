@@ -134,12 +134,12 @@
   debug:
     msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
 
-- name: Add CM for ArgoCD env in namespace quarkus-hello-pipeline
+- name: Add CM for ArgoCD env in namespace  quarkus-hello-cicd
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'gitops-env-cm.yaml.j2') }}"
 
-- name: Add Secrets for ArgoCD env in namespace quarkus-hello-pipeline
+- name: Add Secrets for ArgoCD env in namespace  quarkus-hello-cicd
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'gitops-env-secret.yaml.j2') }}"

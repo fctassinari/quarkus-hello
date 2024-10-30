@@ -1,11 +1,11 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: quarkus-hello-pipelinerun
+  name:  quarkus-hello-cicdrun
   namespace: tassinari
 spec:
   pipelineRef:
-    name: quarkus-hello-pipeline
+    name:  quarkus-hello-cicd
   workspaces:
     - name: workspace
       persistentVolumeClaim:

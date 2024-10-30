@@ -21,8 +21,8 @@ Get cluster version<br>
 [//]: # (Add SSO Keycloak in Openshift GitOps by default<br>)
 Get ArgoCD route<br>
 Get argocd password<br>
-Add CM for ArgoCD env in namespace quarkus-hello-pipeline<br>
-Add Secrets for ArgoCD env in namespace quarkus-hello-pipeline
+Add CM for ArgoCD env in namespace  quarkus-hello-cicd<br>
+Add Secrets for ArgoCD env in namespace  quarkus-hello-cicd
 
 # Install CICD 
 Add RoleBinding to the devsecops projects<br>
@@ -76,8 +76,8 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
-5 - quarkus-hello-pipeline.yaml<br>
-6 - quarkus-hello-pipelinerun.yaml<br>
+5 -  quarkus-hello-cicd.yaml<br>
+6 -  quarkus-hello-cicdrun.yaml<br>
 7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
 relase<br>
 permissive<br>

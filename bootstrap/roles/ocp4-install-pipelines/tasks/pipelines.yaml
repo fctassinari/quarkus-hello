@@ -30,7 +30,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: quarkus-hello-pipeline
+    namespace:  quarkus-hello-cicd
     name: gogs
   register: r_gogs_route
   retries: 10

@@ -1,4 +1,4 @@
-- name: Add RoleBinding to the quarkus-hello-pipeline namespace
+- name: Add RoleBinding to the  quarkus-hello-cicd namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'cicd-rb.yaml.j2') }}"
@@ -28,7 +28,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: quarkus-hello-pipeline
+#    namespace:  quarkus-hello-cicd
 #    name: gogs
 #  register: r_gogs_route
 #  retries: 10
@@ -59,7 +59,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: quarkus-hello-pipeline
+#    namespace:  quarkus-hello-cicd
 #    name: nexus
 #  register: r_nexus_route
 #  retries: 10
@@ -85,7 +85,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: quarkus-hello-pipeline
+#    namespace:  quarkus-hello-cicd
 #    name: sonarqube
 #  register: r_sonarqube_route
 #  retries: 10
@@ -112,7 +112,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: quarkus-hello-pipeline
+#    namespace:  quarkus-hello-cicd
 #    name: reports-repo
 #  register: r_reports_route
 #  retries: 10
