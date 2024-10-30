@@ -29,7 +29,7 @@ Add RoleBinding to the devsecops projects<br>
 Install Gogs - trocar pelo Gitlab Operator <br>
 Install nexus - trocar pelo Nexus Operator<br>
 Install sonarqube - instalar o mais atual do docker hub<br>
-Install reports repo<br>
+Install reports repo - analisar se mantem e se sim criar um novo <br>
 Get gogs route<br>
 Patch with specific route domain<br>
 Wait for gogs and gogs-postgresql to be running<br>
