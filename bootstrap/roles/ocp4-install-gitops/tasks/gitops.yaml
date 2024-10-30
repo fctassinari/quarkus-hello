@@ -118,6 +118,10 @@
   until:
     - r_argo_route.resources[0].spec.host is defined
 
+- name: debug
+  debug:
+    msg: "{{ r_argo_route.resources[0].spec.host }}"
+
 - name: Get argocd password
   kubernetes.core.k8s_info:
     kind: Secret
