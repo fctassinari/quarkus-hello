@@ -26,9 +26,9 @@ Add Secrets for ArgoCD env in namespace quarkus-hello-pipeline
 
 # Install CICD 
 Add RoleBinding to the devsecops projects<br>
-Install Gogs<br>
-Install nexus<br>
-Install sonarqube<br>
+Install Gogs - trocar pelo Gitlab Operator <br>
+Install nexus - trocar pelo Nexus Operator<br>
+Install sonarqube - instalar o mais atual do docker hub<br>
 Install reports repo<br>
 Get gogs route<br>
 Patch with specific route domain<br>
