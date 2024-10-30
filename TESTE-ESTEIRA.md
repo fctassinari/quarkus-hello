@@ -9,9 +9,12 @@ Nexus Repository Operator
 
 GitLab
 # Install Gitops
+Create Namespaces<br>
 Get cluster version<br>
-Install GitOps Operator<br>
-Install OCP Pipelines Operator<br>
+
+[//]: # (Install GitOps Operator<br>)
+
+[//]: # (Install OCP Pipelines Operator<br>)
 Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
 Install ArgoCD<br>
 Patch the CM of Openshift GitOps to add role admin by default<br>
