@@ -50,7 +50,7 @@ spec:
       script: >
         #!/usr/bin/env bash
 
-        ls -la /workspace/source/hello-quarkus
+        ls -la /workspace/source/quarkus-hello
 
         [[ -f $(workspaces.maven-settings.path)/settings.xml ]] && \
 

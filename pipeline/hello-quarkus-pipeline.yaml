@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: hello-quarkus-pipeline
+  name: quarkus-hello-pipeline
   namespace: tassinari
 spec:
   params:
@@ -38,7 +38,7 @@ spec:
         - name: crtFileName
           value: ca-bundle.crt
         - name: subdirectory
-          value: hello-quarkus
+          value: quarkus-hello
         - name: sparseCheckoutDirectories
           value: ''
         - name: deleteExisting
@@ -68,7 +68,7 @@ spec:
           value:
             - package
             - '-f'
-            - hello-quarkus
+            - quarkus-hello
       runAfter:
         - git-clone
       taskRef:
@@ -86,7 +86,7 @@ spec:
             - install
             - 'sonar:sonar'
             - '-f'
-            - hello-quarkus
+            - quarkus-hello
             - >-
               -Dsonar.host.url=https://sonarqube-cicd.apps.cluster-df6hj.sandbox169.opentlc.com
             - '-Dsonar.userHome=/tmp/sonar'
@@ -114,14 +114,14 @@ spec:
           workspace: maven-settings
       params:
         - name: SOURCE_DIR
-          value: hello-quarkus
+          value: quarkus-hello
     - name: release-app
       params:
         - name: GOALS
           value:
             - deploy
             - '-f'
-            - hello-quarkus
+            - quarkus-hello
             - '-DskipTests=true'
             - >-
               -DaltDeploymentRepository=nexus::default::http://nexus-cicd.apps.cluster-df6hj.sandbox169.opentlc.com/repository/mvn-release/
@@ -148,9 +148,9 @@ spec:
         - name: MAVEN_MIRROR_URL
           value: http://nexus-cicd.apps.cluster-df6hj.sandbox169.opentlc.com/repository/maven-public/
         - name: PATH_CONTEXT
-          value: hello-quarkus/target
+          value: quarkus-hello/target
         - name: IMAGE_NAME
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello
         - name: IMAGE_TAG
           value: $(params.APP_IMAGE_TAG)
       workspaces:
@@ -164,7 +164,7 @@ spec:
         kind: ClusterTask
       params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -181,7 +181,7 @@ spec:
         kind: ClusterTask
       params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -224,9 +224,9 @@ spec:
         - name: GIT_PASSWORD
           value: gogs
         - name: CURRENT_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus:latest
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
         - name: NEW_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/hello-quarkus
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH

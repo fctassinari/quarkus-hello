@@ -73,8 +73,8 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
-5 - hello-quarkus-pipeline.yaml<br>
-6 - hello-quarkus-pipelinerun.yaml<br>
+5 - quarkus-hello-pipeline.yaml<br>
+6 - quarkus-hello-pipelinerun.yaml<br>
 7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
 relase<br>
 permissive<br>
