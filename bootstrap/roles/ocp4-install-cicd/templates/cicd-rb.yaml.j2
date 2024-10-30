@@ -2,21 +2,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: edit
-  namespace: devsecops-dev
-subjects:
-  - kind: ServiceAccount
-    name: pipeline
-    namespace: quarkus-hello-pipeline
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: edit
-  namespace: devsecops-qa
+  namespace: quarkus-hello-dev
 subjects:
   - kind: ServiceAccount
     name: pipeline
@@ -34,21 +20,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: devsecops-dev
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:image-puller
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: system:image-puller-qa
-  namespace: quarkus-hello-pipeline
-subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: devsecops-qa
+    namespace: quarkus-hello-dev
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

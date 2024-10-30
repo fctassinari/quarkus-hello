@@ -24,7 +24,7 @@ Get argocd password<br>
 Add CM for ArgoCD env in namespace quarkus-hello-pipeline<br>
 Add Secrets for ArgoCD env in namespace quarkus-hello-pipeline
 
-# Install CICD Infra
+# Install CICD 
 Add RoleBinding to the devsecops projects<br>
 Install Gogs<br>
 Install nexus<br>
