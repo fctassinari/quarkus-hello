@@ -15,15 +15,6 @@
   - ./templates/task-s2i-java-21.yaml.j2
 ##  - ./templates/task-zap-proxy.yaml.j2
 
-#- name: Create OpenShift Objects for Openshift Pipeline Triggers
-#  k8s:
-#    state: present
-#    definition: "{{ lookup('template', item ) | from_yaml }}"
-#  loop:
-#  - ./templates/trigger-eventlistener.yaml.j2
-#  - ./templates/trigger-eventlistener-route.yaml.j2
-#  - ./templates/trigger-gogs-triggerbinding.yaml.j2
-#  - ./templates/triggertemplate.yaml.j2
 
 # Check Gogs
 - name: Get gogs route
