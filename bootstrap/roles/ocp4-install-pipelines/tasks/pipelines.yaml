@@ -11,7 +11,7 @@
   - ./templates/task-maven-cm.yaml.j2
   - ./templates/task-rox-deployment-check.yaml.j2
   - ./templates/task-rox-image-check.yaml.j2
-  - ./templates/task-rox-image-scan-task.yaml.j2
+  - ./templates/task-rox-image-scan.yaml.j2
   - ./templates/task-s2i-java-21.yaml.j2
 ##  - ./templates/task-zap-proxy.yaml.j2
 
