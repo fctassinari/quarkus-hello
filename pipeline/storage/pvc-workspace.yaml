@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-workspace
-  namespace: tassinari
+  namespace: quarkus-hello-cicd
 spec:
   accessModes:
     - ReadWriteOnce

@@ -12,13 +12,13 @@ GitLab
 Create Namespaces<br>
 Get cluster version<br>
 
-[//]: # (Install GitOps Operator<br>)
+Install GitOps Operator ```instalar versão nova```<br>
+Install OCP Pipelines Operator  ```instalar versão nova```<br>
+Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
+Install ArgoCD ```verificar se na instalação do operator, a instancia do ArgoCD já fica disponibilizada```<br>
+Patch the CM of Openshift GitOps to add role admin by default```Verificar se é necessário```<br>
+Add SSO Keycloak in Openshift GitOps by default ```Verificar se é necessário ```<br>
 
-[//]: # (Install OCP Pipelines Operator<br>)
-[//]: # (Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>)
-[//]: # (Install ArgoCD<br>)
-[//]: # (Patch the CM of Openshift GitOps to add role admin by default<br>)
-[//]: # (Add SSO Keycloak in Openshift GitOps by default<br>)
 Get ArgoCD route<br>
 Get argocd password<br>
 Add CM for ArgoCD env in namespace  quarkus-hello-cicd<br>
@@ -26,10 +26,10 @@ Add Secrets for ArgoCD env in namespace  quarkus-hello-cicd
 
 # Install CICD 
 Add RoleBinding to the devsecops projects<br>
-Install Gogs - trocar pelo Gitlab Operator <br>
-Install nexus - trocar pelo Nexus Operator<br>
-Install sonarqube - instalar o mais atual do docker hub<br>
-Install reports repo - analisar se mantem e se sim criar um novo <br>
+Install Gogs ```trocar pelo Gitlab Operator ```<br>
+Install nexus ``` trocar pelo Nexus Operator```<br>
+Install sonarqube ```instalar o mais atual do docker hub```<br>
+Install reports repo ``` analisar se mantem e se sim criar um novo ```<br>
 Get gogs route<br>
 Patch with specific route domain<br>
 Wait for gogs and gogs-postgresql to be running<br>
@@ -41,18 +41,30 @@ Get reports route
 
 # Install Pipelines
 Create OpenShift Objects for Openshift Pipeline Tasks
-* argocd-task-sync-and-wait ```
-   This task syncs (deploys) an Argo CD application and waits for it to be healthy.
-   To do so, it requires the address of the Argo CD server and some form of 
-   authentication either a username/password or an authentication token.```
+
+[//]: # (* argocd-task-sync-and-wait ```)
+
+[//]: # (   This task syncs &#40;deploys&#41; an Argo CD application and waits for it to be healthy.)
+
+[//]: # (   To do so, it requires the address of the Argo CD server and some form of )
+
+[//]: # (   authentication either a username/password or an authentication token.```)
+
 * dependency-report
-* [gatling](https://gatling.io/)
-* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
-* rox-image-scan
-* maven-settings ``` ConfigMap ```
-* maven ``` This Task can be used to run a Maven build ```
-* rox-deployment-check 
-* rox-image-check ``` 
+
+[//]: # (* [gatling]&#40;https://gatling.io/&#41;)
+
+[//]: # (* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```)
+
+[//]: # (* rox-image-scan)
+
+[//]: # (* maven-settings ``` ConfigMap ```)
+
+[//]: # (* maven ``` This Task can be used to run a Maven build ```)
+
+[//]: # (* rox-deployment-check )
+
+[//]: # (* rox-image-check ``` )
 *
 *
 *
@@ -71,7 +83,7 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 
 
 # Recriar Pipeline
-0 - Criar projeto tassinari<br>
+0 - Criar projeto quarkus-hello-cicd<br>
 1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>

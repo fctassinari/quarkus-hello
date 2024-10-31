@@ -1,26 +1,30 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
+  name: dependency-report
+  namespace: quarkus-hello-cicd
   annotations:
     tekton.dev/pipelines.minVersion: 0.12.1
-    tekton.dev/tags: build-tool
-  name: maven
-  namespace:  quarkus-hello-cicd
-  labels:
-    app.kubernetes.io/version: '0.1'
-    operator.tekton.dev/provider-type: community
 spec:
-  description: This Task can be used to run a Maven build.
   params:
-    - default: gcr.io/cloud-builders/mvn:3.5.0-jdk-8
-      description: Maven base image
-      name: MAVEN_IMAGE
+    - default: .
+      description: The directory within the workspace where application source is located
+      name: SOURCE_DIR
       type: string
-    - default:
-        - package
-      description: maven goals to run
-      name: GOALS
-      type: array
+    - default: 'http://reports-repo-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io'
+      description: >-
+        The reports repository host based on
+        https://github.com/chmouel/openshift-django-uploader
+      name: REPORTS_REPO_HOST
+      type: string
+    - default: reports
+      description: The reports repository username
+      name: REPORTS_REPO_USERNAME
+      type: string
+    - default: reports
+      description: The reports repository password
+      name: REPORTS_REPO_PASSWORD
+      type: string
     - default: ''
       description: The Maven repository mirror url
       name: MAVEN_MIRROR_URL
@@ -49,13 +53,8 @@ spec:
       description: Protocol for the proxy ie http or https
       name: PROXY_PROTOCOL
       type: string
-  workspaces:
-    - description: The workspace consisting of maven project.
-      name: source
-    - description: The workspace consisting of the custom maven settings provided by the user.
-      name: maven-settings
   steps:
-    - image: 'registry.access.redhat.com/ubi8/ubi-minimal:latest'
+    - image: 'registry.access.redhat.com/ubi9/openjdk-21:1.20-2.1726695192'
       name: mvn-settings
       resources: {}
       script: >
@@ -117,19 +116,38 @@ spec:
           sed -i "s|<!-- ### mirrors from ENV ### -->|$xml|" $(workspaces.maven-settings.path)/settings.xml
         fi
     - args:
-        - -Dmaven.repo.local=$(workspaces.source.path)/.m2
+        - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+        - '-f'
+        - $(params.SOURCE_DIR)
         - '-s'
         - $(workspaces.maven-settings.path)/settings.xml
-        - $(params.GOALS)
+        - site
+        - '-DskipTests=true'
       command:
         - /usr/bin/mvn
-      image: $(params.MAVEN_IMAGE)
+      image: 'registry.access.redhat.com/ubi9/openjdk-21:1.20-2.1726695192'
       name: mvn-goals
+      resources: {}
       workingDir: $(workspaces.source.path)
-      resources:
-        requests:
-          memory: 512Mi
-          cpu: 200m
-        limits:
-          memory: 4Gi
-          cpu: 1
+    - env:
+        - name: PIPELINERUN_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: 'metadata.labels[''tekton.dev/pipelineRun'']'
+      image: 'registry.access.redhat.com/ubi9/openjdk-21:1.20-2.1726695192'
+      name: archive-site
+      resources: {}
+      script: |
+        #!/usr/bin/env bash
+
+        for f in $(find $(params.SOURCE_DIR)/target/site -type f); do
+          curl -u $(params.REPORTS_REPO_USERNAME):$(params.REPORTS_REPO_PASSWORD) -F path=$PIPELINERUN_NAME/${f} -X POST -F file=@${f} $(params.REPORTS_REPO_HOST)/upload; echo ""
+        done
+      workingDir: $(workspaces.source.path)
+  workspaces:
+    - description: The workspace consisting of maven project.
+      name: source
+    - description: >-
+        The workspace consisting of the custom maven settings provided by the
+        user.
+      name: maven-settings
