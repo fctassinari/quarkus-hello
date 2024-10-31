@@ -15,15 +15,15 @@
   - ./templates/task-s2i-java-21.yaml.j2
 ##  - ./templates/task-zap-proxy.yaml.j2
 
-- name: Create OpenShift Objects for Openshift Pipeline Triggers
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/trigger-eventlistener.yaml.j2
-  - ./templates/trigger-eventlistener-route.yaml.j2
-  - ./templates/trigger-gogs-triggerbinding.yaml.j2
-  - ./templates/triggertemplate.yaml.j2
+#- name: Create OpenShift Objects for Openshift Pipeline Triggers
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/trigger-eventlistener.yaml.j2
+#  - ./templates/trigger-eventlistener-route.yaml.j2
+#  - ./templates/trigger-gogs-triggerbinding.yaml.j2
+#  - ./templates/triggertemplate.yaml.j2
 
 # Check Gogs
 - name: Get gogs route
@@ -47,12 +47,11 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
-  - ./templates/pipeline-build-dev.yaml.j2
-  - ./templates/pipeline-build-stage.yaml.j2
+  - ./templates/quarkus-hello-pipeline.yaml.j2
   - ./templates/pipeline-build-pvc.yaml.j2
 
 # K8s doesn't support the generateName in taskRun
 - name: Add gogs init taskrun for add pipelines
-  shell: oc create -n cicd -f "{{ item }}"
+  shell: oc create -n quarkus-hello-cicd -f "{{ item }}"
   loop:
   - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"

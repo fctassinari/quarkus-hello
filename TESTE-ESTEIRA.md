@@ -51,35 +51,33 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 [//]: # (   authentication either a username/password or an authentication token.```)
 
 * dependency-report
-
 [//]: # (* [gatling]&#40;https://gatling.io/&#41;)
+* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
+* rox-image-scan
+* maven-settings ``` ConfigMap ```
+* maven ``` This Task can be used to run a Maven build ```
+* rox-deployment-check 
+* rox-image-check  
+* s2i-java-21
+ 
+Create OpenShift Objects for Openshift Pipeline Triggers
 
-[//]: # (* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```)
+[//]: # (  - ./templates/trigger-eventlistener.yaml.j2)
 
-[//]: # (* rox-image-scan)
+[//]: # (  - ./templates/trigger-eventlistener-route.yaml.j2)
 
-[//]: # (* maven-settings ``` ConfigMap ```)
+[//]: # (  - ./templates/trigger-gogs-triggerbinding.yaml.j2)
 
-[//]: # (* maven ``` This Task can be used to run a Maven build ```)
+[//]: # (  - ./templates/triggertemplate.yaml.j2)
 
-[//]: # (* rox-deployment-check )
+Get gogs route
 
-[//]: # (* rox-image-check ``` )
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
+Create OpenShift Objects for Openshift Pipelines Templates
+* quarkus-hello-pipeline
+* pipeline-build-pvc
+
+Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou substituido qdo entrar o gitlab```
+
 
 
 # Recriar Pipeline
