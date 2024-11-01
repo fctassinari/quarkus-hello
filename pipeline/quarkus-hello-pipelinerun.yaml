@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name:  quarkus-hello-cicdrun
+  name:  quarkus-hello-pipeline-run
   namespace: quarkus-hello-cicd
 spec:
   pipelineRef:
