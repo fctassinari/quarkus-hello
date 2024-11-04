@@ -82,7 +82,7 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 * argocd-quarkus-hello-project.yaml
 * argocd-app-dev.yaml.j2
 
-
+# Install the ACS Central
 
 
 
