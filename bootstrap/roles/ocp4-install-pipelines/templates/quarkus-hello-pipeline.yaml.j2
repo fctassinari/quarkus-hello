@@ -1,7 +1,7 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name:  quarkus-hello-cicd
+  name: quarkus-hello-cicd
   namespace: quarkus-hello-cicd
 spec:
   params:
@@ -11,15 +11,14 @@ spec:
     - default: main
       name: APP_SOURCE_REVISION
       type: string
-    - name: APP_IMAGE_TAG
-      type: string
-      default: latest
+    - default: latest
       description: The application image tag to build
-    - name: APP_MANIFESTS_GIT
+      name: APP_IMAGE_TAG
       type: string
+    - default: 'https://github.com/fctassinari/quarkus-hello-config.git'
       description: The application manifests git repository
-      default: 'https://github.com/fcquarkus-hello-cicd/quarkus-hello-config.git'
-#      default: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/spring-petclinic-config
+      name: APP_MANIFESTS_GIT
+      type: string
   tasks:
     - name: git-clone
       params:
@@ -52,8 +51,7 @@ spec:
         - name: verbose
           value: 'true'
         - name: gitInitImage
-          value: >-
-            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5
+          value: 'registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5'
         - name: userHome
           value: /home/git
       taskRef:
@@ -87,10 +85,9 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - quarkus-hello
-            - >-
-              -Dsonar.host.url=https://sonarqube-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io
+            - '-Dsonar.host.url=https://sonarqube-quarkus-hello-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io/'
             - '-Dsonar.userHome=/tmp/sonar'
-            - '-Dsonar.login=cf0e316085290b5479467ac53e3f6597da7e95e3'
+            - '-Dsonar.login=4eca82ea102da858362830b04463b02502943e50'
             - '-DskipTests=true'
       runAfter:
         - git-clone
@@ -103,18 +100,19 @@ spec:
         - name: maven-settings
           workspace: maven-settings
     - name: dependency-report
-      taskRef:
-        name: dependency-report
+      params:
+        - name: SOURCE_DIR
+          value: quarkus-hello
       runAfter:
         - git-clone
+      taskRef:
+        kind: Task
+        name: dependency-report
       workspaces:
         - name: source
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
-      params:
-        - name: SOURCE_DIR
-          value: quarkus-hello
     - name: release-app
       params:
         - name: GOALS
@@ -123,8 +121,7 @@ spec:
             - '-f'
             - quarkus-hello
             - '-DskipTests=true'
-            - >-
-              -DaltDeploymentRepository=nexus::default::http://nexus-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io/repository/mvn-release/
+            - '-DaltDeploymentRepository=nexus::default::http://nexus-quarkus-hello-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io/repository/mvn-release/'
       runAfter:
         - code-analysis
         - unit-tests
@@ -138,33 +135,29 @@ spec:
         - name: maven-settings
           workspace: maven-settings
     - name: build-image
-      taskRef:
-        name: s2i-java-21
-      runAfter:
-        - release-app
       params:
         - name: TLSVERIFY
-          value: "false"
+          value: 'false'
         - name: MAVEN_MIRROR_URL
-          value: http://nexus-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io/repository/maven-public/
+          value: 'http://nexus-quarkus-hello-cicd.apps.cluster-5dngv.dynamic.redhatworkshops.io/repository/maven-public/'
         - name: PATH_CONTEXT
           value: quarkus-hello/target
         - name: IMAGE_NAME
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello
+          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello'
         - name: IMAGE_TAG
           value: $(params.APP_IMAGE_TAG)
+      runAfter:
+        - release-app
+      taskRef:
+        kind: Task
+        name: s2i-java-21
       workspaces:
         - name: source
           workspace: workspace
     - name: image-scan
-      runAfter:
-        - build-image
-      taskRef:
-        name: rox-image-scan
-        kind: ClusterTask
       params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
+          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -173,30 +166,30 @@ spec:
           value: table
         - name: image_digest
           value: $(tasks.build-image.results.IMAGE_DIGEST)
-    - name: image-check
       runAfter:
         - build-image
       taskRef:
-        name: rox-image-check
         kind: ClusterTask
+        name: rox-image-scan
+    - name: image-check
       params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
+          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
           value: roxsecrets
         - name: image_digest
           value: $(tasks.build-image.results.IMAGE_DIGEST)
-    - name: deploy-check
       runAfter:
         - build-image
       taskRef:
-        name: rox-deployment-check
         kind: ClusterTask
+        name: rox-image-check
+    - name: deploy-check
       params:
         - name: GIT_REPOSITORY
-          value: "$(params.APP_MANIFESTS_GIT)"
+          value: $(params.APP_MANIFESTS_GIT)
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -205,45 +198,37 @@ spec:
           value: deployment.yaml
         - name: deployment_files_path
           value: app
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-deployment-check
       workspaces:
         - name: workspace
           workspace: workspace
     - name: update-deployment
-      runAfter:
-        - image-scan
-        - image-check
-        - deploy-check
-      taskRef:
-        name: git-update-deployment
       params:
         - name: GIT_REPOSITORY
-          value: "$(params.APP_MANIFESTS_GIT)"
+          value: $(params.APP_MANIFESTS_GIT)
         - name: GIT_USERNAME
           value: gogs
         - name: GIT_PASSWORD
           value: gogs
         - name: CURRENT_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest
+          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
         - name: NEW_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello
+          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello'
         - name: NEW_DIGEST
-          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
         - name: KUSTOMIZATION_PATH
           value: environments/dev
-
-
-    - name: wait-application
-      taskRef:
-        name: argocd-task-sync-and-wait
       runAfter:
-        - update-deployment
-      params:
-        - name: application-name
-          value: dev-spring-petclinic
-
-
-
-
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        kind: Task
+        name: git-update-deployment
   workspaces:
     - name: maven-settings
     - name: workspace

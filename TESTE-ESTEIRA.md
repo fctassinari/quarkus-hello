@@ -78,6 +78,14 @@ Create OpenShift Objects for Openshift Pipelines Templates
 
 Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou substituido qdo entrar o gitlab```
 
+# Config Gitops
+* argocd-quarkus-hello-project.yaml
+* argocd-app-dev.yaml.j2
+
+
+
+
+
 
 
 # Recriar Pipeline
@@ -86,8 +94,8 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
-5 -  quarkus-hello-cicd.yaml<br>
-6 -  quarkus-hello-cicdrun.yaml<br>
+5 - quarkus-hello-cicd.yaml<br>
+6 - quarkus-hello-cicdrun.yaml<br>
 7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
 relase<br>
 permissive<br>
@@ -101,6 +109,15 @@ maven-redhat<br>
 12 - task-rox-image-check.yaml
 13 - task-rox-image-scan.yaml
 14 - task-s2i-java-21.yaml
+
+
+
+
+
+
+
+
+
 
 ## 1- Deploy da aplicação com Pipeline:
 
