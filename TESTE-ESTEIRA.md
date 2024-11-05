@@ -83,6 +83,18 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 * argocd-app-dev.yaml.j2
 
 # Install the ACS Central
+* Central
+* Secured Cluster
+
+# Config Post ACS
+* Create API token for access from Pipeline to ACS
+* Create ACS API Token secret for using in the pipelines
+* Get secrets in namespace
+* Extract secret name using regex
+* Display secret name
+* Get token in the secret for the sa pipeline and decode
+* Define the token secret decoded
+* Creating ACS Integration with the Openshift Internal Registry
 
 
 
