@@ -1,13 +1,42 @@
 # Instruções - Openshift Test Pipeline
 
-# Operators
-Red Hat OpenShift Pipelines
-
-Red Hat OpenShift GitOps
-
-Nexus Repository Operator
-
-GitLab
+# Operators - pre instalação
+* Red Hat OpenShift Pipelines 
+* * -n rhacs-operator 
+* Red Hat OpenShift GitOps
+* Red Hat ACS
+* Nexus Repository Operator
+* * oc new-project nexus
+* * -n nexus
+* * pegar a senha de admin ```` cat /nexus-data/admin.password ````
+* * criar rota
+````kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: rt-nexus
+  namespace: nexus
+spec:
+  host: nexus.apps.cluster-8g6jh.dynamic.redhatworkshops.io
+  path: /
+  to:
+    kind: Service
+    name: nexusrepo-sonatype-nexus-service
+    weight: 100
+  port:
+    targetPort: application
+  tls:
+    termination: edge
+  wildcardPolicy: None
+````
+* Criar um repositorio mvn-redhat do tipo proxy no nexus<br>
+  relase<br>
+  permissive<br>
+  https://maven.repository.redhat.com/ga/ <br>
+* Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
+  maven-central<br>
+  mvn-redhat<br>
+* Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
+* 
 # Install Gitops
 Create Namespaces<br>
 Get cluster version<br>
@@ -27,8 +56,9 @@ Add Secrets for ArgoCD env in namespace  quarkus-hello-cicd
 # Install CICD 
 Add RoleBinding to the devsecops projects<br>
 Install Gogs ```trocar pelo Gitlab Operator ```<br>
-Install nexus ``` trocar pelo Nexus Operator```<br>
-Install sonarqube ```instalar o mais atual do docker hub```<br>
+
+[//]: # (Install nexus ``` trocar pelo Nexus Operator```<br>)
+Install sonarqube <br>
 Install reports repo ``` analisar se mantem e se sim criar um novo ```<br>
 Get gogs route<br>
 Patch with specific route domain<br>
@@ -51,6 +81,7 @@ Create OpenShift Objects for Openshift Pipeline Tasks
 [//]: # (   authentication either a username/password or an authentication token.```)
 
 * dependency-report
+
 [//]: # (* [gatling]&#40;https://gatling.io/&#41;)
 * git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
 * rox-image-scan
@@ -108,14 +139,7 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 4 - pvc-workspace.yaml<br>
 5 - quarkus-hello-cicd.yaml<br>
 6 - quarkus-hello-cicdrun.yaml<br>
-7 - Criar um repositorio maven-redhat do tipo proxy no nexus<br>
-relase<br>
-permissive<br>
-https://maven.repository.redhat.com/ga/ <br>
-8 - Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
-maven-central<br>
-maven-redhat<br>
-9 - Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
+7 - 
 10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
 11 - Criar task git-update-deployment
 12 - task-rox-image-check.yaml
