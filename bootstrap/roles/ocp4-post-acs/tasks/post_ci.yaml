@@ -8,6 +8,11 @@
   retries: 10
   delay: 20
 
+- name: Debug r_stackrox_central_route variable
+  debug:
+    var: r_stackrox_central_route
+
+
 - name: Store central route as a fact
   set_fact:
     f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
