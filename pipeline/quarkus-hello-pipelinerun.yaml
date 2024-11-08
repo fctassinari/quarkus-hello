@@ -2,10 +2,10 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   name:  quarkus-hello-pipeline-run
-  namespace: quarkus-hello-cicd
+  namespace: "{{ pipeline_namespace }}"
 spec:
   pipelineRef:
-    name:  quarkus-hello-cicd
+    name:  "{{ pipeline_namespace }}"
   workspaces:
     - name: workspace
       persistentVolumeClaim:

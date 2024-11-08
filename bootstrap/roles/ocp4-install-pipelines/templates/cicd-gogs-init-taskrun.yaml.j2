@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   generateName: init-gogs-
-  namespace: quarkus-hello-cicd
+  namespace: "{{ pipeline_namespace }}"
 spec:
   taskSpec:
     params:

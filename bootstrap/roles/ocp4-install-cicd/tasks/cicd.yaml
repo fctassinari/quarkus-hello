@@ -1,4 +1,4 @@
-- name: Add RoleBinding to the  quarkus-hello-cicd namespace
+- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'cicd-rb.yaml.j2') }}"
@@ -7,11 +7,6 @@
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'cicd-gogs.yaml.j2') }}"
-
-#- name: Install nexus
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
 
 - name: Install sonarqube
   kubernetes.core.k8s:
@@ -28,7 +23,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace:  quarkus-hello-cicd
+    namespace:  gogs
     name: gogs
   register: r_gogs_route
   retries: 10
@@ -59,7 +54,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace:  quarkus-hello-cicd
+    namespace:  nexus
     name: nexus
   register: r_nexus_route
   retries: 10
@@ -71,21 +66,12 @@
   debug:
     msg: "{{ r_nexus_route.resources[0].spec.host }}"
 
-#- name: Wait for nexus to be running
-#  uri:
-#    url: http://{{ r_nexus_route.resources[0].spec.host }}
-#    status_code: 200
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
-
 # Check Sonarqube Route
 - name: Get sonarqube route
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace:  quarkus-hello-cicd
+    namespace:  sonarqube
     name: sonarqube
   register: r_sonarqube_route
   retries: 10
@@ -112,7 +98,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace:  quarkus-hello-cicd
+    namespace:  reports-repo
     name: reports-repo
   register: r_reports_route
   retries: 10

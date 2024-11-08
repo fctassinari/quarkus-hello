@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name:  quarkus-hello-cicd
+  name:  "{{ pipeline_namespace }}"
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: quarkus-hello-dev
+  name: "{{ app_namespace }}"
 ---

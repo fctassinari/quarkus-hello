@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: dependency-report
-  namespace: quarkus-hello-cicd
+  namespace: "{{ pipeline_namespace }}"
   annotations:
     tekton.dev/pipelines.minVersion: 0.12.1
 spec:
@@ -11,7 +11,7 @@ spec:
       description: The directory within the workspace where application source is located
       name: SOURCE_DIR
       type: string
-    - default: 'http://reports-repo-quarkus-hello-cicd.apps.cluster-8g6jh.dynamic.redhatworkshops.io/'
+    - default: 'http://reports-repo-"{{ pipeline_namespace }}".apps.cluster-8g6jh.dynamic.redhatworkshops.io/'
       description: >-
         The reports repository host based on
         https://github.com/chmouel/openshift-django-uploader

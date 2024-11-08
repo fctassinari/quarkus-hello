@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-workspace
-  namespace: quarkus-hello-cicd
+  namespace: "{{ pipeline_namespace }}"
 spec:
   accessModes:
     - ReadWriteOnce

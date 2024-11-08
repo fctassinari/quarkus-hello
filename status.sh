@@ -1,20 +1,20 @@
 echo "  ## GOGS Server - Username/Password: gogs/gogs ##  "
-GOGS=$(oc get route -n quarkus-hello-cicd gogs -o jsonpath='{.spec.host}')
+GOGS=$(oc get route -n "{{ pipeline_namespace }}" gogs -o jsonpath='{.spec.host}')
 echo "http://$GOGS"
 echo "  "
 
 echo "  ## Nexus Server - Username/Password: admin/admin123 ##  "
-NEXUS=$(oc get route -n quarkus-hello-cicd nexus -o jsonpath='{.spec.host}')
+NEXUS=$(oc get route -n "{{ pipeline_namespace }}" nexus -o jsonpath='{.spec.host}')
 echo "https://$NEXUS"
 echo "  "
 
 echo "  ## Sonarqube Server - Username/Password: admin/admin ##  "
-SONARQUBE=$(oc get route -n quarkus-hello-cicd sonarqube -o jsonpath='{.spec.host}')
+SONARQUBE=$(oc get route -n "{{ pipeline_namespace }}" sonarqube -o jsonpath='{.spec.host}')
 echo "https://$SONARQUBE"
 echo "  "
 
 echo "  ## Reports Server - Username/Password: reports/reports ##  "
-REPORTS=$(oc get route -n quarkus-hello-cicd reports-repo -o jsonpath='{.spec.host}')
+REPORTS=$(oc get route -n "{{ pipeline_namespace }}" reports-repo -o jsonpath='{.spec.host}')
 echo "http://$REPORTS"
 echo "  "
 

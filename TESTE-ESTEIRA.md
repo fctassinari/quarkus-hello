@@ -1,10 +1,13 @@
 # Instruções - Openshift Test Pipeline
 
 # Operators - pre instalação
-* Red Hat OpenShift Pipelines 
-* * -n rhacs-operator 
+* Red Hat OpenShift Pipelines
+* * oc new-project pipelines-operator
+* * -n pipelines-operator
 * Red Hat OpenShift GitOps
+* * -n openshift-gitops-operator
 * Red Hat ACS
+* * -n rhacs-operator
 * Nexus Repository Operator
 * * oc new-project nexus
 * * -n nexus
@@ -50,8 +53,8 @@ Add SSO Keycloak in Openshift GitOps by default ```Verificar se é necessário `
 
 Get ArgoCD route<br>
 Get argocd password<br>
-Add CM for ArgoCD env in namespace  quarkus-hello-cicd<br>
-Add Secrets for ArgoCD env in namespace  quarkus-hello-cicd
+Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"<br>
+Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
 
 # Install CICD 
 Add RoleBinding to the devsecops projects<br>
@@ -132,13 +135,13 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 
 
 # Recriar Pipeline
-0 - Criar projeto quarkus-hello-cicd<br>
+0 - Criar projeto "{{ pipeline_namespace }}"<br>
 1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
-5 - quarkus-hello-cicd.yaml<br>
-6 - quarkus-hello-cicdrun.yaml<br>
+5 - "{{ pipeline_namespace }}".yaml<br>
+6 - "{{ pipeline_namespace }}"run.yaml<br>
 7 - 
 10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
 11 - Criar task git-update-deployment
