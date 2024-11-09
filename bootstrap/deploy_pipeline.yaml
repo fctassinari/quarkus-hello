@@ -2,8 +2,12 @@
 - name: 'Install the Pipeline'
   hosts: localhost
   connection: local
-  tasks:
+  vars:
+    app_namespace: 'quarkus-hello-dev'
+    pipeline_namespace: 'sm-pipeline'
+    cluster_url: 'apps.cluster-8g6jh.dynamic.redhatworkshops.io'
 
+  tasks:
     - name: 'Install Gitops'
       include_role:
         name: "ocp4-install-gitops"
