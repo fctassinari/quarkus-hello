@@ -1,4 +1,5 @@
-# vars/main.yml
+
+vars:
 app_namespace: 'quarkus-hello-dev'
 pipeline_namespace: 'sm-pipeline'
 cluster_url: 'apps.cluster-8g6jh.dynamic.redhatworkshops.io'
