@@ -55,7 +55,7 @@
     kind: Route
     api_version: route.openshift.io/v1
     namespace: "{{ nexus_namespace }}"
-    name: nexus
+    name: rt-nexus
   register: r_nexus_route
   retries: 10
   delay: 20
