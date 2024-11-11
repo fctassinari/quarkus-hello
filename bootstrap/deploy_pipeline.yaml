@@ -8,7 +8,7 @@
     gogs_namespace: 'gogs'
     sonarqube_namespace: 'sonarqube'
     nexus_namespace: 'nexus'
-    report_namespace: 'report-repo'
+    reports_namespace: 'report-repo'
     cluster_url: 'apps.cluster-5nkrs.dynamic.redhatworkshops.io'
 
   tasks:
