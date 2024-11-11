@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name:  "{{ gogs_namespace }}"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ sonarqube_namespace }}"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ nexus_namespace }}"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ report_namespace }}"
+---
