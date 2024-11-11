@@ -62,6 +62,8 @@ spec:
           workspace: workspace
     - name: unit-tests
       params:
+        - name: MAVEN_IMAGE
+          value: 'registry.access.redhat.com/ubi9/openjdk-11:1.20-2.1729773465'
         - name: GOALS
           value:
             - package
@@ -70,7 +72,7 @@ spec:
       runAfter:
         - git-clone
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: maven
       workspaces:
         - name: source
@@ -85,7 +87,7 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - quarkus-hello
-            - '-Dsonar.host.url=https://sonarqube-"{{ pipeline_namespace }}".apps.cluster-8g6jh.dynamic.redhatworkshops.io/'
+            - '-Dsonar.host.url=https://sonarqube-"{{ pipeline_namespace }}".{ cluster_url }/'
             - '-Dsonar.userHome=/tmp/sonar'
             - '-Dsonar.login=4eca82ea102da858362830b04463b02502943e50'
             - '-DskipTests=true'
@@ -121,7 +123,7 @@ spec:
             - '-f'
             - quarkus-hello
             - '-DskipTests=true'
-            - '-DaltDeploymentRepository=nexus::default::http://nexus.apps.cluster-8g6jh.dynamic.redhatworkshops.io/repository/mvn-release/'
+            - '-DaltDeploymentRepository=nexus::default::http://nexus.{ cluster_url }/repository/mvn-release/'
       runAfter:
         - code-analysis
         - unit-tests
@@ -139,7 +141,7 @@ spec:
         - name: TLSVERIFY
           value: 'false'
         - name: MAVEN_MIRROR_URL
-          value: 'http://nexus.apps.cluster-8g6jh.dynamic.redhatworkshops.io/repository/maven-public/'
+          value: 'http://nexus.{ cluster_url }/repository/maven-public/'
         - name: PATH_CONTEXT
           value: quarkus-hello/target
         - name: IMAGE_NAME

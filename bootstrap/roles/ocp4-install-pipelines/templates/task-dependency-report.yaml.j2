@@ -11,7 +11,7 @@ spec:
       description: The directory within the workspace where application source is located
       name: SOURCE_DIR
       type: string
-    - default: 'http://reports-repo-"{{ pipeline_namespace }}".apps.cluster-8g6jh.dynamic.redhatworkshops.io/'
+    - default: 'http://reports-repo-"{{ pipeline_namespace }}".{ cluster_url }/'
       description: >-
         The reports repository host based on
         https://github.com/chmouel/openshift-django-uploader

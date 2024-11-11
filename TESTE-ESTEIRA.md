@@ -11,15 +11,17 @@
 * Nexus Repository Operator
 * * oc new-project nexus
 * * -n nexus
+* * Criar repositório
 * * pegar a senha de admin ```` cat /nexus-data/admin.password ````
 * * criar rota
+* * oc create route edge rt-nexus --service nexusrepo-sonatype-nexus-service --hostname nexus.apps.cluster-5nkrs.dynamic.redhatworkshops.io
 ````kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: rt-nexus
   namespace: nexus
 spec:
-  host: nexus.apps.cluster-8g6jh.dynamic.redhatworkshops.io
+  host: nexus.{ cluster_url }
   path: /
   to:
     kind: Service
@@ -136,7 +138,6 @@ Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou su
 
 # Recriar Pipeline
 0 - Criar projeto "{{ pipeline_namespace }}"<br>
-1 - task-maven.yaml<br>
 2 - task-dependency-report.yaml<br>
 3 - cm-maven-setings.yaml<br>
 4 - pvc-workspace.yaml<br>
