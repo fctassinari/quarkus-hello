@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: reports-repo
     app.kubernetes.io/part-of: reports-repo
   name: reports-repo
-  namespace: {{ report_namespace }}
+  namespace: "{{ report_namespace }}"
 spec:
   replicas: 1
   selector:
@@ -60,7 +60,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: reports-repo-nginx-conf
-  namespace: {{ report_namespace }}
+  namespace: "{{ report_namespace }}"
 data:
   htpasswd: |
     reports:$apr1$MHzwWLP6$P/dRWWfgBe4J8wfId78v71
@@ -83,7 +83,7 @@ metadata:
   labels:
     app: reports-repo
   name: reports-repo
-  namespace: {{ report_namespace }}
+  namespace: "{{ report_namespace }}"
 spec:
   ports:
   - name: 8080-tcp
@@ -100,7 +100,7 @@ metadata:
   labels:
     app: reports-repo
   name: reports-repo
-  namespace: {{ report_namespace }}
+  namespace: "{{ report_namespace }}"
 spec:
   port:
     targetPort: 8080-tcp
@@ -115,7 +115,7 @@ metadata:
   labels:
     app: reports-repo
   name: reports-repo-pv
-  namespace: {{ report_namespace }}
+  namespace: "{{ report_namespace }}"
 spec:
   accessModes:
   - ReadWriteOnce

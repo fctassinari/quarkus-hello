@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sonarqube
-  namespace: {{ sonarqube_namespace }}
+  namespace: "{{ sonarqube_namespace }}"
   labels:
     app: sonarqube
     app.kubernetes.io/component: sonarqube
@@ -85,7 +85,7 @@ metadata:
   labels:
     app: sonarqube
   name: sonarqube
-  namespace: {{ sonarqube_namespace }}
+  namespace: "{{ sonarqube_namespace }}"
 spec:
   port:
     targetPort: 9000-tcp
@@ -103,7 +103,7 @@ metadata:
   labels:
     app: sonarqube
   name: sonarqube
-  namespace: {{ sonarqube_namespace }}
+  namespace: "{{ sonarqube_namespace }}"
 spec:
   ports:
     - name: 9000-tcp

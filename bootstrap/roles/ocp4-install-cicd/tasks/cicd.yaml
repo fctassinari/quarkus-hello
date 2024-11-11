@@ -23,7 +23,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: {{ gogs_namespace }}
+    namespace: "{{ gogs_namespace }}"
     name: gogs
   register: r_gogs_route
   retries: 10
@@ -54,7 +54,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: {{ nexus_namespace }}
+    namespace: "{{ nexus_namespace }}"
     name: nexus
   register: r_nexus_route
   retries: 10
@@ -71,7 +71,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: {{ sonarqube_namespace }}
+    namespace: "{{ sonarqube_namespace }}"
     name: sonarqube
   register: r_sonarqube_route
   retries: 10
