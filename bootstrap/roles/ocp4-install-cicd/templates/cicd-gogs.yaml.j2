@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gogs-postgresql
-  namespace:  gogs
+  namespace: { gogs_namespace }
   annotations:
     image.openshift.io/triggers: >-
         [{"from":{"kind":"ImageStreamTag","name":"rhel8/postgresql-13:latest", "namespace":"openshift"},"fieldPath":"spec.template.spec.containers[?(@.name==\"postgresql\")].image"}]
@@ -73,7 +73,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: gogs-postgresql
-  namespace:  gogs
+  namespace: { gogs_namespace }
   labels:
     app: gogs
 spec:
@@ -89,7 +89,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gogs
-  namespace:  gogs
+  namespace: { gogs_namespace }
   labels:
     app: gogs
     app.kubernetes.io/component: gogs
@@ -157,7 +157,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace:  gogs
+  namespace: { gogs_namespace }
 spec:
   ports:
   - name: 3000-tcp
@@ -176,7 +176,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace:  gogs
+  namespace: { gogs_namespace }
 spec:
   to:
     name: gogs
@@ -185,7 +185,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: gogs-data
-  namespace:  gogs
+  namespace: { gogs_namespace }
   labels:
     app: gogs
 spec:
@@ -199,7 +199,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: gogs-postgres-data
-  namespace:  gogs
+  namespace: { gogs_namespace }
   labels:
     app: gogs
 spec:

@@ -5,17 +5,21 @@
   vars:
     app_namespace: 'quarkus-hello-dev'
     pipeline_namespace: 'sm-pipeline'
+    gogs_namespace: 'gogs'
+    sonarqube_namespace: 'sonarqube'
+    nexus_namespace: 'nexus'
+    report_namespace: 'report-repo'
     cluster_url: 'apps.cluster-5nkrs.dynamic.redhatworkshops.io'
 
   tasks:
-    - name: 'Install Gitops'
-      include_role:
-        name: "ocp4-install-gitops"
-
-#    - name: 'Install CICD Infra'
+#    - name: 'Install Gitops'
 #      include_role:
-#        name: "ocp4-install-cicd"
+#        name: "ocp4-install-gitops"
 #
+    - name: 'Install CICD Infra'
+      include_role:
+        name: "ocp4-install-cicd"
+
 #    - name: 'Install Pipelines'
 #      include_role:
 #        name: "ocp4-install-pipelines"

@@ -46,13 +46,8 @@ spec:
 Create Namespaces<br>
 Get cluster version<br>
 
-Install GitOps Operator ```instalar versão nova```<br>
-Install OCP Pipelines Operator  ```instalar versão nova```<br>
 Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
-Install ArgoCD ```verificar se na instalação do operator, a instancia do ArgoCD já fica disponibilizada```<br>
 Patch the CM of Openshift GitOps to add role admin by default```Verificar se é necessário```<br>
-Add SSO Keycloak in Openshift GitOps by default ```Verificar se é necessário ```<br>
-
 Get ArgoCD route<br>
 Get argocd password<br>
 Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"<br>
