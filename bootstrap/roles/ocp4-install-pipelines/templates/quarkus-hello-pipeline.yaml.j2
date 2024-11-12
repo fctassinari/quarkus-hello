@@ -5,15 +5,26 @@ metadata:
   namespace: "{{ pipeline_namespace }}"
 spec:
   params:
+    - default: "{{ app_name }}"
+      name: APP_NAME
     - default: 'https://github.com/fctassinari/quarkus-hello.git'
-      name: APP_SOURCE_GIT
+      name: GIT_REPO
       type: string
     - default: main
-      name: APP_SOURCE_REVISION
+      name: GIT_REVISION
+      type: string
+    - default: .
+      name: PATH_CONTEXT
+      type: string
+    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}'
+      name: IMAGE_NAME
       type: string
     - default: latest
       description: The application image tag to build
-      name: APP_IMAGE_TAG
+      name: IMAGE_TAG
+    - default: openjdk-17-ubi8
+      description: The tag of java imagestream for java version
+      name: VERSION
       type: string
     - default: 'https://github.com/fctassinari/quarkus-hello-config.git'
       description: The application manifests git repository
@@ -23,9 +34,9 @@ spec:
     - name: git-clone
       params:
         - name: url
-          value: $(params.APP_SOURCE_GIT)
+          value: $(params.GIT_REPO)
         - name: revision
-          value: $(params.APP_SOURCE_REVISION)
+          value: $(params.GIT_REVISION)
         - name: refspec
           value: ''
         - name: submodules
@@ -81,6 +92,8 @@ spec:
           workspace: maven-settings
     - name: code-analysis
       params:
+        - name: MAVEN_IMAGE
+          value: 'registry.access.redhat.com/ubi9/openjdk-11:1.20-2.1729773465'
         - name: GOALS
           value:
             - install
@@ -94,7 +107,7 @@ spec:
       runAfter:
         - git-clone
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: maven
       workspaces:
         - name: source
@@ -117,6 +130,8 @@ spec:
           workspace: maven-settings
     - name: release-app
       params:
+        - name: MAVEN_IMAGE
+          value: 'registry.access.redhat.com/ubi9/openjdk-11:1.20-2.1729773465'
         - name: GOALS
           value:
             - deploy
@@ -129,7 +144,7 @@ spec:
         - unit-tests
         - dependency-report
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: maven
       workspaces:
         - name: source
@@ -141,25 +156,27 @@ spec:
         - name: TLSVERIFY
           value: 'false'
         - name: MAVEN_MIRROR_URL
-          value: 'http://nexus.{ cluster_url }/repository/maven-public/'
+          value: 'http://nexus.{ cluster_url }/repository/mvn-release/'
         - name: PATH_CONTEXT
           value: quarkus-hello/target
         - name: IMAGE_NAME
-          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello'
+          value: $(params.IMAGE_NAME)
         - name: IMAGE_TAG
-          value: $(params.APP_IMAGE_TAG)
+          value: $(params.IMAGE_TAG)
+        - name: VERSION
+          value: $(param.VERSION)
       runAfter:
         - release-app
       taskRef:
-        kind: Task
-        name: s2i-java-21
+        kind: ClusterTask
+        name: s2i-java
       workspaces:
         - name: source
           workspace: workspace
     - name: image-scan
       params:
         - name: image
-          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -176,7 +193,7 @@ spec:
     - name: image-check
       params:
         - name: image
-          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -217,9 +234,9 @@ spec:
         - name: GIT_PASSWORD
           value: gogs
         - name: CURRENT_IMAGE
-          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello:latest'
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: NEW_IMAGE
-          value: 'image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/quarkus-hello'
+          value: '$(params.IMAGE_NAME)'
         - name: NEW_DIGEST
           value: $(tasks.build-image.results.IMAGE_DIGEST)
         - name: KUSTOMIZATION_PATH

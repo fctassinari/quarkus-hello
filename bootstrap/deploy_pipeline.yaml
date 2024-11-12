@@ -3,6 +3,7 @@
   hosts: localhost
   connection: local
   vars:
+    app_name: 'quarkus-hello'
     app_namespace: 'quarkus-hello-dev'
     pipeline_namespace: 'sm-pipeline'
     gogs_namespace: 'gogs'

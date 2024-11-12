@@ -34,11 +34,11 @@ spec:
       pipelineRef:
         name: quarkus-hello-build-dev
       params:
-        - name: APP_SOURCE_GIT
+        - name: GIT_REPO
           value: $(tt.params.gitrepositoryurl)
-        - name: APP_SOURCE_REVISION
+        - name: GIT_REVISION
           value: $(tt.params.gitrevision)
-        - name: APP_IMAGE_TAG
+        - name: IMAGE_TAG
           value: $(tt.params.gitbranchname)-$(tt.params.gitshortsha)
       workspaces:
       - name: maven-settings
