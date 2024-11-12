@@ -21,14 +21,14 @@
 #      include_role:
 #        name: "ocp4-install-cicd"
 #
-    - name: 'Install Pipelines'
-      include_role:
-        name: "ocp4-install-pipelines"
-
-#    - name: 'Config GitOps'
+#    - name: 'Install Pipelines'
 #      include_role:
-#        name: "ocp4-config-gitops"
+#        name: "ocp4-install-pipelines"
 #
+    - name: 'Config GitOps'
+      include_role:
+        name: "ocp4-config-gitops"
+
 #    - name: 'Install the ACS Central'
 #      include_role:
 #        name: "ocp4-install-acs"

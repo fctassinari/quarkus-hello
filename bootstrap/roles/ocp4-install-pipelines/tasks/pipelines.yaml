@@ -47,6 +47,7 @@
   - ./templates/quarkus-hello-pipeline.yaml.j2
   - ./templates/pipeline-build-pvc.yaml.j2
 
+## TODO esta dando erro na execução do taskrun
 # K8s doesn't support the generateName in taskRun
 - name: Add gogs init taskrun for add pipelines
   shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
