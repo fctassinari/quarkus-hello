@@ -1,6 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
-  generateName: quarkus-hello
+  generateName: api-hello
 attributes:
   controller.devfile.io/storage-type: per-workspace
   perUserStrategyPvcConfig:
@@ -62,14 +62,14 @@ commands:
       label: "3. Start Development Mode"
       component: tools
       commandLine: |
-        source $HOME/.sdkman/bin/sdkman-init.sh && mvn -pl br.com.smanager:quarkus-hello quarkus:dev
+        source $HOME/.sdkman/bin/sdkman-init.sh && mvn -pl br.com.smanager:api-hello quarkus:dev
       workingDir: ${PROJECT_SOURCE}
   - id: cleanup
     exec:
       label: "4. Clean Up"
       component: tools
       commandLine: |
-        oc delete all --selector app=quarkus-hello
+        oc delete all --selector app=api-hello
       workingDir: ${PROJECT_SOURCE}
 events:
   postStart:
