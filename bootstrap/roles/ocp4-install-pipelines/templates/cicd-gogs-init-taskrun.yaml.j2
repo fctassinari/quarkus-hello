@@ -50,8 +50,8 @@ spec:
           else:
             print("Created admin user {}:{}".format(gogs_user, gogs_pwd))
 
-          # create git repo spring-petclinic
-          data_repo = '{"clone_addr": "https://github.com/rcarrata/spring-petclinic", "uid": 1, "repo_name": "spring-petclinic"}'
+          # create git repo quarkus-hello
+          data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello.git", "uid": 1, "repo_name": "quarkus-hello"}'
           headers = {'Content-Type': 'application/json'}
           resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
 
@@ -59,12 +59,12 @@ spec:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
-            print("Created git repo spring-petclinic")
+            print("Created git repo quarkus-hello")
 
-          # configure webhook on spring-petclinic
+          # configure webhook on quarkus-hello
           data_webhook = '{"type": "gogs", "config": { "url": "' + webhookURL + '", "content_type": "json"}, "events": ["push"], "active": true}'
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/spring-petclinic/hooks",
+          resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/quarkus-hello/hooks",
                               headers = headers,
                               auth = (gogs_user, gogs_pwd),
                               data = data_webhook)
@@ -75,8 +75,8 @@ spec:
           else:
             print("Configured webhook: " + webhookURL)
 
-          # create git repo spring-petclinic-config
-          data_repo = '{"clone_addr": "https://github.com/rcarrata/spring-petclinic-config.git", "uid": 1, "repo_name": "spring-petclinic-config"}'
+          # create git repo quarkus-hello-config
+          data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello-config.git", "uid": 1, "repo_name": "quarkus-hello-config"}'
           headers = {'Content-Type': 'application/json'}
           resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
 
@@ -84,4 +84,4 @@ spec:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
-            print("Created git repo spring-petclinic-config")
+            print("Created git repo quarkus-hello-config")
