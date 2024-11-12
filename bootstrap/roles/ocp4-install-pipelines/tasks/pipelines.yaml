@@ -49,6 +49,6 @@
 
 # K8s doesn't support the generateName in taskRun
 - name: Add gogs init taskrun for add pipelines
-  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
+  shell: oc create -n {{ pipeline_namespace }} -f "{{ item }}"
   loop:
   - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"
