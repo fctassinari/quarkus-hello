@@ -62,7 +62,8 @@ commands:
       label: "3. Start Development Mode"
       component: tools
       commandLine: |
-        source $HOME/.sdkman/bin/sdkman-init.sh && mvn br.com.smanager:api-hello quarkus:dev
+        cmod +x mvnw && \
+        source $HOME/.sdkman/bin/sdkman-init.sh && ./mvnw compile quarkus:dev
       workingDir: ${PROJECT_SOURCE}
   - id: cleanup
     exec:
