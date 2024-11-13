@@ -35,19 +35,19 @@
   debug:
     msg: "{{ r_gogs_route.resources[0].spec.host }}"
 
-- name: Patch with specific route domain
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cicd-gogs-configmap.yaml.j2') }}"
-
-- name: Wait for gogs and gogs-postgresql to be running
-  uri:
-    url: http://{{ r_gogs_route.resources[0].spec.host }}
-    status_code: 200
-  register: result
-  until: result.status == 200
-  retries: 10
-  delay: 30
+#- name: Patch with specific route domain
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cicd-gogs-configmap.yaml.j2') }}"
+#
+#- name: Wait for gogs and gogs-postgresql to be running
+#  uri:
+#    url: http://{{ r_gogs_route.resources[0].spec.host }}
+#    status_code: 200
+#  register: result
+#  until: result.status == 200
+#  retries: 10
+#  delay: 30
 
 #
 ## Check Nexus Route
