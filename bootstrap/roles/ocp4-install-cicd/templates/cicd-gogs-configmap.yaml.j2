@@ -1,34 +1,61 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: gogs-config
-  namespace: "{{ gogs_namespace }}"
-  labels:
-    app: gogs
-data:
-  app.ini: |
-    RUN_MODE = prod
-    RUN_USER = gogs
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: cm-gogs-config
+      namespace: "{{ gogs_namespace }}"
+      labels:
+        app: gogs
+    data:
+      app.ini: |
+        RUN_MODE = prod
+        RUN_USER = git
+        
+        [database]
+        TYPE  = postgres
+        HOST     = gogs-postgresql:5432
+        NAME     = gogs
+        USER     = gogs
+        PASSWORD = gogs
+        
+        [repository]
+        ROOT = /data/repositories
+        ; The global limit of number of repositories a user can create, -1 means no limit.
+        MAX_CREATION_LIMIT = -1
+        
+        [server]
+        EXTERNAL_URL = http://{{ r_gogs_route.resources[0].spec.host }}
+        DOMAIN = {{ r_gogs_route.resources[0].spec.host }}
+        PROTOCOL = http
+        HTTP_ADDR = 0.0.0.0
+        HTTP_PORT = 3000
+        LOCAL_ROOT_URL = http://{{ r_gogs_route.resources[0].spec.host }}
 
-    [database]
-    DB_TYPE  = postgres
-    HOST     = gogs-postgresql:5432
-    NAME     = gogs
-    USER     = gogs
-    PASSWD   = gogs
+        
+        [security]
+        INSTALL_LOCK = true
+        
+        [webhook]
+        SKIP_TLS_VERIFY = false
+        
+        [auth]
+        DISABLE_REGISTRATION   = true
+        REQUIRE_SIGNIN_VIEW    = false
+        
+        [picture]
+        DISABLE_GRAVATAR        = true
+        ENABLE_FEDERATED_AVATAR = false
+        
+        [session]
+        PROVIDER = file
+        
+        [log]
+        MODE      = file
+        ; Either "Trace", "Info", "Warn", "Error", "Fatal", default is "Trace"
+        LEVEL = Warn
+        ROOT_PATH = /data/gogs/log
+        
+        [admin]
+        ; Whether to disable regular (non-admin) users to create organizations.
+        DISABLE_REGULAR_ORG_CREATION = false
 
-    [repository]
-    ROOT = /opt/gogs/data/repositories
 
-    [server]
-    ROOT_URL=http://{{ r_gogs_route.resources[0].spec.host }}
-    SSH_DOMAIN={{ r_gogs_route.resources[0].spec.host }}
-
-    [security]
-    INSTALL_LOCK = true
-
-    [service]
-    ENABLE_CAPTCHA = false
-
-    [webhook]
-    SKIP_TLS_VERIFY = true

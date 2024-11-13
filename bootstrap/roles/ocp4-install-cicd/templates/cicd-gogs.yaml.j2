@@ -1,126 +1,176 @@
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: gogs-postgresql
-  namespace: "{{ gogs_namespace }}"
-  annotations:
-    image.openshift.io/triggers: >-
-        [{"from":{"kind":"ImageStreamTag","name":"rhel8/postgresql-13:latest", "namespace":"openshift"},"fieldPath":"spec.template.spec.containers[?(@.name==\"postgresql\")].image"}]
-  labels:
-    app: gogs
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: gogs
-    app.kubernetes.io/name: gogs-postgresql
-    app.kubernetes.io/part-of: gogs
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gogs
-      name: gogs-postgresql
-  template:
-    metadata:
-      labels:
-        app: gogs
-        name: gogs-postgresql
-    spec:
-      containers:
-      - name: postgresql
-        imagePullPolicy: Always
-        image: registry.redhat.io/rhel8/postgresql-13:latest
-        env:
-        - name: POSTGRESQL_USER
-          value: gogs
-        - name: POSTGRESQL_PASSWORD
-          value: gogs
-        - name: POSTGRESQL_DATABASE
-          value: gogs
-        - name: POSTGRESQL_MAX_CONNECTIONS
-          value: "100"
-        - name: POSTGRESQL_SHARED_BUFFERS
-          value: 12MB
-        - name: POSTGRESQL_ADMIN_PASSWORD
-          value: gogs
-        ports:
-        - containerPort: 5432
-        livenessProbe:
-          initialDelaySeconds: 30
-          tcpSocket:
-            port: 5432
-          timeoutSeconds: 1
-          failureThreshold: 10
-          periodSeconds: 20
-        readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -i
-            - -c
-            - psql -h 127.0.0.1 -U ${POSTGRESQL_USER} -q -d ${POSTGRESQL_DATABASE} -c 'SELECT 1'
-        resources:
-          limits:
-            memory: 512Mi
-        volumeMounts:
-        - mountPath: /var/lib/pgsql/data
-          name: gogs-postgres-data
-      volumes:
-      - name: gogs-postgres-data
-        persistentVolumeClaim:
-          claimName: gogs-postgres-data
----
-kind: Service
+king: ServiceAccount
 apiVersion: v1
 metadata:
+  creationTimestamp: null
+  labels:
+    app: gogs
+  name: git
+  namespace: "{{ gogs_namespace }}"
+---
+king: Service
+apiVersion: v1
+metadata:
+  annotations:
+    description: Exposes the database server
   name: gogs-postgresql
   namespace: "{{ gogs_namespace }}"
   labels:
     app: gogs
 spec:
   ports:
-  - name: postgresql
-    port: 5432
-    targetPort: 5432
+    - name: postgresql
+      port: 5432
+      targetPort: 5432
   selector:
     name: gogs-postgresql
-    app: gogs
 ---
-apiVersion: apps/v1
-kind: Deployment
+king: DeploymentConfig
+apiVersion: v1
 metadata:
-  name: gogs
+  annotations:
+    description: Defines how to deploy the database
+  name: gogs-postgresql
   namespace: "{{ gogs_namespace }}"
   labels:
     app: gogs
-    app.kubernetes.io/component: gogs
-    app.kubernetes.io/instance: gogs
-    app.kubernetes.io/name: gogs
-    app.kubernetes.io/part-of: gogs
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: gogs
-      name: gogs
+    name: gogs-postgresql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: gogs
-        name: gogs
+        name: gogs-postgresql
+      name: gogs-postgresql
     spec:
       containers:
-      - name: gogs
-        imagePullPolicy: Always
-        image: docker.io/gogs/gogs:latest
-        ports:
-        - containerPort: 3000
-          protocol: TCP
-        volumeMounts:
-        - name: gogs-data
-          mountPath: /opt/gogs/data
-        - name: gogs-config
-          mountPath: /etc/gogs/conf
-        readinessProbe:
+        - env:
+            - name: POSTGRESQL_USER
+              value: gogs
+            - name: POSTGRESQL_PASSWORD
+              value: gogs
+            - name: POSTGRESQL_DATABASE
+              value: gogs
+            - name: POSTGRESQL_MAX_CONNECTIONS
+              value: "100"
+            - name: POSTGRESQL_SHARED_BUFFERS
+              value: 12MB
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: gogs
+          image: ' '
+          livenessProbe:
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 1
+            failureThreshold: 10
+            periodSeconds: 20
+          name: postgresql
+          ports:
+            - containerPort: 5432
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -i
+                - -c
+                - psql -h 127.0.0.1 -U gogs -q -d gogs -c 'SELECT 1'
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            failureThreshold: 10
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /var/lib/pgsql/data
+              name: gogs-postgres-data
+      volumes:
+        - name: gogs-postgres-data
+          persistentVolumeClaim:
+            claimName: pvc-gogs-postgres-data
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:17.0-bullseye
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+---
+king: Service
+apiVersion: v1
+metadata:
+  annotations:
+    description: The Gogs server's http port
+    service.alpha.HOSTNAME/dependencies: '[{"name":"gogs-postgresql","namespace":"","kind":"Service"}]'
+  labels:
+    app: gogs
+  name: gogs
+  namespace: "{{ gogs_namespace }}"
+spec:
+  ports:
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: gogs
+    deploymentconfig: gogs
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  labels:
+    app: gogs
+  name: gogs
+  namespace: "{{ gogs_namespace }}"
+spec:
+  replicas: 1
+  selector:
+    app: gogs
+    deploymentconfig: gogs
+  strategy:
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gogs
+        deploymentconfig: gogs
+    spec:
+      serviceAccountName: sagogs
+      containers:
+        - image: " "
+          imagePullPolicy: Always
+          name: gogs
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+            - name: vl-gogs-data
+              mountPath: /data
+            - name: vl-gogs-config
+              mountPath: /data/gogs/conf
+          readinessProbe:
             httpGet:
               path: /
               port: 3000
@@ -130,7 +180,7 @@ spec:
             periodSeconds: 20
             successThreshold: 1
             failureThreshold: 10
-        livenessProbe:
+          livenessProbe:
             httpGet:
               path: /
               port: 3000
@@ -140,18 +190,33 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 10
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       volumes:
-      - name: gogs-data
-        persistentVolumeClaim:
-          claimName: gogs-data
-      - name: gogs-config
-        configMap:
-          name: gogs-config
-          items:
-            - key: app.ini
-              path: app.ini
+        - name: vl-gogs-data
+          persistentVolumeClaim:
+            claimName: pvc-gogs-data
+        - name: vl-gogs-config
+          configMap:
+            name: cm-gogs-config
+            items:
+              - key: app.ini
+                path: app.ini
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - gogs
+        from:
+          kind: ImageStreamTag
+          name: gogs:latest
+      type: ImageChange
 ---
-kind: Service
+kind: ImageStream
 apiVersion: v1
 metadata:
   labels:
@@ -159,15 +224,44 @@ metadata:
   name: gogs
   namespace: "{{ gogs_namespace }}"
 spec:
-  ports:
-  - name: 3000-tcp
-    port: 3000
-    protocol: TCP
-    targetPort: 3000
-  selector:
+  tags:
+    - name: latest
+      from:
+        kind: DockerImage
+        name: docker.io/gogs/gogs:latest
+      importPolicy: {}
+      annotations:
+        description: The Gogs git server docker image
+        tags: gogs,go,golang
+        version: latest
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gogs-data
+  namespace: "{{ gogs_namespace }}"
+  labels:
     app: gogs
-    name: gogs
-  type: ClusterIP
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gogs-postgres-data
+  namespace: "{{ gogs_namespace }}"
+  labels:
+    app: gogs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
@@ -180,31 +274,3 @@ metadata:
 spec:
   to:
     name: gogs
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: gogs-data
-  namespace: "{{ gogs_namespace }}"
-  labels:
-    app: gogs
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: gogs-postgres-data
-  namespace: "{{ gogs_namespace }}"
-  labels:
-    app: gogs
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
