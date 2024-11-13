@@ -48,6 +48,7 @@
   until: result.status == 200
   retries: 10
   delay: 30
+
 #
 ## Check Nexus Route
 #- name: Get nexus route
