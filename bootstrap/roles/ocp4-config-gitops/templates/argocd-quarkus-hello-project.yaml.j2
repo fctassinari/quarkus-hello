@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: "{{ app_name }}"
-  namespace: "{{ gitops_namespace }}"
+  namespace: "{{ gitops_operator_namespace }}"
 spec:
   sourceRepos:
   - '*'

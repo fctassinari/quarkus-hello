@@ -10,7 +10,9 @@
     sonarqube_namespace: 'sonarqube'
     nexus_namespace: 'nexus'
     reports_namespace: 'reports-repo'
-    gitops_namespace: 'openshift-gitops'
+    gitops_operator_namespace: 'openshift-gitops'
+    pipeline_operator_namespace: 'pipelines-operator'
+    rhacs_operator_namespace: 'rhacs-operator'
     cluster_url: 'apps.cluster-5nkrs.dynamic.redhatworkshops.io'
 
   tasks:
@@ -18,17 +20,17 @@
 #      include_role:
 #        name: "ocp4-install-gitops"
 #
-#    - name: 'Install CICD Infra'
-#      include_role:
-#        name: "ocp4-install-cicd"
-#
+    - name: 'Install CICD Infra'
+      include_role:
+        name: "ocp4-install-cicd"
+
 #    - name: 'Install Pipelines'
 #      include_role:
 #        name: "ocp4-install-pipelines"
 #
-    - name: 'Config GitOps'
-      include_role:
-        name: "ocp4-config-gitops"
+#    - name: 'Config GitOps'
+#      include_role:
+#        name: "ocp4-config-gitops"
 
 #    - name: 'Install the ACS Central'
 #      include_role:
