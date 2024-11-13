@@ -103,6 +103,8 @@ Create OpenShift Objects for Openshift Pipelines Templates
 
 Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou substituido qdo entrar o gitlab```
 
+
+
 # Config Gitops
 * argocd-quarkus-hello-project.yaml
 * argocd-app-dev.yaml.j2

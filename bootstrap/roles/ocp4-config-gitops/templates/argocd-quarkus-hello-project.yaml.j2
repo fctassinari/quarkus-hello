@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: quarkus-hello
-  namespace: openshift-gitops
+  name: "{{ app_name }}"
+  namespace: "{{ gitops_namespace }}"
 spec:
   sourceRepos:
   - '*'

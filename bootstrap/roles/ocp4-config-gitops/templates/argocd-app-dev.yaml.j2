@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{ app_namespace }}"
-  namespace: openshift-gitops
+  name: "{{ app_name }}"
+  namespace: "{{ gitops_namespace }}"
 spec:
   destination:
     namespace: "{{ app_namespace }}"
     server: https://kubernetes.default.svc
-  project: quarkus-hello
+  project: "{{ app_name }}"
   source:
     path: environments/dev
-    repoURL: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/quarkus-hello-config
+    repoURL: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/{{ app_name }}-config
     targetRevision: HEAD
   syncPolicy:
     automated:

@@ -3,7 +3,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: "{{ pipeline_namespace }}"
+    namespace: "{{ gogs_namespace }}"
     name: gogs
   register: r_gogs_route
   retries: 10
