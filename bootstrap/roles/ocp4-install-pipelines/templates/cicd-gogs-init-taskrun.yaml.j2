@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   generateName: init-gogs-
-  namespace: "{{ pipeline_namespace }}"
+  namespace: sm-pipeline
 spec:
   taskSpec:
     params:
