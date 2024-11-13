@@ -1,5 +1,5 @@
 ---
-king: ServiceAccount
+kind: ServiceAccount
 apiVersion: v1
 metadata:
   creationTimestamp: null
@@ -8,7 +8,7 @@ metadata:
   name: git
   namespace: "{{ gogs_namespace }}"
 ---
-king: Service
+kind: Service
 apiVersion: v1
 metadata:
   annotations:
@@ -25,7 +25,7 @@ spec:
   selector:
     name: gogs-postgresql
 ---
-king: DeploymentConfig
+kind: DeploymentConfig
 apiVersion: v1
 metadata:
   annotations:
@@ -103,7 +103,7 @@ spec:
       type: ImageChange
     - type: ConfigChange
 ---
-king: Service
+kind: Service
 apiVersion: v1
 metadata:
   annotations:
