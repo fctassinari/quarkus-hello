@@ -1,3 +1,2 @@
-
 - import_tasks: central.yaml
 - import_tasks: sensor.yaml
