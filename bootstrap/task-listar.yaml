@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: teste
+  namespace: ati-pipeline
+spec:
+  params:
+    - default: /
+      name: PATH
+      type: string
+  tasks:
+    - name: listar
+      params:
+        - name: PATH
+          value: $(params.PATH)
+      taskRef:
+        kind: Task
+        name: ll
+      workspaces:
+        - name: source
+          workspace: workspace
+  workspaces:
+    - name: workspace
