@@ -77,23 +77,17 @@ Create OpenShift Objects for Openshift Pipeline Tasks
    To do so, it requires the address of the Argo CD server and some form of 
    authentication either a username/password or an authentication token.```
 * dependency-report
-* [gatling](https://gatling.io/)
 * git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
-* rox-image-scan
 * maven-settings ``` ConfigMap ```
+* rox-image-scan
 * rox-deployment-check 
 * rox-image-check  
 
- 
 Create OpenShift Objects for Openshift Pipeline Triggers
-
-[//]: # (  - ./templates/trigger-eventlistener.yaml.j2)
-
-[//]: # (  - ./templates/trigger-eventlistener-route.yaml.j2)
-
-[//]: # (  - ./templates/trigger-gogs-triggerbinding.yaml.j2)
-
-[//]: # (  - ./templates/triggertemplate.yaml.j2)
+  - ./templates/trigger-eventlistener.yaml.j2
+  - ./templates/trigger-eventlistener-route.yaml.j2
+  - ./templates/trigger-gogs-triggerbinding.yaml.j2
+  - ./templates/triggertemplate.yaml.j2
 
 Get gogs route
 
@@ -101,11 +95,9 @@ Create OpenShift Objects for Openshift Pipelines Templates
 * quarkus-hello-pipeline
 * pipeline-build-pvc
 
-Add gogs init taskrun for add pipelines ``` este tópico pode ser excluido ou substituido qdo entrar o gitlab```
+Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fonte do github ```
 
-
-
-# Config Gitops
+# Config Gitops ``` Cria a aplicação dentro do Argo CD ```
 * argocd-quarkus-hello-project.yaml
 * argocd-app-dev.yaml.j2
 

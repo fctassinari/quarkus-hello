@@ -73,7 +73,7 @@
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: rhacs-operator
+    namespace: "{{ rhacs_operator_namespace }}"
     name: central
   register: r_stackrox_central_route
   retries: 10

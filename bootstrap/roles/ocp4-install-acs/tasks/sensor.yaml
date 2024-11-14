@@ -16,7 +16,7 @@
 
 - name: Create init-bundle secrets
   kubernetes.core.k8s:
-    namespace: rhacs-operator
+    namespace: "{{ rhacs_operator_namespace }}"
     state: present
     definition: "{{ f_stackrox_bundle }}"
 
@@ -30,7 +30,7 @@
     name: sensor
     kind: Deployment
     api_version: apps/v1
-    namespace: rhacs-operator
+    namespace: "{{ rhacs_operator_namespace }}"
   register: r_stackrox_sensor_deployment
   until:
     - r_stackrox_sensor_deployment.resources[0].status.readyReplicas is defined
@@ -43,7 +43,7 @@
     name: collector
     kind: DaemonSet
     api_version: apps/v1
-    namespace: rhacs-operator
+    namespace: "{{ rhacs_operator_namespace }}"
   register: r_stackrox_collector_daemonset
   until: r_stackrox_collector_daemonset.resources[0].status.desiredNumberScheduled is defined
 
@@ -52,7 +52,7 @@
     name: collector
     kind: DaemonSet
     api_version: apps/v1
-    namespace: rhacs-operator
+    namespace: "{{ rhacs_operator_namespace }}"
   register: r_stackrox_collector_daemonset
   until:
     - r_stackrox_collector_daemonset.resources[0].status.numberReady is defined

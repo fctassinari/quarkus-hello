@@ -25,63 +25,82 @@ spec:
         image: quay.io/siamaksade/python-oc
         script: |
           #!/usr/bin/env python3
-
-          import os
-          import requests
-
-          gogs_user = "$(params.GOGS_USER)"
-          gogs_pwd = "$(params.GOGS_PASSWORD)"
-          webhookURL = "http://" + os.popen('oc get route el-webhook -o template --template="{{.spec.host}}"').read()
-          gogsURL = "http://" + os.popen('oc get svc gogs -o template --template="{{.spec.clusterIP}}"').read() + ":3000"
-
-          # create admin user
-          data_user = {
+            
+            import os
+            import requests
+            
+            fct_user = "fctassinari"
+            fct_pass = "Ipc@Chip2024"
+            
+            gogs_user = "gogs"
+            gogs_pwd = "gogs"
+            webhookURL = "http://" + os.popen('oc get route el-webhook -n sm-pipeline -o template --template="{{.spec.host}}"').read()
+            #gogsURL = "http://" + os.popen('oc get svc gogs -o template --template="{{.spec.clusterIP}}"').read() + ":3000"
+            gogsURL = "http://" + os.popen('oc get route gogs -o template --template="{{.spec.host}}"').read()
+            
+            # create admin user
+            data_user = {
           'user_name': gogs_user,
           'password': gogs_pwd,
           'retype': gogs_pwd,
           'email': 'admin@gogs.com'
           }
-
-          resp = requests.post(url = gogsURL + "/user/sign_up", data = data_user)
-
+            
+            print("1")
+            resp = requests.post(url = gogsURL + "/user/sign_up", data = data_user)
+            print("2")
+          
           if resp.status_code != 200:
             print("Error creating Gogs admin (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
             print("Created admin user {}:{}".format(gogs_user, gogs_pwd))
-
+            print("3")
+          
           # create git repo quarkus-hello
           data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello.git", "uid": 1, "repo_name": "quarkus-hello"}'
+          print("4")
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
-
+            print("5")
+            resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (fct_user, fct_pass), data = data_repo)
+            print("6")
+          
           if resp.status_code != 200 and resp.status_code != 201:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
             print("Created git repo quarkus-hello")
-
+            print("7")
+          
           # configure webhook on quarkus-hello
           data_webhook = '{"type": "gogs", "config": { "url": "' + webhookURL + '", "content_type": "json"}, "events": ["push"], "active": true}'
+            print("8")
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/quarkus-hello/hooks",
-                              headers = headers,
-                              auth = (gogs_user, gogs_pwd),
-                              data = data_webhook)
-
+            print("9")
+            resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/quarkus-hello/hooks",
+            headers = headers,
+            auth = (gogs_user, gogs_pwd),
+            data = data_webhook)
+            print("10")
+          
           if resp.status_code != 200 and resp.status_code != 201:
             print("Error configuring the webhook (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
             print("Configured webhook: " + webhookURL)
-
+          print("11")
+          
           # create git repo quarkus-hello-config
           data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello-config.git", "uid": 1, "repo_name": "quarkus-hello-config"}'
+          print("12")
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
-
+            print("13")
+            resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (fct_user, fct_pass), data = data_repo)
+            print("14")
+          
           if resp.status_code != 200 and resp.status_code != 201:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
             print("Created git repo quarkus-hello-config")
+            print("15")
