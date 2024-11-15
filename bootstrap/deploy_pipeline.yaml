@@ -13,7 +13,7 @@
     gitops_operator_namespace: 'openshift-gitops'
     pipeline_operator_namespace: 'pipelines-operator'
     rhacs_operator_namespace: 'rhacs-operator'
-    sonar-token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
+    sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
     cluster_url: 'apps.cluster-5nkrs.dynamic.redhatworkshops.io'
 
   tasks:
