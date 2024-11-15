@@ -103,11 +103,11 @@ spec:
             - source
             - '-Dsonar.host.url=https://{{ sonarqube_namespace }}.{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
-            - '-Dsonar.login=4eca82ea102da858362830b04463b02502943e50'
+            - '-Dsonar.login={{ sonar-token }}'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
             - '-Dmaven.test.skip=true'
       runAfter:
-        - git-clone
+        - unit-tests
       taskRef:
         kind: ClusterTask
         name: maven
@@ -121,7 +121,7 @@ spec:
         - name: SOURCE_DIR
           value: source
       runAfter:
-        - git-clone
+        - unit-tests
       taskRef:
         kind: Task
         name: dependency-report
