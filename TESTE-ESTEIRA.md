@@ -21,7 +21,7 @@ metadata:
   name: rt-nexus
   namespace: nexus
 spec:
-  host: nexus.{ cluster_url }
+  host: nexus.{{ cluster_url }}
   path: /
   to:
     kind: Service

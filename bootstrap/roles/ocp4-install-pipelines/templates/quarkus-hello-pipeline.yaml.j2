@@ -102,7 +102,7 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - quarkus-hello
-            - '-Dsonar.host.url=https://sonarqube-"{{ pipeline_namespace }}".{ cluster_url }/'
+            - '-Dsonar.host.url=https://sonarqube-"{{ pipeline_namespace }}".{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
             - '-Dsonar.login=4eca82ea102da858362830b04463b02502943e50'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
@@ -142,7 +142,7 @@ spec:
             - quarkus-hello
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
             - '-Dmaven.test.skip=true'
-            - '-DaltDeploymentRepository=nexus::default::http://nexus.{ cluster_url }/repository/mvn-release/'
+            - '-DaltDeploymentRepository=nexus::default::http://nexus.{{ cluster_url }}/repository/mvn-release/'
       runAfter:
         - code-analysis
         - unit-tests
@@ -160,7 +160,7 @@ spec:
         - name: TLSVERIFY
           value: 'false'
         - name: MAVEN_MIRROR_URL
-          value: 'http://nexus.{ cluster_url }/repository/mvn-release/'
+          value: 'http://nexus.{{ cluster_url }}/repository/mvn-release/'
         - name: PATH_CONTEXT
           value: quarkus-hello/target
         - name: IMAGE_NAME
