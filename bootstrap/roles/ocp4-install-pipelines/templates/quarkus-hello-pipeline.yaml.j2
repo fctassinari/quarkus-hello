@@ -16,7 +16,7 @@ spec:
     - default: .
       name: PATH_CONTEXT
       type: string
-    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}'
+    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}:latest'
       name: IMAGE_NAME
       type: string
     - default: latest
