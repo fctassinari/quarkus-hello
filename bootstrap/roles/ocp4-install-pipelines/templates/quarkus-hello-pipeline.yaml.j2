@@ -102,7 +102,7 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - source
-            - '-Dsonar.host.url=https://{{ sonarqube_namespace }}".{{ cluster_url }}/'
+            - '-Dsonar.host.url=https://{{ sonarqube_namespace }}.{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
             - '-Dsonar.login=4eca82ea102da858362830b04463b02502943e50'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
@@ -142,7 +142,7 @@ spec:
             - source
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
             - '-Dmaven.test.skip=true'
-            - '-DaltDeploymentRepository=nexus::default::https://{{ nexus_namespace }].{{ cluster_url }}/repository/mvn-release/'
+            - '-DaltDeploymentRepository=nexus::default::https://{{ nexus_namespace }}.{{ cluster_url }}/repository/mvn-release/'
       runAfter:
         - code-analysis
         - unit-tests
