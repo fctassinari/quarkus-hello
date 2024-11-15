@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: maven-settings
+  name: cm-maven-settings
   namespace: "{{ pipeline_namespace }}"
 data:
   settings.xml: |
@@ -18,7 +18,7 @@ data:
         <mirror>
           <id>nexus</id>
           <name>nexus</name>
-          <url>http://nexus-cicd.{{ cluster_url }}/repository/mvn-cicd/</url>
+          <url>http://{{ nexus_namespace }}.{{ cluster_url }}/repository/mvn-cicd/</url>
           <mirrorOf>*</mirrorOf>
         </mirror>
       </mirrors>

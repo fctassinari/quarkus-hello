@@ -16,7 +16,7 @@ spec:
     - default: .
       name: PATH_CONTEXT
       type: string
-    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}:latest'
+    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}'
       name: IMAGE_NAME
       type: string
     - default: latest
@@ -157,18 +157,18 @@ spec:
           workspace: maven-settings
     - name: build-image
       params:
+        - name: IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: TLSVERIFY
           value: 'false'
         - name: MAVEN_MIRROR_URL
-          value: 'http://nexus.{{ cluster_url }}/repository/mvn-release/'
+          value: 'http://nexus.apps.cluster-5nkrs.dynamic.redhatworkshops.io/repository/mvn-release/'
         - name: PATH_CONTEXT
-          value: quarkus-hello/target
-        - name: IMAGE_NAME
-          value: $(params.IMAGE_NAME)
-        - name: IMAGE_TAG
-          value: $(params.IMAGE_TAG)
+          value: $(workspaces.source.path)/source/target
         - name: VERSION
-          value: $(param.VERSION)
+          value: $(params.VERSION)
+        - name: MAVEN_ARGS_APPEND
+          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
       runAfter:
         - release-app
       taskRef:
