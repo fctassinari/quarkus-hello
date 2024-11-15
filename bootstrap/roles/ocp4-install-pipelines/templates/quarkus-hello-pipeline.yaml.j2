@@ -81,7 +81,6 @@ spec:
             - '-f'
             - source
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-            - '-Dmaven.test.skip=true'
       runAfter:
         - git-clone
       taskRef:
