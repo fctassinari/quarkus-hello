@@ -103,7 +103,7 @@ spec:
             - source
             - '-Dsonar.host.url=https://{{ sonarqube_namespace }}.{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
-            - '-Dsonar.login={{ sonar-token }}'
+            - '-Dsonar.login={{ sonar_token }}'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
             - '-Dmaven.test.skip=true'
       runAfter:
