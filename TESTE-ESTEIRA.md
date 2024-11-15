@@ -54,20 +54,19 @@ Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"<br>
 Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
 
 # Install CICD 
-Add RoleBinding to the devsecops projects<br>
-Install Gogs ```trocar pelo Gitlab Operator ```<br>
-
-[//]: # (Install nexus ``` trocar pelo Nexus Operator```<br>)
-Install sonarqube <br>
-Install reports repo ``` analisar se mantem e se sim criar um novo ```<br>
-Get gogs route<br>
-Patch with specific route domain<br>
-Wait for gogs and gogs-postgresql to be running<br>
-Check Nexus Route<br>
-Wait for nexus to be running<br>
-Sonarqube Route<br>
-Wait for sonarqube to be running<br>
-Get reports route
+* Add RoleBinding to the devsecops projects<br>
+* Install Gogs ```trocar pelo Gitlab Operator ```<br>
+* Install sonarqube <br>
+* * ``` criar disco persistente ```
+* Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```<br>
+* Get gogs route<br>
+* Patch with specific route domain<br>
+* Wait for gogs and gogs-postgresql to be running<br>
+* Check Nexus Route<br>
+* Wait for nexus to be running<br>
+* Sonarqube Route<br>
+* Wait for sonarqube to be running<br>
+* Get reports route
 
 # Install Pipelines
 Create OpenShift Objects for Openshift Pipeline Tasks
@@ -114,6 +113,7 @@ Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fo
 * Get token in the secret for the sa pipeline and decode
 * Define the token secret decoded
 * Creating ACS Integration with the Openshift Internal Registry
+* * ``` é preciso criar uma conta de servico te tenha acesso ao registry - post-ci.yaml```
 
 
 

@@ -251,6 +251,17 @@ spec:
       taskRef:
         kind: Task
         name: git-update-deployment
+      workspaces:
+        - name: workspace
+          workspace: workspace
+    - name: wait-application
+      taskRef:
+        name: argocd-task-sync-and-wait
+      runAfter:
+        - update-deployment
+      params:
+        - name: application-name
+          value: quarkus-hello
   workspaces:
     - name: maven-settings
     - name: workspace

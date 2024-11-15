@@ -48,7 +48,8 @@
         namespace: "{{ ocp4_demo_pipeline_namespace }}"
       type: Opaque
 
-## daqui pra baixo nao funcionou nao consegui descobrir onde fica o token do pipeline
+# daqui pra baixo nao funcionou nao consegui descobrir onde fica o token do pipeline
+# é preciso criar uma conta de servico te tenha acesso ao registry
 #
 #- name: Get secrets in namespace
 #  kubernetes.core.k8s_info:
