@@ -23,11 +23,11 @@
 #    - name: 'Install CICD Infra'
 #      include_role:
 #        name: "ocp4-install-cicd"
-#
-#    - name: 'Install Pipelines'
-#      include_role:
-#        name: "ocp4-install-pipelines"
-#
+
+    - name: 'Install Pipelines'
+      include_role:
+        name: "ocp4-install-pipelines"
+
 #    - name: 'Config GitOps'
 #      include_role:
 #        name: "ocp4-config-gitops"
@@ -36,7 +36,7 @@
 #      include_role:
 #        name: "ocp4-install-acs"
 #
-    # Include the policies, and some content to show in the demo
-    - name: 'Install the ACS Post Content'
-      include_role:
-        name: "ocp4-post-acs"
+#    # Include the policies, and some content to show in the demo
+#    - name: 'Install the ACS Post Content'
+#      include_role:
+#        name: "ocp4-post-acs"
