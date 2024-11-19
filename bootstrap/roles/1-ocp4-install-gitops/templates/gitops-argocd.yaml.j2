@@ -1,3 +1,9 @@
+TASK [1-ocp4-install-gitops : Install ArgoCD] ********************************************************************************************************************************************************************************
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Failed to create object: b'{\"kind\":\"Status\",\"apiVersion\":\"v1\",\"metadata\":{},\"status\":\"Failure\",\"message\":\"conversion webhook for argoproj.io/v1alpha1, Kind=ArgoCD failed: Post \\\\\"https://openshift-gitops-operator-controller-manager-service.openshift-operators.svc:443/convert?timeout=30s\\\\\": no endpoints available for service \\\\\"openshift-gitops-operator-controller-manager-service\\\\\"\",\"code\":500}\\n'", "reason": "Internal Server Error"}
+
+  PLAY RECAP ******************************************************************************************************************
+
+
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
