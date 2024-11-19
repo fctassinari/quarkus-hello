@@ -5,7 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: openshift-gitops-application-controller
-    namespace: "{{ gitops_operator_namespace }}"
+    namespace: openshift-gitops
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -23,4 +23,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: openshift-gitops-argocd-application-controller
-  namespace: "{{ gitops_operator_namespace }}"
+  namespace: openshift-gitops

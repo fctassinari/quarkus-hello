@@ -105,7 +105,7 @@
     kind: Route
     api_version: route.openshift.io/v1
     name: openshift-gitops-server
-    namespace: "{{ gitops_operator_namespace }}"
+    namespace: openshift-gitops
   register: r_argo_route
   retries: 10
   delay: 20
@@ -121,7 +121,7 @@
     kind: Secret
     api_version: /v1
     name: openshift-gitops-cluster
-    namespace: "{{ gitops_operator_namespace }}"
+    namespace: openshift-gitops
   register: r_argopass
 
 - name: debug
