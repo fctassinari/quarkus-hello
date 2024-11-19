@@ -21,21 +21,21 @@
   tasks:
 #    - name: 'Install Gitops'
 #      include_role:
-#        name: "ocp4-install-gitops"
+#        name: "1-ocp4-install-gitops"
 #
 #    - name: 'Install CICD Infra'
 #      include_role:
-#        name: "ocp4-install-cicd"
+#        name: "2-ocp4-install-cicd"
 #
-    - name: 'Install Pipelines'
-      include_role:
-        name: "ocp4-install-pipelines"
-
-#    - name: 'Config GitOps'
+#    - name: 'Install Pipelines'
 #      include_role:
-#        name: "ocp4-config-gitops"
+#        name: "3-ocp4-install-pipelines"
 #
-#    - name: 'Install the ACS Central'
+#    - name: '4-Config GitOps'
+#      include_role:
+#        name: "4-ocp4-config-gitops"
+#
+#    - name: '5-Install the ACS Central'
 #      include_role:
 #        name: "ocp4-install-acs"
 #

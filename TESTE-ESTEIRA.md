@@ -43,29 +43,28 @@ spec:
 * Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
 * 
 # Install Gitops
-Create Namespaces<br>
-Get cluster version<br>
-
-Associar o SA openshift-gitops-argocd-application-controller do projeto openshift-gitops ao projeto da aplicação<br>
-Patch the CM of Openshift GitOps to add role admin by default```Verificar se é necessário```<br>
-Get ArgoCD route<br>
-Get argocd password<br>
-Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"<br>
-Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+- Install GitOps Operator
+- Install OCP Pipelines Operator
+- Add ClusterRoleBinding to the openshift-gitops-controller
+- Install ArgoCD
+- Add SSO Keycloak in Openshift GitOps by default
+- Get argocd password
+- Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+- Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
 
 # Install CICD 
 * Add RoleBinding to the devsecops projects<br>
-* Install Gogs ```trocar pelo Gitlab Operator ```<br>
-* Install sonarqube <br>
+* Install Gogs ```trocar pelo Gitlab Operator ```
+* Install sonarqube 
 * * ``` criar disco persistente ```
-* Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```<br>
-* Get gogs route<br>
-* Patch with specific route domain<br>
-* Wait for gogs and gogs-postgresql to be running<br>
-* Check Nexus Route<br>
-* Wait for nexus to be running<br>
-* Sonarqube Route<br>
-* Wait for sonarqube to be running<br>
+* Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
+* Get gogs route
+* Patch with specific route domain
+* Wait for gogs and gogs-postgresql to be running
+* Check Nexus Route
+* Wait for nexus to be running
+* Sonarqube Route
+* Wait for sonarqube to be running
 * Get reports route
 
 # Install Pipelines
