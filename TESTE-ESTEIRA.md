@@ -1,11 +1,6 @@
 # Instruções - Openshift Test Pipeline
 
 # Operators - pre instalação
-* Red Hat OpenShift Pipelines
-* * oc new-project pipelines-operator
-* * -n pipelines-operator
-* Red Hat OpenShift GitOps
-* * -n openshift-gitops-operator
 * Red Hat ACS
 * * -n rhacs-operator
 * Nexus Repository Operator

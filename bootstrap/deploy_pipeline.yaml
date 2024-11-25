@@ -19,14 +19,14 @@
 
 
   tasks:
-    - name: 'Install Gitops'
-      include_role:
-        name: "1-ocp4-install-gitops"
-
-#    - name: 'Install CICD Infra'
+#    - name: 'Install Gitops'
 #      include_role:
-#        name: "2-ocp4-install-cicd"
-#
+#        name: "1-ocp4-install-gitops"
+
+    - name: 'Install CICD Infra'
+      include_role:
+        name: "2-ocp4-install-cicd"
+
 #    - name: 'Install Pipelines'
 #      include_role:
 #        name: "3-ocp4-install-pipelines"
