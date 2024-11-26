@@ -81,9 +81,9 @@ spec:
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: POSTGRESQL_DATABASE
+                  key: database-password
                   name: {{ sonar_database_service_name }}
-            - name: sonar_postgresql_database
+            - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: database-name
