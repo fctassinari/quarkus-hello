@@ -2,10 +2,10 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-sonarq-postgres-data
-  namespace: "{{ sonarq_namespace }}"
+  name: pvc-sonar-postgres-data
+  namespace: "{{ sonar_namespace }}"
   labels:
-    app: sonarq
+    app: sonar
 spec:
   accessModes:
     - ReadWriteOnce
@@ -18,53 +18,53 @@ apiVersion: v1
 metadata:
   annotations:
     description: Exposes the database server
-  name: sonarq-postgresql
-  namespace: "{{ sonarq_namespace }}"
+  name: sonar-postgresql
+  namespace: "{{ sonar_namespace }}"
   labels:
-    app: sonarq
+    app: sonar
 spec:
   ports:
     - name: postgresql
       port: 5432
       targetPort: 5432
   selector:
-    name: sonarq-postgresql
+    name: sonar-postgresql
 ---
 kind: DeploymentConfig
 apiVersion: v1
 metadata:
   annotations:
     description: Defines how to deploy the database
-  name: sonarq-postgresql
-  namespace: "{{ sonarq_namespace }}"
+  name: sonar-postgresql
+  namespace: "{{ sonar_namespace }}"
   labels:
-    app: sonarq
+    app: sonar
 spec:
   replicas: 1
   selector:
-    name: sonarq-postgresql
+    name: sonar-postgresql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: sonarq-postgresql
-      name: sonarq-postgresql
+        name: sonar-postgresql
+      name: sonar-postgresql
     spec:
       containers:
         - env:
             - name: POSTGRESQL_USER
-              value: sonarq
+              value: sonar
             - name: POSTGRESQL_PASSWORD
-              value: sonarq
+              value: sonar
             - name: POSTGRESQL_DATABASE
-              value: sonarq
+              value: sonar
             - name: POSTGRESQL_MAX_CONNECTIONS
               value: "100"
             - name: POSTGRESQL_SHARED_BUFFERS
               value: 12MB
             - name: POSTGRESQL_ADMIN_PASSWORD
-              value: sonarq
+              value: sonar
           image: ' '
           livenessProbe:
             initialDelaySeconds: 30
@@ -82,7 +82,7 @@ spec:
                 - /bin/sh
                 - -i
                 - -c
-                - psql -h 127.0.0.1 -U sonarq -q -d sonarq -c 'SELECT 1'
+                - psql -h 127.0.0.1 -U sonar -q -d sonar -c 'SELECT 1'
             initialDelaySeconds: 30
             timeoutSeconds: 1
             failureThreshold: 10
@@ -91,11 +91,11 @@ spec:
               memory: 512Mi
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
-              name: sonarq-postgres-data
+              name: sonar-postgres-data
       volumes:
-        - name: sonarq-postgres-data
+        - name: sonar-postgres-data
           persistentVolumeClaim:
-            claimName: pvc-sonarq-postgres-data
+            claimName: pvc-sonar-postgres-data
   triggers:
     - imageChangeParams:
         automatic: true
@@ -112,44 +112,44 @@ spec:
 #apiVersion: apps/v1
 #kind: Deployment
 #metadata:
-#  name: sonarqube
+#  name: sonarube
 #  namespace: "{{ sonar_namespace }}"
 #  labels:
-#    app: sonarqube
-#    app.kubernetes.io/component: sonarqube
-#    app.kubernetes.io/instance: sonarqube
-#    app.kubernetes.io/name: sonarqube
-#    app.kubernetes.io/part-of: sonarqube
+#    app: sonarube
+#    app.kubernetes.io/component: sonarube
+#    app.kubernetes.io/instance: sonarube
+#    app.kubernetes.io/name: sonarube
+#    app.kubernetes.io/part-of: sonarube
 #spec:
 #  replicas: 1
 #  selector:
 #    matchLabels:
-#      app: sonarqube
-#      name: sonarqube
+#      app: sonarube
+#      name: sonarube
 #  template:
 #    metadata:
 #      labels:
-#        app: sonarqube
-#        name: sonarqube
+#        app: sonarube
+#        name: sonarube
 #    spec:
 #      containers:
-#        - name: sonarqube
+#        - name: sonarube
 #          imagePullPolicy: Always
-#          image: sonarqube:9.9.7-community
+#          image: sonarube:9.9.7-community
 #          ports:
 #            - containerPort: 9000
 #              protocol: TCP
 #          volumeMounts:
 #            - mountPath: /opt/sq/temp
-#              name: sonarqube-temp
+#              name: sonarube-temp
 #            - mountPath: /opt/sq/conf
-#              name: sonarqube-conf
+#              name: sonarube-conf
 #            - mountPath: /opt/sq/data
-#              name: sonarqube-data
+#              name: sonarube-data
 #            - mountPath: /opt/sq/extensions
-#              name: sonarqube-extensions
+#              name: sonarube-extensions
 #            - mountPath: /opt/sq/logs
-#              name: sonarqube-logs
+#              name: sonarube-logs
 #          livenessProbe:
 #            failureThreshold: 10
 #            httpGet:
@@ -178,23 +178,23 @@ spec:
 #              cpu: 200m
 #              memory: 512Mi
 #      volumes:
-#        - name: sonarqube-temp
+#        - name: sonarube-temp
 #          emptyDir: {}
-#        - name: sonarqube-conf
+#        - name: sonarube-conf
 #          emptyDir: {}
-#        - name: sonarqube-data
+#        - name: sonarube-data
 #          emptyDir: {}
-#        - name: sonarqube-extensions
+#        - name: sonarube-extensions
 #          emptyDir: {}
-#        - name: sonarqube-logs
+#        - name: sonarube-logs
 #          emptyDir: {}
 #---
 #apiVersion: route.openshift.io/v1
 #kind: Route
 #metadata:
 #  labels:
-#    app: sonarqube
-#  name: sonarqube
+#    app: sonarube
+#  name: sonarube
 #  namespace: "{{ sonar_namespace }}"
 #spec:
 #  port:
@@ -203,7 +203,7 @@ spec:
 #    termination: edge
 #  to:
 #    kind: Service
-#    name: sonarqube
+#    name: sonarube
 #    weight: 100
 #  wildcardPolicy: None
 #---
@@ -211,8 +211,8 @@ spec:
 #kind: Service
 #metadata:
 #  labels:
-#    app: sonarqube
-#  name: sonarqube
+#    app: sonarube
+#  name: sonarube
 #  namespace: "{{ sonar_namespace }}"
 #spec:
 #  ports:
@@ -221,8 +221,8 @@ spec:
 #      protocol: TCP
 #      targetPort: 9000
 #  selector:
-#    app: sonarqube
-#    name: sonarqube
+#    app: sonarube
+#    name: sonarube
 #  type: ClusterIP
 #---
 #
