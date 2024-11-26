@@ -77,23 +77,23 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: database-user
-                  name: {{ sonar_database_service_name }}
+                  name: '{{ sonar_database_service_name }}'
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: database-password
-                  name: {{ sonar_database_service_name }}
+                  name: '{{ sonar_database_service_name }}'
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: database-name
-                  name: {{ sonar_database_service_name }}
+                  name: '{{ sonar_database_service_name }}'
             - name: POSTGRESQL_MAX_CONNECTIONS
-              value: {{ sonar_postgresql_max_connections }}
+              value: '{{ sonar_postgresql_max_connections }}'
             - name: POSTGRESQL_SHARED_BUFFERS
-              value: {{ sonar_postgresql_shared_buffers }}
+              value: '{{ sonar_postgresql_shared_buffers }}'
             - name: POSTGRESQL_ADMIN_PASSWORD
-              value: {{ sonar_postgresql_admin_password }}
+              value: '{{ sonar_postgresql_admin_password }}'
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
