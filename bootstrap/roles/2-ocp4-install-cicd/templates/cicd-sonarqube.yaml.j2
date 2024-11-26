@@ -77,17 +77,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: database-user
-                  name: "{{ sonar_database_service_name }}"
+                  name: {{ sonar_database_service_name }}
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: database-password
-                  name: "{{ sonar_database_service_name }}"
+                  name: {{ sonar_database_service_name }}
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: database-name
-                  name: "{{ sonar_database_service_name }}"
+                  name: {{ sonar_database_service_name }}
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
