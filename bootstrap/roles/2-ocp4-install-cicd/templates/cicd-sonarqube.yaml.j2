@@ -53,6 +53,8 @@ spec:
 kind: DeploymentConfig
 apiVersion: v1
 metadata:
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: "true"
   name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
   labels:
@@ -93,6 +95,7 @@ spec:
             - name: POSTGRESQL_ADMIN_PASSWORD
               value: sonar
           image: ' '
+          imagePullPolicy: IfNotPresent
           livenessProbe:
             initialDelaySeconds: 30
             tcpSocket:
@@ -110,7 +113,7 @@ spec:
                 - /bin/sh
                 - -i
                 - -c
-                - psql -h 127.0.0.1 -U sonar -q -d sonar -c 'SELECT 1'
+                - psql -h 127.0.0.1 -U sonar -q -d sonar-db -c 'SELECT 1'
             initialDelaySeconds: 30
             timeoutSeconds: 1
             failureThreshold: 10
