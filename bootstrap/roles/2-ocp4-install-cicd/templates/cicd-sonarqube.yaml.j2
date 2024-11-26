@@ -108,7 +108,7 @@ spec:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
-              name: "{{ sonar_database_service_name }}"-data
+            name: "{{ sonar_database_service_name }}"-data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
