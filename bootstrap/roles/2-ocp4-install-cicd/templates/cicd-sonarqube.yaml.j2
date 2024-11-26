@@ -54,13 +54,13 @@ metadata:
 spec:
   replicas: 1
   selector:
-    name: "{{ sonar_database_service_name }}"
+    name: {{ sonar_database_service_name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: "{{ sonar_database_service_name }}"
+        name: {{ sonar_database_service_name }}
     spec:
       containers:
         - capabilities: {}
@@ -101,20 +101,20 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              memory: "{{ sonar_memory_limit }}"
+              memory: {{ sonar_memory_limit }}
           securityContext:
             capabilities: {}
             privileged: false
           terminationMessagePath: /dev/termination-log
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
-            name: "{{ sonar_database_service_name }}"-data
+            name: {{ sonar_database_service_name }}-data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
-        - name: "{{ sonar_database_service_name }}"-data
+        - name: {{ sonar_database_service_name }}-data
           persistentVolumeClaim:
-            claimName: "{{ sonar_database_service_name }}"
+            claimName: {{ sonar_database_service_name }}
   triggers:
     - imageChangeParams:
         automatic: true
@@ -122,8 +122,8 @@ spec:
           - postgresql
         from:
           kind: ImageStreamTag
-          name: postgresql:"{{ sonar_postgresql_version }}"
-          namespace: "{{ sonar_namespace }}"
+          name: postgresql:{{ sonar_postgresql_version }}
+          namespace: {{ sonar_namespace }}
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
