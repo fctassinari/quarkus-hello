@@ -146,62 +146,62 @@
 #      type: ImageChange
 #    - type: ConfigChange
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: sonarqube
-  name: "pvc-{{ sonar_namespace }}-data"
-  namespace: "{{ sonar_namespace }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ sonar_data_volume_capacity }}"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: sonarqube
-  name: "pvc-{{ sonar_namespace }}-logs"
-  namespace: "{{ sonar_namespace }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ sonar_logs_volume_capacity }}"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: sonarqube
-  name: "pvc-{{ sonar_namespace }}-conf"
-  namespace: "{{ sonar_namespace }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ sonar_conf_volume_capacity }}"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: sonarqube
-  name: "pvc-{{ sonar_namespace }}-extensions"
-  namespace: "{{ sonar_namespace }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ sonar_extensions_volume_capacity }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  labels:
+#    app: sonarqube
+#  name: "pvc-{{ sonar_namespace }}-data"
+#  namespace: "{{ sonar_namespace }}"
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: "{{ sonar_data_volume_capacity }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  labels:
+#    app: sonarqube
+#  name: "pvc-{{ sonar_namespace }}-logs"
+#  namespace: "{{ sonar_namespace }}"
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: "{{ sonar_logs_volume_capacity }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  labels:
+#    app: sonarqube
+#  name: "pvc-{{ sonar_namespace }}-conf"
+#  namespace: "{{ sonar_namespace }}"
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: "{{ sonar_conf_volume_capacity }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  labels:
+#    app: sonarqube
+#  name: "pvc-{{ sonar_namespace }}-extensions"
+#  namespace: "{{ sonar_namespace }}"
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: "{{ sonar_extensions_volume_capacity }}"
 ---
 apiVersion: apps/v1
 kind: Deployment
