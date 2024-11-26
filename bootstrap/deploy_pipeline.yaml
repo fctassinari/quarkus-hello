@@ -23,7 +23,7 @@
     sonar_postgresql_user: 'sonar'
     sonar_volume_capacity: '1Gi'
     sonar_memory_limit: '512Mi'
-    sonar_postgresql_version: '17.2-bullseye'
+    sonar_postgresql_version: '15-el9'
 
   tasks:
 #    - name: 'Install Gitops'

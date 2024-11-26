@@ -65,15 +65,15 @@ spec:
       containers:
         - capabilities: {}
           env:
-            - name: sonar_postgresql_user
+            - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
                   key: database-user
                   name: {{ sonar_database_service_name }}
-            - name: sonar_postgresql_password
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: database-password
+                  key: POSTGRESQL_DATABASE
                   name: {{ sonar_database_service_name }}
             - name: sonar_postgresql_database
               valueFrom:
@@ -123,7 +123,7 @@ spec:
         from:
           kind: ImageStreamTag
           name: postgresql:{{ sonar_postgresql_version }}
-          namespace: {{ sonar_namespace }}
+          namespace: openshift
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
