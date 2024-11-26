@@ -91,12 +91,12 @@ spec:
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
-            exec:
-              command:
-                - /usr/libexec/check-container
-                - --live
-            initialDelaySeconds: 120
-            timeoutSeconds: 10
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 1
+            failureThreshold: 10
+            periodSeconds: 20
           name: postgresql
           ports:
             - containerPort: 5432
@@ -104,9 +104,13 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /usr/libexec/check-container
-            initialDelaySeconds: 5
+                - /bin/sh
+                - -i
+                - -c
+                - psql -h 127.0.0.1 -U gogs -q -d gogs -c 'SELECT 1'
+            initialDelaySeconds: 30
             timeoutSeconds: 1
+            failureThreshold: 10
           resources:
             limits:
               memory: {{ sonar_memory_limit }}
