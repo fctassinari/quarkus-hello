@@ -42,7 +42,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: "{{ SONAR_sonar_volume_capacity }}"
+      storage: "{{ sonar_volume_capacity }}"
 ---
 apiVersion: v1
 kind: DeploymentConfig
