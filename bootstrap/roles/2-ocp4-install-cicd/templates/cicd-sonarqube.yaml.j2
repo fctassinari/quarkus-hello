@@ -1,34 +1,38 @@
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: pvc-sonar-postgres-data
-  namespace: "{{ sonar_namespace }}"
   labels:
-    app: sonar
+    app: sonarqube
+  name: "{{ sonar_database_service_name }}"
+  namespace: "{{ sonar_namespace }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: "{{ sonar_volume_capacity }}"
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   annotations:
-    description: Exposes the database server
-  name: sonar-postgresql
-  namespace: "{{ sonar_namespace }}"
+    template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
   labels:
-    app: sonar
+    app: sonarqube
+  name: "{{ sonar_database_service_name }}"
+  namespace: "{{ sonar_namespace }}"
 spec:
   ports:
     - name: postgresql
+      nodePort: 0
       port: 5432
+      protocol: TCP
       targetPort: 5432
   selector:
-    name: sonar-postgresql
+    name: "{{ sonar_database_service_name }}"
+  sessionAffinity: None
+  type: ClusterIP
 ---
 kind: DeploymentConfig
 apiVersion: v1
@@ -95,7 +99,7 @@ spec:
       volumes:
         - name: sonar-postgres-data
           persistentVolumeClaim:
-            claimName: pvc-sonar-postgres-data
+            claimName: {{ sonar_database_service_name }}
   triggers:
     - imageChangeParams:
         automatic: true
