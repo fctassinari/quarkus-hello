@@ -227,63 +227,64 @@ spec:
         name: sonarqube
     spec:
       containers:
-      - name: sonarqube
-        env:
-          - name: SONAR_JDBC_USERNAME
-            value: {{ sonar_postgresql_user }}
-          - name: SONAR_JDBC_PASSWORD
-            value: {{ sonar_postgresql_password }}
-          - name: SONAR_JDBC_URL
-            value: 'jdbc:postgresql://sonar-postgres/sonar'
-          - name: SONAR_JDBC_MAXACTIVE
-            value: '60'
-          - name: SONAR_JDBC_MAXIDLE
-            value: '5'
-          - name: SONAR_JDBC_MINIDLE
-            value: '2'
-          - name: SONAR_JDBC_MAXWAIT
-            value: '5000'
-        imagePullPolicy: Always
-        image: sonarqube:9.9.7-community
-        ports:
-          - containerPort: 9000
-            protocol: TCP
-        volumeMounts:
-          - mountPath: /opt/sonarqube/conf
-            name: sonarqube-conf
-          - mountPath: /opt/sonarqube/data
-            name: sonarqube-data
-          - mountPath: /opt/sonarqube/extensions
-            name: sonarqube-extensions
-          - mountPath: /opt/sonarqube/logs
-            name: sonarqube-logs
-        livenessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /
-            port: 9000
-            scheme: HTTP
-          initialDelaySeconds: 45
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        readinessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /
-            port: 9000
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        resources:
-          limits:
-            cpu: "1"
-            memory: 4Gi
-          requests:
-            cpu: 200m
-            memory: 512Mi
+        - capabilities: {}
+          name: sonarqube
+          env:
+            - name: SONAR_JDBC_USERNAME
+              value: {{ sonar_postgresql_user }}
+            - name: SONAR_JDBC_PASSWORD
+              value: {{ sonar_postgresql_password }}
+            - name: SONAR_JDBC_URL
+              value: 'jdbc:postgresql://sonar-postgres/sonar'
+            - name: SONAR_JDBC_MAXACTIVE
+              value: '60'
+            - name: SONAR_JDBC_MAXIDLE
+              value: '5'
+            - name: SONAR_JDBC_MINIDLE
+              value: '2'
+            - name: SONAR_JDBC_MAXWAIT
+              value: '5000'
+          imagePullPolicy: Always
+          image: sonarqube:9.9.7-community
+          ports:
+            - containerPort: 9000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/sonarqube/conf
+              name: sonarqube-conf
+            - mountPath: /opt/sonarqube/data
+              name: sonarqube-data
+            - mountPath: /opt/sonarqube/extensions
+              name: sonarqube-extensions
+            - mountPath: /opt/sonarqube/logs
+              name: sonarqube-logs
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "1"
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 512Mi
       volumes:
         - name: sonarqube-conf
           persistentVolumeClaim:
