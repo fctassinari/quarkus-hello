@@ -6,6 +6,8 @@ metadata:
     template.openshift.io/expose-database_name: '{.data[''database-name'']}'
     template.openshift.io/expose-password: '{.data[''database-password'']}'
     template.openshift.io/expose-username: '{.data[''database-user'']}'
+  labels:
+    app: sonarqube
   name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
 stringData:
@@ -18,6 +20,8 @@ kind: Service
 metadata:
   annotations:
     template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+  labels:
+    app: sonarqube
   name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
 spec:
@@ -35,6 +39,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app: sonarqube
   name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
 spec:
@@ -49,6 +55,8 @@ kind: DeploymentConfig
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
+  labels:
+    app: sonarqube
   name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
 spec:
