@@ -230,8 +230,6 @@ spec:
         - capabilities: {}
           name: sonarqube
           env:
-            - name: SONAR_JDBC_URL
-              value: 'jdbc:postgresql://sonar-postgres/sonar'
             - name: SONAR_JDBC_MAXACTIVE
               value: 60
             - name: SONAR_JDBC_MAXIDLE
