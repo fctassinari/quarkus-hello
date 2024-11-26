@@ -53,26 +53,24 @@ spec:
 kind: DeploymentConfig
 apiVersion: v1
 metadata:
-  annotations:
-    description: Defines how to deploy the database
-  name: sonar-postgresql
+  name: "{{ sonar_database_service_name }}"
   namespace: "{{ sonar_namespace }}"
   labels:
-    app: sonar
+    app: sonarqube
 spec:
   replicas: 1
   selector:
-    name: sonar-postgresql
+    name: {{ sonar_database_service_name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: sonar-postgresql
-      name: sonar-postgresql
+        name: {{ sonar_database_service_name }}
     spec:
       containers:
-        - env:
+        - capabilities: {}
+          env:
             - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
@@ -105,6 +103,7 @@ spec:
           name: postgresql
           ports:
             - containerPort: 5432
+              protocol: TCP
           readinessProbe:
             exec:
               command:
@@ -117,12 +116,18 @@ spec:
             failureThreshold: 10
           resources:
             limits:
-              memory: 512Mi
+              memory: {{ sonar_memory_limit }}
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
           volumeMounts:
-            - mountPath: /var/lib/pgsql/data
-              name: sonar-postgres-data
+            - name: {{ sonar_database_service_name }}-data
+              mountPath: /var/lib/pgsql/data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
       volumes:
-        - name: sonar-postgres-data
+        - name: {{ sonar_database_service_name }}-data
           persistentVolumeClaim:
             claimName: {{ sonar_database_service_name }}
   triggers:
@@ -132,8 +137,9 @@ spec:
           - postgresql
         from:
           kind: ImageStreamTag
-          name: postgresql:12-el8
+          name: postgresql:{{ sonar_postgresql_version }}
           namespace: openshift
+        lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
 
