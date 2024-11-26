@@ -72,7 +72,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: "{{ SONAR_NAMESPACE }}"
+#    namespace: "{{ sonar_namespace }}"
 #    name: sonarqube
 #  register: r_sonarqube_route
 #  retries: 10

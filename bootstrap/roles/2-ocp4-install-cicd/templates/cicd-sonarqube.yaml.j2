@@ -6,20 +6,20 @@ metadata:
     template.openshift.io/expose-database_name: '{.data[''database-name'']}'
     template.openshift.io/expose-password: '{.data[''database-password'']}'
     template.openshift.io/expose-username: '{.data[''database-user'']}'
-  name: ${SONAR_DATABASE_SERVICE_NAME}
-  namespace: ${SONAR_NAMESPACE}
+  name: ${sonar_database_service_name}
+  namespace: ${sonar_namespace}
 stringData:
-  database-name: ${SONAR_POSTGRESQL_DATABASE}
-  database-password: ${SONAR_POSTGRESQL_PASSWORD}
-  database-user: ${SONAR_POSTGRESQL_USER}
+  database-name: ${sonar_postgresql_database}
+  database-password: ${sonar_postgresql_password}
+  database-user: ${sonar_postgresql_user}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
     template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
-  name: ${SONAR_DATABASE_SERVICE_NAME}
-  namespace: ${SONAR_NAMESPACE}
+  name: ${sonar_database_service_name}
+  namespace: ${sonar_namespace}
 spec:
   ports:
     - name: postgresql
@@ -28,7 +28,7 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    name: ${SONAR_DATABASE_SERVICE_NAME}
+    name: ${sonar_database_service_name}
   sessionAffinity: None
   type: ClusterIP
 status:
@@ -37,51 +37,51 @@ status:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ${SONAR_DATABASE_SERVICE_NAME}
-  namespace: ${SONAR_NAMESPACE}
+  name: ${sonar_database_service_name}
+  namespace: ${sonar_namespace}
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: ${SONAR_SONAR_VOLUME_CAPACITY}
+      storage: ${SONAR_sonar_volume_capacity}
 ---
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
-  name: ${SONAR_DATABASE_SERVICE_NAME}
-  namespace: ${SONAR_NAMESPACE}
+  name: ${sonar_database_service_name}
+  namespace: ${sonar_namespace}
 spec:
   replicas: 1
   selector:
-    name: ${SONAR_DATABASE_SERVICE_NAME}
+    name: ${sonar_database_service_name}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: ${SONAR_DATABASE_SERVICE_NAME}
+        name: ${sonar_database_service_name}
     spec:
       containers:
         - capabilities: {}
           env:
-            - name: SONAR_POSTGRESQL_USER
+            - name: sonar_postgresql_user
               valueFrom:
                 secretKeyRef:
                   key: database-user
-                  name: ${SONAR_DATABASE_SERVICE_NAME}
-            - name: SONAR_POSTGRESQL_PASSWORD
+                  name: ${sonar_database_service_name}
+            - name: sonar_postgresql_password
               valueFrom:
                 secretKeyRef:
                   key: database-password
-                  name: ${SONAR_DATABASE_SERVICE_NAME}
-            - name: SONAR_POSTGRESQL_DATABASE
+                  name: ${sonar_database_service_name}
+            - name: sonar_postgresql_database
               valueFrom:
                 secretKeyRef:
                   key: database-name
-                  name: ${SONAR_DATABASE_SERVICE_NAME}
+                  name: ${sonar_database_service_name}
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -103,20 +103,20 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              memory: ${SONAR_MEMORY_LIMIT}
+              memory: ${sonar_memory_limit}
           securityContext:
             capabilities: {}
             privileged: false
           terminationMessagePath: /dev/termination-log
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
-              name: ${SONAR_DATABASE_SERVICE_NAME}-data
+              name: ${sonar_database_service_name}-data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
-        - name: ${SONAR_DATABASE_SERVICE_NAME}-data
+        - name: ${sonar_database_service_name}-data
           persistentVolumeClaim:
-            claimName: ${SONAR_DATABASE_SERVICE_NAME}
+            claimName: ${sonar_database_service_name}
   triggers:
     - imageChangeParams:
         automatic: true
@@ -124,8 +124,8 @@ spec:
           - postgresql
         from:
           kind: ImageStreamTag
-          name: postgresql:${SONAR_POSTGRESQL_VERSION}
-          namespace: ${SONAR_NAMESPACE}
+          name: postgresql:${sonar_postgresql_version}
+          namespace: ${sonar_namespace}
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
@@ -136,7 +136,7 @@ status: {}
 #kind: Deployment
 #metadata:
 #  name: sonarqube
-#  namespace: "{{ SONAR_NAMESPACE }}"
+#  namespace: "{{ sonar_namespace }}"
 #  labels:
 #    app: sonarqube
 #    app.kubernetes.io/component: sonarqube
@@ -218,7 +218,7 @@ status: {}
 #  labels:
 #    app: sonarqube
 #  name: sonarqube
-#  namespace: "{{ SONAR_NAMESPACE }}"
+#  namespace: "{{ sonar_namespace }}"
 #spec:
 #  port:
 #    targetPort: 9000-tcp
@@ -236,7 +236,7 @@ status: {}
 #  labels:
 #    app: sonarqube
 #  name: sonarqube
-#  namespace: "{{ SONAR_NAMESPACE }}"
+#  namespace: "{{ sonar_namespace }}"
 #spec:
 #  ports:
 #    - name: 9000-tcp

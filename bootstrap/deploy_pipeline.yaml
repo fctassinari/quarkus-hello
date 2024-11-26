@@ -15,14 +15,15 @@
     sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
     cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
     cluster_url: 'apps.cluster-pnjlk.dynamic.redhatworkshops.io'
-    SONAR_NAMESPACE: 'sonarqube'
-    SONAR_DATABASE_SERVICE_NAME: 'sonar-postgres'
-    SONAR_POSTGRESQL_DATABASE: 'sonar-db'
-    SONAR_POSTGRESQL_PASSWORD: 'sonar'
-    SONAR_POSTGRESQL_USER: 'sonar'
-    SONAR_VOLUME_CAPACITY: '1Gi'
-    SONAR_MEMORY_LIMIT: '512Mi'
-    SONAR_POSTGRESQL_VERSION: '17.2-bullseye'
+
+    sonar_namespace: 'sonarqube'
+    sonar_database_service_name: 'sonar-postgres'
+    sonar_postgresql_database: 'sonar-db'
+    sonar_postgresql_password: 'sonar'
+    sonar_postgresql_user: 'sonar'
+    sonar_volume_capacity: '1Gi'
+    sonar_memory_limit: '512Mi'
+    sonar_postgresql_version: '17.2-bullseye'
 
   tasks:
 #    - name: 'Install Gitops'

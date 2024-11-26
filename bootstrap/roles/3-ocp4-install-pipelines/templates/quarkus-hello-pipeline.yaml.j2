@@ -101,7 +101,7 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - source
-            - '-Dsonar.host.url=https://{{ SONAR_NAMESPACE }}.{{ cluster_url }}/'
+            - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
             - '-Dsonar.login={{ sonar_token }}'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
