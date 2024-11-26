@@ -227,7 +227,8 @@ spec:
         name: sonarqube
     spec:
       containers:
-      - env:
+      - name: sonarqube
+        env:
           - name: SONAR_JDBC_USERNAME
             value: {{ sonar_postgresql_user }}
           - name: SONAR_JDBC_PASSWORD
@@ -242,7 +243,6 @@ spec:
             value: 2
           - name: SONAR_JDBC_MAXWAIT
             value: 5000
-        name: sonarqube
         imagePullPolicy: Always
         image: sonarqube:9.9.7-community
         ports:
