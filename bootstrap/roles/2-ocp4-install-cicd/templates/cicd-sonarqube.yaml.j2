@@ -107,8 +107,8 @@ spec:
             privileged: false
           terminationMessagePath: /dev/termination-log
           volumeMounts:
-            - mountPath: /var/lib/pgsql/data
-            name: {{ sonar_database_service_name }}-data
+            - name: {{ sonar_database_service_name }}-data
+              mountPath: /var/lib/pgsql/data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
