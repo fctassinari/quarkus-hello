@@ -14,21 +14,21 @@ stringData:
   database-name: "{{ sonar_postgresql_database }}"
   database-password: "{{ sonar_postgresql_password }}"
   database-user: "{{ sonar_postgresql_user }}"
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  labels:
-#    app: sonarqube
-#  name: "{{ sonar_database_service_name }}"
-#  namespace: "{{ sonar_namespace }}"
-#spec:
-#  accessModes:
-#    - ReadWriteOnce
-#  resources:
-#    requests:
-#      storage: "{{ sonar_postgresql_volume_capacity }}"
-#---
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: sonarqube
+  name: "{{ sonar_database_service_name }}"
+  namespace: "{{ sonar_namespace }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ sonar_postgresql_volume_capacity }}"
+---
 #apiVersion: v1
 #kind: Service
 #metadata:
