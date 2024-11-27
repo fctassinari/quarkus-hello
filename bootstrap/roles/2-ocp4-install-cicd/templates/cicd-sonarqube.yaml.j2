@@ -90,7 +90,7 @@ spec:
                   key: database-name
                   name: {{ sonar_database_service_name }}
             - name: POSTGRESQL_MAX_CONNECTIONS
-              value: {{ sonar_postgresql_max_connections }}
+              value: 100
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
