@@ -89,6 +89,8 @@ spec:
                 secretKeyRef:
                   key: database-name
                   name: {{ sonar_database_service_name }}
+            - name: TESTE
+              value: teste
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
