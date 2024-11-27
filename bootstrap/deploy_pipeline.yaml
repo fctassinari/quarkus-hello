@@ -41,9 +41,9 @@
     sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
 
   tasks:
-#    - name: 'Install Gitops'
-#      include_role:
-#        name: "1-ocp4-install-gitops"
+    - name: 'Install Gitops'
+      include_role:
+        name: "1-ocp4-install-gitops"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
@@ -60,7 +60,7 @@
 #    - name: '5-Install the ACS Central'
 #      include_role:
 #        name: "ocp4-install-acs"
-#
+
 #    # Include the policies, and some content to show in the demo
 #    - name: 'Install the ACS Post Content'
 #      include_role:
