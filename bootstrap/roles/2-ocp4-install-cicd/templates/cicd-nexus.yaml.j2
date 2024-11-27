@@ -94,77 +94,77 @@ spec:
     termination: edge
   wildcardPolicy: None
 ---
-#kind: Deployment
-#apiVersion: apps/v1
-#metadata:
-#  name: "{{ nexus_namespace }}"
-#  namespace: "{{ nexus_namespace }}"
-#  labels:
-#    app: "{{ nexus_namespace }}"
-#    app.kubernetes.io/component: "{{ nexus_namespace }}"
-#    app.kubernetes.io/instance: "{{ nexus_namespace }}"
-#spec:
-#  replicas: 1
-#  selector:
-#    matchLabels:
-#      deployment: "{{ nexus_namespace }}"
-#  template:
-#    metadata:
-#      labels:
-#        deployment: "{{ nexus_namespace }}"
-#    spec:
-#      volumes:
-#        - name: nexus-volume-1
-#          persistentVolumeClaim:
-#            claimName: "pvc-{{ nexus_namespace }}"
-#      containers:
-#        - resources:
-#            limits:
-#              cpu: '4'
-#              memory: 4Gi
-#            requests:
-#              cpu: 500m
-#              memory: 1Gi
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: 8081
-#              scheme: HTTP
-#            initialDelaySeconds: 60
-#            timeoutSeconds: 1
-#            periodSeconds: 10
-#            successThreshold: 1
-#            failureThreshold: 3
-#          terminationMessagePath: /dev/termination-log
-#          name: nexus
-#          livenessProbe:
-#            exec:
-#              command:
-#                - echo
-#                - ok
-#            initialDelaySeconds: 60
-#            timeoutSeconds: 1
-#            periodSeconds: 10
-#            successThreshold: 1
-#            failureThreshold: 3
-#          ports:
-#            - containerPort: 8081
-#              protocol: TCP
-#          imagePullPolicy: IfNotPresent
-#          volumeMounts:
-#            - name: nexus-volume-1
-#              mountPath: /nexus-data
-#          terminationMessagePolicy: File
-#          image: "{{ nexus_image }}"
-#      restartPolicy: Always
-#      terminationGracePeriodSeconds: 30
-#      dnsPolicy: ClusterFirst
-#      securityContext: {}
-#      schedulerName: default-scheduler
-#  strategy:
-#    type: RollingUpdate
-#    rollingUpdate:
-#      maxUnavailable: 25%
-#      maxSurge: 25%
-#  revisionHistoryLimit: 10
-#  progressDeadlineSeconds: 600
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{ nexus_namespace }}"
+  namespace: "{{ nexus_namespace }}"
+  labels:
+    app: "{{ nexus_namespace }}"
+    app.kubernetes.io/component: "{{ nexus_namespace }}"
+    app.kubernetes.io/instance: "{{ nexus_namespace }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: "{{ nexus_namespace }}"
+  template:
+    metadata:
+      labels:
+        deployment: "{{ nexus_namespace }}"
+    spec:
+      volumes:
+        - name: nexus-volume-1
+          persistentVolumeClaim:
+            claimName: "pvc-{{ nexus_namespace }}"
+      containers:
+        - resources:
+            limits:
+              cpu: '4'
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: nexus
+          livenessProbe:
+            exec:
+              command:
+                - echo
+                - ok
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nexus-volume-1
+              mountPath: /nexus-data
+          terminationMessagePolicy: File
+          image: "{{ nexus_image }}"
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
