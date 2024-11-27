@@ -91,6 +91,8 @@ spec:
                   name: {{ sonar_database_service_name }}
             - name: TESTE
               value: teste
+            - name: POSTGRESQL_MAX_CONNECTIONS
+              value: {{ sonar_postgresql_max_connections }}
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
