@@ -89,8 +89,6 @@ spec:
                 secretKeyRef:
                   key: database-name
                   name: {{ sonar_database_service_name }}
-            - name: POSTGRESQL_MAX_CONNECTIONS
-              value: 100
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
