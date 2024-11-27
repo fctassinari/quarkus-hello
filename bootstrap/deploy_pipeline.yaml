@@ -18,7 +18,7 @@
     nexus_namespace: 'tassinari'
     nexus_data_volume_capacity: '2Gi'
     nexus_url: "{{ nexus_namespace }}.{{ cluster_url }}"
-    nexus_registry_url: "{{ nexus_namespace-registry.{{ cluster_url }}"
+    nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
     nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
 
     sonar_namespace: 'sonarqube'
