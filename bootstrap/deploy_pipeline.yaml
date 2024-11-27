@@ -17,7 +17,7 @@
     cluster_url: 'apps.cluster-pnjlk.dynamic.redhatworkshops.io'
 
     sonar_namespace: 'sonarqube'
-    sonar_database_service_name: 'sonar_postgres'
+    sonar_database_service_name: 'sonar-postgres'
     sonar_postgresql_database: 'sonar'
     sonar_postgresql_password: 'sonar'
     sonar_postgresql_user: 'sonar'
