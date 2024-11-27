@@ -59,7 +59,7 @@
 
     - name: '5-Install the ACS Central'
       include_role:
-        name: "ocp4-install-acs"
+        name: "5-ocp4-install-acs"
 
 #    # Include the policies, and some content to show in the demo
 #    - name: 'Install the ACS Post Content'
