@@ -46,10 +46,10 @@
   - ./templates/quarkus-hello-pipeline.yaml.j2
   - ./templates/pipeline-build-pvc.yaml.j2
 
-# Esta dando erro na execução do taskrun
-# Esta task seta a senha de administrador do gogs
-# K8s doesn't support the generateName in taskRun
-- name: Add gogs init taskrun for add pipelines
-  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
-  loop:
-  - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"
+## Esta dando erro na execução do taskrun
+## Esta task seta a senha de administrador do gogs
+## K8s doesn't support the generateName in taskRun
+#- name: Add gogs init taskrun for add pipelines
+#  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
+#  loop:
+#  - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"
