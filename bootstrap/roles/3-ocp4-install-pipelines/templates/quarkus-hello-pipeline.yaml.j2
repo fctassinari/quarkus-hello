@@ -261,14 +261,6 @@ spec:
         - update-deployment
       params:
         - name: application-name
-          value: quarkus-hello
-    - name: wait-application
-      taskRef:
-        name: argocd-task-sync-and-wait
-      runAfter:
-        - update-deployment
-      params:
-        - name: application-name
           value: "{{ app_name }}"
   workspaces:
     - name: maven-settings
