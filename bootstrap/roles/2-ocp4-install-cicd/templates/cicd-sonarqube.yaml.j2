@@ -63,7 +63,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-    name: {{ sonar_database_service_name }}
+    name: sonar-postgres
   strategy:
     type: Recreate
   template:
