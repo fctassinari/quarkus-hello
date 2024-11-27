@@ -24,7 +24,7 @@
     sonar_postgresql_volume_capacity: '1Gi'
     sonar_postgresql_memory_limit: '512Mi'
     sonar_postgresql_version: '15-el9'
-    sonar_postgresql_max_connections: '100'
+    sonar_postgresql_max_connections: 100
     sonar_postgresql_shared_buffers: '12MB'
     sonar_postgresql_admin_password: 'sonar'
     sonar_data_volume_capacity: '2Gi'
