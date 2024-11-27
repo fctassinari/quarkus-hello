@@ -11,7 +11,7 @@
     gitops_operator_namespace: 'openshift-operators'
     pipeline_operator_namespace: 'openshift-operators'
     rhacs_operator_namespace: 'rhacs-operator'
-    sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
+
     cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
     cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
 
@@ -38,6 +38,8 @@
     sonar_extensions_volume_capacity: '2Gi'
     sonar_image: 'sonarqube:9.9.7-community'
     sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
+    sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
+
   tasks:
 #    - name: 'Install Gitops'
 #      include_role:

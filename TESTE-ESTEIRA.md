@@ -1,12 +1,10 @@
 # Instruções - Openshift Test Pipeline
 
-# Operators - pre instalação
+# Pre instalação
 * Red Hat ACS
 * * -n rhacs-operator
-* Nexus Repository Operator
-* * oc new-project nexus
-* * -n nexus
-* * Criar repositório
+* Nexus
+* Criar repositório
 * * pegar a senha de admin ```` cat /nexus-data/admin.password ````
 * * criar rota
 * * oc create route edge rt-nexus --service nexusrepo-sonatype-nexus-service --hostname nexus.apps.cluster-5nkrs.dynamic.redhatworkshops.io
@@ -50,12 +48,12 @@ spec:
 # Install CICD 
 * Add RoleBinding to the devsecops projects<br>
 * Install Gogs ```trocar pelo Gitlab Operator ```
-* Install sonarqube 
-* * ``` criar disco persistente ```
+* Install sonarqube
 * Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
 * Get gogs route
 * Patch with specific route domain
 * Wait for gogs and gogs-postgresql to be running
+* Install Nexus
 * Check Nexus Route
 * Wait for nexus to be running
 * Sonarqube Route
