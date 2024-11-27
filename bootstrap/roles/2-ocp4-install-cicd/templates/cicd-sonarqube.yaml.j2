@@ -56,14 +56,14 @@ apiVersion: apps.openshift.io/v1
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
-  name: "{{ sonar_database_service_name }}"
-  namespace: "{{ sonar_namespace }}"
+  name: {{ sonar_database_service_name }}
+  namespace: {{ sonar_namespace }}
   labels:
     app: sonarqube
 spec:
   replicas: 1
   selector:
-    name: sonar-postgres
+    name: {{ sonar_database_service_name }}
   strategy:
     type: Recreate
   template:
