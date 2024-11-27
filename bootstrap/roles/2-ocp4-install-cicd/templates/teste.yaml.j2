@@ -1,95 +1,97 @@
-kind: Deployment
-apiVersion: v1
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
 metadata:
   annotations:
-    template.alpha.openshift.io/wait-for-ready: "true"
-  name: "{{ sonar_database_service_name }}"
-  namespace: "{{ sonar_namespace }}"
+    description: Defines how to deploy the database
+  name: gogs-postgresql
+  namespace: gogs
   labels:
-    app: sonarqube
+    app: gogs
 spec:
-  replicas: 1
-  selector:
-    name: {{ sonar_database_service_name }}
   strategy:
     type: Recreate
-  template:
-    metadata:
-      labels:
-        name: {{ sonar_database_service_name }}
-    spec:
-      containers:
-        - capabilities: {}
-          env:
-            - name: POSTGRESQL_USER
-              valueFrom:
-                secretKeyRef:
-                  key: database-user
-                  name: {{ sonar_database_service_name }}
-            - name: POSTGRESQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: database-password
-                  name: {{ sonar_database_service_name }}
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  key: database-name
-                  name: {{ sonar_database_service_name }}
-            - name: POSTGRESQL_MAX_CONNECTIONS
-              value: {{ sonar_postgresql_max_connections }}
-            - name: POSTGRESQL_SHARED_BUFFERS
-              value: {{ sonar_postgresql_shared_buffers }}
-            - name: POSTGRESQL_ADMIN_PASSWORD
-              value: {{ sonar_postgresql_admin_password }}
-          image: ' '
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            initialDelaySeconds: 30
-            tcpSocket:
-              port: 5432
-            timeoutSeconds: 1
-            failureThreshold: 10
-            periodSeconds: 20
-          name: postgresql
-          ports:
-            - containerPort: 5432
-              protocol: TCP
-          readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -i
-                - -c
-                - psql -h 127.0.0.1 -U sonar -q -d sonar -c 'SELECT 1'
-            initialDelaySeconds: 30
-            timeoutSeconds: 1
-            failureThreshold: 10
-          resources:
-            limits:
-              memory: {{ sonar_postgresql_memory_limit }}
-          securityContext:
-            capabilities: {}
-            privileged: false
-          terminationMessagePath: /dev/termination-log
-          volumeMounts:
-            - name: {{ sonar_database_service_name }}-data
-              mountPath: /var/lib/pgsql/data
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      volumes:
-        - name: {{ sonar_database_service_name }}-data
-          persistentVolumeClaim:
-            claimName: {{ sonar_database_service_name }}
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    activeDeadlineSeconds: 21600
   triggers:
-    - imageChangeParams:
+    - type: ImageChange
+      imageChangeParams:
         automatic: true
         containerNames:
           - postgresql
         from:
           kind: ImageStreamTag
-          name: postgresql:{{ sonar_postgresql_version }}
           namespace: openshift
-        lastTriggeredImage: ""
-      type: ImageChange
+          name: 'postgresql:12-el8'
+        lastTriggeredImage: 'image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:77d7d7d5276407b89ec5efd5e79713bb5233e52f1880a3bbc5a433680ad4e5c1'
     - type: ConfigChange
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    name: gogs-postgresql
+  template:
+    metadata:
+      name: gogs-postgresql
+      creationTimestamp: null
+      labels:
+        name: gogs-postgresql
+    spec:
+      volumes:
+        - name: gogs-postgres-data
+          persistentVolumeClaim:
+            claimName: pvc-gogs-postgres-data
+      containers:
+        - resources:
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - '-i'
+                - '-c'
+                - psql -h 127.0.0.1 -U gogs -q -d gogs -c 'SELECT 1'
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          terminationMessagePath: /dev/termination-log
+          name: postgresql
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 20
+            successThreshold: 1
+            failureThreshold: 10
+          env:
+            - name: POSTGRESQL_USER
+              value: gogs
+            - name: POSTGRESQL_PASSWORD
+              value: gogs
+            - name: POSTGRESQL_DATABASE
+              value: gogs
+            - name: POSTGRESQL_MAX_CONNECTIONS
+              value: '100'
+            - name: POSTGRESQL_SHARED_BUFFERS
+              value: 12MB
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: gogs
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: gogs-postgres-data
+              mountPath: /var/lib/pgsql/data
+          terminationMessagePolicy: File
+          image: 'image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:77d7d7d5276407b89ec5efd5e79713bb5233e52f1880a3bbc5a433680ad4e5c1'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
