@@ -45,14 +45,14 @@
 #      include_role:
 #        name: "1-ocp4-install-gitops"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "2-ocp4-install-cicd"
-
-#    - name: 'Install Pipelines'
+#    - name: 'Install CICD Infra'
 #      include_role:
-#        name: "3-ocp4-install-pipelines"
-#
+#        name: "2-ocp4-install-cicd"
+
+    - name: 'Install Pipelines'
+      include_role:
+        name: "3-ocp4-install-pipelines"
+
 #    - name: '4-Config GitOps'
 #      include_role:
 #        name: "4-ocp4-config-gitops"

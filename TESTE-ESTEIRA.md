@@ -55,8 +55,8 @@ spec:
     su git
     ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin```
 
-* Install sonarqube
-* Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
+* Install Sonarqube
+* Install Reports Repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
 * Get gogs route
 * Patch with specific route domain
 * Wait for gogs and gogs-postgresql to be running
