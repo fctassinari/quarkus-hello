@@ -8,7 +8,7 @@
     pipeline_namespace: 'sm-pipeline'
     gogs_namespace: 'gogs'
     reports_namespace: 'reports-repo'
-    gitops_operator_namespace: 'openshift-operators'
+    gitops_operator_namespace: 'openshift-gitops'
     pipeline_operator_namespace: 'openshift-operators'
     rhacs_operator_namespace: 'rhacs-operator'
 
@@ -41,9 +41,9 @@
     sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
 
   tasks:
-    - name: 'Install Gitops'
-      include_role:
-        name: "1-ocp4-install-gitops"
+#    - name: 'Install Gitops'
+#      include_role:
+#        name: "1-ocp4-install-gitops"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
