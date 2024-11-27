@@ -31,7 +31,6 @@ spec:
       targetPort: 8081
   selector:
     deployment: "{{ nexus_namespace }}"
-    name: "{{ nexus_namespace }}"
   type: ClusterIP
 ---
 kind: Service
