@@ -29,27 +29,27 @@ spec:
     requests:
       storage: "{{ sonar_postgresql_volume_capacity }}"
 ---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  annotations:
-#    template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
-#  labels:
-#    app: sonarqube
-#  name: "{{ sonar_database_service_name }}"
-#  namespace: "{{ sonar_namespace }}"
-#spec:
-#  ports:
-#    - name: postgresql
-#      nodePort: 0
-#      port: 5432
-#      protocol: TCP
-#      targetPort: 5432
-#  selector:
-#    name: {{ sonar_database_service_name }}
-#  sessionAffinity: None
-#  type: ClusterIP
-#---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
+  labels:
+    app: sonarqube
+  name: "{{ sonar_database_service_name }}"
+  namespace: "{{ sonar_namespace }}"
+spec:
+  ports:
+    - name: postgresql
+      nodePort: 0
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    name: {{ sonar_database_service_name }}
+  sessionAffinity: None
+  type: ClusterIP
+---
 #
 #kind: Deployment
 #apiVersion: v1
