@@ -48,12 +48,22 @@ spec:
 # Install CICD 
 * Add RoleBinding to the devsecops projects<br>
 * Install Gogs ```trocar pelo Gitlab Operator ```
+* * ``` 
+    Configurar senha 
+    oc get pods
+    oc rsh <nome do pod >
+    su git
+    ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin```
+
 * Install sonarqube
 * Install reports repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
 * Get gogs route
 * Patch with specific route domain
 * Wait for gogs and gogs-postgresql to be running
 * Install Nexus
+* * ```
+      Your admin user password is located in
+      /nexus-data/admin.password on the server.```
 * Check Nexus Route
 * Wait for nexus to be running
 * Sonarqube Route
