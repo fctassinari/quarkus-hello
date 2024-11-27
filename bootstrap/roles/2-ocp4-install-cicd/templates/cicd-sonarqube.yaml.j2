@@ -46,7 +46,7 @@ spec:
       protocol: TCP
       targetPort: 5432
   selector:
-    name: "{{ sonar_database_service_name }}"
+    name: {{ sonar_database_service_name }}
   sessionAffinity: None
   type: ClusterIP
 ---
