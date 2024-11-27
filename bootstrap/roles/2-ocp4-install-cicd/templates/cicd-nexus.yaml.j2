@@ -83,7 +83,7 @@ metadata:
   annotations:
     openshift.io/host.generated: 'true'
 spec:
-  host: nexus-registry-nexus.apps.cluster-tt4m8.dynamic.redhatworkshops.io
+  host: "{{ nexus_registry_url }}"
   to:
     kind: Service
     name: "{{ nexus_namespace }}-registry"

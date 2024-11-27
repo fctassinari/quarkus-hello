@@ -13,7 +13,7 @@
     rhacs_operator_namespace: 'rhacs-operator'
     sonar_token: 'squ_dabcee1eac8ca583dbb9c676a70a826221864993'
     cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
-    cluster_url: '.apps.cluster-tt4m8.dynamic.redhatworkshops.io'
+    cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
 
     nexus_namespace: 'tassinari'
     nexus_data_volume_capacity: '2Gi'
