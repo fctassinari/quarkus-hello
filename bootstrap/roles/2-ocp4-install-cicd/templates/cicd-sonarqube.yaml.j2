@@ -89,10 +89,10 @@ spec:
                 secretKeyRef:
                   key: database-name
                   name: {{ sonar_database_service_name }}
-            - name: TESTE
-              value: teste
             - name: POSTGRESQL_MAX_CONNECTIONS
-              value: "200"
+              value: "{{ sonar_postgresql_max_connections }}"
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: {{ sonar_postgresql_admin_password }}
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
