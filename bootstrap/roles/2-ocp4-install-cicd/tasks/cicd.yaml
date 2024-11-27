@@ -49,81 +49,78 @@
 #  retries: 10
 #  delay: 30
 #
+#
+#- name: Install nexus
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
+#
 
-- name: Install nexus
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
+- name: Get nexus route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ nexus_namespace }}"
+    name: rt-nexus
+  register: r_nexus_route
+  retries: 10
+  delay: 20
+  until:
+    - r_nexus_route.resources[0].spec.host is defined
 
+- name: Debug nexus route
+  debug:
+    msg: "{{ r_nexus_route.resources[0].spec.host }}"
 
+- name: Get sonarqube route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ sonar_namespace }}"
+    name: sonarqube
+  register: r_sonarqube_route
+  retries: 10
+  delay: 20
+  until:
+    - r_sonarqube_route.resources[0].spec.host is defined
 
-# Check Nexus Route
-#- name: Get nexus route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ nexus_namespace }}"
-#    name: rt-nexus
-#  register: r_nexus_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_nexus_route.resources[0].spec.host is defined
-#
-#- name: Debug nexus route
-#  debug:
-#    msg: "{{ r_nexus_route.resources[0].spec.host }}"
+- name: Debug sonarqube route
+  debug:
+    msg: "{{ r_sonarqube_route.resources[0].spec.host }}"
 
-# Check Sonarqube Route
-#- name: Get sonarqube route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ sonar_namespace }}"
-#    name: sonarqube
-#  register: r_sonarqube_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_sonarqube_route.resources[0].spec.host is defined
-#
-#- name: Debug sonarqube route
-#  debug:
-#    msg: "{{ r_sonarqube_route.resources[0].spec.host }}"
-#
-#- name: Wait for sonarqube to be running
-#  uri:
-#    url: https://{{ r_sonarqube_route.resources[0].spec.host }}
-#    status_code: 200
-#    validate_certs: no
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
-#
-## Check Reports Repo Route
-#- name: Get reports route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace:  reports-repo
-#    name: reports-repo
-#  register: r_reports_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_reports_route.resources[0].spec.host is defined
-#
-#- name: Debug reports route
-#  debug:
-#    msg: "{{ r_reports_route.resources[0].spec.host }}"
-#
-#- name: Wait for reports to be running
-#  uri:
-#    url: http://{{ r_reports_route.resources[0].spec.host }}
-#    status_code: 200
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
-#
+- name: Wait for sonarqube to be running
+  uri:
+    url: https://{{ r_sonarqube_route.resources[0].spec.host }}
+    status_code: 200
+    validate_certs: no
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
+
+# Check Reports Repo Route
+- name: Get reports route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace:  reports-repo
+    name: reports-repo
+  register: r_reports_route
+  retries: 10
+  delay: 20
+  until:
+    - r_reports_route.resources[0].spec.host is defined
+
+- name: Debug reports route
+  debug:
+    msg: "{{ r_reports_route.resources[0].spec.host }}"
+
+- name: Wait for reports to be running
+  uri:
+    url: http://{{ r_reports_route.resources[0].spec.host }}
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
+
