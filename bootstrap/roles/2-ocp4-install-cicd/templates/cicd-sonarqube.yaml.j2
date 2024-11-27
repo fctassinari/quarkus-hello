@@ -311,6 +311,7 @@ metadata:
   name: "{{ sonar_namespace }}"
   namespace: "{{ sonar_namespace }}"
 spec:
+  host: "{{ sonar_url }}"
   port:
     targetPort: 9000-tcp
   tls:

@@ -15,7 +15,7 @@
     cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
     cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
 
-    nexus_namespace: 'tassinari'
+    nexus_namespace: 'nexus'
     nexus_data_volume_capacity: '2Gi'
     nexus_url: "{{ nexus_namespace }}.{{ cluster_url }}"
     nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
@@ -37,6 +37,7 @@
     sonar_conf_volume_capacity: '2Gi'
     sonar_extensions_volume_capacity: '2Gi'
     sonar_image: 'sonarqube:9.9.7-community'
+    sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
   tasks:
 #    - name: 'Install Gitops'
 #      include_role:

@@ -8,11 +8,11 @@
 #    state: present
 #    definition: "{{ lookup('template', 'cicd-gogs.yaml.j2') }}"
 #
-#- name: Install sonarqube
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-sonarqube.yaml.j2') }}"
-#
+- name: Install sonarqube
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-sonarqube.yaml.j2') }}"
+
 #- name: Install reports repo
 #  kubernetes.core.k8s:
 #    state: present
@@ -50,10 +50,10 @@
 #  delay: 30
 #
 
-- name: Install nexus
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
+#- name: Install nexus
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
 
 
 
