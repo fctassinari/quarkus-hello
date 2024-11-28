@@ -41,21 +41,20 @@
   debug:
     var: f_rox_api_token
 
+- name: Create ACS API Token secret for using in the pipelines
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      stringData:
+        rox_central_endpoint: "{{ f_stackrox_central_addr }}:443"
+        rox_api_token: "{{ f_rox_api_token }}"
+      kind: Secret
+      metadata:
+        name: roxsecrets
+        namespace: "{{ ocp4_demo_pipeline_namespace }}"
+      type: Opaque
 
-#- name: Create ACS API Token secret for using in the pipelines
-#  kubernetes.core.k8s:
-#    state: present
-#    definition:
-#      apiVersion: v1
-#      stringData:
-#        rox_central_endpoint: "{{ f_stackrox_central_addr }}:443"
-#        rox_api_token: "{{ f_rox_api_token }}"
-#      kind: Secret
-#      metadata:
-#        name: roxsecrets
-#        namespace: "{{ ocp4_demo_pipeline_namespace }}"
-#      type: Opaque
-#
 #- name: Get secrets in namespace
 #  kubernetes.core.k8s_info:
 #    api_version: v1
