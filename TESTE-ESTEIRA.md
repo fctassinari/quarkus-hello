@@ -112,6 +112,11 @@ Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fo
 * * Get central route
 * * Wait for Central availability
 * Secured Cluster
+* * Get cluster init bundle
+* * Create init-bundle secrets
+* * Install Sensor on OpenShift Container Platform
+* * Determine number of collectors
+* 
 
 # Config Post ACS
 * Create API token for access from Pipeline to ACS
