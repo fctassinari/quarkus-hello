@@ -104,6 +104,13 @@ Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fo
 
 # Install the ACS Central
 * Central
+* * Create ACS namespace
+* * Create ACS Central password
+* * Install ACS Operator
+* * Wait for ACS Operator to be up and running
+* * Create ACS Central
+* * Get central route
+* * Wait for Central availability
 * Secured Cluster
 
 # Config Post ACS
