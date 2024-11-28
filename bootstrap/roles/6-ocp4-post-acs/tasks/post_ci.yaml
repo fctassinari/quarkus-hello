@@ -66,16 +66,16 @@
   debug:
     var: secrets_info
 
-#- name: Extract secret name using regex
-#  set_fact:
-#    secret_name: "{{ secrets_info.resources | map(attribute='metadata.name') | select('match', regex) | list | first }}"
-#  vars:
-#    regex: ".*pipeline-token.*"
-#
-#- name: Display secret name
-#  debug:
-#    var: secret_name
-#
+- name: Extract secret name using regex
+  set_fact:
+    secret_name: "{{ secrets_info.resources | map(attribute='metadata.name') | select('match', regex) | list | first }}"
+  vars:
+    regex: ".*pipeline-token.*"
+
+- name: Display secret name
+  debug:
+    var: secret_name
+
 #- name: Get token in the secret for the sa pipeline and decode
 #  kubernetes.core.k8s_info:
 #    kind: Secret
