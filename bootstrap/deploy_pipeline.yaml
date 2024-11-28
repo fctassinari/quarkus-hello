@@ -8,8 +8,7 @@
     pipeline_namespace: 'sm-pipeline'
     gogs_namespace: 'gogs'
     reports_namespace: 'reports-repo'
-    gitops_operator_namespace: 'openshift-gitops'
-    pipeline_operator_namespace: 'openshift-operators'
+
     rhacs_operator_namespace: 'rhacs-operator'
 
     cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
