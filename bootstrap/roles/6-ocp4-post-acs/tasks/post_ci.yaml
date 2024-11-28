@@ -70,7 +70,7 @@
   set_fact:
     secret_name: "{{ secrets_info.resources | map(attribute='metadata.name') | select('match', regex) | list | first }}"
   vars:
-    regex: ".*pipeline-token.*"
+    regex: ".*pipeline.*"
 
 - name: Display secret name
   debug:
