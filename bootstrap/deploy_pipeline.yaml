@@ -60,6 +60,6 @@
 #        name: "5-ocp4-install-acs"
 
     # Include the policies, and some content to show in the demo
-    - name: 'Install the ACS Post Content'
-      include_role:
-        name: "6-ocp4-post-acs"
+#    - name: 'Install the ACS Post Content'
+#      include_role:
+#        name: "6-ocp4-post-acs"
