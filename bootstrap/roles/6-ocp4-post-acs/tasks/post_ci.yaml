@@ -39,7 +39,7 @@
 
 - name: Debug token for access from Pipeline to ACS
   debug:
-    var: r_stackrox_central_route
+    var: f_rox_api_token
 
 
 #- name: Create ACS API Token secret for using in the pipelines
