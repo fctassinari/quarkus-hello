@@ -9,9 +9,8 @@
     gogs_namespace: 'gogs'
     reports_namespace: 'reports-repo'
 
-    rhacs_operator_namespace: 'rhacs-operator'
-
-    cluster_admin_token: 'sha256~rMbNJiHYf-ocQWtfAdE2gzNKbf0eNqCszXXZRR2fcCI'
+    cluster_admin_username: 'admin'
+    cluster_admin_token: 'sha256~TOtWV057MGGYmNfJI6JUr_qDWsbDqB-yh07xh6BgJsA'
     cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
 
     nexus_namespace: 'nexus'
