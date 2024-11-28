@@ -55,17 +55,17 @@
         namespace: "{{ ocp4_demo_pipeline_namespace }}"
       type: Opaque
 
-#- name: Get secrets in namespace
-#  kubernetes.core.k8s_info:
-#    api_version: v1
-#    kind: Secret
-#    namespace: "{{ pipeline_namespace }}"
-#  register: secrets_info
-#
-#- name: Debug secrets_info variable
-#  debug:
-#    var: secrets_info
-#
+- name: Get secrets in namespace
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    namespace: "{{ pipeline_namespace }}"
+  register: secrets_info
+
+- name: Debug secrets_info variable
+  debug:
+    var: secrets_info
+
 #- name: Extract secret name using regex
 #  set_fact:
 #    secret_name: "{{ secrets_info.resources | map(attribute='metadata.name') | select('match', regex) | list | first }}"
