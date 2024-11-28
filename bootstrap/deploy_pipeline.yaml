@@ -56,11 +56,11 @@
 #      include_role:
 #        name: "4-ocp4-config-gitops"
 
-    - name: '5-Install the ACS Central'
-      include_role:
-        name: "5-ocp4-install-acs"
-
-#    # Include the policies, and some content to show in the demo
-#    - name: 'Install the ACS Post Content'
+#    - name: '5-Install the ACS Central'
 #      include_role:
-#        name: "ocp4-post-acs"
+#        name: "5-ocp4-install-acs"
+
+    # Include the policies, and some content to show in the demo
+    - name: 'Install the ACS Post Content'
+      include_role:
+        name: "ocp4-post-acs"
