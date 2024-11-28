@@ -8,19 +8,19 @@
   retries: 10
   delay: 20
 
-#- name: Debug r_stackrox_central_route variable
-#  debug:
-#    var: r_stackrox_central_route
-#
-#- name: Store central route as a fact
-#  set_fact:
-#    f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
-#
-#- name: Create ACS Console Link
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'acs-console-link.yml.j2') }}"
-#
+- name: Debug r_stackrox_central_route variable
+  debug:
+    var: r_stackrox_central_route
+
+- name: Store central route as a fact
+  set_fact:
+    f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
+
+- name: Create ACS Console Link
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'acs-console-link.yml.j2') }}"
+
 #- name: Create API token for access from Pipeline to ACS
 #  uri:
 #    url: "https://{{ f_stackrox_central_addr }}/v1/apitokens/generate"
