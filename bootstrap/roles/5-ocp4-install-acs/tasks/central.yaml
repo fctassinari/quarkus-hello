@@ -15,7 +15,7 @@
 
 - name: Create ACS namespace
   kubernetes.core.k8s:
-    name: "{{ rhacs_operator_namespace }}"
+    name: stackrox
     api_version: v1
     kind: Namespace
     state: present
@@ -63,7 +63,7 @@
 - name: Wait for ACS Operator to be up and running
   pause:
     minutes: 1
-
+#
 #- name: Create ACS Central
 #  kubernetes.core.k8s:
 #    state: present
@@ -73,7 +73,7 @@
 #  kubernetes.core.k8s_info:
 #    kind: Route
 #    api_version: route.openshift.io/v1
-#    namespace: "{{ rhacs_operator_namespace }}"
+#    namespace: stackrox
 #    name: central
 #  register: r_stackrox_central_route
 #  retries: 10
