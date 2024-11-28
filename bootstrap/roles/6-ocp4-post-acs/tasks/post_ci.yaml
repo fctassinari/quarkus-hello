@@ -76,21 +76,21 @@
   debug:
     var: secret_name
 
-#- name: Get token in the secret for the sa pipeline and decode
-#  kubernetes.core.k8s_info:
-#    kind: Secret
-#    api_version: /v1
-#    name: "{{ secret_name }}"
-#    namespace: "{{ pipeline_namespace }}"
-#  register: r_token_sa_secret
-#
-#- debug:
-#    msg: "{{ r_token_sa_secret.resources[0].data.token | b64decode }}"
-#
-#- name: define the token secret decoded
-#  set_fact:
-#    pipeline_token: "{{ r_token_sa_secret.resources[0].data.token | b64decode }}"
-#
+- name: Get token in the secret for the sa pipeline and decode
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: "{{ secret_name }}"
+    namespace: "{{ pipeline_namespace }}"
+  register: r_token_sa_secret
+
+- debug:
+    msg: "{{ r_token_sa_secret.resources[0].data.token | b64decode }}"
+
+- name: define the token secret decoded
+  set_fact:
+    pipeline_token: "{{ r_token_sa_secret.resources[0].data.token | b64decode }}"
+
 #- name: Creating ACS Integration with the Openshift Internal Registry
 #  uri:
 #    url: "https://{{ f_stackrox_central_addr }}/v1/imageintegrations"
