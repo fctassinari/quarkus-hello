@@ -1,42 +1,42 @@
-- name: Create OpenShift Objects for Openshift Pipeline Tasks
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/task-argo-sync-and-wait.yaml.j2
-  - ./templates/task-dependency-report.yaml.j2
-  - ./templates/task-git-update-deployment.yaml.j2
-  - ./templates/cm-maven.yaml.j2
-  - ./templates/clustertask-rox-deployment-check.yaml.j2
-  - ./templates/clustertask-rox-image-check.yaml.j2
-  - ./templates/clustertask-rox-image-scan.yaml.j2
-
-- name: Create OpenShift Objects for Openshift Pipeline Triggers
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/trigger-eventlistener.yaml.j2
-  - ./templates/rt-trigger-eventlistener.yaml.j2
-  - ./templates/triggerbinding-trigger-gogs.yaml.j2
-  - ./templates/triggertemplate.yaml.j2
-
-# Check Gogs
-- name: Get gogs route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace:  "{{ gogs_namespace }}"
-    name: gogs
-  register: r_gogs_route
-  retries: 10
-  delay: 20
-  until:
-    - r_gogs_route.resources[0].spec.host is defined
-
-- name: Debug gogs route
-  debug:
-    msg: "{{ r_gogs_route.resources[0].spec.host }}"
+#- name: Create OpenShift Objects for Openshift Pipeline Tasks
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/task-argo-sync-and-wait.yaml.j2
+#  - ./templates/task-dependency-report.yaml.j2
+#  - ./templates/task-git-update-deployment.yaml.j2
+#  - ./templates/cm-maven.yaml.j2
+#  - ./templates/clustertask-rox-deployment-check.yaml.j2
+#  - ./templates/clustertask-rox-image-check.yaml.j2
+#  - ./templates/clustertask-rox-image-scan.yaml.j2
+#
+#- name: Create OpenShift Objects for Openshift Pipeline Triggers
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/trigger-eventlistener.yaml.j2
+#  - ./templates/rt-trigger-eventlistener.yaml.j2
+#  - ./templates/triggerbinding-trigger-gogs.yaml.j2
+#  - ./templates/triggertemplate.yaml.j2
+#
+## Check Gogs
+#- name: Get gogs route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace:  "{{ gogs_namespace }}"
+#    name: gogs
+#  register: r_gogs_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - r_gogs_route.resources[0].spec.host is defined
+#
+#- name: Debug gogs route
+#  debug:
+#    msg: "{{ r_gogs_route.resources[0].spec.host }}"
 
 - name: Create OpenShift Objects for Openshift Pipelines Templates
   k8s:
@@ -44,7 +44,7 @@
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
   - ./templates/quarkus-hello-pipeline.yaml.j2
-  - ./templates/pipeline-build-pvc.yaml.j2
+#  - ./templates/pipeline-build-pvc.yaml.j2
 
 ## Esta dando erro na execução do taskrun
 ## Esta task seta a senha de administrador do gogs
