@@ -7,6 +7,8 @@ spec:
   params:
     - default: "{{ app_name }}"
       name: APP_NAME
+    - default: "1.0.0"
+      name: APP_VERSION
     - default: 'https://github.com/fctassinari/quarkus-hello.git'
       name: GIT_REPO
       type: string
@@ -81,7 +83,8 @@ spec:
             - package
             - '-f'
             - source
-            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+            - '-Dproject.version=1.0.1'
+            - '-Dmaven.repo.local=$(params.APP_VERSION)/.m2'
       runAfter:
         - git-clone
       taskRef:
@@ -159,29 +162,29 @@ spec:
         - name: maven-settings
           workspace: maven-settings
 
-#    - name: build-image
-#      params:
-#        - name: IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: TLSVERIFY
-#          value: 'false'
-#        - name: MAVEN_MIRROR_URL
-#          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
-#        - name: PATH_CONTEXT
-#          value: $(workspaces.source.path)/source/target
-#        - name: VERSION
-#          value: $(params.VERSION)
-#        - name: MAVEN_ARGS_APPEND
-#          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
-#      runAfter:
-#        - release-app
-#      taskRef:
-#        kind: ClusterTask
-#        name: s2i-java
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#
+    - name: build-image
+      params:
+        - name: IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: TLSVERIFY
+          value: 'false'
+        - name: MAVEN_MIRROR_URL
+          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
+        - name: PATH_CONTEXT
+          value: $(workspaces.source.path)/source/target
+        - name: VERSION
+          value: $(params.VERSION)
+        - name: MAVEN_ARGS_APPEND
+          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
+      runAfter:
+        - release-app
+      taskRef:
+        kind: ClusterTask
+        name: s2i-java
+      workspaces:
+        - name: source
+          workspace: workspace
+
 #    - name: image-scan
 #      params:
 #        - name: image
