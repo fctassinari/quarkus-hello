@@ -6,26 +6,6 @@
 * Nexus
 * Criar repositório
 * * pegar a senha de admin ```` cat /nexus-data/admin.password ````
-* * criar rota
-* * oc create route edge rt-nexus --service nexusrepo-sonatype-nexus-service --hostname nexus.apps.cluster-5nkrs.dynamic.redhatworkshops.io
-````kind: Route
-apiVersion: route.openshift.io/v1
-metadata:
-  name: rt-nexus
-  namespace: nexus
-spec:
-  host: nexus.{{ cluster_url }}
-  path: /
-  to:
-    kind: Service
-    name: nexusrepo-sonatype-nexus-service
-    weight: 100
-  port:
-    targetPort: application
-  tls:
-    termination: edge
-  wildcardPolicy: None
-````
 * Criar um repositorio mvn-redhat do tipo proxy no nexus<br>
   relase<br>
   permissive<br>

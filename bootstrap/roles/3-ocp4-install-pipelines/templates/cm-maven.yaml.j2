@@ -9,15 +9,15 @@ data:
       <servers>
         <server>
           <id>nexus</id>
-          <username>admin</username>
-          <password>admin123</password>
+          <username>{{ nexus_user }}</username>
+          <password>{{ nexus_password }}</password>
         </server>
       </servers>
       <mirrors>
         <mirror>
           <id>nexus</id>
           <name>nexus</name>
-          <url>https://{{ nexus_namespace }}.{{ cluster_url }}/repository/mvn-cicd/</url>
+          <url>https://{{ nexus_url }}/repository/maven-public/</url>
           <mirrorOf>*</mirrorOf>
         </mirror>
       </mirrors>

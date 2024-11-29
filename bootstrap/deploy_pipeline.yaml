@@ -18,6 +18,8 @@
     nexus_url: "{{ nexus_namespace }}.{{ cluster_url }}"
     nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
     nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
+    nexus_user: admin
+    nexus_password: admin123
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'
