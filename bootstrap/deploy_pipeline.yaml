@@ -10,7 +10,7 @@
     reports_namespace: 'reports-repo'
 
     cluster_admin_username: 'admin'
-    cluster_admin_token: 'sha256~TOtWV057MGGYmNfJI6JUr_qDWsbDqB-yh07xh6BgJsA'
+    cluster_admin_token: 'squ_880a51598d1382406765a03e04625be18a584a5a'
     cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
 
     nexus_namespace: 'nexus'

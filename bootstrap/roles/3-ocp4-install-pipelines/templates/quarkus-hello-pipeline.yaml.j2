@@ -72,53 +72,53 @@ spec:
         - name: output
           workspace: workspace
 
-#    - name: unit-tests
-#      params:
-#        - name: MAVEN_IMAGE
-#          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
-#        - name: GOALS
-#          value:
-#            - package
-#            - '-f'
-#            - source
-#            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-#      runAfter:
-#        - git-clone
-#      taskRef:
-#        kind: ClusterTask
-#        name: maven
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
-#    - name: code-analysis
-#      params:
-#        - name: MAVEN_IMAGE
-#          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
-#        - name: GOALS
-#          value:
-#            - install
-#            - 'sonar:sonar'
-#            - '-f'
-#            - source
-#            - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
-#            - '-Dsonar.userHome=/tmp/sonar'
-#            - '-Dsonar.login={{ sonar_token }}'
-#            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-#            - '-Dmaven.test.skip=true'
-#      runAfter:
-#        - unit-tests
-#      taskRef:
-#        kind: ClusterTask
-#        name: maven
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
+    - name: unit-tests
+      params:
+        - name: MAVEN_IMAGE
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+        - name: GOALS
+          value:
+            - package
+            - '-f'
+            - source
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
+    - name: code-analysis
+      params:
+        - name: MAVEN_IMAGE
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+        - name: GOALS
+          value:
+            - install
+            - 'sonar:sonar'
+            - '-f'
+            - source
+            - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
+            - '-Dsonar.userHome=/tmp/sonar'
+            - '-Dsonar.login={{ sonar_token }}'
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+            - '-Dmaven.test.skip=true'
+      runAfter:
+        - unit-tests
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
 #    - name: dependency-report
 #      params:
 #        - name: SOURCE_DIR
