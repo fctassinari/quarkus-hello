@@ -71,6 +71,7 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
+
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
@@ -91,6 +92,7 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
     - name: code-analysis
       params:
         - name: MAVEN_IMAGE
@@ -116,6 +118,7 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
     - name: dependency-report
       params:
         - name: SOURCE_DIR
@@ -130,6 +133,7 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
     - name: release-app
       params:
         - name: MAVEN_IMAGE
@@ -154,6 +158,7 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
     - name: build-image
       params:
         - name: IMAGE
@@ -176,6 +181,7 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
+
     - name: image-scan
       params:
         - name: image
@@ -193,6 +199,7 @@ spec:
       taskRef:
         kind: ClusterTask
         name: rox-image-scan
+
     - name: image-check
       params:
         - name: image
@@ -208,6 +215,7 @@ spec:
       taskRef:
         kind: ClusterTask
         name: rox-image-check
+
     - name: deploy-check
       params:
         - name: GIT_REPOSITORY
@@ -228,6 +236,7 @@ spec:
       workspaces:
         - name: workspace
           workspace: workspace
+
     - name: update-deployment
       params:
         - name: GIT_REPOSITORY
@@ -254,6 +263,7 @@ spec:
       workspaces:
         - name: workspace
           workspace: workspace
+
     - name: wait-application
       taskRef:
         name: argocd-task-sync-and-wait
