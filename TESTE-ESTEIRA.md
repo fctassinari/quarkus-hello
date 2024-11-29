@@ -6,15 +6,11 @@
 * Nexus
 * Criar repositório
 * * pegar a senha de admin ```` cat /nexus-data/admin.password ````
-* Criar um repositorio mvn-redhat do tipo proxy no nexus<br>
+* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
   relase<br>
   permissive<br>
   https://maven.repository.redhat.com/ga/ <br>
-* Criar um repositorio do mvn-cicd do tipo grupo no nexus e agrupar<br>
-  maven-central<br>
-  mvn-redhat<br>
-* Criar um repositorio mvn-release (hosted) com Version Policy: Mixed<br>
-* 
+
 # Install Gitops
 - Install GitOps Operator
 - Install OCP Pipelines Operator
@@ -51,6 +47,8 @@
 * Get reports route
 
 # Install Pipelines
+Antes de iniciar a instalação do pipeline gerar o token no sonarkube e atualizar o arquivo deploy_pipeline.yaml
+
 Create OpenShift Objects for Openshift Pipeline Tasks
 
 * argocd-task-sync-and-wait ```

@@ -119,21 +119,21 @@ spec:
         - name: maven-settings
           workspace: maven-settings
 
-#    - name: dependency-report
-#      params:
-#        - name: SOURCE_DIR
-#          value: source
-#      runAfter:
-#        - unit-tests
-#      taskRef:
-#        kind: Task
-#        name: dependency-report
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
+    - name: dependency-report
+      params:
+        - name: SOURCE_DIR
+          value: source
+      runAfter:
+        - unit-tests
+      taskRef:
+        kind: Task
+        name: dependency-report
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
 #    - name: release-app
 #      params:
 #        - name: MAVEN_IMAGE
