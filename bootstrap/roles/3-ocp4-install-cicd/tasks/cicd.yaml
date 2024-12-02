@@ -1,8 +1,3 @@
-- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cicd-rb.yaml.j2') }}"
-
 - name: Install Gogs
   kubernetes.core.k8s:
     state: present
@@ -48,12 +43,10 @@
   retries: 10
   delay: 30
 
-
 - name: Install nexus
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
-
 
 - name: Get nexus route
   kubernetes.core.k8s_info:

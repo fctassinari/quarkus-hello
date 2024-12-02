@@ -59,21 +59,22 @@
 #      include_role:
 #        name: "2-ocp4-install-acs"
 
-    - name: 'Install the ACS Post Content'
+    - name: 'Install CICD Infra'
       include_role:
-        name: "6-ocp4-post-acs"
-
-
-
-
-
-#    - name: 'Install CICD Infra'
-#      include_role:
-#        name: "2-ocp4-install-cicd"
+        name: "3-ocp4-install-cicd"
 
 #    - name: 'Install Pipelines'
 #      include_role:
 #        name: "3-ocp4-install-pipelines"
+
+
+
+
+## Só está Creating ACS Integration with the Openshift Internal Registry
+## já existe esta mesma integracao no acs verficar se funciona com os outros
+#    - name: 'Install the ACS Post Content'
+#      include_role:
+#        name: "6-ocp4-post-acs"
 
 
 
