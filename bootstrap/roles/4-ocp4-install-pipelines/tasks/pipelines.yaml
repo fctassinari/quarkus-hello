@@ -21,13 +21,6 @@
   - ./templates/triggerbinding-trigger-gogs.yaml.j2
   - ./templates/triggertemplate.yaml.j2
 
-- name: Create OpenShift Objects for Openshift Pipeline Token
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-    - ./templates/acs-token-for-pipeline.yaml
-
 ## Check Gogs
 #- name: Get gogs route
 #  kubernetes.core.k8s_info:
