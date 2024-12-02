@@ -3,6 +3,12 @@
   hosts: localhost
   connection: local
   vars:
+
+    gitops_operator_namespace: 'openshift-gitops-operator'
+
+
+
+
     app_name: 'quarkus-hello'
     app_namespace: 'dev-quarkus-hello'
     pipeline_namespace: 'sm-pipeline'
@@ -21,7 +27,6 @@
     nexus_user: admin
     nexus_password: admin123
 
-    gitops_operator_namespace: 'openshift-gitops-operator'
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'

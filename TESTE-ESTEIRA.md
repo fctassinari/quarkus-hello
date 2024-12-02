@@ -219,3 +219,8 @@ Acessar o repositorio no Gogs.
 4. Após essa alteração clique no botão **"Commit changes"**;
 5. No console do OCP, voce pode acompahar a Pipeline iniciando um novo build e deploy da nova versão da Aplicação;
 
+# Excluir
+1-ocp4-install-gitopp
+* templates
+* * gitops-crb.yaml
+* * gitops-argocd.yaml

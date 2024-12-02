@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: argocd-env-secret
+  name: sct-argocd-env
   namespace:  "{{ pipeline_namespace }}"
 type: Opaque
 data:
   ARGOCD_USERNAME: YWRtaW4K
-  ARGOCD_PASSWORD: {{ r_argopass.resources[0].data['admin.password'] }}
+  ARGOCD_PASSWORD: "{{ r_argopass.resources[0].data['admin.password'] }}"
