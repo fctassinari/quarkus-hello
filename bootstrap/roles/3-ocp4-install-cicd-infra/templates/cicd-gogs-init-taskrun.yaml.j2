@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   generateName: init-gogs-
-  namespace: "{{ pipeline_namespace }}"
+  namespace: {{ pipeline_namespace }}
 spec:
   taskSpec:
     params:
@@ -17,7 +17,9 @@ spec:
     stepTemplate:
       env:
         - name: NAMESPACE
-          value: "{{ pipeline_namespace }}"
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
     steps:
       - name: init-gogs
         image: quay.io/siamaksade/python-oc
