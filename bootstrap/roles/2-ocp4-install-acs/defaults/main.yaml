@@ -1,4 +1,3 @@
-ocp4_demo_pipeline_namespace: "{{ pipeline_namespace }}"
 acs_expected_crds:
 - centrals.platform.stackrox.io
 - securedclusters.platform.stackrox.io
