@@ -21,23 +21,6 @@
   - ./templates/triggerbinding-trigger-gogs.yaml.j2
   - ./templates/triggertemplate.yaml.j2
 
-## Check Gogs
-#- name: Get gogs route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace:  "{{ gogs_namespace }}"
-#    name: gogs
-#  register: r_gogs_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_gogs_route.resources[0].spec.host is defined
-#
-#- name: Debug gogs route
-#  debug:
-#    msg: "{{ r_gogs_route.resources[0].spec.host }}"
-
 - name: Create OpenShift Objects for Openshift Pipelines Templates
   k8s:
     state: present
@@ -45,11 +28,3 @@
   loop:
   - ./templates/generic-pipeline.yaml.j2
   - ./templates/pipeline-build-pvc.yaml.j2
-
-## Esta dando erro na execução do taskrun
-## Esta task seta a senha de administrador do gogs
-## K8s doesn't support the generateName in taskRun
-#- name: Add gogs init taskrun for add pipelines
-#  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
-#  loop:
-#  - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"

@@ -52,7 +52,7 @@
     app_namespace: 'dev-quarkus-hello'
 
   tasks:
-#    - name: 'Install Gitops'
+#    - name: 'Install Gitops and Pipeline'
 #      include_role:
 #        name: "1-ocp4-install-gitops-pipeline"
 
@@ -60,13 +60,13 @@
 #      include_role:
 #        name: "2-ocp4-install-acs"
 
-#    - name: 'Install CICD Infra'
-#      include_role:
-#        name: "3-ocp4-install-cicd-infra"
-
-    - name: 'Install Pipelines'
+    - name: 'Install CICD Infra'
       include_role:
-        name: "4-ocp4-install-pipelines"
+        name: "3-ocp4-install-cicd-infra"
+
+#    - name: 'Install Pipeline'
+#      include_role:
+#        name: "4-ocp4-install-pipelines"
 
 
 
