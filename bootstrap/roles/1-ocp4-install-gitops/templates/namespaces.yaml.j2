@@ -1,10 +1,15 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name:  "{{ pipeline_namespace }}"
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: "{{ app_namespace }}"
----
+  name:  "{{ openshift-gitops-operator }}"
+#---
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name:  "{{ pipeline_namespace }}"
+#---
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: "{{ app_namespace }}"
+#---

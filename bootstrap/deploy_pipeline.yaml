@@ -11,7 +11,7 @@
 
     cluster_admin_username: 'admin'
     cluster_admin_token: 'sha256~v1fryNI1LiznX8BuYgvwF6n5UkvXFRVsGPpB5ln8l-g'
-    cluster_url: 'apps.cluster-tt4m8.dynamic.redhatworkshops.io'
+    cluster_url: 'apps.cluster-pwtfx.dynamic.redhatworkshops.io'
 
     nexus_namespace: 'nexus'
     nexus_data_volume_capacity: '2Gi'
@@ -20,6 +20,8 @@
     nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
     nexus_user: admin
     nexus_password: admin123
+
+    openshift-gitops-operator: 'openshift-gitops-operator'
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'
@@ -41,17 +43,17 @@
     sonar_token: 'squ_880a51598d1382406765a03e04625be18a584a5a'
 
   tasks:
-#    - name: 'Install Gitops'
-#      include_role:
-#        name: "1-ocp4-install-gitops"
+    - name: 'Install Gitops'
+      include_role:
+        name: "1-ocp4-install-gitops"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
 #        name: "2-ocp4-install-cicd"
 
-    - name: 'Install Pipelines'
-      include_role:
-        name: "3-ocp4-install-pipelines"
+#    - name: 'Install Pipelines'
+#      include_role:
+#        name: "3-ocp4-install-pipelines"
 
 #    - name: '4-Config GitOps'
 #      include_role:
