@@ -8,7 +8,6 @@
 
     pipeline_operator_namspace: 'openshift-operators'
 
-    acs_operator_namespace: 'rhacs-operator'
     acs_central_services_namespace: 'stackrox'
     acs_central_password: 'cHJPYzNyZ3NAMjAyNCM=' #base64
 
