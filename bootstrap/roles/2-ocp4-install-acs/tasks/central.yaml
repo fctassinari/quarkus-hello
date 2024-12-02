@@ -83,7 +83,7 @@
     url: "https://{{ f_stackrox_central_addr }}/v1/ping"
     method: GET
     user: admin
-    password: "{{ acs_central_password }}"
+    password: "{{ acs_central_password_base64 }}"
     force_basic_auth: true
     validate_certs: false
   register: result

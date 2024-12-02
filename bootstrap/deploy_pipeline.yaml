@@ -9,8 +9,8 @@
     pipeline_operator_namspace: 'openshift-operators'
 
     acs_central_services_namespace: 'stackrox'
-    acs_central_password: 'cHJPYzNyZ3NAMjAyNCM=' #base64
-
+    acs_central_password_base64: 'cHJPYzNyZ3NAMjAyNCM=' #base64
+    acs_central_password_plain_text: 'prOc3rgs@2024#'
 
     app_name: 'quarkus-hello'
     app_namespace: 'dev-quarkus-hello'
