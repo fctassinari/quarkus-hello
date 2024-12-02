@@ -27,7 +27,7 @@
     body: '{"name":"pipelines-ci-token","role":null,"roles":["Continuous Integration"]}'
     method: POST
     user: admin
-    password: "{{ stackrox_central_admin_password }}"
+    password: "{{ acs_central_password }}"
     body_format: json
     force_basic_auth: true
     validate_certs: no
@@ -97,7 +97,7 @@
     body: "{{ lookup('template', 'templates/ocp_registry_acs.yml.j2') }}"
     method: POST
     user: admin
-    password: "{{ stackrox_central_admin_password }}"
+    password: "{{ acs_central_password }}"
     body_format: json
     force_basic_auth: true
     validate_certs: no

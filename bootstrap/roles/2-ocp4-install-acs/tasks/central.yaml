@@ -13,54 +13,54 @@
   debug:
     msg: "{{ ocp4_cluster_version }}"
 
-- name: Create ACS Central password
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'sct-acs-password.yaml.j2') }}"
-
-- name: Install ACS Operator
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'subs-acs.yaml.j2') }}"
-
-- name: Adapt to the openshift_cluster_version LESS than 4.9
-  when: ocp4_cluster_version is version_compare('4.9', '<')
-  block:
-
-  - name: Wait for ACS CRD to exist
-    kubernetes.core.k8s_info:
-      api_version: "apiextensions.k8s.io/v1beta1"
-      kind: CustomResourceDefinition
-      name: "{{ item }}"
-    loop: "{{ acs_expected_crds }}"
-    register: crds
-    until: crds.resources|length > 0
-    retries: 30
-    delay: 10
-
-- name: Adapt to the openshift_cluster_version MORE than 4.9
-  when: ocp4_cluster_version is version_compare('4.9', '>=')
-  block:
-
-  - name: Wait for ACS CRD to exist
-    kubernetes.core.k8s_info:
-      api_version: "apiextensions.k8s.io/v1"
-      kind: CustomResourceDefinition
-      name: "{{ item }}"
-    loop: "{{ acs_expected_crds }}"
-    register: crds
-    until: crds.resources|length > 0
-    retries: 30
-    delay: 10
-
-- name: Wait for ACS Operator to be up and running
-  pause:
-    minutes: 1
-
-- name: Create ACS Central
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'central.yaml.j2') }}"
+#- name: Create ACS Central password
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'sct-acs-password.yaml.j2') }}"
+#
+#- name: Install ACS Operator
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'subs-acs.yaml.j2') }}"
+#
+#- name: Adapt to the openshift_cluster_version LESS than 4.9
+#  when: ocp4_cluster_version is version_compare('4.9', '<')
+#  block:
+#
+#  - name: Wait for ACS CRD to exist
+#    kubernetes.core.k8s_info:
+#      api_version: "apiextensions.k8s.io/v1beta1"
+#      kind: CustomResourceDefinition
+#      name: "{{ item }}"
+#    loop: "{{ acs_expected_crds }}"
+#    register: crds
+#    until: crds.resources|length > 0
+#    retries: 30
+#    delay: 10
+#
+#- name: Adapt to the openshift_cluster_version MORE than 4.9
+#  when: ocp4_cluster_version is version_compare('4.9', '>=')
+#  block:
+#
+#  - name: Wait for ACS CRD to exist
+#    kubernetes.core.k8s_info:
+#      api_version: "apiextensions.k8s.io/v1"
+#      kind: CustomResourceDefinition
+#      name: "{{ item }}"
+#    loop: "{{ acs_expected_crds }}"
+#    register: crds
+#    until: crds.resources|length > 0
+#    retries: 30
+#    delay: 10
+#
+#- name: Wait for ACS Operator to be up and running
+#  pause:
+#    minutes: 1
+#
+#- name: Create ACS Central
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'central.yaml.j2') }}"
 
 - name: Get central route
   kubernetes.core.k8s_info:
@@ -83,7 +83,7 @@
     url: "https://{{ f_stackrox_central_addr }}/v1/ping"
     method: GET
     user: admin
-    password: "{{ stackrox_central_admin_password }}"
+    password: "{{ acs_central_password }}"
     force_basic_auth: true
     validate_certs: false
   register: result

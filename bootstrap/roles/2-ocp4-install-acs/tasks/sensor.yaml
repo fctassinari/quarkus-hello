@@ -4,7 +4,7 @@
     body: "{ \"name\": \"prod-{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}\"}"
     method: POST
     user: admin
-    password: "{{ stackrox_central_admin_password }}"
+    password: "{{ acs_central_password }}"
     body_format: json
     force_basic_auth: true
     validate_certs: false
