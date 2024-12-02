@@ -224,3 +224,4 @@ Acessar o repositorio no Gogs.
 * templates
 * * gitops-crb.yaml
 * * gitops-argocd.yaml
+* 
