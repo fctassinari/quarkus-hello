@@ -1,12 +1,25 @@
-- name: Get ACS central route
+- name: Get central route
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
-    namespace: "{{ acs_central_services_namespace }}"
+    namespace: stackrox
     name: central
   register: r_stackrox_central_route
   retries: 10
   delay: 20
+  until:
+    - r_stackrox_central_route.resources[0].spec.host is defined
+
+
+#- name: Get ACS central route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ acs_central_services_namespace }}"
+#    name: central
+#  register: r_stackrox_central_route
+#  retries: 10
+#  delay: 20
 
 - name: Debug r_stackrox_central_route variable
   debug:
