@@ -5,8 +5,12 @@
   vars:
 
     gitops_operator_namespace: 'openshift-gitops-operator'
+
     pipeline_operator_namspace: 'openshift-operators'
 
+    acs_operator_namespace: 'rhacs-operator'
+    acs_central_services_namespace: 'stackrox'
+    acs_central_password: 'cHJPYzNyZ3NAMjAyNCM=' #base64
 
 
     app_name: 'quarkus-hello'
@@ -48,9 +52,13 @@
     sonar_token: 'squ_880a51598d1382406765a03e04625be18a584a5a'
 
   tasks:
-    - name: 'Install Gitops'
+#    - name: 'Install Gitops'
+#      include_role:
+#        name: "1-ocp4-install-gitops"
+
+    - name: '2-Install the ACS Central'
       include_role:
-        name: "1-ocp4-install-gitops"
+        name: "2-ocp4-install-acs"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
@@ -60,13 +68,6 @@
 #      include_role:
 #        name: "3-ocp4-install-pipelines"
 
-#    - name: '4-Config GitOps'
-#      include_role:
-#        name: "4-ocp4-config-gitops"
-
-#    - name: '5-Install the ACS Central'
-#      include_role:
-#        name: "5-ocp4-install-acs"
 
     # Include the policies, and some content to show in the demo
 #    - name: 'Install the ACS Post Content'

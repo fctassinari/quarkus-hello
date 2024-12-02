@@ -1,7 +1,7 @@
 apiVersion: platform.stackrox.io/v1alpha1
 kind: SecuredCluster
 metadata:
-  namespace: stackrox
+  namespace: "{{ acs_central_services_namespace }}"
   name: stackrox-secured-cluster-services
 spec:
   clusterName: development

@@ -225,3 +225,24 @@ Acessar o repositorio no Gogs.
 * * gitops-crb.yaml
 * * gitops-argocd.yaml
 * 
+
+# ---------------------
+ArgoCD<br>
+user: admin<br>
+pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
+
+Acs
+user: admin
+pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
+
+
+
+
+
+
+
+
+
+
+
+.

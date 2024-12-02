@@ -13,22 +13,15 @@
   debug:
     msg: "{{ ocp4_cluster_version }}"
 
-- name: Create ACS namespace
-  kubernetes.core.k8s:
-    name: stackrox
-    api_version: v1
-    kind: Namespace
-    state: present
-
 - name: Create ACS Central password
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'acs-password.yml.j2') }}"
+    definition: "{{ lookup('template', 'acs-password.yaml.j2') }}"
 
 - name: Install ACS Operator
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'subs.yml.j2') }}"
+    definition: "{{ lookup('template', 'subs-acs.yaml.j2') }}"
 
 - name: Adapt to the openshift_cluster_version LESS than 4.9
   when: ocp4_cluster_version is version_compare('4.9', '<')
@@ -63,37 +56,37 @@
 - name: Wait for ACS Operator to be up and running
   pause:
     minutes: 1
-
-- name: Create ACS Central
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'central.yml.j2') }}"
-
-- name: Get central route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace: stackrox
-    name: central
-  register: r_stackrox_central_route
-  retries: 10
-  delay: 20
-  until:
-    - r_stackrox_central_route.resources[0].spec.host is defined
-
-- name: Store central route as a fact
-  set_fact:
-    f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
-
-- name: Wait for Central availability
-  uri:
-    url: "https://{{ f_stackrox_central_addr }}/v1/ping"
-    method: GET
-    user: admin
-    password: "{{ stackrox_central_admin_password }}"
-    force_basic_auth: true
-    validate_certs: false
-  register: result
-  until: result.status == 200
-  retries: 15
-  delay: 20
+#
+#- name: Create ACS Central
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'central.yaml.j2') }}"
+#
+#- name: Get central route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ acs_central_services_namespace }}"
+#    name: central
+#  register: r_stackrox_central_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - r_stackrox_central_route.resources[0].spec.host is defined
+#
+#- name: Store central route as a fact
+#  set_fact:
+#    f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
+#
+#- name: Wait for Central availability
+#  uri:
+#    url: "https://{{ f_stackrox_central_addr }}/v1/ping"
+#    method: GET
+#    user: admin
+#    password: "{{ stackrox_central_admin_password }}"
+#    force_basic_auth: true
+#    validate_certs: false
+#  register: result
+#  until: result.status == 200
+#  retries: 15
+#  delay: 20
