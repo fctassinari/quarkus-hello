@@ -185,96 +185,96 @@ spec:
         - name: source
           workspace: workspace
 
-#    - name: image-scan
-#      params:
-#        - name: image
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: rox_api_token
-#          value: roxsecrets
-#        - name: rox_central_endpoint
-#          value: roxsecrets
-#        - name: output_format
-#          value: table
-#        - name: image_digest
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-image-scan
-#
-#    - name: image-check
-#      params:
-#        - name: image
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: rox_api_token
-#          value: roxsecrets
-#        - name: rox_central_endpoint
-#          value: roxsecrets
-#        - name: image_digest
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-image-check
-#
-#    - name: deploy-check
-#      params:
-#        - name: GIT_REPOSITORY
-#          value: $(params.APP_MANIFESTS_GIT)
-#        - name: rox_api_token
-#          value: roxsecrets
-#        - name: rox_central_endpoint
-#          value: roxsecrets
-#        - name: file
-#          value: deployment.yaml
-#        - name: deployment_files_path
-#          value: app
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-deployment-check
-#      workspaces:
-#        - name: workspace
-#          workspace: workspace
-#
-#    - name: update-deployment
-#      params:
-#        - name: GIT_REPOSITORY
-#          value: $(params.APP_MANIFESTS_GIT)
-#        - name: GIT_USERNAME
-#          value: gogs
-#        - name: GIT_PASSWORD
-#          value: gogs
-#        - name: CURRENT_IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: NEW_IMAGE
-#          value: '$(params.IMAGE_NAME)'
-#        - name: NEW_DIGEST
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#        - name: KUSTOMIZATION_PATH
-#          value: environments/dev
-#      runAfter:
-#        - image-scan
-#        - image-check
-#        - deploy-check
-#      taskRef:
-#        kind: Task
-#        name: git-update-deployment
-#      workspaces:
-#        - name: workspace
-#          workspace: workspace
-#
-#    - name: wait-application
-#      taskRef:
-#        name: argocd-task-sync-and-wait
-#      runAfter:
-#        - update-deployment
-#      params:
-#        - name: application-name
-#          value: "{{ app_name }}"
+    - name: image-scan
+      params:
+        - name: image
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: output_format
+          value: table
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-scan
+
+    - name: image-check
+      params:
+        - name: image
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-check
+
+    - name: deploy-check
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: file
+          value: deployment.yaml
+        - name: deployment_files_path
+          value: app
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-deployment-check
+      workspaces:
+        - name: workspace
+          workspace: workspace
+
+    - name: update-deployment
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: GIT_USERNAME
+          value: gogs
+        - name: GIT_PASSWORD
+          value: gogs
+        - name: CURRENT_IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: NEW_IMAGE
+          value: '$(params.IMAGE_NAME)'
+        - name: NEW_DIGEST
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+        - name: KUSTOMIZATION_PATH
+          value: environments/dev
+      runAfter:
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        kind: Task
+        name: git-update-deployment
+      workspaces:
+        - name: workspace
+          workspace: workspace
+
+    - name: wait-application
+      taskRef:
+        name: argocd-task-sync-and-wait
+      runAfter:
+        - update-deployment
+      params:
+        - name: application-name
+          value: "{{ app_name }}"
   workspaces:
     - name: maven-settings
     - name: workspace

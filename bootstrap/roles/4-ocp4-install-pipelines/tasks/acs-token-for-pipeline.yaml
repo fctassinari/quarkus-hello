@@ -46,6 +46,6 @@
         rox_api_token: "{{ f_rox_api_token }}"
       kind: Secret
       metadata:
-        name: roxsecrets
+        name: sct-rox
         namespace: "{{ pipeline_namespace }}"
       type: Opaque
