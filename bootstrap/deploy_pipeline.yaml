@@ -21,7 +21,7 @@
     nexus_user: admin
     nexus_password: admin123
 
-    openshift-gitops-operator: 'openshift-gitops-operator'
+    gitops-operator_namespace: 'openshift-gitops-operator'
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'
