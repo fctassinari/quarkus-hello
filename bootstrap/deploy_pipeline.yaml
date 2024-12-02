@@ -5,7 +5,7 @@
   vars:
 
     gitops_operator_namespace: 'openshift-gitops-operator'
-
+    pipeline_operator_namspace: 'openshift-operators'
 
 
 

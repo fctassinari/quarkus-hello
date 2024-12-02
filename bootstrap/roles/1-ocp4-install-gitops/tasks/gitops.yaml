@@ -13,53 +13,53 @@
   debug:
     msg: "{{ ocp4_cluster_version }}"
 
-#- name: Create GitOps Operator Group
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'gitops-operator-group.yaml.j2') }}"
-#
-#- name: Install GitOps Operator
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'subs-gitops.yaml.j2') }}"
-#
-#- name: Adapt to the openshift_cluster_version LESS than 4.9
-#  when: ocp4_cluster_version is version_compare('4.9', '<')
-#  block:
-#
-#  - name: Wait for GitOps CRD to exist
-#    kubernetes.core.k8s_info:
-#      api_version: "apiextensions.k8s.io/v1beta1"
-#      kind: CustomResourceDefinition
-#      name: "{{ item }}"
-#    loop: "{{ gitops_expected_crds }}"
-#    register: crds
-#    until: crds.resources|length > 0
-#    retries: 30
-#    delay: 10
-#
-#- name: Adapt to the openshift_cluster_version MORE than 4.9
-#  when: ocp4_cluster_version is version_compare('4.9', '>=')
-#  block:
-#
-#  - name: Wait for GitOps CRD to exist
-#    kubernetes.core.k8s_info:
-#      api_version: "apiextensions.k8s.io/v1"
-#      kind: CustomResourceDefinition
-#      name: "{{ item }}"
-#    loop: "{{ gitops_expected_crds }}"
-#    register: crds
-#    until: crds.resources|length > 0
-#    retries: 30
-#    delay: 10
+- name: Create GitOps Operator Group
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitops-operator-group.yaml.j2') }}"
 
-#############################################################
+- name: Install GitOps Operator
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'subs-gitops.yaml.j2') }}"
+
+- name: Adapt to the openshift_cluster_version LESS than 4.9
+  when: ocp4_cluster_version is version_compare('4.9', '<')
+  block:
+
+  - name: Wait for GitOps CRD to exist
+    kubernetes.core.k8s_info:
+      api_version: "apiextensions.k8s.io/v1beta1"
+      kind: CustomResourceDefinition
+      name: "{{ item }}"
+    loop: "{{ gitops_expected_crds }}"
+    register: crds
+    until: crds.resources|length > 0
+    retries: 30
+    delay: 10
+
+- name: Adapt to the openshift_cluster_version MORE than 4.9
+  when: ocp4_cluster_version is version_compare('4.9', '>=')
+  block:
+
+  - name: Wait for GitOps CRD to exist
+    kubernetes.core.k8s_info:
+      api_version: "apiextensions.k8s.io/v1"
+      kind: CustomResourceDefinition
+      name: "{{ item }}"
+    loop: "{{ gitops_expected_crds }}"
+    register: crds
+    until: crds.resources|length > 0
+    retries: 30
+    delay: 10
+
+############################################################
 ## Em tese nao precisa criar um cluster role binding
 #- name: Add ClusterRoleBinding to the openshift-gitops-controller
 #  kubernetes.core.k8s:
 #    state: present
 #    definition: "{{ lookup('template', 'gitops-crb.yml.j2') }}"
-
+#
 ## Estou utilizando o ArgoCD já instalado junco com o opertator gitops
 #- name: Install ArgoCD
 #  k8s:
@@ -72,45 +72,45 @@
 #- name: Add SSO Keycloak in Openshift GitOps by default
 #  shell: |
 #    oc -n openshift-gitops patch argocd openshift-gitops --type='json' -p='[{"op": "add", "path": "/spec/sso", "value": {"provider": "keycloak"} }]'
-#############################################################
+############################################################
 
-#- name: Get ArgoCD route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    name: openshift-gitops-server
-#    namespace: openshift-gitops
-#  register: r_argo_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_argo_route.resources[0].spec.host is defined
-#
-#- name: debug
-#  debug:
-#    msg: "{{ r_argo_route.resources[0].spec.host }}"
-#
-#- name: Get argocd password
-#  kubernetes.core.k8s_info:
-#    kind: Secret
-#    api_version: /v1
-#    name: openshift-gitops-cluster
-#    namespace: openshift-gitops
-#  register: r_argopass
-#
-#- name: debug
-#  debug:
-#    msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
-#
-#- name: Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cm-argocd-env-pipeline-ns.yaml.j2') }}"
-#
-#- name: Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
+- name: Get ArgoCD route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    name: openshift-gitops-server
+    namespace: openshift-gitops
+  register: r_argo_route
+  retries: 10
+  delay: 20
+  until:
+    - r_argo_route.resources[0].spec.host is defined
+
+- name: debug
+  debug:
+    msg: "{{ r_argo_route.resources[0].spec.host }}"
+
+- name: Get argocd password
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: openshift-gitops-cluster
+    namespace: openshift-gitops
+  register: r_argopass
+
+- name: debug
+  debug:
+    msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
+
+- name: Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cm-argocd-env-pipeline-ns.yaml.j2') }}"
+
+- name: Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
 
 
 
