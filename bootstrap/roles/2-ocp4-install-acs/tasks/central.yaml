@@ -16,7 +16,7 @@
 - name: Create ACS Central password
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'acs-password.yaml.j2') }}"
+    definition: "{{ lookup('template', 'sct-acs-password.yaml.j2') }}"
 
 - name: Install ACS Operator
   kubernetes.core.k8s:
