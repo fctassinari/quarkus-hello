@@ -56,18 +56,18 @@
 #- name: Wait for ACS Operator to be up and running
 #  pause:
 #    minutes: 1
-
-- name: Create ACS Central
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'central.yaml.j2') }}"
+#
+#- name: Create ACS Central
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'central.yaml.j2') }}"
 
 - name: Get central route
   kubernetes.core.k8s_info:
     kind: Route
     api_version: route.openshift.io/v1
     namespace: "{{ acs_central_services_namespace }}"
-    name: rt-central
+    name: central
   register: r_stackrox_central_route
   retries: 10
   delay: 20
