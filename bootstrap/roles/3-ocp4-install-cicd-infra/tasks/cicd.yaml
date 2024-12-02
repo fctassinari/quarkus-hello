@@ -99,6 +99,7 @@
 #  retries: 10
 #  delay: 30
 
+
 # Esta dando erro na execução do taskrun
 # Esta task seta a senha de administrador do gogs
 # K8s doesn't support the generateName in taskRun
