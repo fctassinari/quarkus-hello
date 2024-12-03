@@ -99,6 +99,12 @@
 #  retries: 10
 #  delay: 30
 
+- name: Create OpenShift Objects for Openshift Pipeline Tasks
+  k8s:
+    state: present
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+    - ./templates/rb.yaml.j2
 
 # Esta dando erro na execução do taskrun
 # Esta task seta a senha de administrador do gogs
