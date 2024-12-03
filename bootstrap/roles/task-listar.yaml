@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: listar
+  namespace: sm-pipeline
+spec:
+  description: Esta task lista o diretorio desejado.
+  params:
+    - default: $(workspaces.source.path)
+      description: Caminho
+      name: PATH
+      type: string
+  steps:
+    - computeResources:
+        limits:
+          cpu: '1'
+          memory: 4Gi
+        requests:
+          cpu: 200m
+          memory: 512Mi
+      image: 'registry.access.redhat.com/ubi8/ubi-minimal:latest'
+      name: ls
+      script: |
+        #!/usr/bin/env bash
+        echo "------------------------------------"
+        cd $(params.PATH)
+        pwd
+        ls -la 
+        echo "------------------------------------"
+        cd  $(workspaces.source.path)
+        pwd
+        ls -la
+  workspaces:
+    - description: The workspace consisting of maven project.
+      name: source

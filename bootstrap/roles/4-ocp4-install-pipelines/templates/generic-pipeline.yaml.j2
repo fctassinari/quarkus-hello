@@ -98,7 +98,13 @@ spec:
     - name: listar
       params:
         - name: PATH
-          value:
+          value: $(workspaces.source.path)/target
+      taskRef:
+        kind: Task
+        name: listar
+      workspaces:
+        - name: source
+          workspace: workspace
 
 #    - name: code-analysis
 #      params:
