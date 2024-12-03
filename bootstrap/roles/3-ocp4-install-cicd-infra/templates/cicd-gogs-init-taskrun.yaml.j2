@@ -41,7 +41,7 @@ spec:
           'retype': gogs_pwd,
           'email': 'admin@gogs.com'
           }
-
+          print(gogsURL)
           resp = requests.post(url = gogsURL + "/user/sign_up", data = data_user)
 
           if resp.status_code != 200:
