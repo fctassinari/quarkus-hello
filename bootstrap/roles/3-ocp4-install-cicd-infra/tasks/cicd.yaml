@@ -102,7 +102,7 @@
 #    state: present
 #    definition: "{{ lookup('template', item ) | from_yaml }}"
 #  loop:
-#    - ./templates/rb.yaml.j2
+#    - ./templates/rb-gogs.yaml.j2
 #
 ## K8s doesn't support the generateName in taskRun
 #- name: Add gogs init taskrun for add pipelines
