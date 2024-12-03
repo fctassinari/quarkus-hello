@@ -15,7 +15,7 @@ roleRef:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: system:image-puller-dev
+  name: system:image-puller-app
   namespace:  "{{ pipeline_namespace }}"
 subjects:
   - kind: ServiceAccount
