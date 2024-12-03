@@ -16,11 +16,9 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
-  - ./templates/rb-pipeline.yaml.j2
 #  - ./templates/argocd-app-project.yaml.j2
 #  - ./templates/argocd-app-dev.yaml.j2
-
-#  - ./templates/gitops-rb.yaml.j2
+  - ./templates/rb-gitops.yaml.j2
 
 #
 #- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
