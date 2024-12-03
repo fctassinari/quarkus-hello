@@ -145,6 +145,7 @@ spec:
           value: $(workspaces.source.path)/source/target
       runAfter:
         - dependency-report
+        - code-analysis
       taskRef:
         kind: Task
         name: listar
