@@ -1,4 +1,4 @@
 
-- import_tasks: pre.yaml
+#- import_tasks: pre.yaml
 - import_tasks: pipelines.yaml
-- import_tasks: acs-token-for-pipeline.yaml
+#- import_tasks: acs-token-for-pipeline.yaml

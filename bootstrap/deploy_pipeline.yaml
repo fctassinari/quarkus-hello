@@ -64,9 +64,9 @@
 #      include_role:
 #        name: "3-ocp4-install-cicd-infra"
 
-#    - name: 'Install Pipeline'
-#      include_role:
-#        name: "4-ocp4-install-pipelines"
+    - name: 'Install Pipeline'
+      include_role:
+        name: "4-ocp4-install-pipelines"
 
 #    - name: 'Configure App project'
 #      include_role:

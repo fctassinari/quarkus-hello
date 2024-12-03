@@ -1,30 +1,30 @@
-- name: Create OpenShift Objects for Openshift Pipeline Tasks
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/task-argo-sync-and-wait.yaml.j2
-  - ./templates/task-dependency-report.yaml.j2
-  - ./templates/task-git-update-deployment.yaml.j2
-  - ./templates/cm-maven.yaml.j2
-  - ./templates/clustertask-rox-deployment-check.yaml.j2
-  - ./templates/clustertask-rox-image-check.yaml.j2
-  - ./templates/clustertask-rox-image-scan.yaml.j2
-
-- name: Create OpenShift Objects for Openshift Pipeline Triggers
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/trigger-eventlistener.yaml.j2
-  - ./templates/rt-trigger-eventlistener.yaml.j2
-  - ./templates/triggerbinding-trigger-gogs.yaml.j2
-  - ./templates/triggertemplate.yaml.j2
-
+#- name: Create OpenShift Objects for Openshift Pipeline Tasks
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/task-argo-sync-and-wait.yaml.j2
+#  - ./templates/task-dependency-report.yaml.j2
+#  - ./templates/task-git-update-deployment.yaml.j2
+#  - ./templates/cm-maven.yaml.j2
+#  - ./templates/clustertask-rox-deployment-check.yaml.j2
+#  - ./templates/clustertask-rox-image-check.yaml.j2
+#  - ./templates/clustertask-rox-image-scan.yaml.j2
+#
+#- name: Create OpenShift Objects for Openshift Pipeline Triggers
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/trigger-eventlistener.yaml.j2
+#  - ./templates/rt-trigger-eventlistener.yaml.j2
+#  - ./templates/triggerbinding-trigger-gogs.yaml.j2
+#  - ./templates/triggertemplate.yaml.j2
+#
 - name: Create OpenShift Objects for Openshift Pipelines Templates
   k8s:
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
   - ./templates/generic-pipeline.yaml.j2
-  - ./templates/pipeline-build-pvc.yaml.j2
+#  - ./templates/pipeline-build-pvc.yaml.j2

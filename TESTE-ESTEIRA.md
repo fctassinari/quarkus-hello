@@ -1,15 +1,5 @@
 # Instruções - Openshift Test Pipeline
 
-# Pre instalação
-* Red Hat ACS
-* * -n rhacs-operator
-* Nexus
-* Criar repositório
-* * pegar a senha de admin ```` cat /nexus-data/admin.password ````
-* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
-  relase<br>
-  permissive<br>
-  https://maven.repository.redhat.com/ga/ <br>
 
 # Install Gitops
 - Install GitOps Operator
@@ -40,7 +30,13 @@
 * Install Nexus
 * * ```
       Your admin user password is located in
-      /nexus-data/admin.password on the server.```
+      /nexus-data/admin.password on the server.
+* * Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+  relase<br>
+  permissive<br>
+  https://maven.repository.redhat.com/ga/ <br>
+* * No repositorio maven-public associar com o maven-redhat    
+    ```
 * Check Nexus Route
 * Wait for nexus to be running
 * Sonarqube Route
