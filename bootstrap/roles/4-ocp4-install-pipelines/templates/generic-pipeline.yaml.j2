@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: "{{ pipeline_namespace }}"
+  name: generic-pipeline
   namespace: "{{ pipeline_namespace }}"
 spec:
   params:
@@ -98,7 +98,9 @@ spec:
     - name: listar
       params:
         - name: PATH
-          value: $(workspaces.source.path)/target
+          value: $(workspaces.source.path)/source/target
+      runAfter:
+        - unit-tests
       taskRef:
         kind: Task
         name: listar
