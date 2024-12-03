@@ -238,11 +238,11 @@ pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
 
 Sonarqube<br>
 user: admin
-pass: admin123
+pass: prOc3rgs@2024#
 
 Nexus<br>
 user: admin
-pass: admin123
+pass: prOc3rgs@2024#
 
 Gogs<br>
 user: gogs
