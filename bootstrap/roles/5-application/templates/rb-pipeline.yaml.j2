@@ -16,7 +16,7 @@ roleRef:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: edit
+  name: pipeline-edit
   namespace: "{{ app_namespace }}"
 subjects:
   - kind: ServiceAccount
