@@ -73,7 +73,6 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
-
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
@@ -95,6 +94,11 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
+    - name: listar
+      params:
+        - name: PATH
+          value:
 
 #    - name: code-analysis
 #      params:

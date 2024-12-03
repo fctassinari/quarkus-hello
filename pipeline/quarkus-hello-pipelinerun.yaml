@@ -1,15 +1,40 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name:  quarkus-hello-pipeline-run
-  namespace: "{{ pipeline_namespace }}"
+  name: generic-pipeline
+  namespace: sm-pipeline
+  labels:
+    tekton.dev/pipeline: sm-pipeline
 spec:
+  params:
+    - name: APP_NAME
+      value: quarkus-hello
+    - name: APP_VERSION
+      value: 1.0.0
+    - name: GIT_REPO
+      value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
+    - name: GIT_REVISION
+      value: master
+    - name: PATH_CONTEXT
+      value: .
+    - name: IMAGE_NAME
+      value: 'image-registry.openshift-image-registry.svc:5000/dev-quarkus-hello/quarkus-hello'
+    - name: IMAGE_TAG
+      value: latest
+    - name: VERSION
+      value: openjdk-17-ubi8
+    - name: APP_MANIFESTS_GIT
+      value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git'
   pipelineRef:
-    name:  "{{ pipeline_namespace }}"
+    name: sm-pipeline
+  taskRunTemplate:
+    serviceAccountName: pipeline
+  timeouts:
+    pipeline: 1h0m0s
   workspaces:
+    - configMap:
+        name: cm-maven-settings
+      name: maven-settings
     - name: workspace
       persistentVolumeClaim:
         claimName: pvc-workspace
-    - name: maven-settings
-      configMap:
-        name: maven-settings
