@@ -162,46 +162,29 @@ spec:
         - name: maven-settings
           workspace: maven-settings
 
-
-
-    - name: listar
+    - name: build-image
       params:
-        - name: PATH
+        - name: IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: TLSVERIFY
+          value: 'false'
+        - name: MAVEN_MIRROR_URL
+          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
+        - name: PATH_CONTEXT
           value: $(workspaces.source.path)/source/target
+        - name: VERSION
+          value: $(params.VERSION)
+        - name: MAVEN_ARGS_APPEND
+          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
       runAfter:
         - release-app
       taskRef:
-        kind: Task
-        name: listar
+        kind: ClusterTask
+        name: s2i-java
       workspaces:
         - name: source
           workspace: workspace
 
-
-
-  #    - name: build-image
-#      params:
-#        - name: IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: TLSVERIFY
-#          value: 'false'
-#        - name: MAVEN_MIRROR_URL
-#          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
-#        - name: PATH_CONTEXT
-#          value: $(workspaces.source.path)/source/target
-#        - name: VERSION
-#          value: $(params.VERSION)
-#        - name: MAVEN_ARGS_APPEND
-#          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
-#      runAfter:
-#        - release-app
-#      taskRef:
-#        kind: ClusterTask
-#        name: s2i-java
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#
 #    - name: image-scan
 #      params:
 #        - name: image
@@ -295,3 +278,24 @@ spec:
   workspaces:
     - name: maven-settings
     - name: workspace
+
+
+
+
+
+
+#
+#    - name: listar
+#      params:
+#        - name: PATH
+#          value: $(workspaces.source.path)/source/target
+#      runAfter:
+#        - release-app
+#      taskRef:
+#        kind: Task
+#        name: listar
+#      workspaces:
+#        - name: source
+#          workspace: workspace
+#
+#
