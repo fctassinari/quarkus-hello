@@ -28,43 +28,51 @@ spec:
 
           import os
           import requests
-
+          
+          fct_user = "fctassinari"
+          fct_pass = "Ipc@Chip2024"
+          
           gogs_user = "$(params.GOGS_USER)"
           gogs_pwd = "$(params.GOGS_PASSWORD)"
           webhookURL = "http://" + os.popen('oc get route el-webhook -n sm-pipeline -o template --template="{{.spec.host}}"').read()
           gogsURL = "http://" + os.popen('oc get svc gogs -n gogs -o template --template="{{.spec.clusterIP}}"').read() + ":3000"
+          
+          
+          ####################################################################
+          # este bloco nao está funcionando
+          # ex: curl -v -H "Content-Type: application/json" -H "Authorization: token 9d249005667ca05c961ac8f69c6a4d06a63a20f2" -d '{"user_name": "tassinari","password": "gogs","retype": "gogs","email": "admin@gogs.com","admin": "true"}' http://172.31.23.70:3000/user/sign_up
+          #          create admin user
+          #          data_user = {
+          #          'user_name': gogs_user,
+          #          'password': gogs_pwd,
+          #          'retype': gogs_pwd,
+          #          'email': 'admin@gogs.com'
+          #          }
+          #          print(gogsURL)
+          #          resp = requests.post(url = gogsURL + "/user/sign_up", data = data_user)
+          #
+          #          if resp.status_code != 200:
+          #            print("Error creating Gogs admin (status code: {})".format(resp.status_code))
+          #            print(resp.content)
+          #          else:
+          #            print("Created admin user {}:{}".format(gogs_user, gogs_pwd))
+          ####################################################################
 
-          # create admin user
-          data_user = {
-          'user_name': gogs_user,
-          'password': gogs_pwd,
-          'retype': gogs_pwd,
-          'email': 'admin@gogs.com'
-          }
-          print(gogsURL)
-          resp = requests.post(url = gogsURL + "/user/sign_up", data = data_user)
-
-          if resp.status_code != 200:
-            print("Error creating Gogs admin (status code: {})".format(resp.status_code))
-            print(resp.content)
-          else:
-            print("Created admin user {}:{}".format(gogs_user, gogs_pwd))
-
-          # create git repo spring-petclinic
-          data_repo = '{"clone_addr": "https://github.com/rcarrata/spring-petclinic", "uid": 1, "repo_name": "spring-petclinic"}'
+          # create git repo quarkus-hello
+          data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello.git", "uid": 1, "repo_name": "quarkus-hello"}'
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
+          resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (fct_user, fct_pass), data = data_repo)
 
           if resp.status_code != 200 and resp.status_code != 201:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
-            print("Created git repo spring-petclinic")
+            print("Created git repo quarkus-hello")
 
-          # configure webhook on spring-petclinic
+          # configure webhook 
           data_webhook = '{"type": "gogs", "config": { "url": "' + webhookURL + '", "content_type": "json"}, "events": ["push"], "active": true}'
           headers = {'Content-Type': 'application/json'}
-          resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/spring-petclinic/hooks",
+          resp = requests.post(url = gogsURL + "/api/v1/repos/" + gogs_user + "/quarkus-hello/hooks",
                               headers = headers,
                               auth = (gogs_user, gogs_pwd),
                               data = data_webhook)
@@ -75,8 +83,8 @@ spec:
           else:
             print("Configured webhook: " + webhookURL)
 
-          # create git repo spring-petclinic-config
-          data_repo = '{"clone_addr": "https://github.com/rcarrata/spring-petclinic-config.git", "uid": 1, "repo_name": "spring-petclinic-config"}'
+          # create git repo quarkus-hello-config
+          data_repo = '{"clone_addr": "https://github.com/fctassinari/quarkus-hello-config.git", "uid": 1, "repo_name": "quarkus-hello-config"}'
           headers = {'Content-Type': 'application/json'}
           resp = requests.post(url = gogsURL + "/api/v1/repos/migrate", headers = headers, auth = (gogs_user, gogs_pwd), data = data_repo)
 
@@ -84,4 +92,4 @@ spec:
             print("Error creating git repo (status code: {})".format(resp.status_code))
             print(resp.content)
           else:
-            print("Created git repo spring-petclinic-config")
+            print("Created git repo quarkus-hello-config")

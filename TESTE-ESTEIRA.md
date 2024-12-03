@@ -29,7 +29,8 @@
     oc get pods
     oc rsh <nome do pod >
     su git
-    ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin```
+    ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
+    ```
 
 * Install Sonarqube
 * Install Reports Repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
@@ -231,10 +232,21 @@ ArgoCD<br>
 user: admin<br>
 pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
 
-Acs
-user: admin
+Acs<br>
+user: admin<br>
 pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
 
+Sonarqube<br>
+user: admin
+pass: admin123
+
+Nexus<br>
+user: admin
+pass: admin123
+
+Gogs<br>
+user: gogs
+pass: gogs
 
 
 
