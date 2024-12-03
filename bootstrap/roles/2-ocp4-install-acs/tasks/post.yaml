@@ -1,0 +1,27 @@
+- name: Get ACS central route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: stackrox
+    name: central
+  register: r_stackrox_central_route
+  retries: 10
+  delay: 20
+
+- name: Store central route as a fact
+  set_fact:
+    f_stackrox_central_addr: "{{ r_stackrox_central_route.resources[0].spec.host }}"
+
+
+- name: Creating ACS Integration with the Openshift Internal Registry
+  uri:
+    url: "https://{{ f_stackrox_central_addr }}/v1/imageintegrations"
+    body: "{{ lookup('template', 'templates/ocp_registry_acs.yml.j2') }}"
+    method: POST
+    user: admin
+    password: "{{ acs_central_password }}"
+    body_format: json
+    force_basic_auth: true
+    validate_certs: no
+    # temporarily accept 400s due to ROX-6699
+    status_code: 200, 400

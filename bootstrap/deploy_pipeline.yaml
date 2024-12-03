@@ -13,7 +13,7 @@
     acs_central_password_plain_text: 'prOc3rgs@2024#'
 
 
-    cluster_admin_username: 'admin'
+    cluster_admin_username: 'cluster-admin-sa'
     cluster_admin_token: 'sha256~1fB1wFZoKCspSZSH8PE5pFXdL-eGlMpIND6DsTTPHuw'
     cluster_url: 'apps.cluster-pwtfx.dynamic.redhatworkshops.io'
 
