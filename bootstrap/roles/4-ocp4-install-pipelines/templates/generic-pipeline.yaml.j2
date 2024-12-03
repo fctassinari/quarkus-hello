@@ -122,6 +122,21 @@ spec:
         - name: maven-settings
           workspace: maven-settings
 
+    - name: dependency-report
+      params:
+        - name: SOURCE_DIR
+          value: source
+      runAfter:
+        - unit-tests
+      taskRef:
+        kind: Task
+        name: dependency-report
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
 
 
     - name: listar
@@ -138,22 +153,8 @@ spec:
           workspace: workspace
 
 
-#    - name: dependency-report
-#      params:
-#        - name: SOURCE_DIR
-#          value: source
-#      runAfter:
-#        - unit-tests
-#      taskRef:
-#        kind: Task
-#        name: dependency-report
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
-#    - name: release-app
+
+  #    - name: release-app
 #      params:
 #        - name: MAVEN_IMAGE
 #          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
