@@ -10,7 +10,7 @@ spec:
     - name: APP_NAME
       value: quarkus-hello
     - name: APP_VERSION
-      value: 1.0.0
+      value: 3.3.3
     - name: GIT_REPO
       value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
     - name: GIT_REVISION
