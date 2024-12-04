@@ -81,7 +81,7 @@ Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fo
 * Antes de instalar o ACS criar uma conta de servico (SA) e gerar seu token
 * * oc create sa cluster-admin-sa -n kube-system
 * * oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
-* * oc create token cluster-admin-sa -n kube-system
+* * oc create token cluster-admin-sa --duration=999999h -n kube-system
 * * Copiar o token e colocar na variavel cluster_admin_token do arquivo deploy_pipeline.yaml
 * Central
 * * Create ACS namespace
