@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: generic-pipeline
+  generateName: pipeline-quarkus-hello-
   namespace: sm-pipeline
   labels:
     tekton.dev/pipeline: sm-pipeline
@@ -15,6 +15,12 @@ spec:
       value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
     - name: GIT_REVISION
       value: master
+    - default: ""
+      name: GIT_USER
+      type: string
+    - default: ""
+      name: GIT_PASS
+      type: string
     - name: PATH_CONTEXT
       value: .
     - name: IMAGE_NAME
