@@ -15,6 +15,12 @@ spec:
     - default: main
       name: GIT_REVISION
       type: string
+    - default: ""
+      name: GIT_USER
+      type: string
+    - default: ""
+      name: GIT_PASS
+      type: string
     - default: .
       name: PATH_CONTEXT
       type: string
@@ -240,41 +246,41 @@ spec:
         - name: workspace
           workspace: workspace
 
-#    - name: update-deployment
-#      params:
-#        - name: GIT_REPOSITORY
-#          value: $(params.APP_MANIFESTS_GIT)
-#        - name: GIT_USERNAME
-#          value: gogs
-#        - name: GIT_PASSWORD
-#          value: gogs
-#        - name: CURRENT_IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: NEW_IMAGE
-#          value: '$(params.IMAGE_NAME)'
-#        - name: NEW_DIGEST
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#        - name: KUSTOMIZATION_PATH
-#          value: environments/dev
-#      runAfter:
-#        - image-scan
-#        - image-check
-#        - deploy-check
-#      taskRef:
-#        kind: Task
-#        name: git-update-deployment
-#      workspaces:
-#        - name: workspace
-#          workspace: workspace
-#
-#    - name: wait-application
-#      taskRef:
-#        name: argocd-task-sync-and-wait
-#      runAfter:
-#        - update-deployment
-#      params:
-#        - name: application-name
-#          value: "{{ app_name }}"
+    - name: update-deployment
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: GIT_USERNAME
+          value: $(params.GIT_USER)
+        - name: GIT_PASSWORD
+          value: $(params.GIT_PASS)
+        - name: CURRENT_IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: NEW_IMAGE
+          value: '$(params.IMAGE_NAME)'
+        - name: NEW_DIGEST
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+        - name: KUSTOMIZATION_PATH
+          value: environments/dev
+      runAfter:
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        kind: Task
+        name: git-update-deployment
+      workspaces:
+        - name: workspace
+          workspace: workspace
+
+    - name: wait-application
+      taskRef:
+        name: argocd-task-sync-and-wait
+      runAfter:
+        - update-deployment
+      params:
+        - name: application-name
+          value: "{{ app_name }}"
   workspaces:
     - name: maven-settings
     - name: workspace
