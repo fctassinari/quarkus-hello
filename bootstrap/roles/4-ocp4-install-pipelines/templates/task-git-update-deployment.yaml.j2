@@ -18,6 +18,8 @@ spec:
       type: string
     - name: GIT_PASSWORD
       type: string
+    - name: GIT_BRANCH
+      type: string
     - name: CURRENT_IMAGE
       type: string
     - name: NEW_IMAGE
@@ -48,7 +50,6 @@ spec:
       script: |
         cd git-update-digest-workdir/$(params.KUSTOMIZATION_PATH)
         pwd
-        ls -la
         /app/kustomize edit set image $(params.CURRENT_IMAGE)=$(params.NEW_IMAGE)@$(params.NEW_DIGEST)
         echo "##########################"
         echo "### kustomization.yaml ###"
@@ -72,7 +73,7 @@ spec:
         echo 'git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")'
 
         git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")
-        git push auth-origin main
+        git push auth-origin $(params.GIT_BRANCH)
 
         RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"

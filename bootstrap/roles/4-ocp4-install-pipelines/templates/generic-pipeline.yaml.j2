@@ -13,7 +13,7 @@ spec:
       name: GIT_REPO
       type: string
     - default: main
-      name: GIT_REVISION
+      name: GIT_BRANCH
       type: string
     - default: ""
       name: GIT_USER
@@ -44,7 +44,7 @@ spec:
         - name: url
           value: $(params.GIT_REPO)
         - name: revision
-          value: $(params.GIT_REVISION)
+          value: $(params.GIT_BRANCH)
         - name: refspec
           value: ''
         - name: submodules
@@ -256,6 +256,8 @@ spec:
           value: $(params.GIT_USER)
         - name: GIT_PASSWORD
           value: $(params.GIT_PASS)
+        - name: GIT_BRANCH
+          value: $(params.GIT_BRANCH)
         - name: CURRENT_IMAGE
           value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: NEW_IMAGE

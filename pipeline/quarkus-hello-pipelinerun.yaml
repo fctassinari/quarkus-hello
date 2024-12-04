@@ -13,7 +13,7 @@ spec:
       value: 3.3.3
     - name: GIT_REPO
       value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
-    - name: GIT_REVISION
+    - name: GIT_BRANCH
       value: master
     - name: GIT_USER
       value: gogs
