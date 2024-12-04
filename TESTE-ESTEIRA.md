@@ -228,7 +228,7 @@ Acessar o repositorio no Gogs.
 * * gitops-argocd.yaml
 * 
 
-# ---------------------
+# Contas
 ArgoCD<br>
 user: admin<br>
 pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
@@ -250,6 +250,18 @@ user: gogs
 pass: gogs
 
 
+
+
+# Importar a imagem java do repositorio redhat para o registry do OCP<br>
+```
+oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+oc get route -n openshift-image-registry
+
+podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
+podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
+podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io --tls-verify=false
+podman push default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
+```
 
 
 
