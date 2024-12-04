@@ -15,12 +15,10 @@ spec:
       value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
     - name: GIT_REVISION
       value: master
-    - default: ""
-      name: GIT_USER
-      type: string
-    - default: ""
-      name: GIT_PASS
-      type: string
+    - name: GIT_USER
+      value: gogs
+    - name: GIT_PASS
+      value: gogs
     - name: PATH_CONTEXT
       value: .
     - name: IMAGE_NAME

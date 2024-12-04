@@ -89,8 +89,8 @@ spec:
             - package
             - '-f'
             - source
-            - '-Dproject.version=1.0.1'
-            - '-Dmaven.repo.local=$(params.APP_VERSION)/.m2'
+            - '-Dproject.version=$(params.APP_VERSION)'
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
       runAfter:
         - git-clone
       taskRef:
@@ -112,6 +112,7 @@ spec:
             - 'sonar:sonar'
             - '-f'
             - source
+            - '-Dproject.version=$(params.APP_VERSION)'
             - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
             - '-Dsonar.userHome=/tmp/sonar'
             - '-Dsonar.login={{ sonar_token }}'
@@ -153,6 +154,7 @@ spec:
             - deploy
             - '-f'
             - source
+            - '-Dproject.version=$(params.APP_VERSION)'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
             - '-Dmaven.test.skip=true'
             - '-DaltDeploymentRepository=nexus::default::https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
@@ -181,7 +183,7 @@ spec:
         - name: VERSION
           value: $(params.VERSION)
         - name: MAVEN_ARGS_APPEND
-          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true'
+          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
       runAfter:
         - release-app
       taskRef:
