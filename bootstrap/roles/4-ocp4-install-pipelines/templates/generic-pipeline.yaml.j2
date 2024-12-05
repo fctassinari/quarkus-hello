@@ -195,28 +195,29 @@ spec:
       workspaces:
         - name: source
           workspace: workspace
-    - name: build-image
-      params:
-        - name: IMAGE
-          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-        - name: TLSVERIFY
-          value: 'false'
-        - name: MAVEN_MIRROR_URL
-          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
-        - name: PATH_CONTEXT
-          value: $(workspaces.source.path)/source/target
-        - name: VERSION
-          value: $(params.VERSION)
-        - name: MAVEN_ARGS_APPEND
-          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
-      runAfter:
-        - release-app
-      taskRef:
-        kind: ClusterTask
-        name: s2i-java
-      workspaces:
-        - name: source
-          workspace: workspace
+
+#    - name: build-image
+#      params:
+#        - name: IMAGE
+#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+#        - name: TLSVERIFY
+#          value: 'false'
+#        - name: MAVEN_MIRROR_URL
+#          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
+#        - name: PATH_CONTEXT
+#          value: $(workspaces.source.path)/source/target
+#        - name: VERSION
+#          value: $(params.VERSION)
+#        - name: MAVEN_ARGS_APPEND
+#          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
+#      runAfter:
+#        - release-app
+#      taskRef:
+#        kind: ClusterTask
+#        name: s2i-java
+#      workspaces:
+#        - name: source
+#          workspace: workspace
 
     - name: image-scan
       params:
