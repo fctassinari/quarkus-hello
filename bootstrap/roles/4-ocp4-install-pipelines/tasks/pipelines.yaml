@@ -3,7 +3,7 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
-  - ./templates/task-build-quarkus-image.yaml.j2
+#  - ./templates/task-build-quarkus-image.yaml.j2
 #  - ./templates/task-argo-sync-and-wait.yaml.j2
 #  - ./templates/task-dependency-report.yaml.j2
 #  - ./templates/task-git-update-deployment.yaml.j2
