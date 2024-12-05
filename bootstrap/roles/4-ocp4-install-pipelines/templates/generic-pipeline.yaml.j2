@@ -83,6 +83,7 @@ spec:
       workspaces:
         - name: output
           workspace: workspace
+
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
@@ -172,15 +173,15 @@ spec:
           workspace: workspace
         - name: maven-settings
           workspace: maven-settings
+
     - name: build-image
       params:
         - name: IMAGE
           value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
         - name: JAVA_IMAGE
-          value: $(param.JAVA_IMAGE)
+          value: $(params.JAVA_IMAGE)
         - name: TLSVERIFY
           value: 'false'
-
         - name: MAVEN_MIRROR_URL
           value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
         - name: PATH_CONTEXT
@@ -190,12 +191,13 @@ spec:
       runAfter:
         - release-app
       taskRef:
-        kind: ClusterTask
-        name: s2i-java
+        kind: Task
+        name: build-quarkus-image
       workspaces:
         - name: source
           workspace: workspace
 
+## Exemplo S2I
 #    - name: build-image
 #      params:
 #        - name: IMAGE
