@@ -26,7 +26,7 @@ spec:
     - name: IMAGE_TAG
       value: latest
     - name: VERSION
-      value: ubi9-openjdk-21:1.20-2.1729773471
+      value: ubi9-openjdk-21:1.21-3
     - name: APP_MANIFESTS_GIT
       value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git'
   pipelineRef:
