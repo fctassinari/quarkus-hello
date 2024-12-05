@@ -36,9 +36,8 @@ spec:
       name: IMAGE_DIGEST
       type: string
   steps:
-    - computeResources: {}
+    - name: build-and-push
       image: $(params.BUILDER_IMAGE)
-      name: build-and-push
       script: |
         #!/bin/sh
         set -e
