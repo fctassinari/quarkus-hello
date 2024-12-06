@@ -1,3 +1,27 @@
+- name: Get argocd password
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: openshift-gitops-cluster
+    namespace: openshift-gitops
+  register: r_argopass
+
+- name: debug
+  debug:
+    msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
+
+- name: Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cm-argocd-env-pipeline-ns.yaml.j2') }}"
+
+- name: Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
+
+
+
 - name: Create OpenShift Objects for Openshift Pipeline Tasks
   k8s:
     state: present
