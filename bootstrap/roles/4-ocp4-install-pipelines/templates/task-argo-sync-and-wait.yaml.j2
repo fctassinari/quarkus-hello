@@ -33,6 +33,20 @@ spec:
     - name: login-sync-wait
       image: openshift/smt-pipeline-tools:1.0
       script: |
+        
+        echo "------------------" &&  \
+        echo "Git " && \
+        git --version && \
+        echo "ArgoCD " && \
+        argocd version --client && \
+        echo "Tekton " && \
+        tkn version && \
+        echo "Rox " && \
+        roxctl version && \
+        echo "Oc " && \
+        oc version
+    
+    
         echo "--------------------------------------------"
         echo $ARGOCD_AUTH_TOKEN
         echo "argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD"
