@@ -308,8 +308,6 @@ spec:
     - name: wait-application
       taskRef:
         name: argocd-task-sync-and-wait
-      runAfter:
-        - update-deployment
       params:
         - name: application-name
           value: "{{ app_name }}"
@@ -317,6 +315,8 @@ spec:
     - name: maven-settings
     - name: workspace
 
+#      runAfter:
+#        - update-deployment
 
 
 
