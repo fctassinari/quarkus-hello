@@ -62,6 +62,8 @@ spec:
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
         
           git config --global --add safe.directory /workspace/source/source
+          git config --global user.email "tekton@pipeline.com"
+          git config --global user.name "Tekton"
           git add pom.xml
           git commit -m "Versão atualizada para $new_version. "
           git push
