@@ -84,15 +84,6 @@ spec:
           git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")
           git push auth-origin $(params.GIT_BRANCH)
 
-
-          #          RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
-          #          EXIT_CODE="$?"
-          #          if [ "$EXIT_CODE" != 0 ]
-          #          then
-          #            exit $EXIT_CODE
-          #          fi
-          #          # Make sure we don't add a trailing newline to the result!
-          #          echo -n "$RESULT_SHA" > $(results.commit.path)
   workspaces:
     - mountPath: /workspace/source
       name: source
