@@ -21,12 +21,12 @@
 #    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
 #
 
-- name: Create OpenShift Objects for Openshift Pipeline Tasks
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/task-update-release.yaml.j2
+#- name: Create OpenShift Objects for Openshift Pipeline Tasks
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/task-update-release.yaml.j2
 #  - ./templates/task-argo-sync-and-wait.yaml.j2
 #  - ./templates/task-build-quarkus-image.yaml.j2
 #  - ./templates/task-dependency-report.yaml.j2
