@@ -60,7 +60,8 @@ spec:
             
           # Confirmar a versão no pom.xml
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
-          
+        
+          git config --global --add safe.directory /workspace/source/source
           git add pom.xml
           git commit -m "Versão atualizada para $new_version. "
           git push
