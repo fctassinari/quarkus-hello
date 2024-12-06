@@ -26,7 +26,6 @@ spec:
 
     - name: release
       image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
-      workingDir: $(workspaces.workspace.path)
       script: |
 
         echo "--------------------------------------------"
