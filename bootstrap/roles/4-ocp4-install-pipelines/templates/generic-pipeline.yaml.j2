@@ -84,6 +84,16 @@ spec:
         - name: output
           workspace: workspace
 
+    - name: app-release
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: update-release
+      workspaces:
+        - name: source
+          workspace: workspace
+
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
@@ -96,7 +106,7 @@ spec:
             - '-Dproject.version=$(params.APP_VERSION)'
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
       runAfter:
-        - git-clone
+        - app-release
       taskRef:
         kind: ClusterTask
         name: maven

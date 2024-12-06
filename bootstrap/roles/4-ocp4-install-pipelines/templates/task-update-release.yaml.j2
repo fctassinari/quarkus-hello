@@ -1,0 +1,65 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: update-release
+  namespace: "{{ pipeline_namespace }}"
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: deploy
+    tekton.dev/displayName: "argocd"
+spec:
+  description: >-
+    Toda vez que a esteira for iniciada a aplicação terá seu release incrementado em uma unidde
+
+  steps:
+
+    - name: release
+      image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
+      workingDir: $(workspaces.workspace.path)
+      script: |
+
+        echo "--------------------------------------------"
+        #!/bin/bash
+        
+        cd source
+        # Arquivo pom.xml
+          POM_FILE="pom.xml"
+          
+          # Função para obter a versão atual
+          get_version() {
+          grep -oPm1 "(?<=<version>)[^<]+" "$POM_FILE"
+        }
+        
+        # Função para incrementar a versão
+          increment_version() {
+          local version=$1
+          local base_version=$(echo "$version" | awk -F. '{print $1"."$2}')
+          local patch_version=$(echo "$version" | awk -F. '{print $3 + 1}')
+          echo "$base_version.$patch_version"
+        }
+        
+        # Obter versão atual
+          current_version=$(get_version)
+          if [ -z "$current_version" ]; then
+        echo "Erro: Não foi possível obter a versão atual do arquivo pom.xml."
+          exit 1
+          fi
+        
+        echo "Versão atual: $current_version"
+        
+        # Incrementar a versão
+          new_version=$(increment_version "$current_version")
+        echo "Nova versão: $new_version"
+        
+        # Atualizar a versão no pom.xml
+          sed -i "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" "$POM_FILE"
+          
+          
+          # Confirmar a versão no pom.xml
+          echo "Build concluído com sucesso! Versão atualizada para $new_version."
+          
+          git add pom.xml
+          git commit -m "Versão atualizada para $new_version. "
+          git push
