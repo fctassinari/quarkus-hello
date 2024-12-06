@@ -18,7 +18,8 @@ USER root
 
 #RUN yum -y install git && \
 #    git --version
-RUN  curl -O https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/openshift-gitops/1.14.0-116/argocd-linux-amd64.tar.gz && \
+RUN yum -y install wget && \
+    wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/openshift-gitops/1.14.0-116/argocd-linux-amd64.tar.gz && \
     tar xvzf argocd-linux-amd64.tar.gz && \
     mv argocd /usr/local/bin/argocd && \
     chmod +x /usr/local/bin/argocd && \
