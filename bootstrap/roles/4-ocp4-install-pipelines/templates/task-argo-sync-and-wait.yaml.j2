@@ -33,35 +33,19 @@ spec:
     - name: login-sync-wait
       image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
       script: |
-        
-        echo "------------------" &&  \
-        echo "Git " && \
-        git --version && \
-        echo "ArgoCD " && \
-        argocd version --client && \
-        echo "Tekton " && \
-        tkn version && \
-        echo "Rox " && \
-        roxctl version && \
-        echo "Oc " && \
-        oc version
-    
 
         echo "--------------------------------------------"
         echo $ARGOCD_AUTH_TOKEN
-        echo "argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD"
-
+        # echo "argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD"
 
         if [ -z $ARGOCD_AUTH_TOKEN ]; then
           yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD ;
         fi
 
-        echo "1"
-        echo "argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3"
+        # echo "1"
+        # echo "argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3"
         argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3
 
-        echo "2"
-        echo "argocd app wait $(params.application-name) --health $(params.flags)"
+        #echo "2"
+        # echo "argocd app wait $(params.application-name) --health $(params.flags)"
         argocd app wait $(params.application-name) --health $(params.flags)
-
-        echo "3"

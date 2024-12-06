@@ -43,271 +43,273 @@ spec:
       name: APP_MANIFESTS_GIT
       type: string
   tasks:
-#    - name: git-clone
-#      params:
-#        - name: url
-#          value: $(params.GIT_REPO)
-#        - name: revision
-#          value: $(params.GIT_BRANCH)
-#        - name: refspec
-#          value: ''
-#        - name: submodules
-#          value: 'true'
-#        - name: depth
-#          value: '0'
-#        - name: sslVerify
-#          value: 'true'
-#        - name: crtFileName
-#          value: ca-bundle.crt
-#        - name: subdirectory
-#          value: source
-#        - name: sparseCheckoutDirectories
-#          value: ''
-#        - name: deleteExisting
-#          value: 'true'
-#        - name: httpProxy
-#          value: ''
-#        - name: httpsProxy
-#          value: ''
-#        - name: noProxy
-#          value: ''
-#        - name: verbose
-#          value: 'true'
-#        - name: gitInitImage
-#          value: 'registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5'
-#        - name: userHome
-#          value: /home/git
-#      taskRef:
-#        kind: ClusterTask
-#        name: git-clone
-#      workspaces:
-#        - name: output
-#          workspace: workspace
-#
-#    - name: unit-tests
-#      params:
-#        - name: MAVEN_IMAGE
-#          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
-#        - name: GOALS
-#          value:
-#            - package
-#            - '-f'
-#            - source
-#            - '-Dproject.version=$(params.APP_VERSION)'
-#            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-#      runAfter:
-#        - git-clone
-#      taskRef:
-#        kind: ClusterTask
-#        name: maven
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
-#    - name: code-analysis
-#      params:
-#        - name: MAVEN_IMAGE
-#          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
-#        - name: GOALS
-#          value:
-#            - install
-#            - 'sonar:sonar'
-#            - '-f'
-#            - source
-#            - '-Dproject.version=$(params.APP_VERSION)'
-#            - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
-#            - '-Dsonar.userHome=/tmp/sonar'
-#            - '-Dsonar.login={{ sonar_token }}'
-#            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-#            - '-Dmaven.test.skip=true'
-#      runAfter:
-#        - unit-tests
-#      taskRef:
-#        kind: ClusterTask
-#        name: maven
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
-#    - name: dependency-report
-#      params:
-#        - name: SOURCE_DIR
-#          value: source
-#      runAfter:
-#        - unit-tests
-#      taskRef:
-#        kind: Task
-#        name: dependency-report
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
-#
-#    - name: release-app
-#      params:
-#        - name: MAVEN_IMAGE
-#          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
-#        - name: GOALS
-#          value:
-#            - deploy
-#            - '-f'
-#            - source
-#            - '-Dproject.version=$(params.APP_VERSION)'
-#            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
-#            - '-Dmaven.test.skip=true'
-#            - '-DaltDeploymentRepository=nexus::default::https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
-#      runAfter:
-#        - code-analysis
-#        - dependency-report
-#      taskRef:
-#        kind: ClusterTask
-#        name: maven
-#      workspaces:
-#        - name: source
-#          workspace: workspace
-#        - name: maven-settings
-#          workspace: maven-settings
-#
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_BRANCH)
+        - name: refspec
+          value: ''
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '0'
+        - name: sslVerify
+          value: 'true'
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: source
+        - name: sparseCheckoutDirectories
+          value: ''
+        - name: deleteExisting
+          value: 'true'
+        - name: httpProxy
+          value: ''
+        - name: httpsProxy
+          value: ''
+        - name: noProxy
+          value: ''
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: 'registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5'
+        - name: userHome
+          value: /home/git
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: workspace
+
+    - name: unit-tests
+      params:
+        - name: MAVEN_IMAGE
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+        - name: GOALS
+          value:
+            - package
+            - '-f'
+            - source
+            - '-Dproject.version=$(params.APP_VERSION)'
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
+    - name: code-analysis
+      params:
+        - name: MAVEN_IMAGE
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+        - name: GOALS
+          value:
+            - install
+            - 'sonar:sonar'
+            - '-f'
+            - source
+            - '-Dproject.version=$(params.APP_VERSION)'
+            - '-Dsonar.host.url=https://{{ sonar_namespace }}.{{ cluster_url }}/'
+            - '-Dsonar.userHome=/tmp/sonar'
+            - '-Dsonar.login={{ sonar_token }}'
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+            - '-Dmaven.test.skip=true'
+      runAfter:
+        - unit-tests
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
+    - name: dependency-report
+      params:
+        - name: SOURCE_DIR
+          value: source
+      runAfter:
+        - unit-tests
+      taskRef:
+        kind: Task
+        name: dependency-report
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
+
+    - name: release-app
+      params:
+        - name: MAVEN_IMAGE
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+        - name: GOALS
+          value:
+            - deploy
+            - '-f'
+            - source
+            - '-Dproject.version=$(params.APP_VERSION)'
+            - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
+            - '-Dmaven.test.skip=true'
+            - '-DaltDeploymentRepository=nexus::default::https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
+      runAfter:
+        - code-analysis
+        - dependency-report
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: maven-settings
+          workspace: maven-settings
+
+    - name: build-image
+      params:
+        - name: IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: JAVA_IMAGE
+          value: $(params.JAVA_IMAGE)
+        - name: TLSVERIFY
+          value: 'false'
+        - name: MAVEN_MIRROR_URL
+          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
+        - name: PATH_CONTEXT
+          value: $(workspaces.source.path)/source/target
+        - name: MAVEN_ARGS_APPEND
+          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
+      runAfter:
+        - release-app
+      taskRef:
+        kind: Task
+        name: build-quarkus-image
+      workspaces:
+        - name: source
+          workspace: workspace
+
+## Exemplo S2I
 #    - name: build-image
 #      params:
 #        - name: IMAGE
 #          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: JAVA_IMAGE
-#          value: $(params.JAVA_IMAGE)
 #        - name: TLSVERIFY
 #          value: 'false'
 #        - name: MAVEN_MIRROR_URL
 #          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
 #        - name: PATH_CONTEXT
 #          value: $(workspaces.source.path)/source/target
+#        - name: VERSION
+#          value: $(params.VERSION)
 #        - name: MAVEN_ARGS_APPEND
 #          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
 #      runAfter:
 #        - release-app
 #      taskRef:
-#        kind: Task
-#        name: build-quarkus-image
+#        kind: ClusterTask
+#        name: s2i-java
 #      workspaces:
 #        - name: source
 #          workspace: workspace
-#
-### Exemplo S2I
-##    - name: build-image
-##      params:
-##        - name: IMAGE
-##          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-##        - name: TLSVERIFY
-##          value: 'false'
-##        - name: MAVEN_MIRROR_URL
-##          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
-##        - name: PATH_CONTEXT
-##          value: $(workspaces.source.path)/source/target
-##        - name: VERSION
-##          value: $(params.VERSION)
-##        - name: MAVEN_ARGS_APPEND
-##          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true -Dproject.version=$(params.APP_VERSION)'
-##      runAfter:
-##        - release-app
-##      taskRef:
-##        kind: ClusterTask
-##        name: s2i-java
-##      workspaces:
-##        - name: source
-##          workspace: workspace
-#
-#    - name: image-scan
-#      params:
-#        - name: image
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: rox_api_token
-#          value: sct-rox
-#        - name: rox_central_endpoint
-#          value: sct-rox
-#        - name: output_format
-#          value: table
-#        - name: image_digest
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-image-scan
-#
-#    - name: image-check
-#      params:
-#        - name: image
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: rox_api_token
-#          value: sct-rox
-#        - name: rox_central_endpoint
-#          value: sct-rox
-#        - name: image_digest
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-image-check
-#
-#    - name: deploy-check
-#      params:
-#        - name: GIT_REPOSITORY
-#          value: $(params.APP_MANIFESTS_GIT)
-#        - name: rox_api_token
-#          value: sct-rox
-#        - name: rox_central_endpoint
-#          value: sct-rox
-#        - name: file
-#          value: deployment.yaml
-#        - name: deployment_files_path
-#          value: app
-#      runAfter:
-#        - build-image
-#      taskRef:
-#        kind: ClusterTask
-#        name: rox-deployment-check
-#      workspaces:
-#        - name: workspace
-#          workspace: workspace
-#
-#    - name: update-deployment
-#      params:
-#        - name: GIT_REPOSITORY
-#          value: $(params.APP_MANIFESTS_GIT)
-#        - name: GIT_USERNAME
-#          value: $(params.GIT_USER)
-#        - name: GIT_PASSWORD
-#          value: $(params.GIT_PASS)
-#        - name: GIT_BRANCH
-#          value: $(params.GIT_BRANCH)
-#        - name: CURRENT_IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
-#        - name: NEW_IMAGE
-#          value: '$(params.IMAGE_NAME)'
-#        - name: NEW_DIGEST
-#          value: $(tasks.build-image.results.IMAGE_DIGEST)
-#        - name: KUSTOMIZATION_PATH
-#          value: environments/dev
-#      runAfter:
-#        - image-scan
-#        - image-check
-#        - deploy-check
-#      taskRef:
-#        kind: Task
-#        name: git-update-deployment
-#      workspaces:
-#        - name: workspace
-#          workspace: workspace
+
+    - name: image-scan
+      params:
+        - name: image
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: output_format
+          value: table
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-scan
+
+    - name: image-check
+      params:
+        - name: image
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: image_digest
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-image-check
+
+    - name: deploy-check
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: rox_api_token
+          value: sct-rox
+        - name: rox_central_endpoint
+          value: sct-rox
+        - name: file
+          value: deployment.yaml
+        - name: deployment_files_path
+          value: app
+      runAfter:
+        - build-image
+      taskRef:
+        kind: ClusterTask
+        name: rox-deployment-check
+      workspaces:
+        - name: workspace
+          workspace: workspace
+
+    - name: update-deployment
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: GIT_USERNAME
+          value: $(params.GIT_USER)
+        - name: GIT_PASSWORD
+          value: $(params.GIT_PASS)
+        - name: GIT_BRANCH
+          value: $(params.GIT_BRANCH)
+        - name: CURRENT_IMAGE
+          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+        - name: NEW_IMAGE
+          value: '$(params.IMAGE_NAME)'
+        - name: NEW_DIGEST
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
+        - name: KUSTOMIZATION_PATH
+          value: environments/dev
+      runAfter:
+        - image-scan
+        - image-check
+        - deploy-check
+      taskRef:
+        kind: Task
+        name: git-update-deployment
+      workspaces:
+        - name: workspace
+          workspace: workspace
 
     - name: wait-application
       taskRef:
         name: argocd-task-sync-and-wait
+      runAfter:
+        - update-deployment
       params:
         - name: application-name
           value: "{{ app_name }}"
@@ -315,8 +317,6 @@ spec:
     - name: maven-settings
     - name: workspace
 
-#      runAfter:
-#        - update-deployment
 
 
 

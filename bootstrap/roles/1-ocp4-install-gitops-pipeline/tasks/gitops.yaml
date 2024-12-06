@@ -90,8 +90,6 @@
   debug:
     msg: "{{ r_argo_route.resources[0].spec.host }}"
 
-
-
 - name: Install OCP Pipelines Operator
   kubernetes.core.k8s:
     state: present
