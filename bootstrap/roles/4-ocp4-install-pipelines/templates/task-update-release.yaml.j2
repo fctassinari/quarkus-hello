@@ -23,7 +23,7 @@ spec:
       type: string
   workspaces:
     - description: The workspace consisting of maven project.
-      name: workspace
+      name: source
 
   steps:
 
@@ -74,6 +74,8 @@ spec:
           # Confirmar a versão no pom.xml
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
         
+        
+        
           git config --global --add safe.directory /workspace/source/source
           git config user.email "tekton-pipelines-ci@redhat.com"
           git config user.name "tekton-pipelines-ci"
@@ -84,6 +86,7 @@ spec:
   
           git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")
           git push auth-origin $(params.GIT_BRANCH)
+
 
 #          RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
 #          EXIT_CODE="$?"
