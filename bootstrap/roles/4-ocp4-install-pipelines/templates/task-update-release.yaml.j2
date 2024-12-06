@@ -35,6 +35,9 @@ spec:
         cd $(workspaces.source.path)/source/
         ls -la
         
+        git branch
+        git checkout $(params.GIT_BRANCH)
+        
         # Arquivo pom.xml
           POM_FILE="pom.xml"
           
@@ -81,8 +84,7 @@ spec:
           echo 'git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")'
   
           git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")
-          git push 
-          #auth-origin $(params.GIT_BRANCH)
+          git push auth-origin $(params.GIT_BRANCH)
 
   workspaces:
     - mountPath: /workspace/source
