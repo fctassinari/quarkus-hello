@@ -24,30 +24,22 @@ ENV LANGUAGE='en_US:en'
 
 USER root
 
-#RUN yum -y install git wget && \
-#    git --version && \
-#    wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/openshift-gitops/1.14.0-116/argocd-linux-amd64.tar.gz && \
-#    tar xvzf argocd-linux-amd64.tar.gz --no-same-owner && \
-#    mv argocd /usr/local/bin/argocd && \
-#    chmod +x /usr/local/bin/argocd && \
-#    rm -rf argocd-linux-amd64.tar.gz && \
-#    argocd version --client && \
-#    wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
-#    tar xzvf tkn-linux-amd64.tar.gz --no-same-owner && \
-#    mv opc /usr/local/bin/ &&  \
-#    mv tkn /usr/local/bin/ && \
-#    mv tkn-pac /usr/local/bin/ && \
-#    rm -rf tkn-linux-amd64.tar.gz && \
-#    tkn version
-#    arch="$(uname -m | sed "s/x86_64//")"; arch="${arch:+-$arch}" && \
-#    curl -L -f -o roxctl "https://mirror.openshift.com/pub/rhacs/assets/4.6.0/bin/Linux/roxctl${arch}" && \
-#    chmod +x roxctl && \
-#    mv roxctl /usr/local/bin/ && \
-#    echo "roxctl version " && \
-#    roxctl version
-
-
-RUN yum install -y wget &&  \
+RUN yum -y install git wget && \
+    wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/openshift-gitops/1.14.0-116/argocd-linux-amd64.tar.gz && \
+    tar xvzf argocd-linux-amd64.tar.gz --no-same-owner && \
+    mv argocd /usr/local/bin/argocd && \
+    chmod +x /usr/local/bin/argocd && \
+    rm -rf argocd-linux-amd64.tar.gz && \
+    wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
+    tar xzvf tkn-linux-amd64.tar.gz --no-same-owner && \
+    mv opc /usr/local/bin/ &&  \
+    mv tkn /usr/local/bin/ && \
+    mv tkn-pac /usr/local/bin/ && \
+    rm -rf tkn-linux-amd64.tar.gz && \
+    arch="$(uname -m | sed "s/x86_64//")"; arch="${arch:+-$arch}" && \
+    curl -L -f -o roxctl "https://mirror.openshift.com/pub/rhacs/assets/4.6.0/bin/Linux/roxctl${arch}" && \
+    chmod +x roxctl && \
+    mv roxctl /usr/local/bin/ && \
     wget https://downloads-openshift-console.apps.cluster-pwtfx.dynamic.redhatworkshops.io/amd64/linux/oc.tar && \
     tar xvf oc.tar && \
     chmod +x oc && \
@@ -55,6 +47,16 @@ RUN yum install -y wget &&  \
     rm -rf oc.tar && \
     oc completion bash > oc_bash_completion &&  \
     mv oc_bash_completion /etc/bash_completion.d/ && \
+    echo "------------------" &&  \
+    echo "Git " && \
+    git --version && \
+    echo "ArgoCD " && \
+    argocd version --client && \
+    echo "Tekton " && \
+    tkn version && \
+    echo "Rox " && \
+    roxctl version && \
+    echo "Oc " && \
     oc version
 
 
