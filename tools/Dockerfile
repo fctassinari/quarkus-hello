@@ -27,7 +27,8 @@ USER root
 #    chmod +x /usr/local/bin/argocd && \
 #    argocd version --client
 
-RUN wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
+RUN yum install -y wget &&  \
+    wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
     tar xzvf argocd-linux-amd64.tar.gz \
     mv opc /usr/local/bin/ &&  \
     mv tkn /usr/local/bin/ && \
