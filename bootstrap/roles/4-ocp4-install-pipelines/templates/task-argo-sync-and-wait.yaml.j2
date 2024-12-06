@@ -28,7 +28,7 @@ spec:
       - configMapRef:
           name: cm-argocd-env  # used for server address
       - secretRef:
-          name: argocd-env-secret  # used for authentication (username/password or auth token)
+          name: sct-argocd-env  # used for authentication (username/password or auth token)
   steps:
     - name: login-sync-wait
       image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
