@@ -11,6 +11,7 @@
 #       https://docs.openshift.com/pipelines/1.16/tkn_cli/installing-tkn.html
 # oc
 # roxctl
+#       https://docs.openshift.com/acs/4.6/cli/installing-the-roxctl-cli.html
 #
 ################################################################################
 FROM registry.access.redhat.com/ubi9:9.5-1732804088
@@ -25,15 +26,22 @@ USER root
 #    tar xvzf argocd-linux-amd64.tar.gz --no-same-owner && \
 #    mv argocd /usr/local/bin/argocd && \
 #    chmod +x /usr/local/bin/argocd && \
-#    argocd version --client
+#    argocd version --client && \
+#    wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
+#    tar xzvf tkn-linux-amd64.tar.gz --no-same-owner && \
+#    mv opc /usr/local/bin/ &&  \
+#    mv tkn /usr/local/bin/ && \
+#    mv tkn-pac /usr/local/bin/ && \
+#    tkn version
 
 RUN yum install -y wget &&  \
-    wget  https://mirror.openshift.com/pub/openshift-v4/clients/pipelines/1.13.0/tkn-linux-amd64.tar.gz && \
-    tar xzvf tkn-linux-amd64.tar.gz --no-same-owner && \
-    mv opc /usr/local/bin/ &&  \
-    mv tkn /usr/local/bin/ && \
-    mv tkn-pac /usr/local/bin/ && \
-    tkn version
+    arch="$(uname -m | sed "s/x86_64//")"; arch="${arch:+-$arch}" && \
+    curl -L -f -o roxctl "https://mirror.openshift.com/pub/rhacs/assets/4.6.0/bin/Linux/roxctl${arch}" && \
+    chmod +x roxctl && \
+    mv roxctl /usr/local/bin/ && \
+    roxctl version
+
+
 
 
 
