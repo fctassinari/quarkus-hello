@@ -20,7 +20,7 @@ USER root
 #    git --version
 RUN yum -y install wget && \
     wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/openshift-gitops/1.14.0-116/argocd-linux-amd64.tar.gz && \
-    tar xvzf argocd-linux-amd64.tar.gz && \
+    tar xvzf argocd-linux-amd64.tar.gz --no-same-owner&& \
     mv argocd /usr/local/bin/argocd && \
     chmod +x /usr/local/bin/argocd && \
     argocd version --client
