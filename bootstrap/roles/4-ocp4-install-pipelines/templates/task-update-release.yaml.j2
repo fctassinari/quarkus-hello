@@ -17,7 +17,6 @@ spec:
 
     - name: release
       image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
-      workingDir: $(workspaces.workspace.path)
       script: |
 
         echo "--------------------------------------------"
@@ -57,11 +56,13 @@ spec:
         
         # Atualizar a versão no pom.xml
           sed -i "s/<version>$current_version<\/version>/<version>$new_version<\/version>/" "$POM_FILE"
-          
-          
+            
           # Confirmar a versão no pom.xml
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
           
           git add pom.xml
           git commit -m "Versão atualizada para $new_version. "
           git push
+  workspaces:
+    - mountPath: /workspace/source
+      name: source
