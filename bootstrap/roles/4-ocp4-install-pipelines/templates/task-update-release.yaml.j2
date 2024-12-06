@@ -35,6 +35,8 @@ spec:
         cd $(workspaces.source.path)/source/
         ls -la
         
+        git config --global --add safe.directory /workspace/source/source
+        
         git branch
         git checkout $(params.GIT_BRANCH)
         
@@ -73,9 +75,6 @@ spec:
           # Confirmar a versão no pom.xml
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
         
-        
-        
-          git config --global --add safe.directory /workspace/source/source
           git config user.email "tekton-pipelines-ci@redhat.com"
           git config user.name "tekton-pipelines-ci"
           git add pom.xml
