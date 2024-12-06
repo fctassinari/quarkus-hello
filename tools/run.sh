@@ -7,3 +7,5 @@ podman login -u admin  -p $(oc whoami -t) default-route-openshift-image-registry
 podman push default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/smt-pipeline-tools:1.0 --tls-verify=false
 
 oc get is -n openshift | grep smt
+
+

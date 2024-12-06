@@ -2,6 +2,7 @@
 # Esta imagem foi customizada para conter as seguintes ferramentas cli
 #
 # git
+#
 # GitOps Cli
 #       https://docs.openshift.com/gitops/1.12/installing_gitops/installing-argocd-gitops-cli.html#installing-argocd-gitops-cli
 #       https://docs.openshift.com/gitops/1.12/gitops_cli_argocd/configuring-argocd-gitops-cli.html
@@ -17,6 +18,30 @@
 # roxctl
 #       https://docs.openshift.com/acs/4.6/cli/installing-the-roxctl-cli.html
 #
+################################################################################
+#    Esta imagem 1.0 foi construida com as seguintes versções:
+#    Git
+#    git version 2.43.5
+#
+#    ArgoCD
+#    argocd: v2.12.3+6b9cd82
+#      BuildDate: 2024-09-13T16:22:27Z
+#      GitCommit: 6b9cd828c6e9807398869ad5ac44efd2c28422d6
+#      GitTreeState: clean
+#      GoVersion: go1.21.11 (Red Hat 1.21.11-1.module+el8.10.0+21986+2112108a)
+#      Compiler: gc
+#      Platform: linux/amd64
+#      ExtraBuildInfo: openshift-gitops-version: 1.14.0, release: 116
+#
+#    Tekton
+#    Client version: 0.33.0
+#
+#    Rox
+#    4.6.0
+#
+#    Oc
+#    Client Version: 4.17.0-202410241236.p0.gdde885f.assembly.stream.el9-dde885f
+#    Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 ################################################################################
 FROM registry.access.redhat.com/ubi9:9.5-1732804088
 

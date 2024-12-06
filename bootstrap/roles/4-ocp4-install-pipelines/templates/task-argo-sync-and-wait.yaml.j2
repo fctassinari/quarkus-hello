@@ -23,8 +23,6 @@ spec:
       default: HEAD
     - name: flags
       default: --
-    - name: argocd-version
-      default: v2.2.5
   stepTemplate:
     envFrom:
       - configMapRef:
@@ -33,7 +31,7 @@ spec:
           name: argocd-env-secret  # used for authentication (username/password or auth token)
   steps:
     - name: login-sync-wait
-      image: quay.io/rcarrata/argocd:$(params.argocd-version)
+      image: openshift/smt-pipeline-tools:1.0
       script: |
         echo "--------------------------------------------"
         echo $ARGOCD_AUTH_TOKEN
