@@ -85,6 +85,15 @@ spec:
           workspace: workspace
 
     - name: app-release
+      params:
+        - name: GIT_REPOSITORY
+          value: $(params.APP_MANIFESTS_GIT)
+        - name: GIT_USERNAME
+          value: $(params.GIT_USER)
+        - name: GIT_PASSWORD
+          value: $(params.GIT_PASS)
+        - name: GIT_BRANCH
+          value: $(params.GIT_BRANCH)
       runAfter:
         - git-clone
       taskRef:

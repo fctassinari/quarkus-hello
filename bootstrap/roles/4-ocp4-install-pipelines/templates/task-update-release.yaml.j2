@@ -12,11 +12,24 @@ metadata:
 spec:
   description: >-
     Toda vez que a esteira for iniciada a aplicação terá seu release incrementado em uma unidde
+  params:
+    - name: GIT_REPOSITORY
+      type: string
+    - name: GIT_USERNAME
+      type: string
+    - name: GIT_PASSWORD
+      type: string
+    - name: GIT_BRANCH
+      type: string
+  workspaces:
+    - description: The workspace consisting of maven project.
+      name: workspace
 
   steps:
 
     - name: release
       image: image-registry.openshift-image-registry.svc:5000/openshift/smt-pipeline-tools:1.0
+      workingDir: $(workspaces.workspace.path)
       script: |
 
         echo "--------------------------------------------"
@@ -62,11 +75,25 @@ spec:
           echo "Build concluído com sucesso! Versão atualizada para $new_version."
         
           git config --global --add safe.directory /workspace/source/source
-          git config --global user.email "tekton@pipeline.com"
-          git config --global user.name "Tekton"
+          git config user.email "tekton-pipelines-ci@redhat.com"
+          git config user.name "tekton-pipelines-ci"
           git add pom.xml
           git commit -m "Versão atualizada para $new_version. "
-          git push
-  workspaces:
-    - mountPath: /workspace/source
-      name: source
+
+          echo 'git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")'
+  
+          git remote add auth-origin $(echo $(params.GIT_REPOSITORY) | sed -E "s#http://(.*)#http://$(params.GIT_USERNAME):$(params.GIT_PASSWORD)@\1#g")
+          git push auth-origin $(params.GIT_BRANCH)
+
+          RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
+          EXIT_CODE="$?"
+          if [ "$EXIT_CODE" != 0 ]
+          then
+            exit $EXIT_CODE
+          fi
+          # Make sure we don't add a trailing newline to the result!
+          echo -n "$RESULT_SHA" > $(results.commit.path)
+
+
+
+
