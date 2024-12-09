@@ -221,7 +221,7 @@
         body_format: json
         headers:
           cookie: "{{ quay_app_response.cookies_string }}"
-          x-csrf-token: "{{ x_csrf_token | urlencode }}"
+          x-csrf-token: "{{ x_next_csrf_token | urlencode }}"
           Content-Type: application/json
         method: GET
         url: "https://{{ quay_route }}/api/v1/users/{{ quay_admin_username }}"
