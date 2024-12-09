@@ -85,7 +85,7 @@
         validate_certs: no
         status_code: "{{ quay_org_created_success_status_code }}"
       register: quay_org_response
-      when:  quay_org_check.status  == '{{ quay_org_created_success_status_code }}'
+      when:  quay_org_check.status  == '{{ quay_org_not_found_error_code }}'
 
     - name: Print quay_org_response
       debug:
@@ -101,8 +101,7 @@
         url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}"
         validate_certs: no
       register: quay_repo_check
-      failed_when:
-        (quay_repo_check.status == '{{ quay_repo_not_found_error_code }}')
+      ignore_errors: true
 
     - name: Print quay_repo_check
       debug:
@@ -123,7 +122,7 @@
         method: POST
         url: "https://{{ quay_route }}/api/v1/repository"
         validate_certs: no
-        status_code: "{{ quay_repo_not_found_error_code }}"
+        status_code: "{{ quay_repo_created_success_status_code }}"
       register: quay_repo_response
       when: quay_repo_check.status == '{{ quay_repo_not_found_error_code }}'
 
