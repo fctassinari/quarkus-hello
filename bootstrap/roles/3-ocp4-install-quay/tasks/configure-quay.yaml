@@ -92,10 +92,6 @@
         status_code: "{{ quay_repo_created_success_status_code }}"
       register: quay_repo_response
 
-    - name: Print quay_repo_check
-      debug:
-        msg: "{{ quay_repo_check }}"
-
 #    - name: Check if Robot Account Already Exists
 #      ansible.builtin.uri:
 #        body_format: json
@@ -106,9 +102,7 @@
 #        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
 #        validate_certs: no
 #      register: quay_robot_check
-#      failed_when: >
-#        (quay_robot_check.status == quay_robot_not_found_error_code) and
-#        (quay_robot_check.status != quay_robot_found_success_status_code)
+#      ignore_errors: true
 #
 #    - name: Print quay_robot_check
 #      debug:
@@ -117,55 +111,51 @@
 #    - name: Set Robot Token from Check Response
 #      ansible.builtin.set_fact:
 #        quay_robot_token: "{{ quay_robot_check.json.token }}"
-#      when: quay_robot_check.status|default("") == quay_robot_found_success_status_code
+#      when: quay_robot_check.status|default("") == {{ quay_robot_found_success_status_code }}
 #
-#    - name: Create Robot Account
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          description": "Robot Account for CICD Demo"
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: PUT
-#        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_robot_response
-#      failed_when:
-#        - quay_robot_response.status != quay_robot_created_success_status_code
-#      when: quay_robot_check.status == quay_robot_not_found_error_code
-#
-#    - name: Print quay_robot_response
-#      debug:
-#        msg: "{{ quay_robot_response }}"
-#
-#    - name: Set Robot Token from Creating New Robot Account
-#      ansible.builtin.set_fact:
-#        quay_robot_token: "{{ quay_robot_response.json.token }}"
-#      when: quay_robot_response.status|default("") == quay_robot_created_success_status_code
-#
-#    - name: Add Robot account permissions to repo
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          role: admin
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: PUT
-#        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_perm_response
-#      failed_when:
-#        - quay_perm_response.status != quay_perm_success_status_code
-#
-#    - name: Print quay_perm_response
-#      debug:
-#        msg: "{{ quay_perm_response }}"
+    - name: Create Robot Account
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          description": "Robot Account for CICD Demo"
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: PUT
+        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
+        validate_certs: no
+        status_code: "{{ quay_robot_created_success_status_code }}"
+      register: quay_robot_response
+
+    - name: Print quay_robot_response
+      debug:
+        msg: "{{ quay_robot_response }}"
+
+    - name: Set Robot Token from Creating New Robot Account
+      ansible.builtin.set_fact:
+        quay_robot_token: "{{ quay_robot_response.json.token }}"
+
+    - name: Add Robot account permissions to repo
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          role: admin
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: PUT
+        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
+        validate_certs: no
+      register: quay_perm_response
+      status_code: "{{ quay_perm_success_status_code }}"
+
+    - name: Print quay_perm_response
+      debug:
+        msg: "{{ quay_perm_response }}"
 #
 #  when:
 #    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
-#
+
 ##- name: Use Manual Login to try get token
 ##  block:
 ##    - name: Wait for Quay Application and Load Initial CSRF Token
