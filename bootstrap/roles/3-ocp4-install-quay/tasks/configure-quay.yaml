@@ -92,27 +92,6 @@
         status_code: "{{ quay_repo_created_success_status_code }}"
       register: quay_repo_response
 
-#    - name: Check if Robot Account Already Exists
-#      ansible.builtin.uri:
-#        body_format: json
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: GET
-#        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_robot_check
-#      ignore_errors: true
-#
-#    - name: Print quay_robot_check
-#      debug:
-#        msg: "{{ quay_robot_check }}"
-#
-#    - name: Set Robot Token from Check Response
-#      ansible.builtin.set_fact:
-#        quay_robot_token: "{{ quay_robot_check.json.token }}"
-#      when: quay_robot_check.status|default("") == {{ quay_robot_found_success_status_code }}
-#
     - name: Create Robot Account
       ansible.builtin.uri:
         body_format: json
