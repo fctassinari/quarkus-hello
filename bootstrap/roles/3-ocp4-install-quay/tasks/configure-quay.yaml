@@ -125,7 +125,7 @@
         method: PUT
         url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
         validate_certs: no
-      status_code: "{{ quay_perm_success_status_code }}"
+        status_code: "{{ quay_perm_success_status_code }}"
       register: quay_perm_response
 #
 #    - name: Print quay_perm_response
