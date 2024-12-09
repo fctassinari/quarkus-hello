@@ -55,7 +55,7 @@
     - name: Set Quay Access Token
       ansible.builtin.set_fact:
         quay_access_token: "O8JGRGYPOAUZ0JC65C3F7B6ERBXSA8QW6AKHJC4Z"
-#        quay_access_token: "{{ quay_init_response.json.access_token }}"
+
 
     - name: Check if Quay Organization Exists
       ansible.builtin.uri:
