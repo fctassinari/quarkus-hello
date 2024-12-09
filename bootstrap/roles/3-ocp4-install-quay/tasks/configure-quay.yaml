@@ -227,6 +227,10 @@
     - name: Get user Information
       ansible.builtin.uri:
         body_format: json
+        body:
+          username: "{{ quay_admin_username }}"
+          email: "{{ quay_admin_email }}"
+          password: "{{ quay_admin_password }}"
         headers:
           cookie: "{{ quay_app_response.cookies_string }}"
           x-csrf-token: "{{ x_next_csrf_token | urlencode }}"
