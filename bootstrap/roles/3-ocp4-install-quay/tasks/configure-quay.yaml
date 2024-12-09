@@ -224,24 +224,20 @@
       debug:
         msg: "{{ x_next_csrf_token }}"
 
-    - name: Get user Information
-      ansible.builtin.uri:
-        body_format: json
-        body:
-          username: "{{ quay_admin_username }}"
-          email: "{{ quay_admin_email }}"
-          password: "{{ quay_admin_password }}"
-        headers:
-          cookie: "{{ quay_app_response.cookies_string }}"
-          x-csrf-token: "{{ x_next_csrf_token | urlencode }}"
-          Content-Type: application/json
-        method: GET
-        url: "https://{{ quay_route }}/api/v1/users/{{ quay_admin_username }}"
-        validate_certs: no
-        follow_redirects: all
-      register: quay_user_response
-      failed_when:
-        - quay_session_response.status != quay_user_found_success_status_code
+#    - name: Get user Information
+#      ansible.builtin.uri:
+#        body_format: json
+#        headers:
+#          cookie: "{{ quay_app_response.cookies_string }}"
+#          x-csrf-token: "{{ x_next_csrf_token | urlencode }}"
+#          Content-Type: application/json
+#        method: GET
+#        url: "https://{{ quay_route }}/api/v1/users/{{ quay_admin_username }}"
+#        validate_certs: no
+#        follow_redirects: all
+#      register: quay_user_response
+#      failed_when:
+#        - quay_session_response.status != quay_user_found_success_status_code
 
     - name: Set Present Cookie String from User Info Response
       ansible.builtin.set_fact:
