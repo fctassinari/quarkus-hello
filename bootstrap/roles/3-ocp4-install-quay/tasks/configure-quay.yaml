@@ -127,10 +127,10 @@
         validate_certs: no
       status_code: "{{ quay_perm_success_status_code }}"
       register: quay_perm_response
-
-    - name: Print quay_perm_response
-      debug:
-        msg: "{{ quay_perm_response }}"
+#
+#    - name: Print quay_perm_response
+#      debug:
+#        msg: "{{ quay_perm_response }}"
 
 #  when:
 #    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
