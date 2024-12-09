@@ -255,7 +255,7 @@
         validate_certs: no
       register: quay_org_check
       failed_when: >
-        (quay_org_check.status != quay_org_not_found_error_code) and
+        (quay_org_check.status == quay_org_not_found_error_code) and
         (quay_org_check.status != quay_org_found_success_status_code)
 
     - name: Set Present Cookie String from Org Check Response
@@ -297,7 +297,7 @@
         validate_certs: no
       register: quay_repo_check
       failed_when:
-        (quay_repo_check.status != quay_repo_not_found_error_code) and
+        (quay_repo_check.status == quay_repo_not_found_error_code) and
         (quay_repo_check.status != quay_repo_found_success_status_code)
 
     - name: Set Cookie String From Repo Check Response
@@ -313,7 +313,7 @@
           namespace: "{{ quay_org_name }}"
           repo_kind: "image"          
           visibility: "public"
-          description: "Repo for CICD Demo"         
+          description: "Repo for {{ company_name }}"
         headers:
           Content-Type: application/json
           cookie: "{{ present_cookie_string }}"
