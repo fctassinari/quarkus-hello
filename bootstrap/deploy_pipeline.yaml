@@ -82,29 +82,29 @@
 
 
   tasks:
-    - name: 'Install Gitops and Pipeline'
-      include_role:
-        name: "1-ocp4-install-gitops-pipeline"
+#    - name: 'Install Gitops and Pipeline'
+#      include_role:
+#        name: "1-ocp4-install-gitops-pipeline"
 
-    - name: 'Install the ACS Central'
-      include_role:
-        name: "2-ocp4-install-acs"
+#    - name: 'Install the ACS Central'
+#      include_role:
+#        name: "2-ocp4-install-acs"
 
     - name: 'Install and configure Quay'
       include_role:
         name: "3-ocp4-install-quay"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "4-ocp4-install-cicd-infra"
+#    - name: 'Install CICD Infra'
+#      include_role:
+#        name: "4-ocp4-install-cicd-infra"
 
-    - name: 'Install Pipeline'
-      include_role:
-        name: "5-ocp4-install-pipelines"
+#    - name: 'Install Pipeline'
+#      include_role:
+#        name: "5-ocp4-install-pipelines"
 
-    - name: 'Configure App project'
-      include_role:
-        name: "6-application"
+#    - name: 'Configure App project'
+#      include_role:
+#        name: "6-application"
 
 
 
