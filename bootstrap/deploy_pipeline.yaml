@@ -17,13 +17,13 @@
     acs_central_password_base64: 'cHJPYzNyZ3NAMjAyNCM=' #base64
     acs_central_password_plain_text: 'prOc3rgs@2024#'
 
-    quay_project_name: '{{ company_name }}-quay'
-    quay_admin_username: 'quayadmin'
-    quay_admin_email: 'quayadmin@redhat.com'
-    quay_admin_password: 'quay123'
+    quay_project_name: 'quay'
+    quay_admin_username: 'admin'
+    quay_admin_email: '{{ company_name }}@redhat.com'
+    quay_admin_password: 'prOc3rgs@2024#'
     quay_registry_name: '{{ company_name }}-registry'
-    quay_org_name: "{{ company_name}} "
-    quay_secret_name: quay-robot-secret
+    quay_org_name: "{{ company_name }} "
+    quay_secret_name: sct-quay-robot
     quay_repositories:
       - 'dev-{{ app_name }}'
     quay_robot_account: '{{ company_name }}_robot'

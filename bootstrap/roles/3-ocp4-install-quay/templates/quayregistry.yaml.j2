@@ -4,7 +4,7 @@ metadata:
   name: {{ quay_registry_name }}
   namespace: {{ quay_project_name }}
 spec:
-  configBundleSecret: quay-config-bundle
+  configBundleSecret: sct-quay-config-bundle
   components:
     - managed: true
       kind: clair
