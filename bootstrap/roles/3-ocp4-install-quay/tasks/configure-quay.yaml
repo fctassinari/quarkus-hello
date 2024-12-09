@@ -54,8 +54,7 @@
 
     - name: Set Quay Access Token
       ansible.builtin.set_fact:
-        quay_access_token: "O8JGRGYPOAUZ0JC65C3F7B6ERBXSA8QW6AKHJC4Z"
-
+        quay_access_token: "{{ quay_init_response.json.access_token }}"
 
     - name: Check if Quay Organization Exists
       ansible.builtin.uri:
@@ -175,8 +174,8 @@
       register: quay_perm_response
       failed_when:
         - quay_perm_response.status != quay_perm_success_status_code
-  when:
-    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
+#  when:
+#    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
 #
 #- name: Use Manual Login to try get token
 #  block:
