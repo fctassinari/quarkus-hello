@@ -76,10 +76,6 @@
       debug:
         msg: "{{ quay_org_check }}"
 
-    - name: Print quay_org_check 2
-      debug:
-        msg: "{{ quay_org_check.status }}"
-
     - name: Create Quay Organization
       ansible.builtin.uri:
         body_format: json
@@ -94,7 +90,7 @@
       register: quay_org_response
       failed_when:
         - quay_org_response.status != quay_org_created_success_status_code
-      when: {{ quay_org_check.status }}  == '404'
+#      when:  quay_org_check.status  == '404'
 
     - name: Print quay_org_response
       debug:
