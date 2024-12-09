@@ -49,9 +49,14 @@
     init_output_msg: "{{ quay_init_response.json.message|default('') }}"
   ignore_errors: true
 
+- name: Output Message from Quay on User Initalize
+  debug:
+    msg: "{{ init_output_msg }}"
+
 - name: Set Quay Access Token
   ansible.builtin.set_fact:
     quay_access_token: "{{ quay_init_response.json.access_token }}"
+  ignore_errors: true
 
 #- name: Use API Token to continue Creating
 #  block:
