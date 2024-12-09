@@ -49,145 +49,134 @@
     init_output_msg: "{{ quay_init_response.json.message|default('') }}"
   ignore_errors: true
 
-- name: Output Message from Quay on User Initalize
-  debug:
-    msg: "{{ init_output_msg }}"
+- name: Use API Token to continue Creating
+  block:
 
-- name: Set Quay Access Token
-  ansible.builtin.set_fact:
-    quay_access_token: "{{ quay_init_response.json.access_token }}"
-  ignore_errors: true
+    - name: Set Quay Access Token
+      ansible.builtin.set_fact:
+        quay_access_token: "{{ quay_init_response.json.access_token }}"
 
-#- name: Use API Token to continue Creating
-#  block:
-#
-#    - name: Set Quay Access Token
-#      ansible.builtin.set_fact:
-#        quay_access_token: "{{ quay_init_response.json.access_token }}"
-#
-#    - name: Check if Quay Organization Exists
-#      ansible.builtin.uri:
-#        body_format: json
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: GET
-#        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}"
-#        validate_certs: no
-#      register: quay_org_check
-#      failed_when: >
-#        (quay_org_check.status == quay_org_not_found_error_code) and
-#        (quay_org_check.status != quay_org_found_success_status_code)
-#
-#    - name: Create Quay Organization
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          name: "{{ quay_org_name }}"
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: POST
-#        url: "https://{{ quay_route }}/api/v1/organization/"
-#        validate_certs: no
-#      register: quay_org_response
-#      failed_when:
-#        - quay_org_response.status != quay_org_created_success_status_code
-#      when: quay_org_check.status|default("") == quay_org_not_found_error_code
-#
-#    - name: Check if Repository Already Exists
-#      ansible.builtin.uri:
-#        body_format: json
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: GET
-#        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}"
-#        validate_certs: no
-#      register: quay_repo_check
-#      failed_when:
-#        (quay_repo_check.status != quay_repo_not_found_error_code) and
-#        (quay_repo_check.status != quay_repo_found_success_status_code)
-#
-#    - name: Create Repository
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          repository: "{{ item }}"
-#          namespace: "{{ quay_org_name }}"
-#          repo_kind: "image"
-#          visibility: "public"
-#          description: "Repo for CICD Demo"
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: POST
-#        url: "https://{{ quay_route }}/api/v1/repository"
-#        validate_certs: no
-#      register: quay_repo_response
-#      failed_when:
-#        - quay_repo_response.status != quay_repo_created_success_status_code
-#      when: quay_repo_check.status|default("") == quay_repo_not_found_error_code
-#
-#    - name: Check if Robot Account Already Exists
-#      ansible.builtin.uri:
-#        body_format: json
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: GET
-#        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_robot_check
-#      failed_when: >
-#        (quay_robot_check.status != quay_robot_not_found_error_code) and
-#        (quay_robot_check.status != quay_robot_found_success_status_code)
-#
-#    - name: Set Robot Token from Check Response
-#      ansible.builtin.set_fact:
-#        quay_robot_token: "{{ quay_robot_check.json.token }}"
-#      when: quay_robot_check.status|default("") == quay_robot_found_success_status_code
-#
-#    - name: Create Robot Account
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          description": "Robot Account for CICD Demo"
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: PUT
-#        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_robot_response
-#      failed_when:
-#        - quay_robot_response.status != quay_robot_created_success_status_code
-#      when: quay_robot_check.status == quay_robot_not_found_error_code
-#
-#    - name: Set Robot Token from Creating New Robot Account
-#      ansible.builtin.set_fact:
-#        quay_robot_token: "{{ quay_robot_response.json.token }}"
-#      when: quay_robot_response.status|default("") == quay_robot_created_success_status_code
-#
-#    - name: Add Robot account permissions to repo
-#      ansible.builtin.uri:
-#        body_format: json
-#        body:
-#          role: admin
-#        headers:
-#          Content-Type: application/json
-#          Authorization: "Bearer {{ quay_access_token }}"
-#        method: PUT
-#        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
-#        validate_certs: no
-#      register: quay_perm_response
-#      failed_when:
-#        - quay_perm_response.status != quay_perm_success_status_code
+    - name: Check if Quay Organization Exists
+      ansible.builtin.uri:
+        body_format: json
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: GET
+        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}"
+        validate_certs: no
+      register: quay_org_check
+      failed_when: >
+        (quay_org_check.status == quay_org_not_found_error_code) and
+        (quay_org_check.status != quay_org_found_success_status_code)
 
+    - name: Create Quay Organization
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          name: "{{ quay_org_name }}"
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: POST
+        url: "https://{{ quay_route }}/api/v1/organization/"
+        validate_certs: no
+      register: quay_org_response
+      failed_when:
+        - quay_org_response.status != quay_org_created_success_status_code
+      when: quay_org_check.status|default("") == quay_org_not_found_error_code
 
-#  when:
-#    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
-#
+    - name: Check if Repository Already Exists
+      ansible.builtin.uri:
+        body_format: json
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: GET
+        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}"
+        validate_certs: no
+      register: quay_repo_check
+      failed_when:
+        (quay_repo_check.status == quay_repo_not_found_error_code) and
+        (quay_repo_check.status != quay_repo_found_success_status_code)
+
+    - name: Create Repository
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          repository: "{{ item }}"
+          namespace: "{{ quay_org_name }}"
+          repo_kind: "image"
+          visibility: "public"
+          description: "Repo for CICD Demo"
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: POST
+        url: "https://{{ quay_route }}/api/v1/repository"
+        validate_certs: no
+      register: quay_repo_response
+      failed_when:
+        - quay_repo_response.status != quay_repo_created_success_status_code
+      when: quay_repo_check.status|default("") == quay_repo_not_found_error_code
+
+    - name: Check if Robot Account Already Exists
+      ansible.builtin.uri:
+        body_format: json
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: GET
+        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
+        validate_certs: no
+      register: quay_robot_check
+      failed_when: >
+        (quay_robot_check.status == quay_robot_not_found_error_code) and
+        (quay_robot_check.status != quay_robot_found_success_status_code)
+
+    - name: Set Robot Token from Check Response
+      ansible.builtin.set_fact:
+        quay_robot_token: "{{ quay_robot_check.json.token }}"
+      when: quay_robot_check.status|default("") == quay_robot_found_success_status_code
+
+    - name: Create Robot Account
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          description": "Robot Account for CICD Demo"
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: PUT
+        url: "https://{{ quay_route }}/api/v1/organization/{{ quay_org_name }}/robots/{{ quay_robot_account }}"
+        validate_certs: no
+      register: quay_robot_response
+      failed_when:
+        - quay_robot_response.status != quay_robot_created_success_status_code
+      when: quay_robot_check.status == quay_robot_not_found_error_code
+
+    - name: Set Robot Token from Creating New Robot Account
+      ansible.builtin.set_fact:
+        quay_robot_token: "{{ quay_robot_response.json.token }}"
+      when: quay_robot_response.status|default("") == quay_robot_created_success_status_code
+
+    - name: Add Robot account permissions to repo
+      ansible.builtin.uri:
+        body_format: json
+        body:
+          role: admin
+        headers:
+          Content-Type: application/json
+          Authorization: "Bearer {{ quay_access_token }}"
+        method: PUT
+        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
+        validate_certs: no
+      register: quay_perm_response
+      failed_when:
+        - quay_perm_response.status != quay_perm_success_status_code
+  when:
+    - "'Cannot initialize user in a non-empty database' not in init_output_msg"
+
 #- name: Use Manual Login to try get token
 #  block:
 #    - name: Wait for Quay Application and Load Initial CSRF Token
@@ -301,7 +290,7 @@
 #        validate_certs: no
 #      register: quay_repo_check
 #      failed_when:
-#        (quay_repo_check.status != quay_repo_not_found_error_code) and
+#        (quay_repo_check.status == quay_repo_not_found_error_code) and
 #        (quay_repo_check.status != quay_repo_found_success_status_code)
 #
 #    - name: Set Cookie String From Repo Check Response
@@ -347,7 +336,7 @@
 #        validate_certs: no
 #      register: quay_robot_check
 #      failed_when: >
-#        (quay_robot_check.status != quay_robot_not_found_error_code) and
+#        (quay_robot_check.status == quay_robot_not_found_error_code) and
 #        (quay_robot_check.status != quay_robot_found_success_status_code)
 #
 #    - name: Set Robot Token from Check Response
@@ -404,29 +393,29 @@
 #        - quay_perm_response.status != quay_perm_success_status_code
 #  when:
 #    - "'Cannot initialize user in a non-empty database' in init_output_msg"
-#
-#- name: Delete any Previously Existing Quay Secret
-#  kubernetes.core.k8s:
-#    state: absent
-#    api_version: v1
-#    kind: Secret
-#    namespace: "{{ item }}"
-#    name: "{{ quay_secret_name }}"
-#    wait: yes
-#  loop: "{{ secret_required_namespaces }}"
-#
-##Create Quay Secret so other roles can use
-#- name: Create Quay Secret in Namespaces that require secret
-#  shell: |
-#    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
-#  loop: "{{ secret_required_namespaces }}"
-#
-#- name: Confirm Quay Secret is Created
-#  kubernetes.core.k8s:
-#    state: present
-#    api_version: v1
-#    kind: Secret
-#    namespace: "{{ item }}"
-#    name: "{{ quay_secret_name }}"
-#    wait: yes
-#  loop: "{{ secret_required_namespaces }}"
+
+- name: Delete any Previously Existing Quay Secret
+  kubernetes.core.k8s:
+    state: absent
+    api_version: v1
+    kind: Secret
+    namespace: "{{ item }}"
+    name: "{{ quay_secret_name }}"
+    wait: yes
+  loop: "{{ secret_required_namespaces }}"
+
+#Create Quay Secret so other roles can use
+- name: Create Quay Secret in Namespaces that require secret
+  shell: |
+    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
+  loop: "{{ secret_required_namespaces }}"
+
+- name: Confirm Quay Secret is Created
+  kubernetes.core.k8s:
+    state: present
+    api_version: v1
+    kind: Secret
+    namespace: "{{ item }}"
+    name: "{{ quay_secret_name }}"
+    wait: yes
+  loop: "{{ secret_required_namespaces }}"
