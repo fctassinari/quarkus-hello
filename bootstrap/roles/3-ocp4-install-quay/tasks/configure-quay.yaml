@@ -118,7 +118,7 @@
       ansible.builtin.uri:
         body_format: json
         body:
-          role: admin
+          role: "admin"
         headers:
           Content-Type: application/json
           Authorization: "Bearer {{ quay_access_token }}"
