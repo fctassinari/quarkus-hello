@@ -18,7 +18,7 @@
     acs_central_password_plain_text: 'prOc3rgs@2024#'
 
     quay_project_name: 'quay'
-    quay_admin_username: 'admin'
+    quay_admin_username: 'quayadmin'
     quay_admin_email: '{{ company_name }}@redhat.com'
     quay_admin_password: 'prOc3rgs@2024#'
     quay_registry_name: '{{ company_name }}-registry'
