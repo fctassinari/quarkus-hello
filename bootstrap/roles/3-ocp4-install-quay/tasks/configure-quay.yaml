@@ -1,60 +1,61 @@
-# Code attribution
-# Some code from here - https://github.com/redhat-cop/rhel-edge-automation-arch/blob/main/ansible/roles/quay-raw-create-user/tasks/main.yaml
-
-- name: extract quay hostname
-  shell: |
-    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
-  register: quay_hostname_result
-  delay: 5
-  retries: 10
-  until:
-    - quay_hostname_result.stdout != ""
-
-- name: Set Quay hostname
-  ansible.builtin.set_fact:
-    quay_route: "{{ quay_hostname_result.stdout }}"
-
-- name: Wait until Quay Application is Responding
-  ansible.builtin.uri:
-    return_content: yes
-    status_code: 200
-    url: "https://{{ quay_route }}"
-    validate_certs: no
-  delay: 10
-  register: quay_check
-  retries: 30
-  until:
-    quay_check.status == 200
-
-- name: Initialize Quay User
-  ansible.builtin.uri:
-    body_format: json
-    body:
-      username: "{{ quay_admin_username }}"
-      email: "{{ quay_admin_email }}"
-      password: "{{ quay_admin_password }}"
-      access_token: "true"
-    headers:
-      Content-Type: application/json
-    method: POST
-    url: "https://{{ quay_route }}/api/v1/user/initialize"
-    validate_certs: no
-  register: quay_init_response
-  failed_when:
-    - quay_init_response.status != 200
-  ignore_errors: true
-
-- name: Set Output Message from Quay on User Initalize
-  ansible.builtin.set_fact:
-    init_output_msg: "{{ quay_init_response.json.message|default('') }}"
-  ignore_errors: true
+## Code attribution
+## Some code from here - https://github.com/redhat-cop/rhel-edge-automation-arch/blob/main/ansible/roles/quay-raw-create-user/tasks/main.yaml
+#
+#- name: extract quay hostname
+#  shell: |
+#    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
+#  register: quay_hostname_result
+#  delay: 5
+#  retries: 10
+#  until:
+#    - quay_hostname_result.stdout != ""
+#
+#- name: Set Quay hostname
+#  ansible.builtin.set_fact:
+#    quay_route: "{{ quay_hostname_result.stdout }}"
+#
+#- name: Wait until Quay Application is Responding
+#  ansible.builtin.uri:
+#    return_content: yes
+#    status_code: 200
+#    url: "https://{{ quay_route }}"
+#    validate_certs: no
+#  delay: 10
+#  register: quay_check
+#  retries: 30
+#  until:
+#    quay_check.status == 200
+#
+#- name: Initialize Quay User
+#  ansible.builtin.uri:
+#    body_format: json
+#    body:
+#      username: "{{ quay_admin_username }}"
+#      email: "{{ quay_admin_email }}"
+#      password: "{{ quay_admin_password }}"
+#      access_token: "true"
+#    headers:
+#      Content-Type: application/json
+#    method: POST
+#    url: "https://{{ quay_route }}/api/v1/user/initialize"
+#    validate_certs: no
+#  register: quay_init_response
+#  failed_when:
+#    - quay_init_response.status != 200
+#  ignore_errors: true
+#
+#- name: Set Output Message from Quay on User Initalize
+#  ansible.builtin.set_fact:
+#    init_output_msg: "{{ quay_init_response.json.message|default('') }}"
+#  ignore_errors: true
 
 - name: Use API Token to continue Creating
   block:
 
     - name: Set Quay Access Token
       ansible.builtin.set_fact:
-        quay_access_token: "{{ quay_init_response.json.access_token }}"
+        quay_access_token: "O8JGRGYPOAUZ0JC65C3F7B6ERBXSA8QW6AKHJC4Z"
+#        quay_access_token: "{{ quay_init_response.json.access_token }}"
 
     - name: Check if Quay Organization Exists
       ansible.builtin.uri:
@@ -67,7 +68,7 @@
         validate_certs: no
       register: quay_org_check
       failed_when: >
-        (quay_org_check.status != quay_org_not_found_error_code) and
+        (quay_org_check.status == quay_org_not_found_error_code) and
         (quay_org_check.status != quay_org_found_success_status_code)
 
     - name: Create Quay Organization
@@ -248,7 +249,7 @@
 #        validate_certs: no
 #      register: quay_org_check
 #      failed_when: >
-#        (quay_org_check.status != quay_org_not_found_error_code) and
+#        (quay_org_check.status == quay_org_not_found_error_code) and
 #        (quay_org_check.status != quay_org_found_success_status_code)
 #
 #    - name: Set Present Cookie String from Org Check Response
