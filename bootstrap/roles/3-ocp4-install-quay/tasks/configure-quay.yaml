@@ -88,7 +88,7 @@
       register: quay_org_response
       failed_when:
         - quay_org_response.status != quay_org_created_success_status_code
-      when: quay_org_response.status != quay_org_created_success_status_code
+      when: quay_org_check.status|default("") == quay_org_not_found_error_code
 
     - name: Print quay_org_response
       debug:
