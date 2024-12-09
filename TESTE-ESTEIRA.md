@@ -1,4 +1,4 @@
-# Instruções - Openshift Test Pipeline
+# Instruções - Openshift Pipeline
 
 
 # Install Gitops
@@ -11,6 +11,90 @@
 - Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
 - Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
 
+* * Config Gitops ``` Cria a aplicação dentro do Argo CD ```
+* argocd-quarkus-hello-project.yaml
+* argocd-app-dev.yaml.j2
+
+# Install the ACS Central
+* Antes de instalar o ACS criar uma conta de servico (SA) e gerar seu token
+* * oc create sa cluster-admin-sa -n kube-system
+* * oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
+* * oc create token cluster-admin-sa --duration=999999h -n kube-system
+* * Copiar o token e colocar na variavel cluster_admin_token do arquivo deploy_pipeline.yaml
+* Central
+* * Create ACS namespace
+* * Create ACS Central password
+* * Install ACS Operator
+* * Wait for ACS Operator to be up and running
+* * Create ACS Central
+* * Get central route
+* * Wait for Central availability
+* Secured Cluster
+* * Get cluster init bundle
+* * Create init-bundle secrets
+* * Install Sensor on OpenShift Container Platform
+* * Determine number of collectors
+
+* * Config Post ACS
+* Create API token for access from Pipeline to ACS
+* Create ACS API Token secret for using in the pipelines
+* Get secrets in namespace
+* Extract secret name using regex
+* Display secret name
+* Get token in the secret for the sa pipeline and decode
+* Define the token secret decoded
+* Creating ACS Integration with the Openshift Internal Registry
+* * ``` é preciso criar uma conta de servico te tenha acesso ao registry - post-ci.yaml```
+
+# Install Quay
+* install-quay
+* * quay-namespace
+* * quay-subscription
+* * Wait for QuayRegistry CRD to exist
+* * Create Quay Registry Object
+* configure-quay
+* * extract quay hostname
+* * Wait until Quay Application is Responding
+* * Initialize Quay User
+* * Set Output Message from Quay on User Initalize
+* * Use API Token to continue Creating
+* * * Set Quay Access Token
+* * * Check if Quay Organization Exists
+* * * Create Quay Organization
+* * * Check if Repository Already Exists
+* * * Create Repository
+* * * Check if Robot Account Already Exists
+* * * Set Robot Token from Check Response
+* * * Create Robot Account
+* * * Set Robot Token from Creating New Robot Account
+* * * Add Robot account permissions to repo
+* * Use Manual Login to try get token
+* * Set CSRF Token
+* * Try and Create a new session
+* * Get Next CSRF Token
+* * Get user Information
+* * Set Present Cookie String from User Info Response
+* * Check if Quay Organization Exists
+* * Set Present Cookie String from Org Check Response
+* * Create Quay Organization
+* * Set Present Cookie String from Org Creation Response
+* * Check if Repository Already Exists
+* * Set Cookie String From Repo Check Response
+* * Create Repository
+* * Set Cookie String From Repo Creation Response
+* * Check if Robot Account Already Exists
+* * Set Robot Token from Check Response
+* * Set Cookie String From Robot Check Response
+* * Create Robot Account
+* * Set Robot Token from Creating New Robot Account
+* * Set Cookie String From Robot Creation
+* * Add Robot account permissions to repo
+* * Delete any Previously Existing Quay Secret
+* * Create Quay Secret in Namespaces that require secret
+* * Confirm Quay Secret is Created
+
+
+
 # Install CICD 
 * Add RoleBinding to the devsecops projects<br>
 * Install Gogs ```trocar pelo Gitlab Operator ```
@@ -21,12 +105,12 @@
     su git
     ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
     ```
-
 * Install Sonarqube
 * Install Reports Repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
 * Get gogs route
 * Patch with specific route domain
 * Wait for gogs and gogs-postgresql to be running
+
 * Install Nexus
 * * ```
       Your admin user password is located in
@@ -73,59 +157,53 @@ Create OpenShift Objects for Openshift Pipelines Templates
 
 Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fonte do github ```
 
-# Config Gitops ``` Cria a aplicação dentro do Argo CD ```
-* argocd-quarkus-hello-project.yaml
-* argocd-app-dev.yaml.j2
-
-# Install the ACS Central
-* Antes de instalar o ACS criar uma conta de servico (SA) e gerar seu token
-* * oc create sa cluster-admin-sa -n kube-system
-* * oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
-* * oc create token cluster-admin-sa --duration=999999h -n kube-system
-* * Copiar o token e colocar na variavel cluster_admin_token do arquivo deploy_pipeline.yaml
-* Central
-* * Create ACS namespace
-* * Create ACS Central password
-* * Install ACS Operator
-* * Wait for ACS Operator to be up and running
-* * Create ACS Central
-* * Get central route
-* * Wait for Central availability
-* Secured Cluster
-* * Get cluster init bundle
-* * Create init-bundle secrets
-* * Install Sensor on OpenShift Container Platform
-* * Determine number of collectors
 
 
-# Config Post ACS
-* Create API token for access from Pipeline to ACS
-* Create ACS API Token secret for using in the pipelines
-* Get secrets in namespace
-* Extract secret name using regex
-* Display secret name
-* Get token in the secret for the sa pipeline and decode
-* Define the token secret decoded
-* Creating ACS Integration with the Openshift Internal Registry
-* * ``` é preciso criar uma conta de servico te tenha acesso ao registry - post-ci.yaml```
+# Excluir
+1-ocp4-install-gitops
+* templates
+* * gitops-crb.yaml
+* * gitops-argocd.yaml
+*
+
+# Contas
+ArgoCD<br>
+user: admin<br>
+pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
+
+Acs<br>
+user: admin<br>
+pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
+
+Quay<br>
+user: admin
+pass: prOc3rgs@2024#
+
+Sonarqube<br>
+user: admin
+pass: prOc3rgs@2024#
+
+Nexus<br>
+user: admin
+pass: prOc3rgs@2024#
+
+Gogs<br>
+user: gogs
+pass: gogs
 
 
 
 
+# Importar a imagem java do repositorio redhat para o registry do OCP<br>
+```
+oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+oc get route -n openshift-image-registry
 
-# Recriar Pipeline
-0 - Criar projeto "{{ pipeline_namespace }}"<br>
-2 - task-dependency-report.yaml<br>
-3 - cm-maven-setings.yaml<br>
-4 - pvc-workspace.yaml<br>
-5 - "{{ pipeline_namespace }}".yaml<br>
-6 - "{{ pipeline_namespace }}"run.yaml<br>
-7 - 
-10 - Criar o secret roxsecret dentro do namespace que contem o pipeline<br>
-11 - Criar task git-update-deployment
-12 - task-rox-image-check.yaml
-13 - task-rox-image-scan.yaml
-14 - task-s2i-java-21.yaml
+podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
+podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
+podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io --tls-verify=false
+podman push default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
+```
 
 
 
@@ -134,7 +212,15 @@ Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fo
 
 
 
+.
 
+
+
+
+
+
+######################################################################################################################################################
+outra coisa
 
 ## 1- Deploy da aplicação com Pipeline:
 
@@ -221,53 +307,3 @@ Acessar o repositorio no Gogs.
 4. Após essa alteração clique no botão **"Commit changes"**;
 5. No console do OCP, voce pode acompahar a Pipeline iniciando um novo build e deploy da nova versão da Aplicação;
 
-# Excluir
-1-ocp4-install-gitopp
-* templates
-* * gitops-crb.yaml
-* * gitops-argocd.yaml
-* 
-
-# Contas
-ArgoCD<br>
-user: admin<br>
-pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
-
-Acs<br>
-user: admin<br>
-pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
-
-Sonarqube<br>
-user: admin
-pass: prOc3rgs@2024#
-
-Nexus<br>
-user: admin
-pass: prOc3rgs@2024#
-
-Gogs<br>
-user: gogs
-pass: gogs
-
-
-
-
-# Importar a imagem java do repositorio redhat para o registry do OCP<br>
-```
-oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
-oc get route -n openshift-image-registry
-
-podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
-podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
-podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io --tls-verify=false
-podman push default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
-```
-
-
-
-
-
-
-
-
-.

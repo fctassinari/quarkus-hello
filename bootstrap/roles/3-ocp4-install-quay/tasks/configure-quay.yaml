@@ -51,7 +51,6 @@
 
 - name: Use API Token to continue Creating
   block:
-    
     - name: Set Quay Access Token
       ansible.builtin.set_fact:
         quay_access_token: "{{ quay_init_response.json.access_token }}"
@@ -67,7 +66,7 @@
         validate_certs: no
       register: quay_org_check
       failed_when: >
-        (quay_org_check.status != quay_org_not_found_error_code) and
+        (quay_org_check.status == quay_org_not_found_error_code) and
         (quay_org_check.status != quay_org_found_success_status_code)
 
     - name: Create Quay Organization
@@ -97,7 +96,7 @@
         validate_certs: no
       register: quay_repo_check
       failed_when:
-        (quay_repo_check.status != quay_repo_not_found_error_code) and
+        (quay_repo_check.status == quay_repo_not_found_error_code) and
         (quay_repo_check.status != quay_repo_found_success_status_code)
 
     - name: Create Repository
