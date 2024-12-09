@@ -106,25 +106,25 @@
     - name: Print quay_repo_check
       debug:
         msg: "{{ quay_repo_check }}"
-
-    - name: Create Repository
-      ansible.builtin.uri:
-        body_format: json
-        body:
-          repository: "{{ item }}"
-          namespace: "{{ quay_org_name }}"
-          repo_kind: "image"
-          visibility: "public"
-          description: "Repo for CICD Demo"
-        headers:
-          Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
-        method: POST
-        url: "https://{{ quay_route }}/api/v1/repository"
-        validate_certs: no
-        status_code: "{{ quay_repo_created_success_status_code }}"
-      register: quay_repo_response
-      when: quay_repo_check.status == '{{ quay_repo_not_found_error_code }}'
+#
+#    - name: Create Repository
+#      ansible.builtin.uri:
+#        body_format: json
+#        body:
+#          repository: "{{ item }}"
+#          namespace: "{{ quay_org_name }}"
+#          repo_kind: "image"
+#          visibility: "public"
+#          description: "Repo for CICD Demo"
+#        headers:
+#          Content-Type: application/json
+#          Authorization: "Bearer {{ quay_access_token }}"
+#        method: POST
+#        url: "https://{{ quay_route }}/api/v1/repository"
+#        validate_certs: no
+#        status_code: "{{ quay_repo_created_success_status_code }}"
+#      register: quay_repo_response
+#      when: quay_repo_check.status == '{{ quay_repo_not_found_error_code }}'
 
 #    - name: Print quay_repo_check
 #      debug:
