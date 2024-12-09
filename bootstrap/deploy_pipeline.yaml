@@ -22,7 +22,7 @@
     quay_admin_email: '{{ company_name }}@redhat.com'
     quay_admin_password: 'prOc3rgs@2024#'
     quay_registry_name: '{{ company_name }}-registry'
-    quay_org_name: "{{ company_name }} "
+    quay_org_name: "{{ company_name }}"
     quay_secret_name: sct-quay-robot
     quay_repositories:
       - 'dev-{{ app_name }}'
