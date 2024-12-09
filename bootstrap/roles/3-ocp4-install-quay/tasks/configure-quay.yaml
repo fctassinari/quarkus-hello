@@ -87,9 +87,11 @@
         method: POST
         url: "https://{{ quay_route }}/api/v1/organization/"
         validate_certs: no
+        status_code: '201'
       register: quay_org_response
-      failed_when:
-        - quay_org_response.status != quay_org_created_success_status_code
+
+#      failed_when:
+#        - quay_org_response.status != quay_org_created_success_status_code
 #      when:  quay_org_check.status  == '404'
 
     - name: Print quay_org_response
