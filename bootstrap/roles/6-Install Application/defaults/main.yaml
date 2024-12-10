@@ -3,7 +3,7 @@ app_namespaces:
   - 'dev-{{ app_name }}'
   - 'hml-{{ app_name }}'
   - '{{ app_name }}'
-  -
+
 quay_access_token: E25RTUX0EC2M588801T54SF22U0W62OSZXP8ZJEK
 quay_robot_token: J1XF78ZFNF46DQK6JGV9RL1M2UPD43EYTSI1FRIDZVJFW01U2FCZJJ06002JGDPI
 quay_repositories:
