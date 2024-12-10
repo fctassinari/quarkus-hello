@@ -22,24 +22,13 @@
     quay_admin_password: 'prOc3rgs@2024#'
     quay_registry_name: '{{ company_name }}-registry'
     quay_org_name: "{{ company_name }}"
-    quay_secret_name: sct-quay-robot
+    quay_secret_name: 'sct-quay-robot'
     quay_robot_account: 'quay_robot'
-    csrf_pattern: ".*window.__token\ =\ '(.*)';.*"
     #Can obtain status codes from Swagger of quay route/api/v1/discovery
-    quay_user_found_success_status_code: '200'
-    quay_org_not_found_error_code: '404'
-    quay_org_found_success_status_code: '200'
     quay_org_created_success_status_code: '201'
-    quay_repo_not_found_error_code: '404'
-    quay_repo_found_success_status_code: '200'
     quay_repo_created_success_status_code: '201'
-    quay_robot_not_found_error_code: '400'
-    quay_robot_found_success_status_code: '200'
     quay_robot_created_success_status_code: '201'
     quay_perm_success_status_code: '200'
-    secret_required_namespaces:
-      - '{{ pipeline_namespace }}'
-      - '{{ app_namespace }}'
 
 
     cluster_admin_username: 'cluster-admin-sa'
@@ -99,18 +88,7 @@
 #      include_role:
 #        name: "5-ocp4-install-pipelines"
 
-    - name: 'Configure App project'
-      include_role:
-        name: "6-Install Application"
-
-
-
-
-## Só está Creating ACS Integration with the Openshift Internal Registry
-## já existe esta mesma integracao no acs verficar se funciona com os outros
-#    - name: 'Install the ACS Post Content'
+#    - name: 'Configure App project'
 #      include_role:
-#        name: "6-ocp4-post-acs"
-
-
+#        name: "6-Install Application"
 

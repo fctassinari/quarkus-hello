@@ -24,7 +24,7 @@ spec:
     - default: .
       name: PATH_CONTEXT
       type: string
-    - default: 'image-registry.openshift-image-registry.svc:5000/{{ app_namespace }}/{{ app_name }}'
+    - default: 'image-registry.openshift-image-registry.svc:5000/< app_namespace >/< app_name >'
       name: IMAGE_NAME
       type: string
     - default: latest
@@ -331,7 +331,7 @@ spec:
         - update-deployment
       params:
         - name: application-name
-          value: "{{ app_name }}"
+          value: "$(params.APP_NAME)"
   workspaces:
     - name: maven-settings
     - name: workspace

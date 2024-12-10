@@ -165,12 +165,6 @@ Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o 
 
 
 
-# Excluir
-1-ocp4-install-gitops
-* templates
-* * gitops-crb.yaml
-* * gitops-argocd.yaml
-*
 
 # Contas
 ArgoCD<br>
