@@ -26,7 +26,7 @@
     quay_secret_name: sct-quay-robot
     quay_repositories:
       - 'dev-{{ app_name }}'
-    quay_robot_account: '{{ company_name }}_robot'
+    quay_robot_account: 'quay_robot'
     csrf_pattern: ".*window.__token\ =\ '(.*)';.*"
     #Can obtain status codes from Swagger of quay route/api/v1/discovery
     quay_user_found_success_status_code: '200'
