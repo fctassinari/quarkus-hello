@@ -145,7 +145,7 @@
 #Create Quay Secret so other roles can use
 - name: Create Quay Secret in Namespaces that require secret
   shell: |
-    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
+    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item2 }}"
   loop: "{{ secret_required_namespaces }}"
 
 - name: Confirm Quay Secret is Created
@@ -153,7 +153,7 @@
     state: present
     api_version: v1
     kind: Secret
-    namespace: "{{ item }}"
+    namespace: "{{ item3 }}"
     name: "{{ quay_secret_name }}"
     wait: yes
   loop: "{{ secret_required_namespaces }}"
