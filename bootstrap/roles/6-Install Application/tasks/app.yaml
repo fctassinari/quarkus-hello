@@ -75,42 +75,34 @@
 #      register: quay_repo_response
 #      loop: "{{ quay_repositories }}"
 
-    - name: Add Robot account permissions to repo
-      ansible.builtin.uri:
-        body_format: json
-        body:
-          role: "admin"
-        headers:
-          Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
-        method: PUT
-        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
-        validate_certs: no
-        status_code: "{{ quay_perm_success_status_code }}"
-      register: quay_perm_response
-      loop: "{{ quay_repositories }}"
+#    - name: Add Robot account permissions to repo
+#      ansible.builtin.uri:
+#        body_format: json
+#        body:
+#          role: "admin"
+#        headers:
+#          Content-Type: application/json
+#          Authorization: "Bearer {{ quay_access_token }}"
+#        method: PUT
+#        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
+#        validate_certs: no
+#        status_code: "{{ quay_perm_success_status_code }}"
+#      register: quay_perm_response
+#      loop: "{{ quay_repositories }}"
 
 
+- name: Create Quay Secret in Namespaces that require secret
+  shell: |
+    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
+  loop: "{{ app_namespaces }}"
 
 
-
-
-#    - name: Print quay_perm_response
-#      debug:
-#        msg: "{{ quay_perm_response }}"
-
-##Create Quay Secret so other roles can use
-#- name: Create Quay Secret in Namespaces that require secret
-#  shell: |
-#    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
-#  loop: "{{ secret_required_namespaces }}"
-#
-#- name: Confirm Quay Secret is Created
-#  kubernetes.core.k8s:
-#    state: present
-#    api_version: v1
-#    kind: Secret
-#    namespace: "{{ item }}"
-#    name: "{{ quay_secret_name }}"
-#    wait: yes
-#  loop: "{{ secret_required_namespaces }}"
+- name: Confirm Quay Secret is Created
+  kubernetes.core.k8s:
+    state: present
+    api_version: v1
+    kind: Secret
+    namespace: "{{ item }}"
+    name: "{{ quay_secret_name }}"
+    wait: yes
+  loop: "{{ app_namespaces }}"
