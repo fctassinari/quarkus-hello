@@ -1,0 +1,10 @@
+app_name: 'quarkus-hello'
+#app_namespace: 'dev-quarkus-hello'
+
+quay_access_token: 06A2BBE9YDSH49042RBLQMGP2HIQLVBK6MSY1CFOHIHQ8II0DLJJ1ZBVUDNXKWRDTGH2IGYHMLDD12R8BZJEI30ZKYIVNVK7CK18GSQFHIJNBMN5UQM8DG8M
+quay_robot_token: J1XF78ZFNF46DQK6JGV9RL1M2UPD43EYTSI1FRIDZVJFW01U2FCZJJ06002JGDPI
+
+quay_repositories:
+  - 'dev-{{ app_name }}'
+  - 'hml-{{ app_name }}'
+  - '{{ app_name }}'
