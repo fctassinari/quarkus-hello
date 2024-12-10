@@ -158,6 +158,11 @@ Create OpenShift Objects for Openshift Pipelines Templates
 
 Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fonte do github ```
 
+# Install Application
+Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo default/main.yaml
+
+
+
 
 
 # Excluir

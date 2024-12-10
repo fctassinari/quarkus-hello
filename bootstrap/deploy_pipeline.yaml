@@ -5,8 +5,7 @@
   vars:
 
     company_name: 'sm'
-    app_name: 'quarkus-hello'
-    app_namespace: 'dev-quarkus-hello'
+
     pipeline_namespace: "{{ company_name }}-pipeline"
 
     gitops_operator_namespace: 'openshift-gitops-operator'
@@ -24,8 +23,6 @@
     quay_registry_name: '{{ company_name }}-registry'
     quay_org_name: "{{ company_name }}"
     quay_secret_name: sct-quay-robot
-    quay_repositories:
-      - 'dev-{{ app_name }}'
     quay_robot_account: 'quay_robot'
     csrf_pattern: ".*window.__token\ =\ '(.*)';.*"
     #Can obtain status codes from Swagger of quay route/api/v1/discovery
@@ -98,13 +95,13 @@
 #      include_role:
 #        name: "4-ocp4-install-cicd-infra"
 
-    - name: 'Install Pipeline'
-      include_role:
-        name: "5-ocp4-install-pipelines"
-
-#    - name: 'Configure App project'
+#    - name: 'Install Pipeline'
 #      include_role:
-#        name: "6-application"
+#        name: "5-ocp4-install-pipelines"
+
+    - name: 'Configure App project'
+      include_role:
+        name: "6-Install Application"
 
 
 
