@@ -3,8 +3,8 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
-  - ./templates/quay-subscription.yaml.j2
   - ./templates/quay-namespace.yaml.j2
+  - ./templates/quay-subscription.yaml.j2
 
 #Only necessary if Quay not managing storage
 # - name: Get NooBaa Secret
