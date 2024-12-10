@@ -158,9 +158,36 @@ Create OpenShift Objects for Openshift Pipelines Templates
 
 Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fonte do github ```
 
+* Quay
+* extract quay hostname
+* Set Quay hostname
+* Wait until Quay Application is Responding
+* Create Quay Secret in Namespaces that require secret
+* Confirm Quay Secret is Created
+
+
+
 # Install Application
 Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo default/main.yaml
-
+https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_quay_api_guide/index#using-the-api
+* Create Namespaces
+* Gogs
+* * Get gogs route
+* * Create OpenShift Objects for App project
+* * * argocd-app-project.yaml.j2
+* * * argocd-app-dev.yaml.j2
+* * * rb-gitops.yaml.j2
+* Pipeline
+* * Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+* Quay
+* * extract quay hostname
+* * Set Quay hostname
+* * Wait until Quay Application is Responding
+* * Use API Token to continue Creating
+* * * Create Repository
+* * * Add Robot account permissions to repo
+* * Create Quay Secret in Namespaces that require secret
+* * Confirm Quay Secret is Created
 
 
 
