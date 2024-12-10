@@ -90,17 +90,17 @@
 #      include_role:
 #        name: "2-ocp4-install-acs"
 
-    - name: 'Install and configure Quay'
-      include_role:
-        name: "3-ocp4-install-quay"
+#    - name: 'Install and configure Quay'
+#      include_role:
+#        name: "3-ocp4-install-quay"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
 #        name: "4-ocp4-install-cicd-infra"
 
-#    - name: 'Install Pipeline'
-#      include_role:
-#        name: "5-ocp4-install-pipelines"
+    - name: 'Install Pipeline'
+      include_role:
+        name: "5-ocp4-install-pipelines"
 
 #    - name: 'Configure App project'
 #      include_role:

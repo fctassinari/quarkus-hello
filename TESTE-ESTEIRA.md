@@ -129,6 +129,7 @@
 
 # Install Pipelines
 Antes de iniciar a instalação do pipeline gerar o token no sonarkube e atualizar o arquivo deploy_pipeline.yaml
+Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo default/main.yaml
 
 Create OpenShift Objects for Openshift Pipeline Tasks
 

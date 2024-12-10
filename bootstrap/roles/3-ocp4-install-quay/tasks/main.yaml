@@ -1,3 +1,3 @@
 - import_tasks: install-quay.yaml
-- include_tasks: configure-quay.yaml
-#  loop: "{{ quay_repositories }}"
+- include_tasks: secret-quay.yaml
+
