@@ -1,26 +1,41 @@
-# Check Gogs
-- name: Get gogs route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace: "{{ gogs_namespace }}"
-    name: gogs
-  register: r_gogs_route
+#### Gogs
+#- name: Get gogs route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ gogs_namespace }}"
+#    name: gogs
+#  register: r_gogs_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - r_gogs_route.resources[0].spec.host is defined
+#
+#- name: Create OpenShift Objects for App project
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#  - ./templates/argocd-app-project.yaml.j2
+#  - ./templates/argocd-app-dev.yaml.j2
+#  - ./templates/rb-gitops.yaml.j2
+#
+#- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
+
+### Quay
+- name: extract quay hostname
+  shell: |
+    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
+  register: quay_hostname_result
+  delay: 5
   retries: 10
-  delay: 20
   until:
-    - r_gogs_route.resources[0].spec.host is defined
+    - quay_hostname_result.stdout != ""
 
-- name: Create OpenShift Objects for App project
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/argocd-app-project.yaml.j2
-  - ./templates/argocd-app-dev.yaml.j2
-  - ./templates/rb-gitops.yaml.j2
+- name: Set Quay hostname
+  ansible.builtin.set_fact:
+    quay_route: "{{ quay_hostname_result.stdout }}"
 
-- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
