@@ -14,18 +14,18 @@
 - name: Create ArgoCD App project
   k8s:
     state: present
-    definition: "{{ lookup('template', argocd-app-project.yaml.j2 ) | from_yaml }}"
+    definition: "{{ lookup('template', argocd-app-project.yaml.j2 )  }}"
 
 - name: Create ArgoCD Apps
   k8s:
     state: present
-    definition: "{{ lookup('template', argocd-app-dev.yaml.j2 ) | from_yaml }}"
+    definition: "{{ lookup('template', argocd-app-dev.yaml.j2 ) }}"
   loop: "{{ app_namespaces }}"
 
 - name: Add Gitops Rolebinding
   k8s:
     state: present
-    definition: "{{ lookup('template', rb-gitops.yaml.j2 ) | from_yaml }}"
+    definition: "{{ lookup('template', rb-gitops.yaml.j2 ) }}"
   loop: "{{ app_namespaces }}"
 
 ### Pipeline
