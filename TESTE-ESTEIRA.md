@@ -15,6 +15,36 @@
 - - cluster_url
 - - nexus_password
 
+
+- Criar rota do registry
+  - ```
+    oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+    oc get route -n openshift-image-registry
+    ```
+- Importar a imagem java do repositorio redhat para o registry do OCP<br>
+  - ```
+    podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
+    ```
+- Pegar o IMAGE_ID
+  - ```
+    podman images
+    ``` 
+- Tagear a imagem com a rota do registry
+  - ```
+    podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
+    ``` 
+- Subir a imagem para o registry
+  - ``` 
+    podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io --tls-verify=false
+    para evitar este erro no push...
+    "Checking if image destination supports signatures
+    Error: Copying this image would require changing layer representation, which we cannot do: "Would invalidate signatures""
+
+    podman save -o openjdk-21.tar 30c246f28867
+    podman import openjdk-21.tar default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
+    podman push default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
+    ```
+
 # Install Gitops
 - Install GitOps Operator
 - Install OCP Pipelines Operator
@@ -119,6 +149,11 @@
       oc get pods
       oc rsh <nome do pod>
       cat /nexus-data/admin.password
+   
+      Criar os repositorios 
+      quarkus-hello
+      quarkus-hello-config
+      Subir codigo fonte
     ```
 * Get nexus route
 * Criar um repositorio maven-redhat do tipo proxy no nexus<br>
@@ -205,6 +240,13 @@ https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_q
 * * Create Quay Secret in Namespaces that require secret
 * * Confirm Quay Secret is Created
 
+# Criar o container Tools personalizado
+
+- tools/run.sh
+
+
+
+
 
 
 
@@ -254,18 +296,6 @@ Passwd:
    Sonarqube
 
 ---------------------------
-
-# Importar a imagem java do repositorio redhat para o registry do OCP<br>
-```
-oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
-oc get route -n openshift-image-registry
-
-podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
-podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
-podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io --tls-verify=false
-podman push default-route-openshift-image-registry.apps.cluster-pwtfx.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
-```
-
 
 
 
