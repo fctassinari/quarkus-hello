@@ -1,136 +1,136 @@
-#- name: Install sonarqube
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-sonarqube.yaml.j2') }}"
-#
-#- name: Get sonarqube route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ sonar_namespace }}"
-#    name: "{{ sonar_namespace }}"
-#  register: r_sonarqube_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_sonarqube_route.resources[0].spec.host is defined
-#
-#- name: Debug sonarqube route
-#  debug:
-#    msg: "{{ r_sonarqube_route.resources[0].spec.host }}"
-#
-#- name: Wait for sonarqube to be running
-#  uri:
-#    url: https://{{ r_sonarqube_route.resources[0].spec.host }}
-#    status_code: 200
-#    validate_certs: no
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
-#
-#- name: Install reports repo
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-reports-repo.yaml.j2') }}"
-#
-## Check Reports Repo Route
-#- name: Get reports route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace:  reports-repo
-#    name: reports-repo
-#  register: r_reports_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_reports_route.resources[0].spec.host is defined
-#
-#- name: Debug reports route
-#  debug:
-#    msg: "{{ r_reports_route.resources[0].spec.host }}"
-#
-#- name: Wait for reports to be running
-#  uri:
-#    url: http://{{ r_reports_route.resources[0].spec.host }}
-#    status_code: 200
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
-#
-#- name: Install Gogs
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-gogs.yaml.j2') }}"
-#
-#- name: Get gogs route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ gogs_namespace }}"
-#    name: gogs
-#  register: r_gogs_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_gogs_route.resources[0].spec.host is defined
-#
-#- name: Debug gogs route
-#  debug:
-#    msg: "{{ r_gogs_route.resources[0].spec.host }}"
-#
-#- name: Patch with specific route domain
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-gogs-configmap.yaml.j2') }}"
-#
-#- name: Wait for gogs and gogs-postgresql to be running
-#  uri:
-#    url: http://{{ r_gogs_route.resources[0].spec.host }}
-#    status_code: 200
-#  register: result
-#  until: result.status == 200
-#  retries: 10
-#  delay: 30
+- name: Install sonarqube
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-sonarqube.yaml.j2') }}"
+
+- name: Get sonarqube route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ sonar_namespace }}"
+    name: "{{ sonar_namespace }}"
+  register: r_sonarqube_route
+  retries: 10
+  delay: 20
+  until:
+    - r_sonarqube_route.resources[0].spec.host is defined
+
+- name: Debug sonarqube route
+  debug:
+    msg: "{{ r_sonarqube_route.resources[0].spec.host }}"
+
+- name: Wait for sonarqube to be running
+  uri:
+    url: https://{{ r_sonarqube_route.resources[0].spec.host }}
+    status_code: 200
+    validate_certs: no
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
+
+- name: Install reports repo
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-reports-repo.yaml.j2') }}"
+
+# Check Reports Repo Route
+- name: Get reports route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace:  reports-repo
+    name: reports-repo
+  register: r_reports_route
+  retries: 10
+  delay: 20
+  until:
+    - r_reports_route.resources[0].spec.host is defined
+
+- name: Debug reports route
+  debug:
+    msg: "{{ r_reports_route.resources[0].spec.host }}"
+
+- name: Wait for reports to be running
+  uri:
+    url: http://{{ r_reports_route.resources[0].spec.host }}
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
+
+- name: Install Gogs
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-gogs.yaml.j2') }}"
+
+- name: Get gogs route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ gogs_namespace }}"
+    name: gogs
+  register: r_gogs_route
+  retries: 10
+  delay: 20
+  until:
+    - r_gogs_route.resources[0].spec.host is defined
+
+- name: Debug gogs route
+  debug:
+    msg: "{{ r_gogs_route.resources[0].spec.host }}"
+
+- name: Patch with specific route domain
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-gogs-configmap.yaml.j2') }}"
+
+- name: Wait for gogs and gogs-postgresql to be running
+  uri:
+    url: http://{{ r_gogs_route.resources[0].spec.host }}
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
 
 #########################################################
 ## Este bloco da erro no python para cadastrar usuario e senha
-- name: Create OpenShift Objects for Openshift Pipeline Tasks
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-    - ./templates/rb-gogs.yaml.j2
-
-# K8s doesn't support the generateName in taskRun
-- name: Add gogs init taskrun for add pipelines
-  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
-  loop:
-  - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"
+#- name: Create OpenShift Objects for Openshift Pipeline Tasks
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#    - ./templates/rb-gogs.yaml.j2
+#
+## K8s doesn't support the generateName in taskRun
+#- name: Add gogs init taskrun for add pipelines
+#  shell: oc create -n "{{ pipeline_namespace }}" -f "{{ item }}"
+#  loop:
+#  - "{{ role_path }}/templates/cicd-gogs-init-taskrun.yaml.j2"
 #########################################################
 
-#- name: Install nexus
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
-#
-#- name: Get nexus route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ nexus_namespace }}"
-#    name: "{{ nexus_namespace }}"
-#  register: r_nexus_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_nexus_route.resources[0].spec.host is defined
-#
-#- name: Debug nexus route
-#  debug:
-#    msg: "{{ r_nexus_route.resources[0].spec.host }}"
-#
-#
-#
+- name: Install nexus
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cicd-nexus.yaml.j2') }}"
+
+- name: Get nexus route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ nexus_namespace }}"
+    name: "{{ nexus_namespace }}"
+  register: r_nexus_route
+  retries: 10
+  delay: 20
+  until:
+    - r_nexus_route.resources[0].spec.host is defined
+
+- name: Debug nexus route
+  debug:
+    msg: "{{ r_nexus_route.resources[0].spec.host }}"
+
+
+
