@@ -30,6 +30,7 @@
     quay_robot_created_success_status_code: '201'
     quay_perm_success_status_code: '200'
     quay_robot_token: 9LH583RW9YLD59UAM0W0785ETZ8ZLND9VQJW5QOS6M3C5O0RPWARSPMQGOXZAXIR
+    quay_access_token: ZJhopJvSDIqZrOQLzCwXJQnR5DL1paeNv98sV2Q6
 
     sa_cluster_admin: 'cluster-admin-sa'
     sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6InlXdmh4MFFsX0YyR3dkVnRkS2kxSWg5YWpzMDdUYkZ6b1VOTHJPOHphdFUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzMzkyNjAwOCwiaWF0IjoxNzMzOTI5NjA4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiI4MDA3MzIxNC1mM2IwLTQ1OTctOTE3Ni01M2Y2OGIxOWI0ODkiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiI5MTc5NGE2Yi05NDc1LTQ4M2EtYjQwOS00NGMyNzBhNjA4ZDcifX0sIm5iZiI6MTczMzkyOTYwOCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.epqj7_5ISKdKRGNXNn5rh9VND9D1KZh7_YgfT2mcSTGswe4m6LocLtdBylaq_9OWXVXj3wBCOXv9LkBGoXZChY9YNGF6t98muYeN8zVpzvR59fxp5G-7IJRPAkCn2WxyOO9yk0tbyYc8liYsxy4MMDCWUXYutnQznEWLFaXyJg9QlOlKZwvmWv9La4n1qN3Af69TSM5WCViP8SbLjwh7MKThNZzPyQvr7XRYjMlmOB8GGFQnHWqZscq4misH9BebEfyx60oqiJdxv9GSHPZ5zSH7hsvbNnB6Ebm8D3hKRCMsgVw9Oz7dOBOrMwq2V6mMB7p6V-GfPe5B8gPS4pFRqCjSe_ZUALAysNvqpunod9zx3aZITRd6rCq9lcTEsnuuRtzLC1rybRITVX8rSlvGUhLY6qtxkEghNKQ5hdzyZKjSNEUAF1us4HXtmw3fh7I7lNzzshs3Tsm3KUTOjrTyPPb8nWN0ilbnWZPAdt_ZTwK36BojzO2jDQ5JHOAzIG1Z6KOrzzw1HsyV_ztFSK-2qZShkDgpkT6MPvJqgzMn74BxIdsTGF2D5pH6CIulKTJkiOhn49Lh5YqX4-ONKlnykQ7J15UfMvv1_GwrqlZLP9WDEVMbzVIo88rw-tngqVOto2FBHfz894Ip-IESTHRW--WmmCKgaJ6nINmlCE-YlCk'
@@ -84,11 +85,11 @@
 #      include_role:
 #        name: "4-ocp4-install-cicd-infra"
 
-    - name: 'Install Pipeline'
-      include_role:
-        name: "5-ocp4-install-pipelines"
-
-#    - name: 'Configure App project'
+#    - name: 'Install Pipeline'
 #      include_role:
-#        name: "6-Install Application"
+#        name: "5-ocp4-install-pipelines"
+
+    - name: 'Configure App project'
+      include_role:
+        name: "6-Install Application"
 
