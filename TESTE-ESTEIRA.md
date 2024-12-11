@@ -90,38 +90,52 @@
 
 # Install CICD Infra
 
-pegar sonar_token
-
-* Add RoleBinding to the devsecops projects<br>
+* Install sonarqube
+* * ```
+    pegar sonar_token e atualizar o deploy_pipeline
+    ```
+* Get sonarqube route
+* Wait for sonarqube to be running
+* Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```
+* Get reports route
+* Wait for reports to be running
 * Install Gogs ```trocar pelo Gitlab Operator ```
-* * ``` 
+*  ``` 
     Configurar senha 
     oc get pods
     oc rsh <nome do pod >
     su git
     ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
     ```
-* Install Sonarqube
-* Install Reports Repo ``` analisar se mantem ou se sim criar um novo / analisar os parametros informados```
 * Get gogs route
 * Patch with specific route domain
 * Wait for gogs and gogs-postgresql to be running
-
 * Install Nexus
-* * ```
+*  ```
       Your admin user password is located in
       /nexus-data/admin.password on the server.
-* * Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+   
+      oc project nexus
+      oc get pods
+      oc rsh <nome do pod>
+      cat /nexus-data/admin.password
+    ```
+* Get nexus route
+* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+* ```
   relase<br>
   permissive<br>
   https://maven.repository.redhat.com/ga/ <br>
-* * No repositorio maven-public associar com o maven-redhat    
-    ```
+  ```
+* No repositorio maven-public associar com o    ``` maven-redhat  ```    
+* Recriar o repositorio maven-releases do tipo hosted
+*   ```
+      relase<br>
+      permissive<br>
+      ```
 * Check Nexus Route
 * Wait for nexus to be running
-* Sonarqube Route
-* Wait for sonarqube to be running
-* Get reports route
+
 
 # Install Pipelines
 Antes de iniciar a instalação do pipeline gerar o token no sonarkube e atualizar o arquivo deploy_pipeline.yaml
@@ -219,11 +233,19 @@ Url:
    ArgoCD
    ACS
    Quay
+   Gogs
+   Nexus
+   Sonarqube
+   Report
+
 
 Passwd:
    ArgoCD
    ACS
    Quay
+   Gogs
+   Nexus
+   Sonarqube
 
 ---------------------------
 
