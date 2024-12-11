@@ -1,117 +1,117 @@
-### Gogs
-- name: Get gogs route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace: "{{ gogs_namespace }}"
-    name: gogs
-  register: r_gogs_route
-  retries: 10
-  delay: 20
-  until:
-    - r_gogs_route.resources[0].spec.host is defined
+#### Gogs
+#- name: Get gogs route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ gogs_namespace }}"
+#    name: gogs
+#  register: r_gogs_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - r_gogs_route.resources[0].spec.host is defined
 
 - name: Create ArgoCD App project
   k8s:
     state: present
     definition: "{{ lookup('template', argocd-app-project.yaml.j2 )  }}"
-
-- name: Create ArgoCD Apps
-  k8s:
-    state: present
-    definition: "{{ lookup('template', argocd-app-dev.yaml.j2 ) }}"
-  loop: "{{ app_namespaces }}"
-
-- name: Add Gitops Rolebinding
-  k8s:
-    state: present
-    definition: "{{ lookup('template', rb-gitops.yaml.j2 ) }}"
-  loop: "{{ app_namespaces }}"
-
-### Pipeline
-- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
-  loop: "{{ app_namespaces }}"
-
-### Quay
-
-- name: extract quay hostname
-  shell: |
-    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
-  register: quay_hostname_result
-  delay: 5
-  retries: 10
-  until:
-    - quay_hostname_result.stdout != ""
-
-- name: Set Quay hostname
-  ansible.builtin.set_fact:
-    quay_route: "{{ quay_hostname_result.stdout }}"
-
-- name: Wait until Quay Application is Responding
-  ansible.builtin.uri:
-    return_content: yes
-    status_code: 200
-    url: "https://{{ quay_route }}"
-    validate_certs: no
-  delay: 10
-  register: quay_check
-  retries: 30
-  until:
-    quay_check.status == 200
-
-- name: Use API Token to continue Creating
-  block:
-
-    - name: Create Repository
-      ansible.builtin.uri:
-        body_format: json
-        body:
-          repository: "{{ item }}"
-          namespace: "{{ quay_org_name }}"
-          repo_kind: "image"
-          visibility: "public"
-          description: "Repo for CICD"
-        headers:
-          Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
-        method: POST
-        url: "https://{{ quay_route }}/api/v1/repository"
-        validate_certs: no
-        status_code: "{{ quay_repo_created_success_status_code }}"
-      register: quay_repo_response
-      loop: "{{ quay_repositories }}"
-
-    - name: Add Robot account permissions to repo
-      ansible.builtin.uri:
-        body_format: json
-        body:
-          role: "admin"
-        headers:
-          Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
-        method: PUT
-        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
-        validate_certs: no
-        status_code: "{{ quay_perm_success_status_code }}"
-      register: quay_perm_response
-      loop: "{{ quay_repositories }}"
-
-
-- name: Create Quay Secret in Namespaces that require secret
-  shell: |
-    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
-  loop: "{{ app_namespaces }}"
-
-
-- name: Confirm Quay Secret is Created
-  kubernetes.core.k8s:
-    state: present
-    api_version: v1
-    kind: Secret
-    namespace: "{{ item }}"
-    name: "{{ quay_secret_name }}"
-    wait: yes
-  loop: "{{ app_namespaces }}"
+#
+#- name: Create ArgoCD Apps
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', argocd-app-dev.yaml.j2 ) }}"
+#  loop: "{{ app_namespaces }}"
+#
+#- name: Add Gitops Rolebinding
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', rb-gitops.yaml.j2 ) }}"
+#  loop: "{{ app_namespaces }}"
+#
+#### Pipeline
+#- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
+#  loop: "{{ app_namespaces }}"
+#
+#### Quay
+#
+#- name: extract quay hostname
+#  shell: |
+#    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
+#  register: quay_hostname_result
+#  delay: 5
+#  retries: 10
+#  until:
+#    - quay_hostname_result.stdout != ""
+#
+#- name: Set Quay hostname
+#  ansible.builtin.set_fact:
+#    quay_route: "{{ quay_hostname_result.stdout }}"
+#
+#- name: Wait until Quay Application is Responding
+#  ansible.builtin.uri:
+#    return_content: yes
+#    status_code: 200
+#    url: "https://{{ quay_route }}"
+#    validate_certs: no
+#  delay: 10
+#  register: quay_check
+#  retries: 30
+#  until:
+#    quay_check.status == 200
+#
+#- name: Use API Token to continue Creating
+#  block:
+#
+#    - name: Create Repository
+#      ansible.builtin.uri:
+#        body_format: json
+#        body:
+#          repository: "{{ item }}"
+#          namespace: "{{ quay_org_name }}"
+#          repo_kind: "image"
+#          visibility: "public"
+#          description: "Repo for CICD"
+#        headers:
+#          Content-Type: application/json
+#          Authorization: "Bearer {{ quay_access_token }}"
+#        method: POST
+#        url: "https://{{ quay_route }}/api/v1/repository"
+#        validate_certs: no
+#        status_code: "{{ quay_repo_created_success_status_code }}"
+#      register: quay_repo_response
+#      loop: "{{ quay_repositories }}"
+#
+#    - name: Add Robot account permissions to repo
+#      ansible.builtin.uri:
+#        body_format: json
+#        body:
+#          role: "admin"
+#        headers:
+#          Content-Type: application/json
+#          Authorization: "Bearer {{ quay_access_token }}"
+#        method: PUT
+#        url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ item }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
+#        validate_certs: no
+#        status_code: "{{ quay_perm_success_status_code }}"
+#      register: quay_perm_response
+#      loop: "{{ quay_repositories }}"
+#
+#
+#- name: Create Quay Secret in Namespaces that require secret
+#  shell: |
+#    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
+#  loop: "{{ app_namespaces }}"
+#
+#
+#- name: Confirm Quay Secret is Created
+#  kubernetes.core.k8s:
+#    state: present
+#    api_version: v1
+#    kind: Secret
+#    namespace: "{{ item }}"
+#    name: "{{ quay_secret_name }}"
+#    wait: yes
+#  loop: "{{ app_namespaces }}"
