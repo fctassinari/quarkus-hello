@@ -1,5 +1,5 @@
 
-#- import_tasks: pre.yaml
-#- import_tasks: central.yaml
-#- import_tasks: sensor.yaml
+- import_tasks: pre.yaml
+- import_tasks: central.yaml
+- import_tasks: sensor.yaml
 - import_tasks: post.yaml
