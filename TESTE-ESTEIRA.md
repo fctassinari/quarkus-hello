@@ -217,9 +217,12 @@ pass: gogs
 Mostrar 
 Url: 
    ArgoCD
+   ACS
 
 Passwd:
    ArgoCD
+   ACS
+
 ---------------------------
 
 # Importar a imagem java do repositorio redhat para o registry do OCP<br>

@@ -19,7 +19,7 @@
     quay_project_name: 'quay'
     quay_admin_username: 'admin'
     quay_admin_email: '{{ company_name }}@redhat.com'
-    quay_admin_password: 'xpto'
+    quay_admin_password: 'xpto1234'
     quay_registry_name: '{{ company_name }}-registry'
     quay_org_name: "{{ company_name }}"
     quay_secret_name: 'sct-quay-robot'
