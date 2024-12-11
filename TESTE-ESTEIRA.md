@@ -141,40 +141,43 @@
 Antes de iniciar a instalação do pipeline gerar o token no sonarkube e atualizar o arquivo deploy_pipeline.yaml
 Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo default/main.yaml
 
-Create OpenShift Objects for Openshift Pipeline Tasks
+- pipelines.yaml
+  * Get argocd password
+  * Add CM for ArgoCD env in namespace
+  * Add Secrets for ArgoCD env in namespace
+  * Create OpenShift Objects for Openshift Pipeline Tasks
+     - task-update-release.yaml.j2
+     - task-argo-sync-and-wait.yaml.j2
+     - task-build-quarkus-image.yaml.j2
+     - task-dependency-report.yaml.j2
+     - task-git-update-deployment.yaml.j2
+     - cm-maven.yaml.j2
+     - clustertask-rox-deployment-check.yaml.j2
+     - clustertask-rox-image-check.yaml.j2
+     - clustertask-rox-image-scan.yaml.j2
 
-* argocd-task-sync-and-wait ```
-   This task syncs (deploys) an Argo CD application and waits for it to be healthy.
-   To do so, it requires the address of the Argo CD server and some form of 
-   authentication either a username/password or an authentication token.```
-* dependency-report
-* git-update-deployment ``` This Task can be used to update image digest in a Git repo using kustomize ```
-* maven-settings ``` ConfigMap ```
-* rox-image-scan
-* rox-deployment-check 
-* rox-image-check  
+  * Create OpenShift Objects for Openshift Pipeline Triggers
+    - trigger-eventlistener.yaml.j2
+    - trigger-eventlistener-route.yaml.j2
+    - trigger-gogs-triggerbinding.yaml.j2
+    - triggertemplate.yaml.j2
 
-Create OpenShift Objects for Openshift Pipeline Triggers
-  - ./templates/trigger-eventlistener.yaml.j2
-  - ./templates/trigger-eventlistener-route.yaml.j2
-  - ./templates/trigger-gogs-triggerbinding.yaml.j2
-  - ./templates/triggertemplate.yaml.j2
+  * Create OpenShift Objects for Openshift Pipelines Templates
+    - generic-pipeline.yaml.j2
+    - pipeline-build-pvc.yaml.j2
 
-Get gogs route
+- acs-token-for-pipeline.yaml
+  - Get ACS central route
+  - Store central route as a fact
+  - Create API token for access from Pipeline to ACS
+  - Get API token from response
+  - Create ACS API Token secret for using in the pipelines
 
-Create OpenShift Objects for Openshift Pipelines Templates
-* quarkus-hello-pipeline
-* pipeline-build-pvc
-
-Add gogs init taskrun for add pipelines ``` cria conta admin e clona o codigo fonte do github ```
-
-* Quay
-* extract quay hostname
-* Set Quay hostname
-* Wait until Quay Application is Responding
-* Create Quay Secret in Namespaces that require secret
-* Confirm Quay Secret is Created
-
+- secret-quay.yaml
+  - Extract quay hostname
+  - Wait until Quay Application is Responding
+  - Create Quay Secret in Namespaces that require secret
+  - Confirm Quay Secret is Created
 
 
 # Install Application
