@@ -4,7 +4,7 @@
   connection: local
   vars:
 
-    company_name: 'sm'
+    company_name: 'xpto'
 
     pipeline_namespace: "{{ company_name }}-pipeline"
 
@@ -13,13 +13,13 @@
     pipeline_operator_namspace: 'openshift-operators'
 
     acs_central_services_namespace: 'stackrox'
-    acs_central_password_base64: 'cHJPYzNyZ3NAMjAyNCM=' #base64
-    acs_central_password_plain_text: 'prOc3rgs@2024#'
+    acs_central_password_base64: 'eHB0bw==' #base64
+    acs_central_password_plain_text: 'xpto'
 
     quay_project_name: 'quay'
     quay_admin_username: 'admin'
     quay_admin_email: '{{ company_name }}@redhat.com'
-    quay_admin_password: 'prOc3rgs@2024#'
+    quay_admin_password: 'xpto'
     quay_registry_name: '{{ company_name }}-registry'
     quay_org_name: "{{ company_name }}"
     quay_secret_name: 'sct-quay-robot'
@@ -31,9 +31,9 @@
     quay_perm_success_status_code: '200'
 
 
-    cluster_admin_username: 'cluster-admin-sa'
-    cluster_admin_token: 'sha256~1fB1wFZoKCspSZSH8PE5pFXdL-eGlMpIND6DsTTPHuw'
-    cluster_url: 'apps.cluster-pwtfx.dynamic.redhatworkshops.io'
+    sa_cluster_admin: 'cluster-admin-sa'
+    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6InlXdmh4MFFsX0YyR3dkVnRkS2kxSWg5YWpzMDdUYkZ6b1VOTHJPOHphdFUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzMzkyNjAwOCwiaWF0IjoxNzMzOTI5NjA4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiI4MDA3MzIxNC1mM2IwLTQ1OTctOTE3Ni01M2Y2OGIxOWI0ODkiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiI5MTc5NGE2Yi05NDc1LTQ4M2EtYjQwOS00NGMyNzBhNjA4ZDcifX0sIm5iZiI6MTczMzkyOTYwOCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.epqj7_5ISKdKRGNXNn5rh9VND9D1KZh7_YgfT2mcSTGswe4m6LocLtdBylaq_9OWXVXj3wBCOXv9LkBGoXZChY9YNGF6t98muYeN8zVpzvR59fxp5G-7IJRPAkCn2WxyOO9yk0tbyYc8liYsxy4MMDCWUXYutnQznEWLFaXyJg9QlOlKZwvmWv9La4n1qN3Af69TSM5WCViP8SbLjwh7MKThNZzPyQvr7XRYjMlmOB8GGFQnHWqZscq4misH9BebEfyx60oqiJdxv9GSHPZ5zSH7hsvbNnB6Ebm8D3hKRCMsgVw9Oz7dOBOrMwq2V6mMB7p6V-GfPe5B8gPS4pFRqCjSe_ZUALAysNvqpunod9zx3aZITRd6rCq9lcTEsnuuRtzLC1rybRITVX8rSlvGUhLY6qtxkEghNKQ5hdzyZKjSNEUAF1us4HXtmw3fh7I7lNzzshs3Tsm3KUTOjrTyPPb8nWN0ilbnWZPAdt_ZTwK36BojzO2jDQ5JHOAzIG1Z6KOrzzw1HsyV_ztFSK-2qZShkDgpkT6MPvJqgzMn74BxIdsTGF2D5pH6CIulKTJkiOhn49Lh5YqX4-ONKlnykQ7J15UfMvv1_GwrqlZLP9WDEVMbzVIo88rw-tngqVOto2FBHfz894Ip-IESTHRW--WmmCKgaJ6nINmlCE-YlCk'
+    cluster_url: 'apps.cluster-xbmk6.dynamic.redhatworkshops.io'
 
     gogs_namespace: 'gogs'
 
@@ -45,7 +45,7 @@
     nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
     nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
     nexus_user: 'admin'
-    nexus_password: 'prOc3rgs@2024#'
+    nexus_password: 'xpto'
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'
@@ -68,9 +68,9 @@
 
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
 
 #    - name: 'Install the ACS Central'
 #      include_role:

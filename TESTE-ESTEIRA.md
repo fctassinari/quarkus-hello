@@ -1,5 +1,19 @@
 # Instruções - Openshift Pipeline
 
+# Pré Instalação 
+- No arquivo deploy_pipeline.yaml fazer os ajustes básicos
+- - company_name
+- - acs_central_password_base64 
+- - - echo -n xpto | base64 R: eHB0bw==
+- - acs_central_password_plain_text
+- - quay_admin_password
+- - sa_cluster_admin (criar)
+- - - oc create sa cluster-admin-sa -n kube-system
+- - - oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
+- - sa_cluster_admin_token (copiar token)
+- - - oc create token cluster-admin-sa -n kube-system --duration=999999h
+- - cluster_url
+- - nexus_password
 
 # Install Gitops
 - Install GitOps Operator
@@ -20,7 +34,7 @@
 * * oc create sa cluster-admin-sa -n kube-system
 * * oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
 * * oc create token cluster-admin-sa --duration=999999h -n kube-system
-* * Copiar o token e colocar na variavel cluster_admin_token do arquivo deploy_pipeline.yaml
+* * Copiar o token e colocar na variavel sa_cluster_admin_token do arquivo deploy_pipeline.yaml
 * Central
 * * Create ACS namespace
 * * Create ACS Central password
@@ -68,34 +82,16 @@
 * * * Create Robot Account
 * * * Set Robot Token from Creating New Robot Account
 * * * Add Robot account permissions to repo
-* * Use Manual Login to try get token
-* * Set CSRF Token
-* * Try and Create a new session
-* * Get Next CSRF Token
-* * Get user Information
-* * Set Present Cookie String from User Info Response
-* * Check if Quay Organization Exists
-* * Set Present Cookie String from Org Check Response
-* * Create Quay Organization
-* * Set Present Cookie String from Org Creation Response
-* * Check if Repository Already Exists
-* * Set Cookie String From Repo Check Response
-* * Create Repository
-* * Set Cookie String From Repo Creation Response
-* * Check if Robot Account Already Exists
-* * Set Robot Token from Check Response
-* * Set Cookie String From Robot Check Response
-* * Create Robot Account
-* * Set Robot Token from Creating New Robot Account
-* * Set Cookie String From Robot Creation
-* * Add Robot account permissions to repo
 * * Delete any Previously Existing Quay Secret
 * * Create Quay Secret in Namespaces that require secret
 * * Confirm Quay Secret is Created
 
 
 
-# Install CICD 
+# Install CICD Infra
+
+pegar sonar_token
+
 * Add RoleBinding to the devsecops projects<br>
 * Install Gogs ```trocar pelo Gitlab Operator ```
 * * ``` 
@@ -200,19 +196,19 @@ pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWd
 
 Acs<br>
 user: admin<br>
-pass: prOc3rgs@2024# -> cHJPYzNyZ3NAMjAyNCM=
+pass: xpto -> cHJPYzNyZ3NAMjAyNCM=
 
 Quay<br>
 user: admin
-pass: prOc3rgs@2024#
+pass: xpto
 
 Sonarqube<br>
 user: admin
-pass: prOc3rgs@2024#
+pass: xpto
 
 Nexus<br>
 user: admin
-pass: prOc3rgs@2024#
+pass: xpto
 
 Gogs<br>
 user: gogs

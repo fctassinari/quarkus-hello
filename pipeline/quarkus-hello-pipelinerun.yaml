@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: pipeline-xpto-
+  generateName: pipeline-<app-name>-
   namespace: sm-pipeline
   labels:
     tekton.dev/pipeline: sm-pipeline
