@@ -5,7 +5,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: "{{ app_namespace }}"
+    namespace: "{{ item }}"
     server: https://kubernetes.default.svc
   project: "{{ app_name }}"
   source:

@@ -11,20 +11,29 @@
   until:
     - r_gogs_route.resources[0].spec.host is defined
 
-- name: Create OpenShift Objects for App project
+- name: Create ArgoCD App project
   k8s:
     state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-  - ./templates/argocd-app-project.yaml.j2
-  - ./templates/argocd-app-dev.yaml.j2
-  - ./templates/rb-gitops.yaml.j2
+    definition: "{{ lookup('template', argocd-app-project.yaml.j2 ) | from_yaml }}"
+
+- name: Create ArgoCD Apps
+  k8s:
+    state: present
+    definition: "{{ lookup('template', argocd-app-dev.yaml.j2 ) | from_yaml }}"
+  loop: "{{ app_namespaces }}"
+
+- name: Add Gitops Rolebinding
+  k8s:
+    state: present
+    definition: "{{ lookup('template', rb-gitops.yaml.j2 ) | from_yaml }}"
+  loop: "{{ app_namespaces }}"
 
 ### Pipeline
 - name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
+  loop: "{{ app_namespaces }}"
 
 ### Quay
 
