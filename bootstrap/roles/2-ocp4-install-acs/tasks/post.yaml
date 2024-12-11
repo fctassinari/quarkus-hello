@@ -19,7 +19,7 @@
     body: "{{ lookup('template', 'templates/ocp_registry_acs.yml.j2') }}"
     method: POST
     user: admin
-    password: "{{ acs_central_password_base64 }}"
+    password: "{{ acs_central_password_plain_text }}"
     body_format: json
     force_basic_auth: true
     validate_certs: no
