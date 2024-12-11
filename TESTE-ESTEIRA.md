@@ -218,10 +218,12 @@ Mostrar
 Url: 
    ArgoCD
    ACS
+   Quay
 
 Passwd:
    ArgoCD
    ACS
+   Quay
 
 ---------------------------
 
