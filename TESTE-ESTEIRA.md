@@ -192,7 +192,7 @@ https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_q
 # Contas
 ArgoCD<br>
 user: admin<br>
-pass: XdQRY5ir8C96HNpMax0zLWJGFuOegUtZ - WGRRUlk1aXI4Qzk2SE5wTWF4MHpMV0pHRnVPZWdVdFo=
+pass: AixwT7nmyGCZX4P9EoM8eUqWKDgQhlt1
 
 Acs<br>
 user: admin<br>
@@ -213,9 +213,14 @@ pass: xpto
 Gogs<br>
 user: gogs
 pass: gogs
+------------------------------------------
+Mostrar 
+Url: 
+   ArgoCD
 
-
-
+Passwd:
+   ArgoCD
+---------------------------
 
 # Importar a imagem java do repositorio redhat para o registry do OCP<br>
 ```
