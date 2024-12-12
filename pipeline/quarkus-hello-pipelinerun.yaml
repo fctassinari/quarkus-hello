@@ -2,15 +2,15 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   generateName: pipeline-<app-name>-
-  namespace: sm-pipeline
+  namespace: {{ pipeline_name }}
   labels:
-    tekton.dev/pipeline: sm-pipeline
+    tekton.dev/pipeline: {{ pipeline_name }}
 spec:
   params:
     - name: APP_NAME
       value: quarkus-hello
     - name: GIT_REPO
-      value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
+      value: 'http://gogs-gogs.apps.cluster-xbmk6.dynamic.redhatworkshops.io/gogs/quarkus-hello.git'
     - name: GIT_BRANCH
       value: master
     - name: GIT_USER
@@ -23,12 +23,10 @@ spec:
       value: 'image-registry.openshift-image-registry.svc:5000/dev-quarkus-hello/quarkus-hello'
     - name: IMAGE_TAG
       value: latest
-    - name: VERSION
-      value:
     - name: JAVA_IMAGE
-      value: image-registry.openshift-image-registry.svc:5000/openshift/ubi9-openjdk-21:1.21-3
+      value: image-registry.openshift-image-registry.svc:5000/openshift/openjdk-21:1.21-3
     - name: APP_MANIFESTS_GIT
-      value: 'http://gogs-gogs.apps.cluster-pwtfx.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git'
+      value: 'http://gogs-gogs.apps.cluster-xbmk6.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git'
   pipelineRef:
     name: generic-pipeline
   taskRunTemplate:

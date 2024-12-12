@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: listar
-  namespace: sm-pipeline
+  namespace: {{ pipeline_name }}
 spec:
   description: Esta task lista o diretorio desejado.
   params:

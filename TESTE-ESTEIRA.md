@@ -23,7 +23,12 @@
     ```
 - Importar a imagem java do repositorio redhat para o registry do OCP<br>
   - ```
-    podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21-3
+    podman login registry.redhat.io
+    Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
+    Password: {REGISTRY-SERVICE-ACCOUNT-PASSWORD}
+    Login Succeeded!
+
+    podman pull registry.redhat.io/ubi9/openjdk-21:1.21-3
     ```
 - Pegar o IMAGE_ID
   - ```
@@ -36,6 +41,8 @@
 - Subir a imagem para o registry
   - ``` 
     podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io --tls-verify=false
+    
+    
     para evitar este erro no push...
     "Checking if image destination supports signatures
     Error: Copying this image would require changing layer representation, which we cannot do: "Would invalidate signatures""

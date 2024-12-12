@@ -47,38 +47,42 @@ spec:
         container=$(buildah --storage-driver=vfs containers --quiet --filter name=custom-name)
         echo "containerID = $container"
 
-        #ls -la $(workspaces.source.path)
-        #ls -la $(workspaces.source.path)/source/
-        #ls -la $(workspaces.source.path)/source/target/
-        #ls -la $(workspaces.source.path)/source/target/quarkus-app/
-        #ls -la $(workspaces.source.path)/source/target/quarkus-app/lib/
+        ls -la $(workspaces.source.path)
+        ls -la $(workspaces.source.path)/source/
+        ls -la $(workspaces.source.path)/source/target/
+        ls -la $(workspaces.source.path)/source/target/quarkus-app/
+        ls -la $(workspaces.source.path)/source/target/quarkus-app/lib/
 
         buildah copy  --storage-driver=vfs $container $(workspaces.source.path)/source/target/quarkus-app/lib/ /deployments/lib/
+        echo "2"
         buildah copy  --storage-driver=vfs $container $(workspaces.source.path)/source/target/quarkus-app/*.jar /deployments/
+        echo "3"
         buildah copy --storage-driver=vfs $container $(workspaces.source.path)/source/target/quarkus-app/app/ /deployments/app/
+        echo "4"
         buildah copy --storage-driver=vfs $container $(workspaces.source.path)/source/target/quarkus-app/quarkus/ /deployments/quarkus/
-
+        echo "5"
+        
         buildah config --storage-driver=vfs --env JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager" $container
-        echo $JAVA_OPTS_APPEND
 
+        echo "6"
         buildah config --storage-driver=vfs --env JAVA_APP_JAR="/deployments/quarkus-run.jar" $container
-        echo $JAVA_APP_JAR
 
+        echo "7"
         buildah config --storage-driver=vfs --entrypoint "/opt/jboss/container/java/run/run-java.sh" $container
-
+        echo "8"
         buildah commit --storage-driver=vfs $container $(params.IMAGE)
-
+        echo "9"
         buildah images --storage-driver=vfs
-
+        echo "10"
         [[ "$(params.SKIP_PUSH)" == "true" ]] && echo "Push skipped" && exit 0
-
+        echo "11"
         buildah push --storage-driver=vfs --tls-verify=$(params.TLSVERIFY) \
           --digestfile $(workspaces.source.path)/image-digest $(params.IMAGE) \
           docker://$(params.IMAGE)
-        echo "11"
+        echo "12"
 
         cat $(workspaces.source.path)/image-digest | tee /tekton/results/IMAGE_DIGEST
-        echo "12"
+        echo "13"
       securityContext:
         capabilities:
           add:

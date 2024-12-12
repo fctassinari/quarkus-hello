@@ -28,10 +28,6 @@ spec:
     - default: latest
       description: The application image tag to build
       name: IMAGE_TAG
-    - default: openjdk-17-ubi8
-      description: The tag of java imagestream for java version in case S2I Build
-      name: VERSION
-      type: string
     - default: registry.redhat.io/ubi9/openjdk-21:1.21-3
       description: The java imagestream in case Quarkus Build
       name: JAVA_IMAGE
@@ -222,8 +218,8 @@ spec:
 #          value: 'https://{{ nexus_namespace }}.{{ cluster_url }}/repository/maven-releases/'
 #        - name: PATH_CONTEXT
 #          value: $(workspaces.source.path)/source/target
-#        - name: VERSION
-#          value: $(params.VERSION)
+#        - name: JAVA_IMAGE
+#          value: $(params.JAVA_IMAGE)
 #        - name: MAVEN_ARGS_APPEND
 #          value: '-Dmaven.repo.local=$(workspaces.source.path)/.m2 -Dmaven.test.skip=true '
 #      runAfter:
