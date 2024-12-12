@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: kube-openjdk-21-pod
-  namespace: all
+  namespace: tassinari
 spec:
   containers:
     - name: web
