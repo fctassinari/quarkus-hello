@@ -65,7 +65,7 @@ RUN yum -y install git wget && \
     curl -L -f -o roxctl "https://mirror.openshift.com/pub/rhacs/assets/4.6.0/bin/Linux/roxctl${arch}" && \
     chmod +x roxctl && \
     mv roxctl /usr/local/bin/ && \
-    wget https://downloads-openshift-console.apps.cluster-pwtfx.dynamic.redhatworkshops.io/amd64/linux/oc.tar && \
+    wget https://downloads-openshift-console.apps.cluster-xbmk6.dynamic.redhatworkshops.io/amd64/linux/oc.tar && \
     tar xvf oc.tar && \
     chmod +x oc && \
     mv oc /usr/local/bin/ && \

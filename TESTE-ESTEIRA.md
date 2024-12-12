@@ -241,11 +241,11 @@ https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_q
 * * Confirm Quay Secret is Created
 
 # Criar o container Tools personalizado
+- Ajustar as urls do OCP e do registry nos arquivos rum.sh e Dockerfile
+  - tools/run.sh
 
-- tools/run.sh
 
-
-
+# FINITO !!! 
 
 
 
