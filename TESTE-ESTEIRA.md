@@ -39,6 +39,10 @@
 - Create GitOps Operator Group
 - Install GitOps Operator
 - Install OCP Pipelines Operator
+- Pegar a senha do ArgoCD na secret
+  - ```
+    oepnshift-gitops-cluster
+    ```
 
 # Install the ACS Central
 * Central
