@@ -16,14 +16,20 @@
     state: present
     definition: "{{ lookup('template', 'argocd-app-project.yaml.j2' )  }}"
 
-- name: Create ArgoCD Apps
+- name: Create ArgoCD Dev App
   k8s:
     state: present
-    definition: "{{ lookup('template', 'argocd-app.yaml.j2' ) }}"
-  loop:
-    - 'dev'
-    - 'hml'
-    - 'prd'
+    definition: "{{ lookup('template', 'argocd-app-dev.yaml.j2' ) }}"
+
+- name: Create ArgoCD Hml App
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'argocd-app-hml.yaml.j2' ) }}"
+
+- name: Create ArgoCD Prd App
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'argocd-app-prd.yaml.j2' ) }}"
 
 - name: Add Gitops Rolebinding
   k8s:
