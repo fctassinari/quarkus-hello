@@ -7,11 +7,13 @@
 - - - echo -n admin1234 | base64 R: YWRtaW4xMjM0
 - - acs_central_password_plain_text
 - - quay_admin_password
-- - sa_cluster_admin (criar)
-- - - oc create sa cluster-admin-sa -n kube-system
-- - - oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
-- - sa_cluster_admin_token (copiar token)
-- - - oc create token cluster-admin-sa -n kube-system --duration=999999h
+- - sa_cluster_admin (criar e copiar token)
+  - ```
+      Em /tools/criar-sa-cluster-adim.sh
+      oc create sa cluster-admin-sa -n kube-system
+      oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
+      oc create token cluster-admin-sa -n kube-system --duration=999999h
+    ```
 - - cluster_url
 - - nexus_password
 
@@ -23,11 +25,13 @@
     ```
 - Importar a imagem java do repositorio redhat para o registry do OCP<br>
   - ```
-    Em /tools
-    oc new-project teste
-    oc create -f 6095290_tassinari-secret-redhat.yaml -n teste
-    oc create -f kube-openjdk-21-pod.yaml
-    oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21:1.21-3 --confirm
+    Em /tools/import-openjdk-21.sh
+    oc create -f 6095290_tassinari-secret-redhat.yaml -n openshift
+    oc create -f kube-openjdk-21-pod.yaml -n openshift
+    oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21:1.21-3 --confirm -n openshift
+    oc get is -n openshift | grep openjdk-21
+    oc delete pod kube-openjdk-21-pod -n openshift
+    oc delete secret 6095290-tassinari-pull-secret -n openshift
     ```
 
 # Install Gitops
