@@ -74,13 +74,13 @@
 #      include_role:
 #        name: "1-ocp4-install-gitops-pipeline"
 
-    - name: 'Install the ACS Central'
-      include_role:
-        name: "2-ocp4-install-acs"
-
-#    - name: 'Install and configure Quay'
+#    - name: 'Install the ACS Central'
 #      include_role:
-#        name: "3-ocp4-install-quay"
+#        name: "2-ocp4-install-acs"
+
+    - name: 'Install and configure Quay'
+      include_role:
+        name: "3-ocp4-install-quay"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
