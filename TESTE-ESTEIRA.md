@@ -23,33 +23,11 @@
     ```
 - Importar a imagem java do repositorio redhat para o registry do OCP<br>
   - ```
-    podman login registry.redhat.io
-    Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
-    Password: {REGISTRY-SERVICE-ACCOUNT-PASSWORD}
-    Login Succeeded!
-
-    podman pull registry.redhat.io/ubi9/openjdk-21:1.21-3
-    ```
-- Pegar o IMAGE_ID
-  - ```
-    podman images
-    ``` 
-- Tagear a imagem com a rota do registry
-  - ```
-    podman tag 30c246f28867 default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
-    ``` 
-- Subir a imagem para o registry
-  - ``` 
-    podman login -u admin -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io --tls-verify=false
-    
-    
-    para evitar este erro no push...
-    "Checking if image destination supports signatures
-    Error: Copying this image would require changing layer representation, which we cannot do: "Would invalidate signatures""
-
-    podman save -o openjdk-21.tar 30c246f28867
-    podman import openjdk-21.tar default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3
-    podman push default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/openjdk-21:1.21-3 --tls-verify=false
+    Em /tools
+    oc new-project teste
+    oc create -f 6095290_tassinari-secret-redhat.yaml -n teste
+    oc create -f kube-openjdk-21-pod.yaml
+    oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21:1.21-3 --confirm
     ```
 
 # Install Gitops
