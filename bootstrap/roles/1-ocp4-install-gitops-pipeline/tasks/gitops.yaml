@@ -1,14 +1,14 @@
-#- name: Get cluster version
-#  k8s_info:
-#    api_version: config.openshift.io/v1
-#    kind: ClusterVersion
-#    name: version
-#  register: r_cluster_version
-#
-#- name: Set ocp4_cluster_version fact
-#  set_fact:
-#    ocp4_cluster_version: "{{ r_cluster_version.resources[0].status.history[0].version }}"
-#
+- name: Get cluster version
+  k8s_info:
+    api_version: config.openshift.io/v1
+    kind: ClusterVersion
+    name: version
+  register: r_cluster_version
+
+- name: Set ocp4_cluster_version fact
+  set_fact:
+    ocp4_cluster_version: "{{ r_cluster_version.resources[0].status.history[0].version }}"
+
 #- name: Print OpenShift version
 #  debug:
 #    msg: "{{ ocp4_cluster_version }}"
