@@ -7,7 +7,7 @@
 - - - echo -n admin1234 | base64 R: YWRtaW4xMjM0
 - - acs_central_password_plain_text
 - - quay_admin_password
-- - sa_cluster_admin (criar e copiar token)
+- - sa_cluster_admin_token (criar e copiar token)
   - ```
       Em /tools/criar-sa-cluster-adim.sh
       oc create sa cluster-admin-sa -n kube-system
@@ -35,25 +35,12 @@
     ```
 
 # Install Gitops
+- Get cluster version
+- Create GitOps Operator Group
 - Install GitOps Operator
 - Install OCP Pipelines Operator
-- Add ClusterRoleBinding to the openshift-gitops-controller
-- Install ArgoCD
-- Add SSO Keycloak in Openshift GitOps by default
-- Get argocd password
-- Add CM for ArgoCD env in namespace  "{{ pipeline_namespace }}"
-- Add Secrets for ArgoCD env in namespace  "{{ pipeline_namespace }}"
-
-* * Config Gitops ``` Cria a aplicação dentro do Argo CD ```
-* argocd-quarkus-hello-project.yaml
-* argocd-app-dev.yaml.j2
 
 # Install the ACS Central
-* Antes de instalar o ACS criar uma conta de servico (SA) e gerar seu token
-* * oc create sa cluster-admin-sa -n kube-system
-* * oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
-* * oc create token cluster-admin-sa --duration=999999h -n kube-system
-* * Copiar o token e colocar na variavel sa_cluster_admin_token do arquivo deploy_pipeline.yaml
 * Central
 * * Create ACS namespace
 * * Create ACS Central password
@@ -77,7 +64,6 @@
 * Get token in the secret for the sa pipeline and decode
 * Define the token secret decoded
 * Creating ACS Integration with the Openshift Internal Registry
-* * ``` é preciso criar uma conta de servico te tenha acesso ao registry - post-ci.yaml```
 
 # Install Quay
 * install-quay
