@@ -2,28 +2,16 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   annotations:
-    operator.tekton.dev/last-applied-hash: 859ea104cd933d75b8283acdc6d6f6192ea978ecc3509d24e017e26ed49efd1e
     tekton.dev/categories: Git
     tekton.dev/displayName: git clone
     tekton.dev/pipelines.minVersion: 0.38.0
     tekton.dev/platforms: linux/amd64,linux/s390x,linux/ppc64le,linux/arm64
     tekton.dev/tags: git
-  creationTimestamp: "2024-12-13T05:08:22Z"
-  generation: 1
   labels:
     app.kubernetes.io/version: "0.9"
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: git-clone
-  ownerReferences:
-  - apiVersion: operator.tekton.dev/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: TektonInstallerSet
-    name: addon-custom-Task-952sd
-    uid: 55450e27-c314-4d37-8ccc-20e8fef3986a
-  resourceVersion: "53891"
-  uid: 0044831f-9a2f-4873-8905-f148116f3d61
 spec:
   description: |-
     These Tasks are Git tasks to work with repositories used by other tasks in your Pipeline.

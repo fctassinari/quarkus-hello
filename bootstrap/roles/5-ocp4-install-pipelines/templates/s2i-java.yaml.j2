@@ -2,26 +2,14 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   annotations:
-    operator.tekton.dev/last-applied-hash: 35a81f620d9064bc86f47600b4959c5952b8f173ade92e9a89d6b5642ee6cc52
     tekton.dev/displayName: s2i java
     tekton.dev/pipelines.minVersion: "0.19"
     tekton.dev/tags: s2i, java, workspace
-  creationTimestamp: "2024-12-13T05:08:22Z"
-  generation: 1
   labels:
     app.kubernetes.io/version: "0.1"
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: s2i-java
-  ownerReferences:
-  - apiVersion: operator.tekton.dev/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: TektonInstallerSet
-    name: addon-custom-Task-952sd
-    uid: 55450e27-c314-4d37-8ccc-20e8fef3986a
-  resourceVersion: "53926"
-  uid: 94003b23-9dc3-4ff0-91f8-bed05d4ba593
 spec:
   description: s2i-java task clones a Git repository and builds and pushes a container
     image using S2I and a Java builder image.
