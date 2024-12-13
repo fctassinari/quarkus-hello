@@ -9,6 +9,7 @@ metadata:
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: maven
+  namespace: "{{ pipeline_namespace }}"
 spec:
   description: This Task can be used to run a Maven build.
   params:

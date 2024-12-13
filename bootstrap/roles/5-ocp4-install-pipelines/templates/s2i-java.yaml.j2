@@ -10,6 +10,7 @@ metadata:
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: s2i-java
+  namespace: "{{ pipeline_namespace }}"
 spec:
   description: s2i-java task clones a Git repository and builds and pushes a container
     image using S2I and a Java builder image.

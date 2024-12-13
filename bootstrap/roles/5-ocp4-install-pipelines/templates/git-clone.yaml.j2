@@ -12,6 +12,7 @@ metadata:
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: git-clone
+  namespace: "{{ pipeline_namespace }}"
 spec:
   description: |-
     These Tasks are Git tasks to work with repositories used by other tasks in your Pipeline.

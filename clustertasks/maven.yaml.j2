@@ -2,25 +2,14 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   annotations:
-    operator.tekton.dev/last-applied-hash: 7ea82e5fbcea17c6915f02678493793534de015efbbc6c6df002c4671af3854d
     tekton.dev/pipelines.minVersion: 0.12.1
     tekton.dev/tags: build-tool
-  creationTimestamp: "2024-12-13T05:08:22Z"
-  generation: 1
   labels:
     app.kubernetes.io/version: "0.2"
     operator.tekton.dev/operand-name: openshift-pipelines-addons
     operator.tekton.dev/provider-type: redhat
   name: maven
-  ownerReferences:
-  - apiVersion: operator.tekton.dev/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: TektonInstallerSet
-    name: addon-custom-Task-952sd
-    uid: 55450e27-c314-4d37-8ccc-20e8fef3986a
-  resourceVersion: "53913"
-  uid: 445692c5-e981-4be0-8b77-a38a57ff7373
+  namespace: "{{ pipeline_namespace }}"
 spec:
   description: This Task can be used to run a Maven build.
   params:
