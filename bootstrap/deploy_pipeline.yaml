@@ -14,13 +14,13 @@
     pipeline_operator_namspace: 'openshift-operators'
 
     acs_central_services_namespace: 'stackrox'
-    acs_central_password_base64: 'eHB0bw==' #base64
-    acs_central_password_plain_text: 'xpto'
+    acs_central_password_base64: 'YWRtaW4xMjM0' #base64
+    acs_central_password_plain_text: 'admin1234'
 
     quay_project_name: 'quay'
     quay_admin_username: 'admin'
     quay_admin_email: '{{ company_name }}@redhat.com'
-    quay_admin_password: 'xpto1234'
+    quay_admin_password: 'admin1234'
     quay_registry_name: '{{ company_name }}-registry'
     quay_org_name: "{{ company_name }}"
     quay_secret_name: 'sct-quay-robot'
@@ -34,8 +34,8 @@
     quay_access_token: ZJhopJvSDIqZrOQLzCwXJQnR5DL1paeNv98sV2Q6
 
     sa_cluster_admin: 'cluster-admin-sa'
-    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6InlXdmh4MFFsX0YyR3dkVnRkS2kxSWg5YWpzMDdUYkZ6b1VOTHJPOHphdFUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzMzkyNjAwOCwiaWF0IjoxNzMzOTI5NjA4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiI4MDA3MzIxNC1mM2IwLTQ1OTctOTE3Ni01M2Y2OGIxOWI0ODkiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiI5MTc5NGE2Yi05NDc1LTQ4M2EtYjQwOS00NGMyNzBhNjA4ZDcifX0sIm5iZiI6MTczMzkyOTYwOCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.epqj7_5ISKdKRGNXNn5rh9VND9D1KZh7_YgfT2mcSTGswe4m6LocLtdBylaq_9OWXVXj3wBCOXv9LkBGoXZChY9YNGF6t98muYeN8zVpzvR59fxp5G-7IJRPAkCn2WxyOO9yk0tbyYc8liYsxy4MMDCWUXYutnQznEWLFaXyJg9QlOlKZwvmWv9La4n1qN3Af69TSM5WCViP8SbLjwh7MKThNZzPyQvr7XRYjMlmOB8GGFQnHWqZscq4misH9BebEfyx60oqiJdxv9GSHPZ5zSH7hsvbNnB6Ebm8D3hKRCMsgVw9Oz7dOBOrMwq2V6mMB7p6V-GfPe5B8gPS4pFRqCjSe_ZUALAysNvqpunod9zx3aZITRd6rCq9lcTEsnuuRtzLC1rybRITVX8rSlvGUhLY6qtxkEghNKQ5hdzyZKjSNEUAF1us4HXtmw3fh7I7lNzzshs3Tsm3KUTOjrTyPPb8nWN0ilbnWZPAdt_ZTwK36BojzO2jDQ5JHOAzIG1Z6KOrzzw1HsyV_ztFSK-2qZShkDgpkT6MPvJqgzMn74BxIdsTGF2D5pH6CIulKTJkiOhn49Lh5YqX4-ONKlnykQ7J15UfMvv1_GwrqlZLP9WDEVMbzVIo88rw-tngqVOto2FBHfz894Ip-IESTHRW--WmmCKgaJ6nINmlCE-YlCk'
-    cluster_url: 'apps.cluster-xbmk6.dynamic.redhatworkshops.io'
+    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImhSUms2SDFDT3huRnN4X1Bmb0l0S2RMVTBrSkctdGtHMDBIX0xqbVN2ak0ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNDA5MjQ4NSwiaWF0IjoxNzM0MDk2MDg1LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiJiMDljMWQyMy0yOTNlLTRiMDItYjRmYy04YzRhNDQ3MzJiMjYiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiJhOTU4YTM2MC1mZTJmLTQ3MmMtOWI4ZS0wYWU4YWFjNzRhMDYifX0sIm5iZiI6MTczNDA5NjA4NSwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.1-Qsz99P1YXiG85xVBWfbVxyhpHjqEhqEmfszul3ZBCz9JzKAO-8AOTfwdFpIJCkjHaIP-kiUh4lvRoj9Ss_L4ir2tTXe_8343Zsn3_L2iEh0Q-xFHVwZSM6i52ugm-EhZnH634MdL1YPanOOpWp3i_wTg9Jd3CtZrEpFo_oY3gacuWGvCt2yqvi3cXDOLHXETzJ6orPMtI_nUuJr_He_HFsQjkA6ax62PQv8pKgTdABzwcj7SCHFBTpgPqEW2JT2D5Y-CqSjnwU-WBBehqYIbQDNp2r7oNYIo1l44PVnfLS3l3YN4Z2X6a6ecoeP2TsqJ-MWBsclhA9QcsM7KYqYkggLg0mX_fhXU9Iaw26Su-wwr6ae03m8riTLeZmbBXrAwsH0fddxTWsQtfEi6jbQSA_FWdBznX6ztrFuAzVC9c1CkeZyocRT_Q43sDSazyUE6G0KXfQoa574Hw2RqOw3pnEZN-kvtgLzMq-fygo9xWmS7qBgRSl3G_yKgq0ojUnsSibnoDmjpmVWrDUgtrtKIaBNL4qVfpCf8EEhJvWwNE_oi3Fk4o9F5TV2hB1TkvhYv7KWX0kgEo8RpDjQ4Y68vWTgMu0f3oHFAOGjfdKs2bRLZrS3hsUZbZBaAmUq3Dr-hvyk6mhy6t3RuOORpxmFssq1NeM6A4TiSCz7yefMFY'
+    cluster_url: 'apps.cluster-9vms9.dynamic.redhatworkshops.io'
 
     gogs_namespace: 'gogs'
 
@@ -47,7 +47,7 @@
     nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
     nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
     nexus_user: 'admin'
-    nexus_password: 'xpto'
+    nexus_password: 'admin1234'
 
     sonar_namespace: 'sonarqube'
     sonar_database_service_name: 'sonar-postgres'

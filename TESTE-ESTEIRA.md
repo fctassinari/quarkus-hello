@@ -4,7 +4,7 @@
 - No arquivo deploy_pipeline.yaml fazer os ajustes básicos
 - - company_name
 - - acs_central_password_base64 
-- - - echo -n xpto | base64 R: eHB0bw==
+- - - echo -n admin1234 | base64 R: YWRtaW4xMjM0
 - - acs_central_password_plain_text
 - - quay_admin_password
 - - sa_cluster_admin (criar)

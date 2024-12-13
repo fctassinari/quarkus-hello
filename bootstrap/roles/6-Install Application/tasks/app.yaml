@@ -19,8 +19,11 @@
 - name: Create ArgoCD Apps
   k8s:
     state: present
-    definition: "{{ lookup('template', 'argocd-app-dev.yaml.j2' ) }}"
-  loop: "{{ app_namespaces }}"
+    definition: "{{ lookup('template', 'argocd-app.yaml.j2' ) }}"
+  loop:
+    - 'dev'
+    - 'hml'
+    - 'prd'
 
 - name: Add Gitops Rolebinding
   k8s:

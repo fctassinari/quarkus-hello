@@ -38,7 +38,7 @@ spec:
 
   steps:
     - name: git-clone
-      image: quay.io/rcarrata/git:v2.26.2
+      image: image-registry.openshift-image-registry.svc:5000/openshift/pipeline-tools:1.0
       workingDir: $(workspaces.workspace.path)
       script: |
         rm -rf git-update-digest-workdir
@@ -58,7 +58,7 @@ spec:
         ls -la
 
     - name: git-commit
-      image: quay.io/rcarrata/git:v2.26.2
+      image: image-registry.openshift-image-registry.svc:5000/openshift/pipeline-tools:1.0
       workingDir: $(workspaces.workspace.path)
       script: |
         cd git-update-digest-workdir

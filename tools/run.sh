@@ -1,11 +1,13 @@
-podman rmi default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/xpto-pipeline-tools:1.0
+REGISTRY=default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io
 
-podman build -f Dockerfile --tag=default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/xpto-pipeline-tools:1.0
+podman rmi $REGISTRY/openshift/pipeline-tools:1.0
 
-podman login -u admin  -p $(oc whoami -t) default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io --tls-verify=false
+podman build -f Dockerfile --tag=$REGISTRY/openshift/pipeline-tools:1.0
 
-podman push default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io/openshift/xpto-pipeline-tools:1.0 --tls-verify=false
+podman login -u admin  -p $(oc whoami -t) $REGISTRY --tls-verify=false
 
-oc get is -n openshift | grep xpto
+podman push $REGISTRY/openshift/pipeline-tools:1.0 --tls-verify=false
+
+oc get is -n openshift | grep pipeline-tools
 
 

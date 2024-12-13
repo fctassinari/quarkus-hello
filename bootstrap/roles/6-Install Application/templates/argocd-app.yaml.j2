@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{ item }}"
+  name: "{{ item }}-{{ app_name }}"
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: "{{ item }}"
+    namespace: "{{ item }}-{{ app_name }}"
     server: https://kubernetes.default.svc
   project: "{{ app_name }}"
   source:
-    path: environments/dev
+    path: environments/{{ item }}
     repoURL: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/{{ app_name }}-config
     targetRevision: HEAD
   syncPolicy:
