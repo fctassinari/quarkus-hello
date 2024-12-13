@@ -30,8 +30,8 @@
     quay_repo_created_success_status_code: '201'
     quay_robot_created_success_status_code: '201'
     quay_perm_success_status_code: '200'
-    quay_robot_token: 9LH583RW9YLD59UAM0W0785ETZ8ZLND9VQJW5QOS6M3C5O0RPWARSPMQGOXZAXIR
-    quay_access_token: ZJhopJvSDIqZrOQLzCwXJQnR5DL1paeNv98sV2Q6
+    quay_robot_token: XM9WK3QXGUHLF09A815X374XVKDB9FN7CVS4AZW70Y0VTLLX225YOO3195XI457O
+    quay_access_token: oIuhpUvydIJlpVL8XMeJTfJ4m83ZyiBPYMJ50z4S
 
     sa_cluster_admin: 'cluster-admin-sa'
     sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImhSUms2SDFDT3huRnN4X1Bmb0l0S2RMVTBrSkctdGtHMDBIX0xqbVN2ak0ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNDA5MjQ4NSwiaWF0IjoxNzM0MDk2MDg1LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiJiMDljMWQyMy0yOTNlLTRiMDItYjRmYy04YzRhNDQ3MzJiMjYiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiJhOTU4YTM2MC1mZTJmLTQ3MmMtOWI4ZS0wYWU4YWFjNzRhMDYifX0sIm5iZiI6MTczNDA5NjA4NSwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.1-Qsz99P1YXiG85xVBWfbVxyhpHjqEhqEmfszul3ZBCz9JzKAO-8AOTfwdFpIJCkjHaIP-kiUh4lvRoj9Ss_L4ir2tTXe_8343Zsn3_L2iEh0Q-xFHVwZSM6i52ugm-EhZnH634MdL1YPanOOpWp3i_wTg9Jd3CtZrEpFo_oY3gacuWGvCt2yqvi3cXDOLHXETzJ6orPMtI_nUuJr_He_HFsQjkA6ax62PQv8pKgTdABzwcj7SCHFBTpgPqEW2JT2D5Y-CqSjnwU-WBBehqYIbQDNp2r7oNYIo1l44PVnfLS3l3YN4Z2X6a6ecoeP2TsqJ-MWBsclhA9QcsM7KYqYkggLg0mX_fhXU9Iaw26Su-wwr6ae03m8riTLeZmbBXrAwsH0fddxTWsQtfEi6jbQSA_FWdBznX6ztrFuAzVC9c1CkeZyocRT_Q43sDSazyUE6G0KXfQoa574Hw2RqOw3pnEZN-kvtgLzMq-fygo9xWmS7qBgRSl3G_yKgq0ojUnsSibnoDmjpmVWrDUgtrtKIaBNL4qVfpCf8EEhJvWwNE_oi3Fk4o9F5TV2hB1TkvhYv7KWX0kgEo8RpDjQ4Y68vWTgMu0f3oHFAOGjfdKs2bRLZrS3hsUZbZBaAmUq3Dr-hvyk6mhy6t3RuOORpxmFssq1NeM6A4TiSCz7yefMFY'
@@ -66,7 +66,7 @@
     sonar_extensions_volume_capacity: '2Gi'
     sonar_image: 'sonarqube:9.9.7-community'
     sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
-    sonar_token: 'squ_00f792c55481cdb26dcec18a78c1343da6e63621'
+    sonar_token: 'squ_4647791f9f7ff6c9dfb4a5e493d2fcf288b12b3a'
 
 
   tasks:
@@ -82,13 +82,13 @@
 #      include_role:
 #        name: "3-ocp4-install-quay"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "4-ocp4-install-cicd-infra"
-
-#    - name: 'Install Pipeline'
+#    - name: 'Install CICD Infra'
 #      include_role:
-#        name: "5-ocp4-install-pipelines"
+#        name: "4-ocp4-install-cicd-infra"
+
+    - name: 'Install Pipeline'
+      include_role:
+        name: "5-ocp4-install-pipelines"
 
 #    - name: 'Configure App project'
 #      include_role:

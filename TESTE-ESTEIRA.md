@@ -92,11 +92,21 @@
 * * Confirm Quay Secret is Created
 
 
+* Copirar o robot token e atualizar no deployment_pipeline.yaml a variavel
+  * ```
+    quay_robot_token
+    ```
+* Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel
+  * ```
+    https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
+    
+    quay_access_token
+    ```
 
 # Install CICD Infra
 
 * Install sonarqube
-* * ```
+  * ```
     pegar sonar_token e atualizar o deploy_pipeline
     ```
 * Get sonarqube route
@@ -105,51 +115,50 @@
 * Get reports route
 * Wait for reports to be running
 * Install Gogs ```trocar pelo Gitlab Operator ```
-*  ``` 
-    Configurar senha 
-    oc get pods
-    oc rsh <nome do pod >
-    su git
-    ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
-    ```
-* Get gogs route
-* Patch with specific route domain
-* Wait for gogs and gogs-postgresql to be running
-* Install Nexus
-*  ```
-      Your admin user password is located in
-      /nexus-data/admin.password on the server.
-   
-      oc project nexus
+  *  ``` 
+      Configurar senha 
       oc get pods
-      oc rsh <nome do pod>
-      cat /nexus-data/admin.password
-   
+      oc rsh <nome do pod >
+      su git
+      ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
+
       Criar os repositorios 
       quarkus-hello
       quarkus-hello-config
       Subir codigo fonte
-    ```
-* Get nexus route
-* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
-* ```
-  relase<br>
-  permissive<br>
-  https://maven.repository.redhat.com/ga/ <br>
-  ```
-* No repositorio maven-public associar com o    ``` maven-redhat  ```    
-* Recriar o repositorio maven-releases do tipo hosted
-*   ```
-      relase<br>
-      permissive<br>
       ```
+* Get gogs route
+* Patch with specific route domain
+* Wait for gogs and gogs-postgresql to be running
+* Install Nexus
+* Get nexus route
 * Check Nexus Route
 * Wait for nexus to be running
-
+  *  ```
+        Your admin user password is located in
+        /nexus-data/admin.password on the server.
+   
+        oc project nexus
+        oc get pods
+        oc rsh <nome do pod>
+        cat /nexus-data/admin.password 
+      ```
+* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+  * ```
+    relase<br>
+    permissive<br>
+    https://maven.repository.redhat.com/ga/ <br>
+    ```
+* No repositorio maven-public associar com o    
+  * ``` 
+    maven-redhat  
+    ```    
+* Alterar o campo Layout policy do repositorio maven-releases para  
+  * ```
+    permissive<br>
+    ```
 
 # Install Pipelines
-Antes de iniciar a instalação do pipeline gerar o token no sonarkube e atualizar o arquivo deploy_pipeline.yaml
-Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo default/main.yaml
 
 - pipelines.yaml
   * Get argocd password
