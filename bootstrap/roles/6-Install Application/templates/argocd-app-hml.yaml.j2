@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: "{{ app_name }}"
   source:
-    path: environments/{{ item }}
+    path: environments/hml
     repoURL: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/{{ app_name }}-config
     targetRevision: HEAD
   syncPolicy:
