@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{ app_name }}"
+  name: "dev-{{ app_name }}"
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: "{{ app_name }}"
+    namespace: "dev-{{ app_name }}"
     server: https://kubernetes.default.svc
   project: "{{ app_name }}"
   source:
