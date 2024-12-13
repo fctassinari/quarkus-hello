@@ -204,9 +204,6 @@
 
 
 # Install Application
-Antes de iniciar a instalação do pipeline gerar o token no quay e atualizar o arquivo deploy_pipeline.yaml <br>
-https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_quay_api_guide/index#using-the-api <br>
-https://docs.redhat.com/en/documentation/red_hat_quay/3.13/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
 
 * Atualizar o arquivo defaults/main.yaml
 * Create Namespaces
