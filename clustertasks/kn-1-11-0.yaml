@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  annotations:
+    operator.tekton.dev/last-applied-hash: 9778e231da40114a35eb05e715be26b68b569343509e47c6db86aaed3948e100
+    tekton.dev/categories: CLI
+    tekton.dev/displayName: kn
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/platforms: linux/amd64,linux/s390x,linux/ppc64le,linux/arm64
+    tekton.dev/tags: cli
+  creationTimestamp: "2024-12-13T05:08:22Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+    operator.tekton.dev/operand-name: openshift-pipelines-addons
+    operator.tekton.dev/provider-type: redhat
+  name: kn-1-11-0
+  ownerReferences:
+  - apiVersion: operator.tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TektonInstallerSet
+    name: addon-versioned-Tasks-1.11-94wk8
+    uid: eb9843ed-d1b7-40ec-b40e-9bc97008c20b
+  resourceVersion: "53904"
+  uid: 1bf864b2-018b-417f-9354-bcf5c636d562
+spec:
+  description: This Task performs operations on Knative resources (services, revisions,
+    routes) using kn CLI
+  params:
+  - default: registry.redhat.io/openshift-serverless-1/client-kn-rhel8@sha256:bf6cf2e87fb19f7aa9a490b83c16af69834c0721220a643710a1b077959e91ca
+    description: kn CLI container image to run this task
+    name: kn-image
+    type: string
+  - default:
+    - help
+    description: kn CLI arguments to run
+    name: ARGS
+    type: array
+  steps:
+  - args:
+    - $(params.ARGS)
+    command:
+    - /ko-app/kn
+    env:
+    - name: HOME
+      value: /tekton/home
+    image: $(params.kn-image)
+    name: kn
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65532

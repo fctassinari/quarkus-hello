@@ -1,0 +1,59 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  annotations:
+    operator.tekton.dev/last-applied-hash: b053a0bb5e0e61b76e72d311dd378547e3f3a9fc69da82d6008b4c187243eab7
+    tekton.dev/categories: Deployment
+    tekton.dev/displayName: kn apply
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/platforms: linux/amd64,linux/s390x,linux/ppc64le,linux/arm64
+    tekton.dev/tags: cli
+  creationTimestamp: "2024-12-13T05:08:22Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+    operator.tekton.dev/operand-name: openshift-pipelines-addons
+    operator.tekton.dev/provider-type: redhat
+  name: kn-apply
+  ownerReferences:
+  - apiVersion: operator.tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TektonInstallerSet
+    name: addon-custom-Task-952sd
+    uid: 55450e27-c314-4d37-8ccc-20e8fef3986a
+  resourceVersion: "53896"
+  uid: f7d2c548-ed35-4872-ad54-7e38764d9811
+spec:
+  description: |-
+    This task deploys a given image to a Knative Service.
+    It uses `kn service apply` to create or update given knative service.
+  params:
+  - default: registry.redhat.io/openshift-serverless-1/client-kn-rhel8@sha256:bf6cf2e87fb19f7aa9a490b83c16af69834c0721220a643710a1b077959e91ca
+    description: kn CLI container image to run this task
+    name: KN_IMAGE
+    type: string
+  - description: Knative service name
+    name: SERVICE
+    type: string
+  - description: Image to deploy
+    name: IMAGE
+    type: string
+  steps:
+  - args:
+    - service
+    - apply
+    - $(params.SERVICE)
+    - --image
+    - $(params.IMAGE)
+    command:
+    - /ko-app/kn
+    env:
+    - name: HOME
+      value: /tekton/home
+    image: $(params.KN_IMAGE)
+    name: kn
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65532

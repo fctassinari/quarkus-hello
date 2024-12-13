@@ -1,0 +1,61 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  annotations:
+    operator.tekton.dev/last-applied-hash: 10152bba32d54284b321c7290574f77e58e9df49bdeeff243ef3b567c2c5bdd8
+    tekton.dev/categories: Deployment
+    tekton.dev/displayName: argocd
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/platforms: linux/amd64
+    tekton.dev/tags: deploy
+  creationTimestamp: "2024-12-13T05:08:23Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+    operator.tekton.dev/provider-type: community
+  name: argocd-task-sync-and-wait
+  ownerReferences:
+  - apiVersion: operator.tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TektonInstallerSet
+    name: addon-custom-communityTask-2qtsc
+    uid: e8c93a3d-1ba2-4fe2-92c9-fd57bdbd5c85
+  resourceVersion: "53970"
+  uid: e19fb929-e822-401f-a65f-c30bfefd4a64
+spec:
+  description: |-
+    This task syncs (deploys) an Argo CD application and waits for it to be healthy.
+    To do so, it requires the address of the Argo CD server and some form of authentication either a username/password or an authentication token.
+  params:
+  - description: name of the application to sync
+    name: application-name
+    type: string
+  - default: HEAD
+    description: the revision to sync to
+    name: revision
+    type: string
+  - default: --
+    name: flags
+    type: string
+  - default: v2.2.2
+    name: argocd-version
+    type: string
+  stepTemplate:
+    envFrom:
+    - configMapRef:
+        name: argocd-env-configmap
+    - secretRef:
+        name: argocd-env-secret
+    name: ""
+    resources: {}
+  steps:
+  - image: quay.io/argoproj/argocd:$(params.argocd-version)
+    name: login
+    resources: {}
+    script: |
+      if [ -z "$ARGOCD_AUTH_TOKEN" ]; then
+        yes | argocd login "$ARGOCD_SERVER" --username="$ARGOCD_USERNAME" --password="$ARGOCD_PASSWORD";
+      fi
+      argocd app sync "$(params.application-name)" --revision "$(params.revision)" "$(params.flags)"
+      argocd app wait "$(params.application-name)" --health "$(params.flags)"

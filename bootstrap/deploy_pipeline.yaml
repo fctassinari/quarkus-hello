@@ -40,7 +40,6 @@
     gogs_namespace: 'gogs'
 
     reports_namespace: 'reports-repo'
-
     nexus_namespace: 'nexus'
     nexus_data_volume_capacity: '2Gi'
     nexus_url: "{{ nexus_namespace }}.{{ cluster_url }}"

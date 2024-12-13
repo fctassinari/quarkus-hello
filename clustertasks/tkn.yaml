@@ -1,0 +1,66 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  annotations:
+    operator.tekton.dev/last-applied-hash: fb68e002011f93b9a1c1c087e8b12659cbe925491188a0edcc09e6226d21cee1
+    tekton.dev/categories: CLI
+    tekton.dev/displayName: Tekton CLI
+    tekton.dev/pipelines.minVersion: 0.17.0
+    tekton.dev/platforms: linux/amd64,linux/s390x,linux/ppc64le
+    tekton.dev/tags: cli
+  creationTimestamp: "2024-12-13T05:08:22Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.4"
+    operator.tekton.dev/operand-name: openshift-pipelines-addons
+    operator.tekton.dev/provider-type: redhat
+  name: tkn
+  ownerReferences:
+  - apiVersion: operator.tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TektonInstallerSet
+    name: addon-custom-Task-952sd
+    uid: 55450e27-c314-4d37-8ccc-20e8fef3986a
+  resourceVersion: "53902"
+  uid: 3bb54519-0893-4881-a721-c0cad8c359e3
+spec:
+  description: This task performs operations on Tekton resources using tkn
+  params:
+  - default: registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8@sha256:a523d17e00f1f75c35073f7a7c0abcb2a8930c331ae5b3a0aed26dff1e6be5a3
+    description: tkn CLI container image to run this task
+    name: TKN_IMAGE
+    type: string
+  - default: tkn $@
+    description: tkn CLI script to execute
+    name: SCRIPT
+    type: string
+  - default:
+    - --help
+    description: tkn CLI arguments to run
+    name: ARGS
+    type: array
+  steps:
+  - args:
+    - $(params.ARGS)
+    env:
+    - name: HOME
+      value: /tekton/home
+    image: $(params.TKN_IMAGE)
+    name: tkn
+    resources: {}
+    script: |
+      if [ "$(workspaces.kubeconfig.bound)" = "true" ] && [ -e $(workspaces.kubeconfig.path)/kubeconfig ]; then
+        export KUBECONFIG="$(workspaces.kubeconfig.path)"/kubeconfig
+      fi
+
+      eval "$(params.SCRIPT)"
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65532
+  workspaces:
+  - description: An optional workspace that allows you to provide a .kube/config file
+      for tkn to access the cluster. The file should be placed at the root of the
+      Workspace with name kubeconfig.
+    name: kubeconfig
+    optional: true

@@ -1,0 +1,69 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  annotations:
+    operator.tekton.dev/last-applied-hash: 7bf30c4d81a241ec90ac59ef926b15a05142495f7b80b3196af69e1bb85e7285
+    tekton.dev/categories: Deployment
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/platforms: linux/amd64,linux/s390x,linux/ppc64le,linux/arm64
+    tekton.dev/tags: helm
+  creationTimestamp: "2024-12-13T05:08:23Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+    operator.tekton.dev/provider-type: community
+  name: helm-upgrade-from-repo
+  ownerReferences:
+  - apiVersion: operator.tekton.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: TektonInstallerSet
+    name: addon-custom-communityTask-2qtsc
+    uid: e8c93a3d-1ba2-4fe2-92c9-fd57bdbd5c85
+  resourceVersion: "53954"
+  uid: ec3c392b-ceef-4003-bfa0-af9b0d6ddc5f
+spec:
+  description: These tasks will install / upgrade a helm chart into your Kubernetes
+    / OpenShift Cluster using Helm
+  params:
+  - description: Specify a specific helm repo
+    name: helm_repo
+    type: string
+  - description: Specify chart name that will be deployed
+    name: chart_name
+    type: string
+  - default: v1.0.0
+    description: The helm release version in semantic versioning format
+    name: release_version
+    type: string
+  - default: helm-release
+    description: The helm release name
+    name: release_name
+    type: string
+  - default: ""
+    description: The helm release namespace
+    name: release_namespace
+    type: string
+  - default: ""
+    description: 'Specify the values you want to overwrite, comma separated: autoscaling.enabled=true,replicas=1'
+    name: overwrite_values
+    type: string
+  - default: docker.io/lachlanevenson/k8s-helm@sha256:5c792f29950b388de24e7448d378881f68b3df73a7b30769a6aa861061fd08ae
+    description: Specify a specific helm image
+    name: helm_image
+    type: string
+  steps:
+  - image: $(params.helm_image)
+    name: upgrade-from-repo
+    resources: {}
+    script: |
+      echo current installed helm releases
+      helm list --namespace "$(params.release_namespace)"
+      echo parsing helms repo name...
+      REPO=`echo "$(params.chart_name)" | cut -d "/" -f 1`
+      echo adding helm repo...
+      helm repo add $REPO "$(params.helm_repo)"
+      echo adding updating repo...
+      helm repo update
+      echo installing helm chart...
+      helm upgrade --wait --install --namespace "$(params.release_namespace)" $(params.release_name) $(params.chart_name) --debug --set "$(params.overwrite_values)"

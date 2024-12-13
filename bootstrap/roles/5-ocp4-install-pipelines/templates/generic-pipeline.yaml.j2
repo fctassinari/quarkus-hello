@@ -72,7 +72,7 @@ spec:
         - name: userHome
           value: /home/git
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: git-clone
       workspaces:
         - name: output
@@ -110,7 +110,7 @@ spec:
       runAfter:
         - app-release
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: maven
       workspaces:
         - name: source
@@ -136,7 +136,7 @@ spec:
       runAfter:
         - unit-tests
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: maven
       workspaces:
         - name: source
@@ -176,7 +176,7 @@ spec:
         - code-analysis
         - dependency-report
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: maven
       workspaces:
         - name: source
@@ -225,7 +225,7 @@ spec:
 #      runAfter:
 #        - release-app
 #      taskRef:
-#        kind: ClusterTask
+#        kind: Task
 #        name: s2i-java
 #      workspaces:
 #        - name: source
@@ -246,7 +246,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-image-scan
 
     - name: image-check
@@ -262,7 +262,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-image-check
 
     - name: deploy-check
@@ -280,7 +280,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-deployment-check
       workspaces:
         - name: workspace
