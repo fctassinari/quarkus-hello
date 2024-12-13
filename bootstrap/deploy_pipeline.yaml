@@ -90,7 +90,7 @@
 #      include_role:
 #        name: "5-ocp4-install-pipelines"
 
-    - name: 'Configure App project'
-      include_role:
-        name: "6-Install Application"
+#    - name: 'Configure App project'
+#      include_role:
+#        name: "6-Install Application"
 

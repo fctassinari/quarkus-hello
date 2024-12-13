@@ -1,4 +1,4 @@
-REGISTRY=default-route-openshift-image-registry.apps.cluster-xbmk6.dynamic.redhatworkshops.io
+REGISTRY=default-route-openshift-image-registry.apps.cluster-9vms9.dynamic.redhatworkshops.io
 
 podman rmi $REGISTRY/openshift/pipeline-tools:1.0
 
