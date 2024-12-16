@@ -36,13 +36,8 @@ spec:
     - name: login-sync-wait
       image: quay.io/argoproj/argocd:$(params.argocd-version)
       script: |
-
         if [ -z $ARGOCD_AUTH_TOKEN ]; then
           yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD ;
         fi
-
-        print($(params.application-name))
-        print($(params.flags))
-        
         argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) 
         argocd app wait $(params.application-name) --health $(params.flags)
