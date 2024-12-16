@@ -33,9 +33,9 @@ spec:
   stepTemplate:
     envFrom:
       - configMapRef:
-          name: argocd-env-configmap
+          name: cm-argocd-env  # used for server address
       - secretRef:
-          name: argocd-env-secret
+          name: sct-argocd-env  # used for authentication (username/password or auth token)
     name: ""
     resources: {}
   steps:
