@@ -1,0 +1,51 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:triggers.tekton.dev/EventListener:coolstore-cicd/gateway
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"triggers.tekton.dev/v1beta1","kind":"EventListener","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:triggers.tekton.dev/EventListener:coolstore-cicd/gateway"},"name":"gateway","namespace":"coolstore-cicd"},"spec":{"serviceAccountName":"pipeline","triggers":[{"bindings":[{"kind":"TriggerBinding","ref":"coolstore"}],"template":{"ref":"gateway"}}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: gateway
+  namespace: coolstore-cicd
+  resourceVersion: "81888"
+  uid: 0be17c7e-4db0-4104-bdbe-14065af45f2d
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+  - bindings:
+    - kind: TriggerBinding
+      ref: coolstore
+    template:
+      ref: gateway
+status:
+  address:
+    url: http://el-gateway.coolstore-cicd.svc.cluster.local:8080
+  conditions:
+  - lastTransitionTime: "2024-12-16T16:17:40Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2024-12-16T16:17:40Z"
+    message: Deployment exists
+    status: "True"
+    type: Deployment
+  - lastTransitionTime: "2024-12-16T07:29:24Z"
+    message: ReplicaSet "el-gateway-7bb46f65c6" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2024-12-16T16:17:40Z"
+    message: EventListener is ready
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2024-12-16T16:17:40Z"
+    message: Service exists
+    status: "True"
+    type: Service
+  configuration:
+    generatedName: el-gateway

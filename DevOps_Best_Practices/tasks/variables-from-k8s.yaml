@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/variables-from-k8s
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/variables-from-k8s"},"name":"variables-from-k8s","namespace":"coolstore-cicd"},"spec":{"results":[{"name":"acs_central_endpoint"}],"steps":[{"image":"quay.io/openshift/origin-cli:latest","name":"get-variables","script":"#!/usr/bin/env sh\nif [ $(workspaces.acs-central.bound) == \"true\" ] ; then\n  cat $(workspaces.acs-central.path)/rox_central_endpoint \u003e $(results.acs_central_endpoint.path)\nelse\n  echo \"not-set\" \u003e $(results.acs_central_endpoint.path)\nfi"}],"workspaces":[{"name":"acs-central","optional":true}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: variables-from-k8s
+  namespace: coolstore-cicd
+  resourceVersion: "62218"
+  uid: 23e023bc-f75d-4a64-a5aa-b16b0929f3ae
+spec:
+  results:
+  - name: acs_central_endpoint
+    type: string
+  steps:
+  - computeResources: {}
+    image: quay.io/openshift/origin-cli:latest
+    name: get-variables
+    script: |-
+      #!/usr/bin/env sh
+      if [ $(workspaces.acs-central.bound) == "true" ] ; then
+        cat $(workspaces.acs-central.path)/rox_central_endpoint > $(results.acs_central_endpoint.path)
+      else
+        echo "not-set" > $(results.acs_central_endpoint.path)
+      fi
+  workspaces:
+  - name: acs-central
+    optional: true

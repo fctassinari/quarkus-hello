@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/promote-to-prod
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1beta1","kind":"Pipeline","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/promote-to-prod"},"name":"promote-to-prod","namespace":"coolstore-cicd"},"spec":{"params":[{"default":"registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus","name":"IMAGE","type":"string"},{"default":"1.0.0","name":"VERSION","type":"string"},{"default":"prod","name":"TAG","type":"string"}],"tasks":[{"name":"skopeo-copy","params":[{"name":"srcImageURL","value":"docker://$(params.IMAGE):$(params.VERSION)"},{"name":"destImageURL","value":"docker://$(params.IMAGE):$(params.TAG)"},{"name":"srcTLSverify","value":"true"},{"name":"destTLSverify","value":"true"}],"taskRef":{"kind":"ClusterTask","name":"skopeo-copy"},"workspaces":[{"name":"images-url","workspace":"output"}]}],"workspaces":[{"name":"output"}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: promote-to-prod
+  namespace: coolstore-cicd
+  resourceVersion: "62207"
+  uid: 3415ad8c-5015-4fde-b10b-fa766ad4615c
+spec:
+  params:
+  - default: registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus
+    name: IMAGE
+    type: string
+  - default: 1.0.0
+    name: VERSION
+    type: string
+  - default: prod
+    name: TAG
+    type: string
+  tasks:
+  - name: skopeo-copy
+    params:
+    - name: srcImageURL
+      value: docker://$(params.IMAGE):$(params.VERSION)
+    - name: destImageURL
+      value: docker://$(params.IMAGE):$(params.TAG)
+    - name: srcTLSverify
+      value: "true"
+    - name: destTLSverify
+      value: "true"
+    taskRef:
+      kind: ClusterTask
+      name: skopeo-copy
+    workspaces:
+    - name: images-url
+      workspace: output
+  workspaces:
+  - name: output

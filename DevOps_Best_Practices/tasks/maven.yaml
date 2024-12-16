@@ -1,0 +1,145 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/maven
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1beta1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/maven"},"name":"maven","namespace":"coolstore-cicd"},"spec":{"description":"This Task can be used to run a Maven build.  Based on the maven ClusterTask.","params":[{"default":"image-registry.openshift-image-registry.svc:5000/openshift/java:openjdk-11-ubi8","description":"Maven base image","name":"MAVEN_IMAGE","type":"string"},{"default":["package"],"description":"maven goals to run","name":"GOALS","type":"array"},{"default":"","description":"The Maven repository mirror url","name":"MAVEN_MIRROR_URL","type":"string"},{"default":"maven-repo-config","description":"name of the secret holding the maven repo credentials and config.","name":"MAVEN_REPO_CONFIG_SECRET","type":"string"},{"default":"","description":"The username for the proxy server","name":"PROXY_USER","type":"string"},{"default":"","description":"The password for the proxy server","name":"PROXY_PASSWORD","type":"string"},{"default":"","description":"Port number for the proxy server","name":"PROXY_PORT","type":"string"},{"default":"","description":"Proxy server Host","name":"PROXY_HOST","type":"string"},{"default":"","description":"Non proxy server host","name":"PROXY_NON_PROXY_HOSTS","type":"string"},{"default":"http","description":"Protocol for the proxy ie http or https","name":"PROXY_PROTOCOL","type":"string"},{"default":"/home/jboss/.m2/","description":"Location of M2 directory, do not change","name":"M2_DIRECTORY","type":"string"}],"stepTemplate":{"envFrom":[{"secretRef":{"name":"$(params.MAVEN_REPO_CONFIG_SECRET)"}}],"volumeMounts":[{"mountPath":"$(params.M2_DIRECTORY)","name":"m2-repository"}]},"steps":[{"image":"registry.access.redhat.com/ubi8/ubi-minimal:8.2","name":"mvn-settings","resources":{},"script":"#!/usr/bin/env bash\n\n[[ -f $(workspaces.maven-settings.path)/settings.xml ]] \u0026\u0026 \\\necho 'using existing $(workspaces.maven-settings.path)/settings.xml' \u0026\u0026 exit 0\n\ncat \u003e $(workspaces.maven-settings.path)/settings.xml \u003c\u003cEOF\n\u003csettings\u003e\n\n  \u003cmirrors\u003e\n    \u003c!-- The mirrors added here are generated from environment variables. Don't change. --\u003e\n    \u003c!-- ### mirrors from ENV ### --\u003e\n  \u003c/mirrors\u003e\n  \u003cproxies\u003e\n    \u003c!-- The proxies added here are generated from environment variables. Don't change. --\u003e\n    \u003c!-- ### HTTP proxy from ENV ### --\u003e\n  \u003c/proxies\u003e\n\u003c/settings\u003e\nEOF\n\nxml=\"\"\nif [ -n \"$(params.PROXY_HOST)\" -a -n \"$(params.PROXY_PORT)\" ]; then\n\n  xml=\"\u003cproxy\u003e\\\n    \u003cid\u003egenproxy\u003c/id\u003e\\\n    \u003cactive\u003etrue\u003c/active\u003e\\\n    \u003cprotocol\u003e$(params.PROXY_PROTOCOL)\u003c/protocol\u003e\\\n    \u003chost\u003e$(params.PROXY_HOST)\u003c/host\u003e\\\n    \u003cport\u003e$(params.PROXY_PORT)\u003c/port\u003e\"\n  if [ -n \"$(params.PROXY_USER)\" -a -n \"$(params.PROXY_PASSWORD)\" ]; then\n    xml=\"$xml\\\n        \u003cusername\u003e$(params.PROXY_USER)\u003c/username\u003e\\\n        \u003cpassword\u003e$(params.PROXY_PASSWORD)\u003c/password\u003e\"\n  fi\n  if [ -n \"$(params.PROXY_NON_PROXY_HOSTS)\" ]; then\n    xml=\"$xml\\\n        \u003cnonProxyHosts\u003e$(params.PROXY_NON_PROXY_HOSTS)\u003c/nonProxyHosts\u003e\"\n  fi\n  xml=\"$xml\\\n      \u003c/proxy\u003e\"\n  sed -i \"s|\u003c!-- ### HTTP proxy from ENV ### --\u003e|$xml|\" $(workspaces.maven-settings.path)/settings.xml\nfi\n\nif [ -n \"$(params.MAVEN_MIRROR_URL)\" ]; then\n\n  xml=\"    \u003cmirror\u003e\\\n    \u003cid\u003emirror.default\u003c/id\u003e\\\n    \u003curl\u003e$(params.MAVEN_MIRROR_URL)\u003c/url\u003e\\\n    \u003cmirrorOf\u003ecentral\u003c/mirrorOf\u003e\\\n  \u003c/mirror\u003e\"\n  sed -i \"s|\u003c!-- ### mirrors from ENV ### --\u003e|$xml|\" $(workspaces.maven-settings.path)/settings.xml\nfi\n"},{"args":["-s","$(workspaces.maven-settings.path)/settings.xml","$(params.GOALS)"],"command":["/usr/bin/mvn"],"image":"$(params.MAVEN_IMAGE)","name":"mvn-goals","resources":{},"workingDir":"$(workspaces.source.path)"}],"volumes":[{"name":"m2-repository","persistentVolumeClaim":{"claimName":"m2-cache"}}],"workspaces":[{"description":"The workspace consisting of maven project.","name":"source"},{"description":"The workspace consisting of the custom maven settings provided by the user.","name":"maven-settings"}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: maven
+  namespace: coolstore-cicd
+  resourceVersion: "62195"
+  uid: cfb3117e-0710-4200-ad18-25e60fb82fe3
+spec:
+  description: This Task can be used to run a Maven build.  Based on the maven ClusterTask.
+  params:
+  - default: image-registry.openshift-image-registry.svc:5000/openshift/java:openjdk-11-ubi8
+    description: Maven base image
+    name: MAVEN_IMAGE
+    type: string
+  - default:
+    - package
+    description: maven goals to run
+    name: GOALS
+    type: array
+  - default: ""
+    description: The Maven repository mirror url
+    name: MAVEN_MIRROR_URL
+    type: string
+  - default: maven-repo-config
+    description: name of the secret holding the maven repo credentials and config.
+    name: MAVEN_REPO_CONFIG_SECRET
+    type: string
+  - default: ""
+    description: The username for the proxy server
+    name: PROXY_USER
+    type: string
+  - default: ""
+    description: The password for the proxy server
+    name: PROXY_PASSWORD
+    type: string
+  - default: ""
+    description: Port number for the proxy server
+    name: PROXY_PORT
+    type: string
+  - default: ""
+    description: Proxy server Host
+    name: PROXY_HOST
+    type: string
+  - default: ""
+    description: Non proxy server host
+    name: PROXY_NON_PROXY_HOSTS
+    type: string
+  - default: http
+    description: Protocol for the proxy ie http or https
+    name: PROXY_PROTOCOL
+    type: string
+  - default: /home/jboss/.m2/
+    description: Location of M2 directory, do not change
+    name: M2_DIRECTORY
+    type: string
+  stepTemplate:
+    computeResources: {}
+    envFrom:
+    - secretRef:
+        name: $(params.MAVEN_REPO_CONFIG_SECRET)
+    volumeMounts:
+    - mountPath: $(params.M2_DIRECTORY)
+      name: m2-repository
+  steps:
+  - computeResources: {}
+    image: registry.access.redhat.com/ubi8/ubi-minimal:8.2
+    name: mvn-settings
+    script: |
+      #!/usr/bin/env bash
+
+      [[ -f $(workspaces.maven-settings.path)/settings.xml ]] && \
+      echo 'using existing $(workspaces.maven-settings.path)/settings.xml' && exit 0
+
+      cat > $(workspaces.maven-settings.path)/settings.xml <<EOF
+      <settings>
+
+        <mirrors>
+          <!-- The mirrors added here are generated from environment variables. Don't change. -->
+          <!-- ### mirrors from ENV ### -->
+        </mirrors>
+        <proxies>
+          <!-- The proxies added here are generated from environment variables. Don't change. -->
+          <!-- ### HTTP proxy from ENV ### -->
+        </proxies>
+      </settings>
+      EOF
+
+      xml=""
+      if [ -n "$(params.PROXY_HOST)" -a -n "$(params.PROXY_PORT)" ]; then
+
+        xml="<proxy>\
+          <id>genproxy</id>\
+          <active>true</active>\
+          <protocol>$(params.PROXY_PROTOCOL)</protocol>\
+          <host>$(params.PROXY_HOST)</host>\
+          <port>$(params.PROXY_PORT)</port>"
+        if [ -n "$(params.PROXY_USER)" -a -n "$(params.PROXY_PASSWORD)" ]; then
+          xml="$xml\
+              <username>$(params.PROXY_USER)</username>\
+              <password>$(params.PROXY_PASSWORD)</password>"
+        fi
+        if [ -n "$(params.PROXY_NON_PROXY_HOSTS)" ]; then
+          xml="$xml\
+              <nonProxyHosts>$(params.PROXY_NON_PROXY_HOSTS)</nonProxyHosts>"
+        fi
+        xml="$xml\
+            </proxy>"
+        sed -i "s|<!-- ### HTTP proxy from ENV ### -->|$xml|" $(workspaces.maven-settings.path)/settings.xml
+      fi
+
+      if [ -n "$(params.MAVEN_MIRROR_URL)" ]; then
+
+        xml="    <mirror>\
+          <id>mirror.default</id>\
+          <url>$(params.MAVEN_MIRROR_URL)</url>\
+          <mirrorOf>central</mirrorOf>\
+        </mirror>"
+        sed -i "s|<!-- ### mirrors from ENV ### -->|$xml|" $(workspaces.maven-settings.path)/settings.xml
+      fi
+  - args:
+    - -s
+    - $(workspaces.maven-settings.path)/settings.xml
+    - $(params.GOALS)
+    command:
+    - /usr/bin/mvn
+    computeResources: {}
+    image: $(params.MAVEN_IMAGE)
+    name: mvn-goals
+    workingDir: $(workspaces.source.path)
+  volumes:
+  - name: m2-repository
+    persistentVolumeClaim:
+      claimName: m2-cache
+  workspaces:
+  - description: The workspace consisting of maven project.
+    name: source
+  - description: The workspace consisting of the custom maven settings provided by
+      the user.
+    name: maven-settings

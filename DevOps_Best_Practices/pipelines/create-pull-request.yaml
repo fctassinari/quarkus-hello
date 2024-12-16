@@ -1,0 +1,110 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/create-pull-request
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/create-pull-request"},"name":"create-pull-request","namespace":"coolstore-cicd"},"spec":{"params":[{"default":"main","name":"MANIFESTS_GIT_BRANCH","type":"string"},{"default":"https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/coolstore.git","name":"MANIFESTS_GIT_REPO","type":"string"},{"default":"gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com","name":"GITEA_SERVER","type":"string"},{"description":"External registry location of image to push without tag","name":"IMAGE","type":"string"},{"description":"Tag of image to push to production","name":"IMAGE_TAG","type":"string"},{"name":"APPLICATION_NAME","type":"string"},{"default":"sonarqube-dev-tools.apps.cluster-lzqqz.sandbox2382.opentlc.com","description":"Hostname for sonarqube","name":"SONARQUBE_HOST","type":"string"}],"tasks":[{"name":"variables","taskRef":{"name":"variables-from-k8s"},"workspaces":[{"name":"acs-central","workspace":"acs-central"}]},{"name":"get-image-digest","params":[{"name":"image_dest_url","value":"$(params.IMAGE)"},{"name":"image_dest_tag","value":"$(params.IMAGE_TAG)"}],"runAfter":["variables"],"taskRef":{"name":"image-tag-to-digest"}},{"name":"git-update-branch","params":[{"name":"GIT_REPOSITORY","value":"$(params.MANIFESTS_GIT_REPO)"},{"name":"CURRENT_IMAGE","value":"quay.io/coolstore-demo/inventory-quarkus"},{"name":"GIT_REF","value":"$(params.MANIFESTS_GIT_BRANCH)"},{"name":"NEW_IMAGE","value":"$(params.IMAGE)"},{"name":"NEW_DIGEST","value":"$(tasks.get-image-digest.results.image_digest)"},{"name":"KUSTOMIZATION_PATH","value":"demo/environments/overlays/prod"},{"name":"CREATE_BRANCH_NAME","value":"$(params.APPLICATION_NAME)-$(params.IMAGE_TAG)"}],"runAfter":["get-image-digest"],"taskRef":{"name":"git-update-deployment"},"workspaces":[{"name":"workspace","workspace":"gitops-manifests"}]},{"name":"create-prod-pr","params":[{"name":"repo","value":"coolstore"},{"name":"repo_owner","value":"user1"},{"name":"gitea_server","value":"$(params.GITEA_SERVER)"},{"name":"branch","value":"$(params.APPLICATION_NAME)-$(params.IMAGE_TAG)"},{"name":"title","value":"Update $(params.APPLICATION_NAME) image to $(params.IMAGE):$(params.IMAGE_TAG)"},{"name":"body","value":"## Security Checklist\n\n- [ ] [Quay Image Vulnerabilities](https://$(params.IMAGE):$(params.IMAGE_TAG))\n- [ ] [Advanced Cluster Security Image Vulnerabilities and Policies](https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.get-image-digest.results.image_digest))\n- [ ] [Sonarqube Results](https://$(params.SONARQUBE_HOST)/dashboard?id=$(params.APPLICATION_NAME))"}],"runAfter":["git-update-branch"],"taskRef":{"kind":"Task","name":"task-create-pr"},"workspaces":[{"name":"source","workspace":"gitops-manifests"}]}],"workspaces":[{"name":"gitops-manifests"},{"name":"acs-central","optional":true}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: create-pull-request
+  namespace: coolstore-cicd
+  resourceVersion: "62076"
+  uid: 861b1ba4-1ba6-4b93-a559-5c91e6f2a0b6
+spec:
+  params:
+  - default: main
+    name: MANIFESTS_GIT_BRANCH
+    type: string
+  - default: https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/coolstore.git
+    name: MANIFESTS_GIT_REPO
+    type: string
+  - default: gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com
+    name: GITEA_SERVER
+    type: string
+  - description: External registry location of image to push without tag
+    name: IMAGE
+    type: string
+  - description: Tag of image to push to production
+    name: IMAGE_TAG
+    type: string
+  - name: APPLICATION_NAME
+    type: string
+  - default: sonarqube-dev-tools.apps.cluster-lzqqz.sandbox2382.opentlc.com
+    description: Hostname for sonarqube
+    name: SONARQUBE_HOST
+    type: string
+  tasks:
+  - name: variables
+    taskRef:
+      kind: Task
+      name: variables-from-k8s
+    workspaces:
+    - name: acs-central
+      workspace: acs-central
+  - name: get-image-digest
+    params:
+    - name: image_dest_url
+      value: $(params.IMAGE)
+    - name: image_dest_tag
+      value: $(params.IMAGE_TAG)
+    runAfter:
+    - variables
+    taskRef:
+      kind: Task
+      name: image-tag-to-digest
+  - name: git-update-branch
+    params:
+    - name: GIT_REPOSITORY
+      value: $(params.MANIFESTS_GIT_REPO)
+    - name: CURRENT_IMAGE
+      value: quay.io/coolstore-demo/inventory-quarkus
+    - name: GIT_REF
+      value: $(params.MANIFESTS_GIT_BRANCH)
+    - name: NEW_IMAGE
+      value: $(params.IMAGE)
+    - name: NEW_DIGEST
+      value: $(tasks.get-image-digest.results.image_digest)
+    - name: KUSTOMIZATION_PATH
+      value: demo/environments/overlays/prod
+    - name: CREATE_BRANCH_NAME
+      value: $(params.APPLICATION_NAME)-$(params.IMAGE_TAG)
+    runAfter:
+    - get-image-digest
+    taskRef:
+      kind: Task
+      name: git-update-deployment
+    workspaces:
+    - name: workspace
+      workspace: gitops-manifests
+  - name: create-prod-pr
+    params:
+    - name: repo
+      value: coolstore
+    - name: repo_owner
+      value: user1
+    - name: gitea_server
+      value: $(params.GITEA_SERVER)
+    - name: branch
+      value: $(params.APPLICATION_NAME)-$(params.IMAGE_TAG)
+    - name: title
+      value: Update $(params.APPLICATION_NAME) image to $(params.IMAGE):$(params.IMAGE_TAG)
+    - name: body
+      value: |-
+        ## Security Checklist
+
+        - [ ] [Quay Image Vulnerabilities](https://$(params.IMAGE):$(params.IMAGE_TAG))
+        - [ ] [Advanced Cluster Security Image Vulnerabilities and Policies](https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.get-image-digest.results.image_digest))
+        - [ ] [Sonarqube Results](https://$(params.SONARQUBE_HOST)/dashboard?id=$(params.APPLICATION_NAME))
+    runAfter:
+    - git-update-branch
+    taskRef:
+      kind: Task
+      name: task-create-pr
+    workspaces:
+    - name: source
+      workspace: gitops-manifests
+  workspaces:
+  - name: gitops-manifests
+  - name: acs-central
+    optional: true

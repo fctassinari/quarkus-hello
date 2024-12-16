@@ -1,0 +1,105 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/git-update-deployment
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/git-update-deployment","tekton.dev/pipelines.minVersion":"0.12.1","tekton.dev/tags":"git"},"labels":{"app.kubernetes.io/version":"0.2","operator.tekton.dev/provider-type":"community"},"name":"git-update-deployment","namespace":"coolstore-cicd"},"spec":{"description":"This Task can be used to update image digest in a Git repo using kustomize. It requires a secret with credentials for accessing the git repo.","params":[{"name":"GIT_REPOSITORY","type":"string"},{"default":"main","name":"GIT_REF","type":"string"},{"name":"CURRENT_IMAGE","type":"string"},{"name":"NEW_IMAGE","type":"string"},{"name":"NEW_DIGEST","type":"string"},{"name":"KUSTOMIZATION_PATH","type":"string"},{"default":"skip","name":"CREATE_BRANCH_NAME","type":"string"}],"results":[{"description":"The commit SHA","name":"commit","type":"string"}],"steps":[{"image":"docker.io/alpine/git:v2.26.2","name":"git-clone","script":"rm -rf git-update-digest-workdir\n\necho \"Cloning $(params.GIT_REPOSITORY) $(params.GIT_REF)\"\n\ngit clone -v $(params.GIT_REPOSITORY) -b $(params.GIT_REF) git-update-digest-workdir\n\nif [ \"$(params.CREATE_BRANCH_NAME)\" = \"skip\" ]\nthen\n  echo \"Skip branching\"\nelse\n  cd git-update-digest-workdir\n  git checkout -b $(params.CREATE_BRANCH_NAME)\nfi\n","workingDir":"$(workspaces.workspace.path)"},{"image":"quay.io/wpernath/kustomize-ubi:latest","name":"update-digest","script":"cd git-update-digest-workdir/$(params.KUSTOMIZATION_PATH)\nkustomize edit set image $(params.CURRENT_IMAGE)=$(params.NEW_IMAGE)@$(params.NEW_DIGEST)\n\necho \"##########################\"\necho \"### kustomization.yaml ###\"\necho \"##########################\"\ncat kustomization.yaml\n","workingDir":"$(workspaces.workspace.path)"},{"image":"docker.io/alpine/git:v2.26.2","name":"git-commit","script":"cd git-update-digest-workdir\n\ngit config user.email \"tektonbot@redhat.com\"\ngit config user.name \"My Tekton Bot\"\n\ngit status\ngit add $(params.KUSTOMIZATION_PATH)/kustomization.yaml\ngit commit -m \"[ci] Image digest updated\"\n\nif [ \"$(params.CREATE_BRANCH_NAME)\" = \"skip\" ]\nthen\n  git push\nelse\n  git push origin HEAD:$(params.CREATE_BRANCH_NAME)\nfi\n\nRESULT_SHA=\"$(git rev-parse HEAD | tr -d '\\n')\"\nEXIT_CODE=\"$?\"\nif [ \"$EXIT_CODE\" != 0 ]\nthen\n  exit $EXIT_CODE\nfi\n# Make sure we don't add a trailing newline to the result!\necho -n \"$RESULT_SHA\" \u003e $(results.commit.path)\n","workingDir":"$(workspaces.workspace.path)"}],"workspaces":[{"description":"The workspace consisting of maven project.","name":"workspace"}]}}
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/tags: git
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+    operator.tekton.dev/provider-type: community
+  name: git-update-deployment
+  namespace: coolstore-cicd
+  resourceVersion: "62124"
+  uid: 0d68a0c1-00a7-4df2-91cd-2e03a2b1772d
+spec:
+  description: This Task can be used to update image digest in a Git repo using kustomize.
+    It requires a secret with credentials for accessing the git repo.
+  params:
+  - name: GIT_REPOSITORY
+    type: string
+  - default: main
+    name: GIT_REF
+    type: string
+  - name: CURRENT_IMAGE
+    type: string
+  - name: NEW_IMAGE
+    type: string
+  - name: NEW_DIGEST
+    type: string
+  - name: KUSTOMIZATION_PATH
+    type: string
+  - default: skip
+    name: CREATE_BRANCH_NAME
+    type: string
+  results:
+  - description: The commit SHA
+    name: commit
+    type: string
+  steps:
+  - computeResources: {}
+    image: docker.io/alpine/git:v2.26.2
+    name: git-clone
+    script: |
+      rm -rf git-update-digest-workdir
+
+      echo "Cloning $(params.GIT_REPOSITORY) $(params.GIT_REF)"
+
+      git clone -v $(params.GIT_REPOSITORY) -b $(params.GIT_REF) git-update-digest-workdir
+
+      if [ "$(params.CREATE_BRANCH_NAME)" = "skip" ]
+      then
+        echo "Skip branching"
+      else
+        cd git-update-digest-workdir
+        git checkout -b $(params.CREATE_BRANCH_NAME)
+      fi
+    workingDir: $(workspaces.workspace.path)
+  - computeResources: {}
+    image: quay.io/wpernath/kustomize-ubi:latest
+    name: update-digest
+    script: |
+      cd git-update-digest-workdir/$(params.KUSTOMIZATION_PATH)
+      kustomize edit set image $(params.CURRENT_IMAGE)=$(params.NEW_IMAGE)@$(params.NEW_DIGEST)
+
+      echo "##########################"
+      echo "### kustomization.yaml ###"
+      echo "##########################"
+      cat kustomization.yaml
+    workingDir: $(workspaces.workspace.path)
+  - computeResources: {}
+    image: docker.io/alpine/git:v2.26.2
+    name: git-commit
+    script: |
+      cd git-update-digest-workdir
+
+      git config user.email "tektonbot@redhat.com"
+      git config user.name "My Tekton Bot"
+
+      git status
+      git add $(params.KUSTOMIZATION_PATH)/kustomization.yaml
+      git commit -m "[ci] Image digest updated"
+
+      if [ "$(params.CREATE_BRANCH_NAME)" = "skip" ]
+      then
+        git push
+      else
+        git push origin HEAD:$(params.CREATE_BRANCH_NAME)
+      fi
+
+      RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
+      EXIT_CODE="$?"
+      if [ "$EXIT_CODE" != 0 ]
+      then
+        exit $EXIT_CODE
+      fi
+      # Make sure we don't add a trailing newline to the result!
+      echo -n "$RESULT_SHA" > $(results.commit.path)
+    workingDir: $(workspaces.workspace.path)
+  workspaces:
+  - description: The workspace consisting of maven project.
+    name: workspace

@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/npm-quality
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/npm-quality"},"name":"npm-quality","namespace":"coolstore-cicd"},"spec":{"params":[{"default":"http://sonarqube.dev-tools:9000","description":"The location of sonarqube, passed as an environment variable SONAR_SERVER_URL","name":"SONAR_SERVER_URL"}],"steps":[{"args":["echo \"Performing quality check\"\nmkdir -p coverage\nmkdir -p reports/dependency-check\ndependency-check.sh --format ALL -s . --out reports/dependency-check --project \"product-catalog-client\"\nnpm run sonar\necho \"Quality check complete, see results in sonarqube\""],"command":["/bin/sh","-c"],"env":[{"name":"SONAR_SERVER_URL","value":"$(params.SONAR_SERVER_URL)"},{"name":"SONAR_TOKEN","value":"squ_910a317ccc8804a9c6eba9402b6285e7f97bb16f"}],"image":"registry.redhat.io/ubi8/nodejs-14:latest","name":"quality","volumeMounts":[{"mountPath":"/opt/dependency-check/data","name":"dependency-cache"}],"workingDir":"$(workspaces.source.path)"}],"volumes":[{"name":"dependency-cache","persistentVolumeClaim":{"claimName":"dependency-cache"}}],"workspaces":[{"name":"source"}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: npm-quality
+  namespace: coolstore-cicd
+  resourceVersion: "62192"
+  uid: caade888-fa31-4273-90c7-77676aed5c09
+spec:
+  params:
+  - default: http://sonarqube.dev-tools:9000
+    description: The location of sonarqube, passed as an environment variable SONAR_SERVER_URL
+    name: SONAR_SERVER_URL
+    type: string
+  steps:
+  - args:
+    - |-
+      echo "Performing quality check"
+      mkdir -p coverage
+      mkdir -p reports/dependency-check
+      dependency-check.sh --format ALL -s . --out reports/dependency-check --project "product-catalog-client"
+      npm run sonar
+      echo "Quality check complete, see results in sonarqube"
+    command:
+    - /bin/sh
+    - -c
+    computeResources: {}
+    env:
+    - name: SONAR_SERVER_URL
+      value: $(params.SONAR_SERVER_URL)
+    - name: SONAR_TOKEN
+      value: squ_910a317ccc8804a9c6eba9402b6285e7f97bb16f
+    image: registry.redhat.io/ubi8/nodejs-14:latest
+    name: quality
+    volumeMounts:
+    - mountPath: /opt/dependency-check/data
+      name: dependency-cache
+    workingDir: $(workspaces.source.path)
+  volumes:
+  - name: dependency-cache
+    persistentVolumeClaim:
+      claimName: dependency-cache
+  workspaces:
+  - name: source

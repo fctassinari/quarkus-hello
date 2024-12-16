@@ -1,0 +1,377 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/inventory-pipeline
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1beta1","kind":"Pipeline","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/inventory-pipeline"},"name":"inventory-pipeline","namespace":"coolstore-cicd"},"spec":{"finally":[{"name":"notify-on-fail","params":[{"name":"message","value":"Some tasks in the $(context.pipeline.name) have failed in pipelinerun $(context.pipelinerun.name) failed, please investigate"}],"taskRef":{"kind":"Task","name":"send-to-webhook-slack"},"when":[{"input":"$(tasks.status)","operator":"in","values":["Failed"]},{"input":"$(workspaces.slack-secret.bound)","operator":"in","values":["true"]}],"workspaces":[{"name":"slack-secret","workspace":"slack-secret"}]}],"params":[{"default":"1.0.0","name":"IMAGE_TAG","type":"string"},{"default":"registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus","name":"IMAGE_NAME","type":"string"},{"default":"https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus.git","name":"GIT_REPO","type":"string"},{"default":"main","name":"GIT_BRANCH","type":"string"},{"default":"https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/coolstore.git","name":"MANIFESTS_GIT_REPO","type":"string"},{"default":"main","name":"MANIFESTS_GIT_BRANCH","type":"string"},{"default":"https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus/raw/branch/main/tests/inventory-quarkus-tests.json","name":"COLLECTION_TESTS_URL","type":"string"},{"default":"sonarqube-dev-tools.apps.cluster-lzqqz.sandbox2382.opentlc.com","description":"Hostname for sonarqube","name":"SONARQUBE_HOST","type":"string"}],"tasks":[{"name":"variables","taskRef":{"name":"variables-from-k8s"},"workspaces":[{"name":"acs-central","workspace":"acs-central"}]},{"name":"git-clone","params":[{"name":"url","value":"$(params.GIT_REPO)"},{"name":"revision","value":"$(params.GIT_BRANCH)"},{"name":"submodules","value":"true"},{"name":"depth","value":"1"},{"name":"sslVerify","value":"true"},{"name":"crtFileName","value":"ca-bundle.crt"},{"name":"deleteExisting","value":"true"},{"name":"verbose","value":"true"},{"name":"gitInitImage","value":"registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:cadf614a6044ee37397de3abe7674827ecab225e7fac9fb123eff5473e2c4003"},{"name":"userHome","value":"/tekton/home"}],"runAfter":["variables"],"taskRef":{"kind":"ClusterTask","name":"git-clone"},"workspaces":[{"name":"output","workspace":"source"}]},{"name":"maven","params":[{"name":"GOALS","value":["package","deploy"]},{"name":"PROXY_PROTOCOL","value":"http"},{"name":"CONTEXT_DIR","value":"."}],"runAfter":["git-clone"],"taskRef":{"kind":"Task","name":"maven"},"workspaces":[{"name":"maven-settings","workspace":"maven-settings"},{"name":"source","workspace":"source"}]},{"name":"code-analysis","params":[{"name":"GOALS","value":["sonar:sonar","-Pquality"]}],"runAfter":["maven"],"taskRef":{"kind":"Task","name":"maven"},"workspaces":[{"name":"maven-settings","workspace":"maven-settings"},{"name":"source","workspace":"source"}]},{"name":"buildah","params":[{"name":"IMAGE","value":"$(params.IMAGE_NAME):$(params.IMAGE_TAG)"},{"name":"BUILDER_IMAGE","value":"registry.redhat.io/rhel8/buildah@sha256:0a86ecbdfbe86e9d225b7fe4b090a0dd6d323f8afdfdf2bd933ff223ddb53320"},{"name":"STORAGE_DRIVER","value":"vfs"},{"name":"DOCKERFILE","value":"./Dockerfile"},{"name":"CONTEXT","value":"."},{"name":"TLSVERIFY","value":"true"},{"name":"FORMAT","value":"oci"},{"name":"SKIP_PUSH","value":"false"}],"runAfter":["code-analysis"],"taskRef":{"kind":"ClusterTask","name":"buildah"},"workspaces":[{"name":"source","workspace":"source"}]},{"name":"dev-git-update","params":[{"name":"GIT_REPOSITORY","value":"$(params.MANIFESTS_GIT_REPO)"},{"name":"GIT_REF","value":"$(params.MANIFESTS_GIT_BRANCH)"},{"name":"CURRENT_IMAGE","value":"quay.io/coolstore-demo/inventory-quarkus"},{"name":"NEW_IMAGE","value":"$(params.IMAGE_NAME)"},{"name":"NEW_DIGEST","value":"$(tasks.buildah.results.IMAGE_DIGEST)"},{"name":"KUSTOMIZATION_PATH","value":"demo/environments/overlays/dev"}],"runAfter":["buildah"],"taskRef":{"kind":"Task","name":"git-update-deployment"},"workspaces":[{"name":"workspace","workspace":"source"}]},{"name":"dev-gitops-sync","params":[{"name":"application_name","value":"coolstore-dev"}],"runAfter":["dev-git-update"],"taskRef":{"name":"argocd-task-sync-and-wait"}},{"name":"dev-int-test","params":[{"name":"COLLECTION","value":"$(params.COLLECTION_TESTS_URL)"},{"name":"ENVIRONMENT","value":"newman-dev-env.json"}],"runAfter":["dev-gitops-sync"],"taskRef":{"kind":"Task","name":"newman"},"workspaces":[{"name":"newman-env","workspace":"newman-env"}]},{"name":"stage-git-update","params":[{"name":"GIT_REPOSITORY","value":"$(params.MANIFESTS_GIT_REPO)"},{"name":"GIT_REF","value":"$(params.MANIFESTS_GIT_BRANCH)"},{"name":"CURRENT_IMAGE","value":"quay.io/coolstore-demo/inventory-quarkus"},{"name":"NEW_IMAGE","value":"registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus"},{"name":"NEW_DIGEST","value":"$(tasks.buildah.results.IMAGE_DIGEST)"},{"name":"KUSTOMIZATION_PATH","value":"demo/environments/overlays/stage"}],"runAfter":["dev-int-test"],"taskRef":{"kind":"Task","name":"git-update-deployment"},"workspaces":[{"name":"workspace","workspace":"source"}]},{"name":"stage-gitops-sync","params":[{"name":"application_name","value":"coolstore-stage"}],"runAfter":["stage-git-update"],"taskRef":{"name":"argocd-task-sync-and-wait"}},{"name":"stage-int-test","params":[{"name":"COLLECTION","value":"$(params.COLLECTION_TESTS_URL)"},{"name":"ENVIRONMENT","value":"newman-stage-env.json"}],"runAfter":["stage-gitops-sync"],"taskRef":{"kind":"Task","name":"newman"},"workspaces":[{"name":"newman-env","workspace":"newman-env"}]},{"name":"acs-scan-image","params":[{"name":"output_format","value":"table"},{"name":"image","value":"$(params.IMAGE_NAME)@$(tasks.buildah.results.IMAGE_DIGEST)"}],"runAfter":["buildah"],"taskRef":{"kind":"Task","name":"rox-image-scan"},"when":[{"input":"$(workspaces.acs-central.bound)","operator":"in","values":["true"]}],"workspaces":[{"name":"acs-central","workspace":"acs-central"}]},{"name":"acs-check-image","params":[{"name":"image","value":"$(params.IMAGE_NAME)@$(tasks.buildah.results.IMAGE_DIGEST)"}],"runAfter":["acs-scan-image"],"taskRef":{"kind":"Task","name":"rox-image-check"},"when":[{"input":"$(workspaces.acs-central.bound)","operator":"in","values":["true"]}],"workspaces":[{"name":"acs-central","workspace":"acs-central"}]},{"name":"notify-on-scan-fail","params":[{"name":"message","value":"*Inventory Image Scan Failed*\nThe image scan for $(params.IMAGE_NAME):$(params.IMAGE_TAG) failed, please view test results here: https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)"}],"runAfter":["acs-check-image"],"taskRef":{"kind":"Task","name":"send-to-webhook-slack"},"when":[{"input":"$(tasks.acs-check-image.results.check_passed)","operator":"in","values":["false"]}],"workspaces":[{"name":"slack-secret","workspace":"slack-secret"}]},{"name":"notify-build-complete","params":[{"name":"console_message","value":"Build of inventory-quarkus completed\n\nThe build of image $(params.IMAGE_NAME):$(params.IMAGE_TAG) has been completed\n\n* Quay Image: https://$(params.IMAGE_NAME):$(params.IMAGE_TAG)\n* ACS Scan: https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)\n* SonarQube Results: https://$(params.SONARQUBE_HOST)/dashboard?id=inventory-quarkus"},{"name":"message_type","value":"raw"},{"name":"message","value":"{\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"Inventory Pipeline Complete\",\n        \"emoji\": true\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"Build of inventory-quarkus completed successfully.\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Pipeline Results*\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"* \u003chttps://console-openshift-console.apps.cluster-lzqqz.sandbox2382.opentlc.com/k8s/ns/coolstore-cicd/tekton.dev~v1beta1~PipelineRun/$(context.pipelineRun.name)|PipelineRun\u003e\\n* \u003c$(params.IMAGE_NAME):$(params.IMAGE_TAG)|Quay Image\u003e\\n* \u003chttps://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)|ACS Scan\u003e\\n* \u003chttps://$(params.SONARQUBE_HOST)/dashboard?id=inventory-quarkus|SonarQube\u003e\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    }\n  ]\n}"}],"runAfter":["notify-on-scan-fail","stage-int-test"],"taskRef":{"kind":"Task","name":"send-to-webhook-slack"},"workspaces":[{"name":"slack-secret","workspace":"slack-secret"}]}],"workspaces":[{"name":"source"},{"name":"maven-settings"},{"name":"newman-env"},{"name":"acs-central","optional":true},{"name":"slack-secret","optional":true}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: inventory-pipeline
+  namespace: coolstore-cicd
+  resourceVersion: "62146"
+  uid: 5b6088eb-fca0-46bc-9baf-533cd7520575
+spec:
+  finally:
+  - name: notify-on-fail
+    params:
+    - name: message
+      value: Some tasks in the $(context.pipeline.name) have failed in pipelinerun
+        $(context.pipelinerun.name) failed, please investigate
+    taskRef:
+      kind: Task
+      name: send-to-webhook-slack
+    when:
+    - input: $(tasks.status)
+      operator: in
+      values:
+      - Failed
+    - input: $(workspaces.slack-secret.bound)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: slack-secret
+      workspace: slack-secret
+  params:
+  - default: 1.0.0
+    name: IMAGE_TAG
+    type: string
+  - default: registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus
+    name: IMAGE_NAME
+    type: string
+  - default: https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus.git
+    name: GIT_REPO
+    type: string
+  - default: main
+    name: GIT_BRANCH
+    type: string
+  - default: https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/coolstore.git
+    name: MANIFESTS_GIT_REPO
+    type: string
+  - default: main
+    name: MANIFESTS_GIT_BRANCH
+    type: string
+  - default: https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus/raw/branch/main/tests/inventory-quarkus-tests.json
+    name: COLLECTION_TESTS_URL
+    type: string
+  - default: sonarqube-dev-tools.apps.cluster-lzqqz.sandbox2382.opentlc.com
+    description: Hostname for sonarqube
+    name: SONARQUBE_HOST
+    type: string
+  tasks:
+  - name: variables
+    taskRef:
+      kind: Task
+      name: variables-from-k8s
+    workspaces:
+    - name: acs-central
+      workspace: acs-central
+  - name: git-clone
+    params:
+    - name: url
+      value: $(params.GIT_REPO)
+    - name: revision
+      value: $(params.GIT_BRANCH)
+    - name: submodules
+      value: "true"
+    - name: depth
+      value: "1"
+    - name: sslVerify
+      value: "true"
+    - name: crtFileName
+      value: ca-bundle.crt
+    - name: deleteExisting
+      value: "true"
+    - name: verbose
+      value: "true"
+    - name: gitInitImage
+      value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:cadf614a6044ee37397de3abe7674827ecab225e7fac9fb123eff5473e2c4003
+    - name: userHome
+      value: /tekton/home
+    runAfter:
+    - variables
+    taskRef:
+      kind: ClusterTask
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: source
+  - name: maven
+    params:
+    - name: GOALS
+      value:
+      - package
+      - deploy
+    - name: PROXY_PROTOCOL
+      value: http
+    - name: CONTEXT_DIR
+      value: .
+    runAfter:
+    - git-clone
+    taskRef:
+      kind: Task
+      name: maven
+    workspaces:
+    - name: maven-settings
+      workspace: maven-settings
+    - name: source
+      workspace: source
+  - name: code-analysis
+    params:
+    - name: GOALS
+      value:
+      - sonar:sonar
+      - -Pquality
+    runAfter:
+    - maven
+    taskRef:
+      kind: Task
+      name: maven
+    workspaces:
+    - name: maven-settings
+      workspace: maven-settings
+    - name: source
+      workspace: source
+  - name: buildah
+    params:
+    - name: IMAGE
+      value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
+    - name: BUILDER_IMAGE
+      value: registry.redhat.io/rhel8/buildah@sha256:0a86ecbdfbe86e9d225b7fe4b090a0dd6d323f8afdfdf2bd933ff223ddb53320
+    - name: STORAGE_DRIVER
+      value: vfs
+    - name: DOCKERFILE
+      value: ./Dockerfile
+    - name: CONTEXT
+      value: .
+    - name: TLSVERIFY
+      value: "true"
+    - name: FORMAT
+      value: oci
+    - name: SKIP_PUSH
+      value: "false"
+    runAfter:
+    - code-analysis
+    taskRef:
+      kind: ClusterTask
+      name: buildah
+    workspaces:
+    - name: source
+      workspace: source
+  - name: dev-git-update
+    params:
+    - name: GIT_REPOSITORY
+      value: $(params.MANIFESTS_GIT_REPO)
+    - name: GIT_REF
+      value: $(params.MANIFESTS_GIT_BRANCH)
+    - name: CURRENT_IMAGE
+      value: quay.io/coolstore-demo/inventory-quarkus
+    - name: NEW_IMAGE
+      value: $(params.IMAGE_NAME)
+    - name: NEW_DIGEST
+      value: $(tasks.buildah.results.IMAGE_DIGEST)
+    - name: KUSTOMIZATION_PATH
+      value: demo/environments/overlays/dev
+    runAfter:
+    - buildah
+    taskRef:
+      kind: Task
+      name: git-update-deployment
+    workspaces:
+    - name: workspace
+      workspace: source
+  - name: dev-gitops-sync
+    params:
+    - name: application_name
+      value: coolstore-dev
+    runAfter:
+    - dev-git-update
+    taskRef:
+      kind: Task
+      name: argocd-task-sync-and-wait
+  - name: dev-int-test
+    params:
+    - name: COLLECTION
+      value: $(params.COLLECTION_TESTS_URL)
+    - name: ENVIRONMENT
+      value: newman-dev-env.json
+    runAfter:
+    - dev-gitops-sync
+    taskRef:
+      kind: Task
+      name: newman
+    workspaces:
+    - name: newman-env
+      workspace: newman-env
+  - name: stage-git-update
+    params:
+    - name: GIT_REPOSITORY
+      value: $(params.MANIFESTS_GIT_REPO)
+    - name: GIT_REF
+      value: $(params.MANIFESTS_GIT_BRANCH)
+    - name: CURRENT_IMAGE
+      value: quay.io/coolstore-demo/inventory-quarkus
+    - name: NEW_IMAGE
+      value: registry-quay-quay-operator.apps.cluster-lzqqz.sandbox2382.opentlc.com/coolstore/inventory-quarkus
+    - name: NEW_DIGEST
+      value: $(tasks.buildah.results.IMAGE_DIGEST)
+    - name: KUSTOMIZATION_PATH
+      value: demo/environments/overlays/stage
+    runAfter:
+    - dev-int-test
+    taskRef:
+      kind: Task
+      name: git-update-deployment
+    workspaces:
+    - name: workspace
+      workspace: source
+  - name: stage-gitops-sync
+    params:
+    - name: application_name
+      value: coolstore-stage
+    runAfter:
+    - stage-git-update
+    taskRef:
+      kind: Task
+      name: argocd-task-sync-and-wait
+  - name: stage-int-test
+    params:
+    - name: COLLECTION
+      value: $(params.COLLECTION_TESTS_URL)
+    - name: ENVIRONMENT
+      value: newman-stage-env.json
+    runAfter:
+    - stage-gitops-sync
+    taskRef:
+      kind: Task
+      name: newman
+    workspaces:
+    - name: newman-env
+      workspace: newman-env
+  - name: acs-scan-image
+    params:
+    - name: output_format
+      value: table
+    - name: image
+      value: $(params.IMAGE_NAME)@$(tasks.buildah.results.IMAGE_DIGEST)
+    runAfter:
+    - buildah
+    taskRef:
+      kind: Task
+      name: rox-image-scan
+    when:
+    - input: $(workspaces.acs-central.bound)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: acs-central
+      workspace: acs-central
+  - name: acs-check-image
+    params:
+    - name: image
+      value: $(params.IMAGE_NAME)@$(tasks.buildah.results.IMAGE_DIGEST)
+    runAfter:
+    - acs-scan-image
+    taskRef:
+      kind: Task
+      name: rox-image-check
+    when:
+    - input: $(workspaces.acs-central.bound)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: acs-central
+      workspace: acs-central
+  - name: notify-on-scan-fail
+    params:
+    - name: message
+      value: |-
+        *Inventory Image Scan Failed*
+        The image scan for $(params.IMAGE_NAME):$(params.IMAGE_TAG) failed, please view test results here: https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)
+    runAfter:
+    - acs-check-image
+    taskRef:
+      kind: Task
+      name: send-to-webhook-slack
+    when:
+    - input: $(tasks.acs-check-image.results.check_passed)
+      operator: in
+      values:
+      - "false"
+    workspaces:
+    - name: slack-secret
+      workspace: slack-secret
+  - name: notify-build-complete
+    params:
+    - name: console_message
+      value: |-
+        Build of inventory-quarkus completed
+
+        The build of image $(params.IMAGE_NAME):$(params.IMAGE_TAG) has been completed
+
+        * Quay Image: https://$(params.IMAGE_NAME):$(params.IMAGE_TAG)
+        * ACS Scan: https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)
+        * SonarQube Results: https://$(params.SONARQUBE_HOST)/dashboard?id=inventory-quarkus
+    - name: message_type
+      value: raw
+    - name: message
+      value: |-
+        {
+          "blocks": [
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "Inventory Pipeline Complete",
+                "emoji": true
+              }
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "Build of inventory-quarkus completed successfully."
+              }
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Pipeline Results*"
+              }
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "* <https://console-openshift-console.apps.cluster-lzqqz.sandbox2382.opentlc.com/k8s/ns/coolstore-cicd/tekton.dev~v1beta1~PipelineRun/$(context.pipelineRun.name)|PipelineRun>\n* <$(params.IMAGE_NAME):$(params.IMAGE_TAG)|Quay Image>\n* <https://$(tasks.variables.results.acs_central_endpoint)/main/vulnerability-management/images/$(tasks.buildah.results.IMAGE_DIGEST)|ACS Scan>\n* <https://$(params.SONARQUBE_HOST)/dashboard?id=inventory-quarkus|SonarQube>"
+              }
+            },
+            {
+              "type": "divider"
+            }
+          ]
+        }
+    runAfter:
+    - notify-on-scan-fail
+    - stage-int-test
+    taskRef:
+      kind: Task
+      name: send-to-webhook-slack
+    workspaces:
+    - name: slack-secret
+      workspace: slack-secret
+  workspaces:
+  - name: source
+  - name: maven-settings
+  - name: newman-env
+  - name: acs-central
+    optional: true
+  - name: slack-secret
+    optional: true

@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/generate-id
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/generate-id"},"name":"generate-id","namespace":"coolstore-cicd"},"spec":{"results":[{"description":"The short commit SHA that was fetched by this Task","name":"short_commit"},{"description":"Unique build identifier","name":"build_uid"},{"description":"Unique tag identifier","name":"tag_id"}],"steps":[{"image":"quay.io/gnunn/tools:latest","name":"generate","script":"#!/usr/bin/env sh\n\n# Get short commit\nexport SHORT_SHA=$(git rev-parse --short HEAD)\necho -n \"$SHORT_SHA\" \u003e $(results.short_commit.path)\n\n# Generate uinque UID\nexport BUILD_UID=$(ksuid)\necho -n \"$BUILD_UID\" \u003e $(results.build_uid.path)\n\necho -n \"$SHORT_SHA-$BUILD_UID\" \u003e $(results.tag_id.path)\n\necho \"Generated ID $SHORT_SHA-$BUILD_UID\"","workingDir":"$(workspaces.source.path)"}],"workspaces":[{"name":"source"}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: generate-id
+  namespace: coolstore-cicd
+  resourceVersion: "62122"
+  uid: 2ea874bb-ff89-4bae-a87b-fe3785cf36cf
+spec:
+  results:
+  - description: The short commit SHA that was fetched by this Task
+    name: short_commit
+    type: string
+  - description: Unique build identifier
+    name: build_uid
+    type: string
+  - description: Unique tag identifier
+    name: tag_id
+    type: string
+  steps:
+  - computeResources: {}
+    image: quay.io/gnunn/tools:latest
+    name: generate
+    script: |-
+      #!/usr/bin/env sh
+
+      # Get short commit
+      export SHORT_SHA=$(git rev-parse --short HEAD)
+      echo -n "$SHORT_SHA" > $(results.short_commit.path)
+
+      # Generate uinque UID
+      export BUILD_UID=$(ksuid)
+      echo -n "$BUILD_UID" > $(results.build_uid.path)
+
+      echo -n "$SHORT_SHA-$BUILD_UID" > $(results.tag_id.path)
+
+      echo "Generated ID $SHORT_SHA-$BUILD_UID"
+    workingDir: $(workspaces.source.path)
+  workspaces:
+  - name: source

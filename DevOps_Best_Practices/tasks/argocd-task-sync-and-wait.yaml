@@ -1,0 +1,64 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/argocd-task-sync-and-wait
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/argocd-task-sync-and-wait","tekton.dev/categories":"Deployment","tekton.dev/displayName":"argocd","tekton.dev/pipelines.minVersion":"0.12.1","tekton.dev/platforms":"linux/amd64","tekton.dev/tags":"deploy"},"labels":{"app.kubernetes.io/version":"0.2"},"name":"argocd-task-sync-and-wait","namespace":"coolstore-cicd"},"spec":{"description":"This task syncs (deploys) an Argo CD application and waits for it to be healthy.\nTo do so, it requires the address of the Argo CD server and some form of authentication either a username/password or an authentication token.","params":[{"description":"name of the application to sync","name":"application_name"},{"default":"--grpc-web","name":"flags"},{"default":"v1.7.0","name":"gitops-version"}],"stepTemplate":{"envFrom":[{"secretRef":{"name":"argocd-env-secret"}}]},"steps":[{"image":"quay.io/gnunn/tools:latest","name":"wait-and-sync","script":"\nalias argocd='argocd --insecure'\n\nif [ -z \"$ARGOCD_AUTH_TOKEN\" ]; then\n  yes | argocd login \"$ARGOCD_SERVER\" --username=\"$ARGOCD_USERNAME\" --password=\"$ARGOCD_PASSWORD\" \"$(params.flags)\";\nfi\n\n# Sync application\nif [[ $(argocd app get $(params.application_name) -o json | jq '.spec.syncPolicy.automated') != \"null\" ]] ; then\n  argocd app get $(params.application_name) --refresh\nelse\n  argocd app sync $(params.application_name)\nfi\n\n# Application may already be syncing due to webhook\necho \"#### Waiting for automatic sync if it was already triggered (or other pending operation) ####\"\nargocd app wait \"$(params.application_name)\" --operation \"$(params.flags)\"\n\n# Should not need this but add for now, there seems to be a timing issue in Natale's environment\nsleep 10\n"}]}}
+    tekton.dev/categories: Deployment
+    tekton.dev/displayName: argocd
+    tekton.dev/pipelines.minVersion: 0.12.1
+    tekton.dev/platforms: linux/amd64
+    tekton.dev/tags: deploy
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/version: "0.2"
+  name: argocd-task-sync-and-wait
+  namespace: coolstore-cicd
+  resourceVersion: "62034"
+  uid: b1f8d3d2-ebc4-42c3-ae1e-c8b03b872b2e
+spec:
+  description: |-
+    This task syncs (deploys) an Argo CD application and waits for it to be healthy.
+    To do so, it requires the address of the Argo CD server and some form of authentication either a username/password or an authentication token.
+  params:
+  - description: name of the application to sync
+    name: application_name
+    type: string
+  - default: --grpc-web
+    name: flags
+    type: string
+  - default: v1.7.0
+    name: gitops-version
+    type: string
+  stepTemplate:
+    computeResources: {}
+    envFrom:
+    - secretRef:
+        name: argocd-env-secret
+  steps:
+  - computeResources: {}
+    image: quay.io/gnunn/tools:latest
+    name: wait-and-sync
+    script: |2
+
+      alias argocd='argocd --insecure'
+
+      if [ -z "$ARGOCD_AUTH_TOKEN" ]; then
+        yes | argocd login "$ARGOCD_SERVER" --username="$ARGOCD_USERNAME" --password="$ARGOCD_PASSWORD" "$(params.flags)";
+      fi
+
+      # Sync application
+      if [[ $(argocd app get $(params.application_name) -o json | jq '.spec.syncPolicy.automated') != "null" ]] ; then
+        argocd app get $(params.application_name) --refresh
+      else
+        argocd app sync $(params.application_name)
+      fi
+
+      # Application may already be syncing due to webhook
+      echo "#### Waiting for automatic sync if it was already triggered (or other pending operation) ####"
+      argocd app wait "$(params.application_name)" --operation "$(params.flags)"
+
+      # Should not need this but add for now, there seems to be a timing issue in Natale's environment
+      sleep 10

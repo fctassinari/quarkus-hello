@@ -1,0 +1,52 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/rox-image-check
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/rox-image-check"},"name":"rox-image-check","namespace":"coolstore-cicd"},"spec":{"params":[{"description":"Full name of image to scan (example -- gcr.io/rox/sample:5.0-rc1)","name":"image","type":"string"}],"results":[{"description":"Whether the task passed or failed, \"true\" for a pass, \"false\" for a fail.","name":"check_passed"}],"steps":[{"image":"registry.redhat.io/advanced-cluster-security/rhacs-roxctl-rhel8:3.70","name":"rox-image-check","script":"#!/usr/bin/env bash\nset +x\n\nif [ $(workspaces.acs-central.bound) == \"false\" ] ; then\n  echo \"No acs-central workspace was bound to task\"\n  exit 0\nfi\n\nexport ROX_CENTRAL_ENDPOINT=$(cat $(workspaces.acs-central.path)/rox_central_endpoint)\nexport ROX_API_TOKEN=$(cat $(workspaces.acs-central.path)/rox_api_token)\n\necho \"Scanning against endpoint ${ROX_CENTRAL_ENDPOINT}\"\n\nif roxctl image check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT --image $(params.image); then\n  echo -n \"true\" \u003e $(results.check_passed.path)\nelse\n  echo -n \"false\" \u003e $(results.check_passed.path)\nfi\ncd ."}],"workspaces":[{"description":"The secret with the central endpoint (rox-central_endpoint) and api token (rox_api_token)","name":"acs-central","optional":true}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: rox-image-check
+  namespace: coolstore-cicd
+  resourceVersion: "62223"
+  uid: a4cbb732-1adf-46da-b746-b9a5b8772f8b
+spec:
+  params:
+  - description: Full name of image to scan (example -- gcr.io/rox/sample:5.0-rc1)
+    name: image
+    type: string
+  results:
+  - description: Whether the task passed or failed, "true" for a pass, "false" for
+      a fail.
+    name: check_passed
+    type: string
+  steps:
+  - computeResources: {}
+    image: registry.redhat.io/advanced-cluster-security/rhacs-roxctl-rhel8:3.70
+    name: rox-image-check
+    script: |-
+      #!/usr/bin/env bash
+      set +x
+
+      if [ $(workspaces.acs-central.bound) == "false" ] ; then
+        echo "No acs-central workspace was bound to task"
+        exit 0
+      fi
+
+      export ROX_CENTRAL_ENDPOINT=$(cat $(workspaces.acs-central.path)/rox_central_endpoint)
+      export ROX_API_TOKEN=$(cat $(workspaces.acs-central.path)/rox_api_token)
+
+      echo "Scanning against endpoint ${ROX_CENTRAL_ENDPOINT}"
+
+      if roxctl image check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT --image $(params.image); then
+        echo -n "true" > $(results.check_passed.path)
+      else
+        echo -n "false" > $(results.check_passed.path)
+      fi
+      cd .
+  workspaces:
+  - description: The secret with the central endpoint (rox-central_endpoint) and api
+      token (rox_api_token)
+    name: acs-central
+    optional: true

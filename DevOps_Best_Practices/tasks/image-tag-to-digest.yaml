@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Task:coolstore-cicd/image-tag-to-digest
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Task","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Task:coolstore-cicd/image-tag-to-digest"},"name":"image-tag-to-digest","namespace":"coolstore-cicd"},"spec":{"params":[{"description":"The location of the image without the tag","name":"image_dest_url","type":"string"},{"description":"the tag of the image to return the hash for","name":"image_dest_tag","type":"string"}],"results":[{"description":"The digest for the image created","name":"image_digest"}],"steps":[{"image":"quay.io/gnunn/tools:4.10-1","name":"get-image-digest","script":"#!/usr/bin/env bash\n\nDIGEST=$(skopeo inspect docker://$(params.image_dest_url):$(params.image_dest_tag) | jq -r .Digest)\n\necho \"Digest for image $(params.image_dest_url):$(params.image_dest_tag) is '${DIGEST}'\"\n\necho -n \"$DIGEST\" \u003e $(results.image_digest.path)"}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: image-tag-to-digest
+  namespace: coolstore-cicd
+  resourceVersion: "62121"
+  uid: c5f106b8-f752-4fc9-891d-fd5ca9a4bcd5
+spec:
+  params:
+  - description: The location of the image without the tag
+    name: image_dest_url
+    type: string
+  - description: the tag of the image to return the hash for
+    name: image_dest_tag
+    type: string
+  results:
+  - description: The digest for the image created
+    name: image_digest
+    type: string
+  steps:
+  - computeResources: {}
+    image: quay.io/gnunn/tools:4.10-1
+    name: get-image-digest
+    script: |-
+      #!/usr/bin/env bash
+
+      DIGEST=$(skopeo inspect docker://$(params.image_dest_url):$(params.image_dest_tag) | jq -r .Digest)
+
+      echo "Digest for image $(params.image_dest_url):$(params.image_dest_tag) is '${DIGEST}'"
+
+      echo -n "$DIGEST" > $(results.image_digest.path)

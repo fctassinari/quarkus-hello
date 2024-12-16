@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/inventory-prod-test-pipeline
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"coolstore-cicd:tekton.dev/Pipeline:coolstore-cicd/inventory-prod-test-pipeline"},"name":"inventory-prod-test-pipeline","namespace":"coolstore-cicd"},"spec":{"finally":[{"name":"notify","params":[{"name":"message","value":"Inventory production has been synchronized by ArgoCD, test status: $(tasks.prod-test.status)"}],"taskRef":{"name":"send-to-webhook-slack"},"when":[{"input":"$(workspaces.slack-secret.bound)","operator":"in","values":["true"]}],"workspaces":[{"name":"slack-secret","workspace":"slack-secret"}]}],"tasks":[{"name":"prod-test","params":[{"name":"COLLECTION","value":"https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus/raw/branch/main/tests/inventory-quarkus-tests.json"},{"name":"ENVIRONMENT","value":"newman-prod-env.json"}],"taskRef":{"name":"newman"},"workspaces":[{"name":"newman-env","workspace":"newman-env"}]}],"workspaces":[{"name":"newman-env"},{"name":"slack-secret","optional":true}]}}
+  creationTimestamp: "2024-12-16T07:28:47Z"
+  generation: 1
+  name: inventory-prod-test-pipeline
+  namespace: coolstore-cicd
+  resourceVersion: "62174"
+  uid: 24409831-9851-4bcf-944f-8822b75aeb3d
+spec:
+  finally:
+  - name: notify
+    params:
+    - name: message
+      value: 'Inventory production has been synchronized by ArgoCD, test status: $(tasks.prod-test.status)'
+    taskRef:
+      kind: Task
+      name: send-to-webhook-slack
+    when:
+    - input: $(workspaces.slack-secret.bound)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: slack-secret
+      workspace: slack-secret
+  tasks:
+  - name: prod-test
+    params:
+    - name: COLLECTION
+      value: https://gitea-gitea.apps.cluster-lzqqz.sandbox2382.opentlc.com/user1/inventory-quarkus/raw/branch/main/tests/inventory-quarkus-tests.json
+    - name: ENVIRONMENT
+      value: newman-prod-env.json
+    taskRef:
+      kind: Task
+      name: newman
+    workspaces:
+    - name: newman-env
+      workspace: newman-env
+  workspaces:
+  - name: newman-env
+  - name: slack-secret
+    optional: true
