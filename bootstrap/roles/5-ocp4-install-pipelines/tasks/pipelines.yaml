@@ -20,7 +20,6 @@
 #    state: present
 #    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
 
-
 - name: Create OpenShift Objects for Openshift Pipeline Tasks
   k8s:
     state: present
