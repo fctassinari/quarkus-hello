@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: rox-image-check
+  namespace: "{{ pipeline_namespace }}"
 spec:
   params:
     - description: >-
