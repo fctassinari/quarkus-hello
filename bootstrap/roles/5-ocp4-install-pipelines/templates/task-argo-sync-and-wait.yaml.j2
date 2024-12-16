@@ -47,8 +47,8 @@ spec:
 
         # echo "1"
         # echo "argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3"
-        argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3
+        #argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) && sleep 3
 
         #echo "2"
         # echo "argocd app wait $(params.application-name) --health $(params.flags)"
-        argocd app wait $(params.application-name) --health $(params.flags)
+        #argocd app wait $(params.application-name) --health $(params.flags)
