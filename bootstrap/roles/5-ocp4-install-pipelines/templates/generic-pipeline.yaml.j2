@@ -319,6 +319,8 @@ spec:
       params:
         - name: application-name
           value: "$(params.APP_NAME)"
+        - name: argocd-version
+          value: 'v2.13.1'
       taskRef:
         name: argocd-task-sync-and-wait
 #      runAfter:
