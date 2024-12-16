@@ -1,21 +1,25 @@
-# Instruções - Openshift Pipeline
+# Introdução
+Este projeto visa a criação de um pipeline genérico para atender aplicações java sobre JBoss.
 
-# Pré Instalação 
+É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
+
+# Iniciando
+1.	Ajustes básicos
 - No arquivo deploy_pipeline.yaml fazer os ajustes básicos
-- - company_name
-- - acs_central_password_base64 
-- - - echo -n admin1234 | base64 R: YWRtaW4xMjM0
-- - acs_central_password_plain_text
-- - quay_admin_password
-- - sa_cluster_admin_token (criar e copiar token)
+    - company_name
+    - acs_central_password_base64
+        - echo -n admin1234 | base64 R: YWRtaW4xMjM0
+    - acs_central_password_plain_text
+    - quay_admin_password
+- Criar um ServiceAccount e armazernar seu token em sa_cluster_admin_token
   - ```
-      Em /tools/criar-sa-cluster-adim.sh
-      oc create sa cluster-admin-sa -n kube-system
-      oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
-      oc create token cluster-admin-sa -n kube-system --duration=999999h
+    Executar /tools/criar-sa-cluster-adim.sh
+    oc create sa cluster-admin-sa -n kube-system
+    oc adm policy add-cluster-role-to-user cluster-admin -z cluster-admin-sa -n kube-system
+    oc create token cluster-admin-sa -n kube-system --duration=999999h
     ```
-- - cluster_url
-- - nexus_password
+- cluster_url
+- nexus_password
 
 
 - Criar rota do registry
@@ -23,6 +27,7 @@
     oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
     oc get route -n openshift-image-registry
     ```
+    
 - Importar a imagem java do repositorio redhat para o registry do OCP<br>
   - ```
     Em /tools/import-openjdk-21.sh
@@ -34,40 +39,52 @@
     oc delete secret 6095290-tassinari-pull-secret -n openshift
     ```
 
-# Install Gitops
+# Instalação
+## RedHat Openshift Pipelines e RedHat Openshift GitOps
+- No arquivo deployment_pipeline.yaml descomentar o bloco e executar o arquivo install.sh
+  - ```
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
+    ```
 - Get cluster version
 - Create GitOps Operator Group
 - Install GitOps Operator
 - Install OCP Pipelines Operator
-- Pegar a senha do ArgoCD na secret
+- Get ArgoCD route
+- Pegar a senha do ArgoCD na openshift-gitops/secret para autenticação no console web
   - ```
     oepnshift-gitops-cluster
     ```
+- Install OCP Pipelines Operator
 
-# Install the ACS Central
-* Central
-* * Create ACS namespace
-* * Create ACS Central password
-* * Install ACS Operator
-* * Wait for ACS Operator to be up and running
-* * Create ACS Central
-* * Get central route
-* * Wait for Central availability
-* Secured Cluster
-* * Get cluster init bundle
-* * Create init-bundle secrets
-* * Install Sensor on OpenShift Container Platform
-* * Determine number of collectors
 
-* * Config Post ACS
-* Create API token for access from Pipeline to ACS
-* Create ACS API Token secret for using in the pipelines
-* Get secrets in namespace
-* Extract secret name using regex
-* Display secret name
-* Get token in the secret for the sa pipeline and decode
-* Define the token secret decoded
-* Creating ACS Integration with the Openshift Internal Registry
+
+## Advanced Cluster Security for Kubernetes
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+  - ```
+    - name: 'Install the ACS Central'
+      include_role:
+      name: "2-ocp4-install-acs"
+    ```
+- Central
+    - Get cluster version
+    - Create ACS namespace
+    - Create ACS Central password
+    - Install ACS Operator
+    - Wait for ACS CRD to exist
+    - Wait for ACS Operator to be up and running
+    - Create ACS Central
+    - Get central route
+    - Wait for Central availability
+- Secured Cluster
+    - Get cluster init bundle
+    - Create init-bundle secrets
+    - Install Sensor on OpenShift Container Platform
+    - Determine number of collectors
+- Config Post ACS
+    - Get ACS central route
+    - Creating ACS Integration with the Openshift Internal Registry
 
 # Install Quay
 * install-quay
