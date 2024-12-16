@@ -48,10 +48,10 @@
 #  - triggerbinding-trigger-gogs.yaml.j2
 #  - triggertemplate.yaml.j2
 #
-#- name: Create OpenShift Objects for Openshift Pipelines Templates
-#  k8s:
-#    state: present
-#    definition: "{{ lookup('template', item ) | from_yaml }}"
-#  loop:
-#  - generic-pipeline.yaml.j2
-#  - pvc-pipeline-build.yaml.j2
+- name: Create OpenShift Objects for Openshift Pipelines Templates
+  k8s:
+    state: present
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - generic-pipeline.yaml.j2
+  - pvc-pipeline-build.yaml.j2
