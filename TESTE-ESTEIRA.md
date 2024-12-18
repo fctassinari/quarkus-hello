@@ -254,23 +254,21 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 - Atualizar o arquivo defaults/main.yaml
 - Create Namespaces
-- Gogs
-- - Get gogs route
-- - Create OpenShift Objects for App project
-- - - argocd-app-project.yaml.j2
-- - - argocd-app-dev.yaml.j2
-- - - rb-gitops.yaml.j2
-- Pipeline
-- - Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+- Get gogs route
+- Create ArgoCD App project
+- Create ArgoCD Hml App
+- Create ArgoCD Prd App
+- Add Gitops Rolebinding
+- Add RoleBinding to the pipeline namespace
 - Quay
-- - extract quay hostname
-- - Set Quay hostname
-- - Wait until Quay Application is Responding
-- - Use API Token to continue Creating
-- - - Create Repository
-- - - Add Robot account permissions to repo
-- - Create Quay Secret in Namespaces that require secret
-- - Confirm Quay Secret is Created
+  - Extract quay hostname   
+  - Set Quay hostname
+  - Wait until Quay Application is Responding
+  - Use API Token to continue Creating
+    - Create Repository
+    - Add Robot account permissions to repo
+  - Create Quay Secret in Namespaces that require secret
+  - Confirm Quay Secret is Created
 
 # Criar o container Tools personalizado
 - Ajustar as urls do OCP e do registry nos arquivos rum.sh e Dockerfile

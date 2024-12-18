@@ -16,11 +16,6 @@
     state: present
     definition: "{{ lookup('template', 'argocd-app-project.yaml.j2' )  }}"
 
-- name: Create ArgoCD Dev App
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'argocd-app-dev.yaml.j2' ) }}"
-
 - name: Create ArgoCD Hml App
   k8s:
     state: present
@@ -38,7 +33,7 @@
   loop: "{{ app_namespaces }}"
 
 ### Pipeline
-- name: Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+- name: Add RoleBinding to the pipeline namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
@@ -46,7 +41,7 @@
 
 ### Quay
 
-- name: extract quay hostname
+- name: Extract quay hostname
   shell: |
     oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
   register: quay_hostname_result

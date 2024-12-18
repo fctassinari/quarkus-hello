@@ -1,10 +1,7 @@
 app_name: 'quarkus-hello'
 app_namespaces:
-  - 'dev-{{ app_name }}'
   - 'hml-{{ app_name }}'
   - '{{ app_name }}'
 
 quay_repositories:
-  - 'dev-{{ app_name }}'
-  - 'hml-{{ app_name }}'
   - '{{ app_name }}'
