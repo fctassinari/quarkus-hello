@@ -21,7 +21,7 @@
     url: "https://{{ f_stackrox_central_addr }}/v1/apitokens/generate"
     body: '{"name":"pipelines-ci-token","role":null,"roles":["Continuous Integration"]}'
     method: POST
-    user: admin
+    user: "{{ acs_central_user }}"
     password: "{{ acs_central_password_plain_text }}"
     body_format: json
     force_basic_auth: true

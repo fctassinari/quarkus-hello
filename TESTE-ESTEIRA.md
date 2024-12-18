@@ -52,10 +52,26 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 - Install GitOps Operator
 - Install OCP Pipelines Operator
 - Get ArgoCD route
-- Pegar a senha do ArgoCD na openshift-gitops/secret para autenticação no console web
+- Configurar os Operators GitOps e Pipelines para serem executados nos infra-nodes<br>
+  Ajustar no Subscription yaml
+  ![img.png](imagens/gitops-pipelines-tolerations.png)
   - ```
-    oepnshift-gitops-cluster
+    spec:
+      channel: latest
+      config:
+        nodeSelector:
+          env: ocp-infra-dev
+          node-role.kubernetes.io/infra: ''
+        tolerations:
+          - effect: NoSchedule
+            key: node-role.kubernetes.io/infra
+            value: reserved
+          - effect: NoExecute
+            key: node-role.kubernetes.io/infra
+            value: reserved
     ```
+ - Pegar a senha do ArgoCD na openshift-gitops / secret / openshift-gitops-cluster para autenticação no console web  
+  ![img.png](imagens/argocd-pass.png)
 - Install OCP Pipelines Operator
 
 
@@ -87,56 +103,64 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
     - Creating ACS Integration with the Openshift Internal Registry
 
 # Install Quay
-* install-quay
-* * quay-namespace
-* * quay-subscription
-* * Wait for QuayRegistry CRD to exist
-* * Create Quay Registry Object
-* configure-quay
-* * extract quay hostname
-* * Wait until Quay Application is Responding
-* * Initialize Quay User
-* * Set Output Message from Quay on User Initalize
-* * Use API Token to continue Creating
-* * * Set Quay Access Token
-* * * Check if Quay Organization Exists
-* * * Create Quay Organization
-* * * Check if Repository Already Exists
-* * * Create Repository
-* * * Check if Robot Account Already Exists
-* * * Set Robot Token from Check Response
-* * * Create Robot Account
-* * * Set Robot Token from Creating New Robot Account
-* * * Add Robot account permissions to repo
-* * Delete any Previously Existing Quay Secret
-* * Create Quay Secret in Namespaces that require secret
-* * Confirm Quay Secret is Created
+- install-quay
+- - quay-namespace
+- - quay-subscription
+- - Wait for QuayRegistry CRD to exist
+- - Create Quay Registry Object
+- configure-quay
+- - extract quay hostname
+- - Wait until Quay Application is Responding
+- - Initialize Quay User
+- - Set Output Message from Quay on User Initalize
+- - Use API Token to continue Creating
+- - - Set Quay Access Token
+- - - Check if Quay Organization Exists
+- - - Create Quay Organization
+- - - Check if Repository Already Exists
+- - - Create Repository
+- - - Check if Robot Account Already Exists
+- - - Set Robot Token from Check Response
+- - - Create Robot Account
+- - - Set Robot Token from Creating New Robot Account
+- - - Add Robot account permissions to repo
+- - Delete any Previously Existing Quay Secret
+- - Create Quay Secret in Namespaces that require secret
+- - Confirm Quay Secret is Created
 
 
-* Copirar o robot token e atualizar no deployment_pipeline.yaml a variavel
-  * ```
+- Copirar o robot token e atualizar no deployment_pipeline.yaml a variavel
+  - ```
     quay_robot_token
     ```
-* Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel
-  * ```
+- Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel
+  - ```
     https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
     
     quay_access_token
     ```
 
-# Install CICD Infra
+## CICD Infra
+### Sonarqube
+- Install sonarqube
+- Get sonarqube route
+- Wait for sonarqube to be running
+    - Acessar o sonarqube e utilizar:<br>
+      User: admin<br>
+      Pass: admin<br>
+      ![img.png](imagens/sonar-login.png)<br>
+      Na sequência será solicitado atualizar a senha de administrador<br>
+    - Criar token da conta admin <br>
+      Clicar em Avatar / My Account / Security<br>
+      ![img_1.png](imagens/sonar-token.png)<br>
+      Copiar o token e armazenar em deploy_pipeline / sonar_token
+  
 
-* Install sonarqube
-  * ```
-    pegar sonar_token e atualizar o deploy_pipeline
-    ```
-* Get sonarqube route
-* Wait for sonarqube to be running
-* Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```
-* Get reports route
-* Wait for reports to be running
-* Install Gogs ```trocar pelo Gitlab Operator ```
-  *  ``` 
+- Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```
+- Get reports route
+- Wait for reports to be running
+- Install Gogs ```trocar pelo Gitlab Operator ```
+  -  ``` 
       Configurar senha 
       oc get pods
       oc rsh <nome do pod >
@@ -148,99 +172,105 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
       quarkus-hello-config
       Subir codigo fonte
       ```
-* Get gogs route
-* Patch with specific route domain
-* Wait for gogs and gogs-postgresql to be running
-* Install Nexus
-* Get nexus route
-* Check Nexus Route
-* Wait for nexus to be running
-  *  ```
-        Your admin user password is located in
-        /nexus-data/admin.password on the server.
+- Get gogs route
+- Patch with specific route domain
+- Wait for gogs and gogs-postgresql to be running
+- Install Nexus
+- Get nexus route
+- Check Nexus Route
+- Wait for nexus to be running
+  -  ```
+      Your admin user password is located in
+      /nexus-data/admin.password on the server.
    
-        oc project nexus
-        oc get pods
-        oc rsh <nome do pod>
-        cat /nexus-data/admin.password 
+      oc project nexus
+      oc get pods
+      oc rsh <nome do pod>
+      cat /nexus-data/admin.password 
       ```
-* Criar um repositorio maven-redhat do tipo proxy no nexus<br>
-  * ```
+- Criar um repositorio maven-redhat do tipo proxy no nexus<br>
+  - ```
     relase<br>
     permissive<br>
     https://maven.repository.redhat.com/ga/ <br>
     ```
-* No repositorio maven-public associar com o    
-  * ``` 
+- No repositorio maven-public associar com o
+  - ``` 
     maven-redhat  
     ```    
-* Alterar o campo Layout policy do repositorio maven-releases para  
-  * ```
+- Alterar o campo Layout policy do repositorio maven-releases para
+  - ```
     permissive<br>
     ```
 
 # Install Pipelines
 
 - pipelines.yaml
-  * Get argocd password
-  * Add CM for ArgoCD env in namespace
-  * Add Secrets for ArgoCD env in namespace
-  * Create OpenShift Objects for Openshift Pipeline Tasks
-     - task-update-release.yaml.j2
-     - task-argo-sync-and-wait.yaml.j2
-     - task-build-quarkus-image.yaml.j2
-     - task-dependency-report.yaml.j2
-     - task-git-update-deployment.yaml.j2
-     - cm-maven.yaml.j2
-     - clustertask-rox-deployment-check.yaml.j2
-     - clustertask-rox-image-check.yaml.j2
-     - clustertask-rox-image-scan.yaml.j2
+- Create Namespaces
+- pipelines.yaml
+    - Get argocd password
+    - Add CM for ArgoCD env in namespace
+    - Add Secrets for ArgoCD env in namespace
+    - Create OpenShift Objects for Openshift Pipeline Tasks
+        - clustertask-rox-deployment-check.yaml.j2
+        - clustertask-rox-image-check.yaml.j2
+        - clustertask-rox-image-scan.yaml.j2
+        - cm-maven.yaml.j2
+        - task-argo-sync-and-wait.yaml.j2
+        - task-build-quarkus-image.yaml.j2
+        - task-dependency-report.yaml.j2
+        - task-git-clone.yaml.j2
+        - task-git-update-deployment.yaml.j2
+        - task-maven.yaml.j2
+        - task-s2i-java.yaml.j2
+        - task-update-release.yaml.j2
 
-  * Create OpenShift Objects for Openshift Pipeline Triggers
-    - trigger-eventlistener.yaml.j2
-    - trigger-eventlistener-route.yaml.j2
-    - trigger-gogs-triggerbinding.yaml.j2
-    - triggertemplate.yaml.j2
+    - Create OpenShift Objects for Openshift Pipeline Triggers
+        - rt-trigger-eventlistener.yaml.j2
+        - trigger-eventlistener.yaml.j2
+        - trigger-eventlistener-route.yaml.j2
+        - trigger-gogs-triggerbinding.yaml.j2
+        - triggertemplate.yaml.j2
 
-  * Create OpenShift Objects for Openshift Pipelines Templates
-    - generic-pipeline.yaml.j2
-    - pipeline-build-pvc.yaml.j2
-
+    - Create OpenShift Objects for Openshift Pipelines Templates
+        - generic-pipeline.yaml.j2
+        - pipeline-build-pvc.yaml.j2
+  
 - acs-token-for-pipeline.yaml
-  - Get ACS central route
-  - Store central route as a fact
-  - Create API token for access from Pipeline to ACS
-  - Get API token from response
-  - Create ACS API Token secret for using in the pipelines
+    - Get ACS central route
+    - Store central route as a fact
+    - Create API token for access from Pipeline to ACS
+    - Get API token from response
+    - Create ACS API Token secret for using in the pipelines
 
 - secret-quay.yaml
-  - Extract quay hostname
-  - Wait until Quay Application is Responding
-  - Create Quay Secret in Namespaces that require secret
-  - Confirm Quay Secret is Created
+    - Extract quay hostname
+    - Wait until Quay Application is Responding
+    - Create Quay Secret in Namespaces that require secret
+    - Confirm Quay Secret is Created
 
 
 # Install Application
 
-* Atualizar o arquivo defaults/main.yaml
-* Create Namespaces
-* Gogs
-* * Get gogs route
-* * Create OpenShift Objects for App project
-* * * argocd-app-project.yaml.j2
-* * * argocd-app-dev.yaml.j2
-* * * rb-gitops.yaml.j2
-* Pipeline
-* * Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
-* Quay
-* * extract quay hostname
-* * Set Quay hostname
-* * Wait until Quay Application is Responding
-* * Use API Token to continue Creating
-* * * Create Repository
-* * * Add Robot account permissions to repo
-* * Create Quay Secret in Namespaces that require secret
-* * Confirm Quay Secret is Created
+- Atualizar o arquivo defaults/main.yaml
+- Create Namespaces
+- Gogs
+- - Get gogs route
+- - Create OpenShift Objects for App project
+- - - argocd-app-project.yaml.j2
+- - - argocd-app-dev.yaml.j2
+- - - rb-gitops.yaml.j2
+- Pipeline
+- - Add RoleBinding to the  "{{ pipeline_namespace }}" namespace
+- Quay
+- - extract quay hostname
+- - Set Quay hostname
+- - Wait until Quay Application is Responding
+- - Use API Token to continue Creating
+- - - Create Repository
+- - - Add Robot account permissions to repo
+- - Create Quay Secret in Namespaces that require secret
+- - Confirm Quay Secret is Created
 
 # Criar o container Tools personalizado
 - Ajustar as urls do OCP e do registry nos arquivos rum.sh e Dockerfile

@@ -16,6 +16,7 @@
     acs_central_services_namespace: 'stackrox'
     acs_central_password_base64: 'YWRtaW4xMjM0' #base64
     acs_central_password_plain_text: 'admin1234'
+    acs_central_user: 'admin'
 
     quay_project_name: 'quay'
     quay_admin_username: 'admin'
