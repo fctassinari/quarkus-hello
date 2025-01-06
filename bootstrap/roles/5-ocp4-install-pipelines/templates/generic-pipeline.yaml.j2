@@ -7,31 +7,41 @@ spec:
   params:
     - default: "<NOME APLICACAO>"
       name: APP_NAME
+
     - default: 'https://github.com/fctassinari/quarkus-hello.git'
       name: GIT_REPO
       type: string
+
     - default: main
       name: GIT_BRANCH
       type: string
+
     - default: ""
       name: GIT_USER
       type: string
+
     - default: ""
       name: GIT_PASS
       type: string
+
     - default: .
       name: PATH_CONTEXT
       type: string
+
     - default: 'image-registry.openshift-image-registry.svc:5000/< app_namespace >/< app_name >'
+      description: The application image stream
       name: IMAGE_NAME
       type: string
+
     - default: latest
       description: The application image tag to build
       name: IMAGE_TAG
+
     - default: registry.redhat.io/ubi9/openjdk-21:1.21-3
       description: The java imagestream in case Quarkus Build
       name: JAVA_IMAGE
       type: string
+
     - default: 'https://github.com/fctassinari/quarkus-hello-config.git'
       description: The application manifests git repository
       name: APP_MANIFESTS_GIT
