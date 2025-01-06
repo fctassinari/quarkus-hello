@@ -24,7 +24,7 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
     - pass: ****************
 
 - ACS
-    - rota: 
+    - rota: central-stackrox.apps.cluster-jj9q2.sandbox1234.opentlc.com
     - user: admin
     - pass: admin1234
 
@@ -178,29 +178,20 @@ pip3 install jmespath
 
 # Install Quay
 - install-quay
-- - quay-namespace
-- - quay-subscription
-- - Wait for QuayRegistry CRD to exist
-- - Create Quay Registry Object
+  - quay-namespace
+  - quay-subscription
+  - Wait for QuayRegistry CRD to exist
+  - Create Quay Registry Object
 - configure-quay
-- - extract quay hostname
-- - Wait until Quay Application is Responding
-- - Initialize Quay User
-- - Set Output Message from Quay on User Initalize
-- - Use API Token to continue Creating
-- - - Set Quay Access Token
-- - - Check if Quay Organization Exists
-- - - Create Quay Organization
-- - - Check if Repository Already Exists
-- - - Create Repository
-- - - Check if Robot Account Already Exists
-- - - Set Robot Token from Check Response
-- - - Create Robot Account
-- - - Set Robot Token from Creating New Robot Account
-- - - Add Robot account permissions to repo
-- - Delete any Previously Existing Quay Secret
-- - Create Quay Secret in Namespaces that require secret
-- - Confirm Quay Secret is Created
+  - extract quay hostname
+  - Wait until Quay Application is Responding
+  - Initialize Quay User
+  - Set Output Message from Quay on User Initalize
+  - Use API Token to continue Creating
+    - Set Quay Access Token
+    - Create Quay Organization
+    - Create Robot Account
+    - Set Robot Token from Creating New Robot Account
 
 
 - Copirar o robot token e atualizar no deployment_pipeline.yaml a variavel
