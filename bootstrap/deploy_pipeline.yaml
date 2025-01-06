@@ -80,7 +80,7 @@
 
     - name: 'Install and configure Noobaa Object Storage'
       include_role:
-        name: "3-ocp4-install-noobaa"
+        name: "3-opc4-install-noobaa"
 
 #    - name: 'Install and configure Quay'
 #      include_role:
