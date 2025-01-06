@@ -29,7 +29,7 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
     - pass: admin1234
 
 - Quay
-    - rota: 
+    - rota: https://smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com/ 
     - user: admin
     - pass: admin1234
 
@@ -148,8 +148,6 @@ pip3 install jmespath
   ![img.png](imagens/argocd-pass.png)
 
 
-
-
 ## Advanced Cluster Security for Kubernetes
 - No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   - ```
@@ -175,6 +173,23 @@ pip3 install jmespath
 - Config Post ACS
     - Get ACS central route
     - Creating ACS Integration with the Openshift Internal Registry
+
+# Install NooBaa
+- Get cluster version
+- Obtain Channel from Version
+- Set Openshift Channel
+- Create OpenShift Objects to install Noobaa
+  - odf-namespace.yaml.j2
+  - operatorgroup-storage.yaml.j2
+  - odf-subscription.yaml.j2
+- Create Noobaa Object
+- Get Default Openshift Storage Class
+- Get any other Storage Class
+- Use default storage class if it was set
+- Try other possible storage class if no defined/default storage class
+- Create NooBaa Backing Store
+- Patch Bucket Class with Backing Store
+
 
 # Install Quay
 - install-quay
@@ -206,6 +221,7 @@ pip3 install jmespath
     ```
 
 ## CICD Infra
+- Create Namespaces
 ### Sonarqube
 - Install sonarqube
 - Get sonarqube route
@@ -220,10 +236,12 @@ pip3 install jmespath
       ![img_1.png](imagens/sonar-token.png)<br>
       Copiar o token e armazenar em deploy_pipeline / sonar_token
   
-
+### Reports
 - Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```
 - Get reports route
 - Wait for reports to be running
+
+### Gogs
 - Install Gogs ```trocar pelo Gitlab Operator ```
   -  ``` 
       Configurar senha 
@@ -240,6 +258,7 @@ pip3 install jmespath
 - Get gogs route
 - Patch with specific route domain
 - Wait for gogs and gogs-postgresql to be running
+### Nexus
 - Install Nexus
 - Get nexus route
 - Check Nexus Route
