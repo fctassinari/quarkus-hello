@@ -74,9 +74,9 @@
       include_role:
         name: "1-ocp4-install-gitops-pipeline"
 
-#    - name: 'Install the ACS Central'
-#      include_role:
-#        name: "2-ocp4-install-acs"
+    - name: 'Install the ACS Central'
+      include_role:
+        name: "2-ocp4-install-acs"
 
 #    - name: 'Install and configure Quay'
 #      include_role:

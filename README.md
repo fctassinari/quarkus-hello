@@ -9,9 +9,9 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 ## Contas
 - ArgoCD
-    - rota: https://openshift-gitops-server-openshift-gitops.apps.kilpro4820.pro.intra.rs.gov.br
+    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-jj9q2.sandbox1234.opentlc.com/
     - user: admin
-    - pass: ****************
+    - pass: h7TOXYpi3LSnGy5VtcuoQbZqw8HgxEe6
 
 - Nexus
   - rota:
@@ -146,7 +146,7 @@ pip3 install jmespath
     ```
  - Pegar a senha do ArgoCD na openshift-gitops / secret / openshift-gitops-cluster para autenticação no console web  
   ![img.png](imagens/argocd-pass.png)
-- Install OCP Pipelines Operator
+
 
 
 
@@ -157,9 +157,9 @@ pip3 install jmespath
       include_role:
       name: "2-ocp4-install-acs"
     ```
+- Create Namespaces    
 - Central
     - Get cluster version
-    - Create ACS namespace
     - Create ACS Central password
     - Install ACS Operator
     - Wait for ACS CRD to exist
