@@ -106,17 +106,26 @@ pip3 install jmespath
 
 # Instalação
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
-- No arquivo deployment_pipeline.yaml descomentar o bloco e executar o arquivo install.sh
-  - ```
+- No bastion autenticar no Openshift de des/hml
+  ```
+  oc login -u <user> -p <pass> --server=https://apps.cluster-jj9q2.sandbox1234.opentlc.com:6443
+  ```
+- No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
+  ```
     - name: 'Install Gitops and Pipeline'
       include_role:
         name: "1-ocp4-install-gitops-pipeline"
     ```
+  Executar
+  ```
+  install.sh
+  ```
+- Create Namespaces  
 - Get cluster version
 - Create GitOps Operator Group
 - Install GitOps Operator
-- Install OCP Pipelines Operator
 - Get ArgoCD route
+- Install OCP Pipelines Operator
 - Configurar os Operators GitOps e Pipelines para serem executados nos infra-nodes<br>
   Ajustar no Subscription yaml
   ![img.png](imagens/gitops-pipelines-tolerations.png)
