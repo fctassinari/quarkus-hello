@@ -8,30 +8,37 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
 
 ## Contas
+- ACS
+    - rota: https://central-stackrox.apps.cluster-jj9q2.sandbox1234.opentlc.com
+    - user: admin
+    - pass: admin1234
+
+- Quay
+    - rota: https://smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+    - user: admin
+    - pass: admin1234
+
 - ArgoCD
     - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-jj9q2.sandbox1234.opentlc.com/
     - user: admin
     - pass: h7TOXYpi3LSnGy5VtcuoQbZqw8HgxEe6
 
 - Nexus
-  - rota:
+  - rota: https://nexus.apps.cluster-jj9q2.sandbox1234.opentlc.com/
   - user: admin
   - pass: admin1234
   
 - Sonarqube
-    - rota: https://sonarqube.apps.kildes4830.des.intra.rs.gov.br
-    - user: admin
-    - pass: ****************
-
-- ACS
-    - rota: central-stackrox.apps.cluster-jj9q2.sandbox1234.opentlc.com
+    - rota: https://sonarqube.apps.cluster-jj9q2.sandbox1234.opentlc.com/
     - user: admin
     - pass: admin1234
 
-- Quay
-    - rota: https://smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com/ 
-    - user: admin
-    - pass: admin1234
+- Gogs
+    - rota: http://gogs-gogs.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+    - user: gogs
+    - pass: gogs
+
+
 
 ## Clusters
 [Produção](https://console-openshift-console.apps.kilpro4820.pro.intra.rs.gov.br/)<br>
@@ -62,7 +69,7 @@ pip3 install jmespath
 
 ### Projeto
 
-1.	Ajustes básicos
+Ajustes básicos
 - No arquivo deploy_pipeline.yaml fazer os ajustes básicos
     - company_name
     - acs_central_password_base64
@@ -175,6 +182,12 @@ pip3 install jmespath
     - Creating ACS Integration with the Openshift Internal Registry
 
 # Install NooBaa
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+  ```
+    - name: 'Install Pipeline'
+      include_role:
+      name: "3-ocp4-install-noobaa"
+    ```
 - Get cluster version
 - Obtain Channel from Version
 - Set Openshift Channel
@@ -192,6 +205,12 @@ pip3 install jmespath
 
 
 # Install Quay
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+  ```
+    - name: 'Install Pipeline'
+      include_role:
+      name: "4-ocp4-install-quay"
+    ```
 - install-quay
   - quay-namespace
   - quay-subscription
@@ -221,6 +240,12 @@ pip3 install jmespath
     ```
 
 ## CICD Infra
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+  ```
+    - name: 'Install Pipeline'
+      include_role:
+      name: "5-ocp4-install-cicd-infra"
+    ```
 - Create Namespaces
 ### Sonarqube
 - Install sonarqube
@@ -288,8 +313,12 @@ pip3 install jmespath
     ```
 
 # Install Pipelines
-
-- pipelines.yaml
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+    ```
+    - name: 'Install Pipeline'
+      include_role:
+      name: "6-ocp4-install-pipeline"
+    ```
 - Create Namespaces
 - pipelines.yaml
     - Get argocd password

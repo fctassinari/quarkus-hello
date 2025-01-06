@@ -16,7 +16,7 @@ spec:
     authentication either a username/password or an authentication token.
 
   params:
-    - name: application-name
+    - name: argo-cd-application-name
       description: name of the application to sync
     - name: revision
       description: the revision to sync to
@@ -39,5 +39,7 @@ spec:
         if [ -z $ARGOCD_AUTH_TOKEN ]; then
           yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD ;
         fi
-        argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags) 
-        argocd app wait $(params.application-name) --health $(params.flags)
+        
+        argocd app sync $(params.argo-cd-application-name) --revision $(params.revision) $(params.flags) && sleep 3
+
+        argocd app wait $(params.argo-cd-application-name) --health $(params.flags)

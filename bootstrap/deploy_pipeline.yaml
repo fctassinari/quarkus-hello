@@ -66,7 +66,7 @@
     sonar_extensions_volume_capacity: '2Gi'
     sonar_image: 'sonarqube:9.9.7-community'
     sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
-    sonar_token: 'squ_4647791f9f7ff6c9dfb4a5e493d2fcf288b12b3a'
+    sonar_token: 'squ_1f321e2b9379120d19443357fd3659871fd8ee96'
 
 
   tasks:
@@ -86,15 +86,15 @@
 #      include_role:
 #        name: "4-ocp4-install-quay"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "5-ocp4-install-cicd-infra"
-
-#    - name: 'Install Pipeline'
+#    - name: 'Install CICD Infra'
 #      include_role:
-#        name: "5-ocp4-install-pipelines"
+#        name: "5-ocp4-install-cicd-infra"
+
+    - name: 'Install Pipeline'
+      include_role:
+        name: "6-ocp4-install-pipelines"
 
 #    - name: 'Configure App project'
 #      include_role:
-#        name: "6-Install Application"
+#        name: "7-Install Application"
 

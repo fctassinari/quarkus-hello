@@ -19,6 +19,9 @@ spec:
     - name: image_digest
       description:  Digest in sha256 hash format of the image to check
       type: string
+    - name: app_namespace
+      description:  Aplication namespace
+      type: string
   results:
     - description: Output of `roxctl image check`
       name: check_output
@@ -41,12 +44,13 @@ spec:
         #!/usr/bin/env bash
 
         set +x
+        echo "##################################"
+        echo "## Go to https://$ROX_CENTRAL_ENDPOINT/main/violations?s[Namespace]=$(params.app_namespace) to check more info"
+        echo "##################################"
 
         curl -k -L -H "Authorization: Bearer $ROX_API_TOKEN"
-        https://$ROX_CENTRAL_ENDPOINT/api/cli/download/roxctl-linux --output
-        ./roxctl  > /dev/null; echo "Getting roxctl"
+        https://$ROX_CENTRAL_ENDPOINT/api/cli/download/roxctl-linux --output ./roxctl  > /dev/null; echo "Getting roxctl"
 
         chmod +x ./roxctl  > /dev/null
 
-        ./roxctl image check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT
-        --image $(params.image)@$(params.image_digest) 
+        ./roxctl image check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT --image $(params.image)@$(params.image_digest)

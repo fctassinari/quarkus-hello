@@ -19,18 +19,39 @@ spec:
     - name: deployment_files_path
       type: string
       description: Path/Folder for the k8s deployment files to check
+    - name: app_name
+      type: string
+      description: Application Name
   results:
       - name: check_output
         description: Output of `roxctl deployment check`
   workspaces:
     - description: The workspace consisting of maven project.
       name: workspace
+    - description: The sshPriveteKey to connect Repo
+      name: azure-secret
+
   steps:
 
     - name: git-clone
-      image: image-registry.openshift-image-registry.svc:5000/openshift/pipeline-tools:1.0
+      image: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:868966ef9d4b54952d8a74eb83bba40eb1f52c0148994fa704efd0e3797c61c5
       workingDir: $(workspaces.workspace.path)
       script: |
+        #!/bin/bash
+        set -e
+
+        # Criar o diretório esperado pelo ssh
+        mkdir -p ~/.ssh
+
+        # Copiar a chave privada do workspace para o local correto
+        cp /workspace/azure-secret/ssh-privatekey ~/.ssh/id_rsa
+
+        # Ajustar as permissões da chave privada
+        chmod 600 ~/.ssh/id_rsa
+
+        # Adicionar o host ao arquivo known_hosts para evitar prompts de confiança
+        ssh-keyscan azuredevops.pro.intra.rs.gov.br >> ~/.ssh/known_hosts
+        
         rm -rf git-update-digest-workdir
         git clone $(params.GIT_REPOSITORY) git-update-digest-workdir
         cd git-update-digest-workdir/$(params.deployment_files_path)
@@ -52,8 +73,11 @@ spec:
       script: |
         #!/usr/bin/env bash
         set +x
+        echo "##################################"
+        echo "## Go to https://$ROX_CENTRAL_ENDPOINT/main/violations?s[Deployment]=$(params.app_name) to check more info"
+        echo "##################################"
         cd git-update-digest-workdir/$(params.deployment_files_path)
         cat $(params.file)
         curl -k -L -H "Authorization: Bearer $ROX_API_TOKEN" https://$ROX_CENTRAL_ENDPOINT/api/cli/download/roxctl-linux --output ./roxctl  > /dev/null; echo "Getting roxctl"
         chmod +x ./roxctl  > /dev/null
-        ./roxctl deployment check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT -f $(params.file)
+        ./roxctl deployment check --insecure-skip-tls-verify -e $ROX_CENTRAL_ENDPOINT -f $(params.file)        

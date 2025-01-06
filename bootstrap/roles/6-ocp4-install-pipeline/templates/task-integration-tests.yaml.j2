@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: integration-tests
+  namespace: "{{ pipeline_namespace }}"
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: deploy
+    tekton.dev/displayName: "Integration Tests"
+spec:
+  description: This task will perform tests on the application url
+  steps:
+    - image: registry.redhat.io/ubi8/ubi-minimal@sha256:b93deceb59a58588d5b16429fc47f98920f84740a1f2ed6454e33275f0701b59
+      name: tests
+      script: |
+        #!/bin/sh
+        set -e
+        STATUS=$(curl -sw '%{response_code}' -o /dev/null -H 'Content-Length: 0' http://rt-soews-procergs-soews-hml.apps.kildes4830.des.intra.rs.gov.br/soews)
+        echo "Status: " $STATUS
+        # 302 = found
+        if [ $STATUS != "302" ]; then
+          echo 'Integration Test Failed!'
+          exit $STATUS
+        fi
