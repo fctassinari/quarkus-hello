@@ -3,7 +3,7 @@
 
 - name: extract quay hostname
   shell: |
-    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
+    oc get route {{ quay_registry_name }} -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
   register: quay_hostname_result
   delay: 5
   retries: 10
