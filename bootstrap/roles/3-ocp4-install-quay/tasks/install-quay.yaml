@@ -67,8 +67,8 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
-  - ./templates/quayregistry.yaml.j2
   - ./templates/quay-config-secret.yaml.j2
+  - ./templates/quayregistry.yaml.j2
 
 
 
