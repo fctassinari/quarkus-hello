@@ -92,7 +92,7 @@
 
     - name: 'Install Pipeline'
       include_role:
-        name: "6-ocp4-install-pipelines"
+        name: "6-ocp4-install-pipeline"
 
 #    - name: 'Configure App project'
 #      include_role:
