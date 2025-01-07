@@ -74,7 +74,7 @@
           description: "Repo for CICD"
         headers:
           Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
+          Authorization: "Bearer {{ quay_application_access_token }}"
         method: POST
         url: "https://{{ quay_route }}/api/v1/repository"
         validate_certs: no
@@ -88,7 +88,7 @@
           role: "admin"
         headers:
           Content-Type: application/json
-          Authorization: "Bearer {{ quay_access_token }}"
+          Authorization: "Bearer {{ quay_application_access_token }}"
         method: PUT
         url: "https://{{ quay_route }}/api/v1/repository/{{ quay_org_name }}/{{ quay_repository }}/permissions/user/{{ quay_org_name }}+{{ quay_robot_account }}"
         validate_certs: no
