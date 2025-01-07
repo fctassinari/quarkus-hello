@@ -78,13 +78,6 @@ spec:
       name: GIT_PASS
       type: string
 
-
-
-    - default: 'image-registry.openshift-image-registry.svc:5000/< app_namespace >/< app_name >'
-      description: The application image stream
-      name: IMAGE_NAME
-      type: string
-
     - default: registry.redhat.io/ubi9/openjdk-21:1.21-3
       description: The java imagestream in case Quarkus Build
       name: JAVA_IMAGE
@@ -240,7 +233,7 @@ spec:
     - name: build-image
       params:
         - name: IMAGE
-          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
         - name: JAVA_IMAGE
           value: $(params.JAVA_IMAGE)
         - name: TLSVERIFY
@@ -264,7 +257,7 @@ spec:
 #    - name: build-image
 #      params:
 #        - name: IMAGE
-#          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+#          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
 #        - name: TLSVERIFY
 #          value: 'false'
 #        - name: MAVEN_MIRROR_URL
