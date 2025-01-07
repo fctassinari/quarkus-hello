@@ -325,25 +325,25 @@ Ajustes básicos
     - Add CM for ArgoCD env in namespace
     - Add Secrets for ArgoCD env in namespace
     - Create OpenShift Objects for Openshift Pipeline Tasks
-        - clustertask-rox-deployment-check.yaml.j2
-        - clustertask-rox-image-check.yaml.j2
-        - clustertask-rox-image-scan.yaml.j2
-        - cm-maven.yaml.j2
-        - task-argo-sync-and-wait.yaml.j2
-        - task-build-quarkus-image.yaml.j2
-        - task-dependency-report.yaml.j2
-        - task-git-clone.yaml.j2
-        - task-git-update-deployment.yaml.j2
-        - task-maven.yaml.j2
-        - task-s2i-java.yaml.j2
-        - task-update-release.yaml.j2
+      - clustertask-rox-image-check.yaml.j2
+      - clustertask-rox-deployment-check.yaml.j2
+      - clustertask-rox-image-scan.yaml.j2
+      - task-integration-tests.yaml.j2
+      - task-build-quarkus-image.yaml.j2
+      - task-argo-sync-and-wait.yaml.j2
+      - task-git-update-deployment.yaml.j2
+      - task-git-clone.yaml.j2
+      - task-maven.yaml.j2
+      - cm-maven.yaml.j2
+      - task-s2i-java.yaml.j2
+      - task-update-release.yaml.j2
+      - task-dependency-report.yaml.j2
 
     - Create OpenShift Objects for Openshift Pipeline Triggers
-        - rt-trigger-eventlistener.yaml.j2
-        - trigger-eventlistener.yaml.j2
-        - trigger-eventlistener-route.yaml.j2
-        - trigger-gogs-triggerbinding.yaml.j2
-        - triggertemplate.yaml.j2
+      - trigger-eventlistener.yaml.j2
+      - rt-trigger-eventlistener.yaml.j2
+      - triggerbinding-trigger-gogs.yaml.j2
+      - triggertemplate.yaml.j2
 
     - Create OpenShift Objects for Openshift Pipelines Templates
         - generic-pipeline.yaml.j2
@@ -351,21 +351,39 @@ Ajustes básicos
   
 - acs-token-for-pipeline.yaml
     - Get ACS central route
-    - Store central route as a fact
     - Create API token for access from Pipeline to ACS
     - Get API token from response
     - Create ACS API Token secret for using in the pipelines
 
-- secret-quay.yaml
-    - Extract quay hostname
-    - Wait until Quay Application is Responding
-    - Create Quay Secret in Namespaces that require secret
-    - Confirm Quay Secret is Created
-
-
 # Install Application
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+    ```
+    - name: 'Install Application'
+      include_role:
+      name: "7-install-application"
+    ```
 
 - Atualizar o arquivo defaults/main.yaml
+
+- Atualizar o arquivo defaults/main.yaml
+    - Quay
+        - quay_route
+        - quay_robot_token<br>
+        - ATENÇÃO:<br>
+          A url do Quay tem um certificado auto assinado desta forma foi necessário ajustar o cluster para poder baixar uma imagem de um repositorio com certificado inválido.<br>
+          Editar o image.config.openshift.io
+          ```
+          oc edit image.config.openshift.io/cluster
+          ```
+          Acrescescentar o trecho abaixo
+          ```
+          spec:
+            registrySources:
+              insecureRegistries:
+              - smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com
+          ```
+          [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
+
 - Create Namespaces
 - Get gogs route
 - Create ArgoCD App project
@@ -381,7 +399,14 @@ Ajustes básicos
     - Create Repository
     - Add Robot account permissions to repo
   - Create Quay Secret in Namespaces that require secret
-  - Confirm Quay Secret is Created
+  - Create Quay Secret in Pipeline Namespace project
+
+
+
+
+
+
+
 
 # Criar o container Tools personalizado
 - Ajustar as urls do OCP e do registry nos arquivos rum.sh e Dockerfile

@@ -2,7 +2,7 @@ apiVersion: quay.redhat.com/v1
 kind: QuayRegistry
 metadata:
   name: {{ quay_registry_name }}
-  namespace: {{ quay_project_name }}
+  namespace: {{ quay_namespace }}
 spec:
   configBundleSecret: sct-quay-config-bundle
   components:

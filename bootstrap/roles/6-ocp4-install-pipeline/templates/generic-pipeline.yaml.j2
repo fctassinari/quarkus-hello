@@ -328,7 +328,7 @@ spec:
     - name: wait-application
       params:
         - name: application-name
-          value: "dev-$(params.APP_NAME)"
+          value: "$(params.APP_NAME)-hml"
         - name: argocd-version
           value: 'v2.13.1'
       taskRef:

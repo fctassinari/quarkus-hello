@@ -16,34 +16,29 @@
     state: present
     definition: "{{ lookup('template', 'argocd-app-project.yaml.j2' )  }}"
 
-- name: Create ArgoCD Hml App
+- name: Create ArgoCD App
   k8s:
     state: present
-    definition: "{{ lookup('template', 'argocd-app-hml.yaml.j2' ) }}"
-
-- name: Create ArgoCD Prd App
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'argocd-app-prd.yaml.j2' ) }}"
+    definition: "{{ lookup('template', 'argocd-app.yaml.j2' ) }}"
 
 - name: Add Gitops Rolebinding
   k8s:
     state: present
     definition: "{{ lookup('template', 'rb-gitops.yaml.j2' ) }}"
-  loop: "{{ app_namespaces }}"
+  loop: "{{ app_namespace }}"
 
 ### Pipeline
 - name: Add RoleBinding to the pipeline namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
-  loop: "{{ app_namespaces }}"
+  loop: "{{ app_namespace }}"
 
 ### Quay
 
 - name: Extract quay hostname
   shell: |
-    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_project_name }}
+    oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_namespace }}
   register: quay_hostname_result
   delay: 5
   retries: 10
@@ -73,7 +68,7 @@
       ansible.builtin.uri:
         body_format: json
         body:
-          repository: "{{ item }}"
+          repository: "{{ quay_repository }}"
           namespace: "{{ quay_org_name }}"
           repo_kind: "image"
           visibility: "public"
@@ -86,8 +81,7 @@
         validate_certs: no
         status_code: "{{ quay_repo_created_success_status_code }}"
       register: quay_repo_response
-      loop: "{{ quay_repositories }}"
-
+      
     - name: Add Robot account permissions to repo
       ansible.builtin.uri:
         body_format: json
@@ -107,15 +101,9 @@
 - name: Create Quay Secret in Namespaces that require secret
   shell: |
     oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ item }}"
-  loop: "{{ app_namespaces }}"
+  loop: "{{ app_namespace }}"
 
-
-- name: Confirm Quay Secret is Created
-  kubernetes.core.k8s:
-    state: present
-    api_version: v1
-    kind: Secret
-    namespace: "{{ item }}"
-    name: "{{ quay_secret_name }}"
-    wait: yes
-  loop: "{{ app_namespaces }}"
+- name: Create Quay Secret in Pipeline Namespace project
+  shell: |
+    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ pipeline_namespace }}"
+    oc secrets link pipeline "{{ quay_secret_name }}" --for=pull,mount

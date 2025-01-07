@@ -2,6 +2,4 @@
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'namespaces.yaml.j2') }}"
-  loop: "{{ app_namespaces }}"
   ignore_errors: true
-

@@ -1,7 +1,0 @@
-app_name: 'quarkus-hello'
-app_namespaces:
-  - 'hml-{{ app_name }}'
-  - '{{ app_name }}'
-
-quay_repositories:
-  - '{{ app_name }}'

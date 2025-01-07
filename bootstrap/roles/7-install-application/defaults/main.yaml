@@ -1,0 +1,12 @@
+# hml ou pro
+app_environment: 'hml'
+app_name: 'quarkus-hello'
+app_namespace: '{{ app_name }}-{{ app_environment }}'
+quay_repository: '{{ app_name }}'
+quay_secret_name: 'sct-quay-robot'
+quay_route: 'smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com'
+quay_org_name: "{{ company_name }}"
+quay_robot_token: XM9WK3QXGUHLF09A815X374XVKDB9FN7CVS4AZW70Y0VTLLX225YOO3195XI457O
+
+
+
