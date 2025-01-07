@@ -25,14 +25,14 @@
   k8s:
     state: present
     definition: "{{ lookup('template', 'rb-gitops.yaml.j2' ) }}"
-  loop: "{{ app_namespace }}"
+
 
 ### Pipeline
 - name: Add RoleBinding to the pipeline namespace
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
-  loop: "{{ app_namespace }}"
+
 
 ### Quay
 
