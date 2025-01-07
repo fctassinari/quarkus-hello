@@ -33,7 +33,6 @@
     state: present
     definition: "{{ lookup('template', 'rb-pipeline.yaml.j2') }}"
 
-
 ### Quay
 
 - name: Extract quay hostname
