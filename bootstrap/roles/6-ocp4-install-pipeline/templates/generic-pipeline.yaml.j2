@@ -4,9 +4,63 @@ metadata:
   name: generic-pipeline
   namespace: "{{ pipeline_namespace }}"
 spec:
+
   params:
     - default: "<NOME APLICACAO>"
       name: APP_NAME
+
+    - default: 'https://github.com/fctassinari/quarkus-hello.git'
+      name: GIT_REPO
+      type: string
+
+    - default: main
+      name: GIT_BRANCH
+      type: string
+
+    - default: .
+      name: PATH_CONTEXT
+      type: string
+
+    - default: 'procergs-soews'
+      name: QUAY_REPO_APP
+      type: string
+
+    - default: 'procergs'
+      name: QUAY_ORGANIZATION
+      type: string
+
+    - default: 'quay.apps.kilpro4810.pro.intra.rs.gov.br'
+      description: The registry and organization for quay
+      name: QUAY_REGISTRY
+      type: string
+
+    - default: 'procergs-soews-hml'
+      name: APP_NAMESPACE
+      type: string
+
+    - default: latest
+      description: The application image tag to build
+      name: IMAGE_TAG
+
+    - default: 'https://github.com/fctassinari/quarkus-hello-config.git'
+      description: The application manifests git repository
+      name: APP_MANIFESTS_GIT
+      type: string
+
+    - default: 'environments/hml'
+      description: The application manifests git repository path
+      name: KUSTOMIZATION_PATH
+      type: string
+
+    - default: 'quarkus-hello-hml'
+      description: The application name in ArgoCD
+      name: ARGO_CD_APPLICATION_NAME
+      type: string
+
+    - default: 'quarkus-hello.war'
+      description: Artifact Name to be deployed
+      name: ARTIFACT_NAME
+      type: string
 
     - default: 'https://github.com/fctassinari/quarkus-hello.git'
       name: GIT_REPO
@@ -24,27 +78,16 @@ spec:
       name: GIT_PASS
       type: string
 
-    - default: .
-      name: PATH_CONTEXT
-      type: string
+
 
     - default: 'image-registry.openshift-image-registry.svc:5000/< app_namespace >/< app_name >'
       description: The application image stream
       name: IMAGE_NAME
       type: string
 
-    - default: latest
-      description: The application image tag to build
-      name: IMAGE_TAG
-
     - default: registry.redhat.io/ubi9/openjdk-21:1.21-3
       description: The java imagestream in case Quarkus Build
       name: JAVA_IMAGE
-      type: string
-
-    - default: 'https://github.com/fctassinari/quarkus-hello-config.git'
-      description: The application manifests git repository
-      name: APP_MANIFESTS_GIT
       type: string
   tasks:
     - name: git-clone
@@ -88,7 +131,7 @@ spec:
         - name: output
           workspace: workspace
 
-    - name: app-release
+    - name: app-update-release
       params:
         - name: GIT_REPOSITORY
           value: $(params.GIT_REPO)
@@ -244,7 +287,7 @@ spec:
     - name: image-scan
       params:
         - name: image
-          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
         - name: rox_api_token
           value: sct-rox
         - name: rox_central_endpoint
@@ -256,23 +299,25 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: rox-image-scan
 
     - name: image-check
       params:
         - name: image
-          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
         - name: rox_api_token
           value: sct-rox
         - name: rox_central_endpoint
           value: sct-rox
         - name: image_digest
           value: $(tasks.build-image.results.IMAGE_DIGEST)
+        - name: app_namespace
+          value: '$(params.APP_NAMESPACE)'
       runAfter:
         - build-image
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: rox-image-check
 
     - name: deploy-check
@@ -287,10 +332,12 @@ spec:
           value: deployment.yaml
         - name: deployment_files_path
           value: app
+        - name: app_name
+          value: '$(params.APP_NAME)'
       runAfter:
         - build-image
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: rox-deployment-check
       workspaces:
         - name: workspace
@@ -300,24 +347,18 @@ spec:
       params:
         - name: GIT_REPOSITORY
           value: $(params.APP_MANIFESTS_GIT)
-        - name: GIT_USERNAME
-          value: $(params.GIT_USER)
-        - name: GIT_PASSWORD
-          value: $(params.GIT_PASS)
-        - name: GIT_BRANCH
-          value: $(params.GIT_BRANCH)
         - name: CURRENT_IMAGE
-          value: '$(params.IMAGE_NAME):$(params.IMAGE_TAG)'
+          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
         - name: NEW_IMAGE
-          value: '$(params.IMAGE_NAME)'
+          value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP)'
         - name: NEW_DIGEST
           value: $(tasks.build-image.results.IMAGE_DIGEST)
         - name: KUSTOMIZATION_PATH
-          value: environments/dev
+          value: '$(params.KUSTOMIZATION_PATH)'
       runAfter:
         - image-scan
-        - image-check
         - deploy-check
+        - image-check
       taskRef:
         kind: Task
         name: git-update-deployment
@@ -327,14 +368,20 @@ spec:
 
     - name: wait-application
       params:
-        - name: application-name
-          value: "$(params.APP_NAME)-hml"
+        - name: argo-cd-application-name
+          value: '$(params.ARGO_CD_APPLICATION_NAME)'
         - name: argocd-version
           value: 'v2.13.1'
       taskRef:
         name: argocd-task-sync-and-wait
       runAfter:
         - update-deployment
+
+    - name: integration-tests
+      taskRef:
+        name: integration-tests
+      runAfter:
+        - wait-application
 
 
   workspaces:
