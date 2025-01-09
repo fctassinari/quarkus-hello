@@ -166,7 +166,7 @@ spec:
             - source
             - '-Dmaven.repo.local=$(workspaces.source.path)/.m2'
       runAfter:
-        - app-release
+        - app-update-release
       taskRef:
         resolver: cluster
         params:
