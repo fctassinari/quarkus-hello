@@ -74,7 +74,7 @@
           description: "Repo for CICD"
         headers:
           Content-Type: application/json
-          Authorization: "Bearer {{ quay_robot_token }}"
+          Authorization: "Bearer {{ quay_application_access_token }}"
         method: POST
         url: "https://{{ quay_route }}/api/v1/repository"
         validate_certs: no

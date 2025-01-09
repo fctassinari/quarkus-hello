@@ -369,6 +369,11 @@ Ajustes básicos
     - Quay
         - quay_route
         - quay_robot_token<br>
+        - quay-application-token
+        ![img.png](imagens/quay-app-token-1.png)
+        ![img.png](imagens/quay-app-token-2.png)
+        ![img.png](imagens/quay-app-token-3.png)
+        ![img.png](quay-app-token-4.png)
         - ATENÇÃO:<br>
           A url do Quay tem um certificado auto assinado desta forma foi necessário ajustar o cluster para poder baixar uma imagem de um repositorio com certificado inválido.<br>
           Editar o image.config.openshift.io

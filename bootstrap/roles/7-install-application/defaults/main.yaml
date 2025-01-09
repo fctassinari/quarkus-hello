@@ -7,6 +7,6 @@ quay_secret_name: 'sct-quay-robot'
 quay_route: 'smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com'
 quay_org_name: "{{ company_name }}"
 quay_robot_token: '32KKYLLYJ9YWPV25A6A7WJLIF7HN501O8AFK4GBP65ZWSIDANG9LA7R18FWU9HDZ'
-quay_application_access_token: 't6nEb2mHC38OYsbgQe84jj5mvkXLT9Q40TMczA9h'
+quay_application_access_token: 'jnOvFNIbtWHwlqmBIUsJV47RPqQHC7ux9mKszXGu'
 
 
