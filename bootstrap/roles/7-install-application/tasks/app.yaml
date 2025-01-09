@@ -114,10 +114,11 @@
   loop:
     - "{{ app_namespace }}"
 
-- name: Application ConfigMap
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'cm-soews.yaml.j2' ) }}"
+# Qdo houver necessidade de configmap ou secrets, criar dentro deste arquivo, vide exemplo abaixo
+#- name: Application ConfigMap
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cm-<????>.yaml.j2' ) }}"
 
 - name: Get argocd password
   kubernetes.core.k8s_info:
