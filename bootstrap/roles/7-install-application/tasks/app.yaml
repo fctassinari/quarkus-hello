@@ -98,8 +98,45 @@
 - name: Create Quay Secret in Namespaces that require secret
   shell: |
     oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ app_namespace }}"
+    oc secrets link pipeline "{{ quay_secret_name }}" --for=pull,mount -n "{{ app_namespace }}"
 
-- name: Create Quay Secret in Pipeline Namespace project
-  shell: |
-    oc create secret docker-registry "{{ quay_secret_name }}" --docker-server="{{ quay_route }}" --docker-username="{{ quay_org_name }}+{{ quay_robot_account }}" --docker-password="{{ quay_robot_token }}" --docker-email="" -n "{{ pipeline_namespace }}"
-    oc secrets link pipeline "{{ quay_secret_name }}" --for=pull,mount -n "{{ pipeline_namespace }}"
+- name: Create Pipeline PVC
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'pvc-pipeline-build.yaml.j2' ) }}"
+  loop:
+    - "{{ app_namespace }}"
+
+- name: Create Maven ConfigMap
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'cm-maven.yaml.j2' ) }}"
+  loop:
+    - "{{ app_namespace }}"
+
+- name: Application ConfigMap
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'cm-soews.yaml.j2' ) }}"
+
+- name: Get argocd password
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: openshift-gitops-cluster
+    namespace: openshift-gitops
+  register: r_argopass
+
+- name: debug
+  debug:
+    msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
+
+- name: Add CM for ArgoCD env in namespace
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cm-argocd-env-pipeline-ns.yaml.j2') }}"
+
+- name: Add Secrets for ArgoCD env in namespace
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"

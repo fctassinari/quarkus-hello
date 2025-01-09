@@ -1,7 +1,6 @@
 
-#- import_tasks: pre.yaml
+- import_tasks: pre.yaml
 - import_tasks: pipelines.yaml
-#- import_tasks: acs-token-for-pipeline.yaml
 
 # A linha abaixo pode ser excluida
 # - import_tasks: secret-quay.yaml

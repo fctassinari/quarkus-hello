@@ -1,53 +1,30 @@
-#- name: Get argocd password
-#  kubernetes.core.k8s_info:
-#    kind: Secret
-#    api_version: /v1
-#    name: openshift-gitops-cluster
-#    namespace: openshift-gitops
-#  register: r_argopass
-#
-#- name: debug
-#  debug:
-#    msg: "{{ r_argopass.resources[0].data['admin.password'] }}"
-#
-#- name: Add CM for ArgoCD env in namespace
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'cm-argocd-env-pipeline-ns.yaml.j2') }}"
-#
-#- name: Add Secrets for ArgoCD env in namespace
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
-
 - name: Create OpenShift Objects for Openshift Pipeline Tasks
   k8s:
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
   - task-update-release.yaml.j2
-#  - clustertask-rox-image-check.yaml.j2
-#  - clustertask-rox-deployment-check.yaml.j2
-#  - clustertask-rox-image-scan.yaml.j2
-#  - task-integration-tests.yaml.j2
-#  - task-build-quarkus-image.yaml.j2
-#  - task-argo-sync-and-wait.yaml.j2
-#  - task-git-update-deployment.yaml.j2
-#  - task-git-clone.yaml.j2
-#  - task-maven.yaml.j2
-#  - cm-maven.yaml.j2
-#  - task-s2i-java.yaml.j2
-#  - task-dependency-report.yaml.j2
-#
-#- name: Create OpenShift Objects for Openshift Pipeline Triggers
-#  k8s:
-#    state: present
-#    definition: "{{ lookup('template', item ) | from_yaml }}"
-#  loop:
-#  - trigger-eventlistener.yaml.j2
-#  - rt-trigger-eventlistener.yaml.j2
-#  - triggerbinding-trigger-gogs.yaml.j2
-#  - triggertemplate.yaml.j2
+  - clustertask-rox-image-check.yaml.j2
+  - clustertask-rox-deployment-check.yaml.j2
+  - clustertask-rox-image-scan.yaml.j2
+  - task-integration-tests.yaml.j2
+  - task-build-quarkus-image.yaml.j2
+  - task-argo-sync-and-wait.yaml.j2
+  - task-git-update-deployment.yaml.j2
+  - task-git-clone.yaml.j2
+  - task-maven.yaml.j2
+  - task-s2i-java.yaml.j2
+  - task-dependency-report.yaml.j2
+
+- name: Create OpenShift Objects for Openshift Pipeline Triggers
+  k8s:
+    state: present
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - trigger-eventlistener.yaml.j2
+  - rt-trigger-eventlistener.yaml.j2
+  - triggerbinding-trigger-gogs.yaml.j2
+  - triggertemplate.yaml.j2
 
 - name: Create OpenShift Objects for Openshift Pipelines Templates
   k8s:
@@ -55,4 +32,4 @@
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
   - generic-pipeline.yaml.j2
-#  - pvc-pipeline-build.yaml.j2
+

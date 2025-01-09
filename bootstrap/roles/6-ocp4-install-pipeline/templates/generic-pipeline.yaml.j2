@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: generic-pipeline
+  name: generic-pipeline-{{ pipeline_sufix }}
   namespace: "{{ pipeline_namespace }}"
 spec:
 
@@ -118,8 +118,14 @@ spec:
         - name: userHome
           value: /home/git
       taskRef:
-        kind: Task
-        name: git-clone
+        resolver: cluster
+        params:
+          - name: name
+            value: git-clone
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: output
           workspace: workspace
@@ -137,8 +143,14 @@ spec:
       runAfter:
         - git-clone
       taskRef:
-        kind: Task
-        name: update-release
+        resolver: cluster
+        params:
+          - name: name
+            value: update-release
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: source
           workspace: workspace
@@ -156,8 +168,14 @@ spec:
       runAfter:
         - app-release
       taskRef:
-        kind: Task
-        name: maven
+        resolver: cluster
+        params:
+          - name: name
+            value: maven
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: source
           workspace: workspace
@@ -182,8 +200,14 @@ spec:
       runAfter:
         - unit-tests
       taskRef:
-        kind: Task
-        name: maven
+        resolver: cluster
+        params:
+          - name: name
+            value: maven
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: source
           workspace: workspace
@@ -197,8 +221,14 @@ spec:
 #      runAfter:
 #        - unit-tests
 #      taskRef:
-#        kind: Task
-#        name: dependency-report
+#        resolver: cluster
+#        params:
+#          - name: name
+#            value: dependency-report
+#          - name: namespace
+#            value: "{{ pipeline_namespace }}"
+#          - name: kind
+#            value: task
 #      workspaces:
 #        - name: source
 #          workspace: workspace
@@ -222,8 +252,14 @@ spec:
         - code-analysis
 #        - dependency-report
       taskRef:
-        kind: Task
-        name: maven
+        resolver: cluster
+        params:
+          - name: name
+            value: maven
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: source
           workspace: workspace
@@ -247,8 +283,14 @@ spec:
       runAfter:
         - release-app
       taskRef:
-        kind: Task
-        name: build-quarkus-image
+        resolver: cluster
+        params:
+          - name: name
+            value: build-quarkus-image
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: source
           workspace: workspace
@@ -353,8 +395,14 @@ spec:
         - deploy-check
         - image-check
       taskRef:
-        kind: Task
-        name: git-update-deployment
+        resolver: cluster
+        params:
+          - name: name
+            value: git-update-deployment
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: workspace
           workspace: workspace
@@ -366,13 +414,27 @@ spec:
         - name: argocd-version
           value: 'v2.13.1'
       taskRef:
-        name: argocd-task-sync-and-wait
+        resolver: cluster
+        params:
+          - name: name
+            value: argocd-task-sync-and-wait
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       runAfter:
         - update-deployment
 
     - name: integration-tests
       taskRef:
-        name: integration-tests
+        resolver: cluster
+        params:
+          - name: name
+            value: integration-tests
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       runAfter:
         - wait-application
 
