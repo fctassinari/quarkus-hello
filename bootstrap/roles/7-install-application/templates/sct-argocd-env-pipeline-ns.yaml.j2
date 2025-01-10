@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sct-argocd-env
-  namespace:  "{{ pipeline_namespace }}"
+  namespace:  "{{ app_namespace }}"
 type: Opaque
 data:
   ARGOCD_USERNAME: YWRtaW4K

@@ -2,6 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cm-argocd-env
-  namespace:  "{{ pipeline_namespace }}"
+  namespace:  "{{ app_namespace }}"
 data:
   ARGOCD_SERVER: openshift-gitops-server.openshift-gitops:443

@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-workspace
-  namespace: "{{ pipeline_namespace }}"
+  namespace: "{{ app_namespace }}"
 spec:
   accessModes:
     - ReadWriteOnce

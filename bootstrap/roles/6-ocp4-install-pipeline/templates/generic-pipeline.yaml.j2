@@ -70,7 +70,7 @@ spec:
       name: GIT_PASS
       type: string
 
-    - default: registry.redhat.io/ubi9/openjdk-21:1.21-3
+    - default: openshift/ubi9-openjdk-21:1.21-3
       description: The java imagestream in case Quarkus Build
       name: JAVA_IMAGE
       type: string
@@ -150,7 +150,7 @@ spec:
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
-          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+          value: 'openshift/ubi9-openjdk-21:1.21-3'
         - name: GOALS
           value:
             - package
@@ -177,7 +177,7 @@ spec:
     - name: code-analysis
       params:
         - name: MAVEN_IMAGE
-          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+          value: 'openshift/openjdk-21:1.21-3'
         - name: GOALS
           value:
             - install
@@ -231,7 +231,7 @@ spec:
     - name: release-app
       params:
         - name: MAVEN_IMAGE
-          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
+          value: 'openshift/openjdk-21:1.21-3'
         - name: GOALS
           value:
             - deploy
