@@ -47,5 +47,5 @@
       kind: Secret
       metadata:
         name: sct-rox
-        namespace: "{{ pipeline_namespace }}"
+        namespace: "{{ app_namespace }}"
       type: Opaque

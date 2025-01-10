@@ -150,7 +150,7 @@ spec:
     - name: unit-tests
       params:
         - name: MAVEN_IMAGE
-          value: 'openshift/ubi9-openjdk-21:1.21-3'
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
         - name: GOALS
           value:
             - package
@@ -177,7 +177,7 @@ spec:
     - name: code-analysis
       params:
         - name: MAVEN_IMAGE
-          value: 'openshift/openjdk-21:1.21-3'
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
         - name: GOALS
           value:
             - install
@@ -231,7 +231,7 @@ spec:
     - name: release-app
       params:
         - name: MAVEN_IMAGE
-          value: 'openshift/openjdk-21:1.21-3'
+          value: 'registry.redhat.io/ubi9/openjdk-21:1.20-2.1729773471'
         - name: GOALS
           value:
             - deploy
@@ -374,6 +374,12 @@ spec:
       params:
         - name: GIT_REPOSITORY
           value: $(params.APP_MANIFESTS_GIT)
+        - name: GIT_USERNAME
+          value: $(params.GIT_USER)
+        - name: GIT_PASSWORD
+          value: $(params.GIT_PASS)
+        - name: GIT_BRANCH
+          value: $(params.GIT_BRANCH)
         - name: CURRENT_IMAGE
           value: '$(params.QUAY_REGISTRY)/$(params.QUAY_ORGANIZATION)/$(params.QUAY_REPO_APP):$(params.IMAGE_TAG)'
         - name: NEW_IMAGE

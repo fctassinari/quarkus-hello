@@ -28,8 +28,8 @@ spec:
   workspaces:
     - description: The workspace consisting of maven project.
       name: workspace
-    - description: The sshPriveteKey to connect Repo
-      name: azure-secret
+#    - description: The sshPriveteKey to connect Repo
+#      name: azure-secret
 
   steps:
 
@@ -41,16 +41,16 @@ spec:
         set -e
 
         # Criar o diretório esperado pelo ssh
-        mkdir -p ~/.ssh
+        #mkdir -p ~/.ssh
 
         # Copiar a chave privada do workspace para o local correto
-        cp /workspace/azure-secret/ssh-privatekey ~/.ssh/id_rsa
+        #cp /workspace/azure-secret/ssh-privatekey ~/.ssh/id_rsa
 
         # Ajustar as permissões da chave privada
-        chmod 600 ~/.ssh/id_rsa
+        #chmod 600 ~/.ssh/id_rsa
 
         # Adicionar o host ao arquivo known_hosts para evitar prompts de confiança
-        ssh-keyscan azuredevops.pro.intra.rs.gov.br >> ~/.ssh/known_hosts
+        #ssh-keyscan azuredevops.pro.intra.rs.gov.br >> ~/.ssh/known_hosts
         
         rm -rf git-update-digest-workdir
         git clone $(params.GIT_REPOSITORY) git-update-digest-workdir
