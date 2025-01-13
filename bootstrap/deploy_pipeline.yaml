@@ -77,13 +77,13 @@
 #      include_role:
 #        name: "2-ocp4-install-acs"
 
-#    - name: 'Install and configure Noobaa Object Storage'
-#      include_role:
-#        name: "3-opc4-install-noobaa"
-
-    - name: 'Install and configure Quay'
+    - name: 'Install and configure Noobaa Object Storage'
       include_role:
-        name: "4-ocp4-install-quay"
+        name: "3-opc4-install-noobaa"
+
+#    - name: 'Install and configure Quay'
+#      include_role:
+#        name: "4-ocp4-install-quay"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
