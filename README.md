@@ -232,16 +232,12 @@ Ajustes básicos
     quay_robot_token
     ```
 
-[//]: # (- Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel)
-
-[//]: # (  - ```)
-
-[//]: # (    https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token)
-
-[//]: # (    )
-[//]: # (    quay_access_token)
-
-[//]: # (    ```)
+- Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel
+  - ```
+    https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
+   
+    quay_application_access_token
+    ```
 
 ## CICD Infra
 - No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
