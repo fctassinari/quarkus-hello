@@ -326,8 +326,14 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: Task
-        name: rox-image-scan
+        resolver: cluster
+        params:
+          - name: name
+            value: rox-image-scan
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
 
     - name: image-check
       params:
@@ -344,8 +350,14 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: Task
-        name: rox-image-check
+        resolver: cluster
+        params:
+          - name: name
+            value: rox-image-check
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
 
     - name: deploy-check
       params:
@@ -364,8 +376,14 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: Task
-        name: rox-deployment-check
+        resolver: cluster
+        params:
+          - name: name
+            value: rox-deployment-check
+          - name: namespace
+            value: "{{ pipeline_namespace }}"
+          - name: kind
+            value: task
       workspaces:
         - name: workspace
           workspace: workspace

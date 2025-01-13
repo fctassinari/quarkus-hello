@@ -9,7 +9,7 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 - ArgoCD
     - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-876kv.sandbox2100.opentlc.com/
     - user: admin
-    - pass: h7TOXYpi3LSnGy5VtcuoQbZqw8HgxEe6
+    - pass: l1ZoSL9fICDKzjt8HMExYBuwa5GFObc6
 
 - ACS
     - rota: https://central-stackrox.apps.cluster-876kv.sandbox2100.opentlc.com
@@ -406,69 +406,11 @@ Ajustes básicos
   - Create Quay Secret in Namespaces that require secret
   - Create Quay Secret in Pipeline Namespace project
 
-
-
-
-
-
-
-
-# Criar o container Tools personalizado
-- Ajustar as urls do OCP e do registry nos arquivos rum.sh e Dockerfile
-  - tools/run.sh
-
-
+    
 # FINITO !!! 
 
 
 
-
-
-# Contas
-ArgoCD<br>
-user: admin<br>
-pass: AixwT7nmyGCZX4P9EoM8eUqWKDgQhlt1
-
-Acs<br>
-user: admin<br>
-pass: xpto -> cHJPYzNyZ3NAMjAyNCM=
-
-Quay<br>
-user: admin
-pass: xpto
-
-Sonarqube<br>
-user: admin
-pass: xpto
-
-Nexus<br>
-user: admin
-pass: xpto
-
-Gogs<br>
-user: gogs
-pass: gogs
-------------------------------------------
-Mostrar 
-Url: 
-   ArgoCD
-   ACS
-   Quay
-   Gogs
-   Nexus
-   Sonarqube
-   Report
-
-
-Passwd:
-   ArgoCD
-   ACS
-   Quay
-   Gogs
-   Nexus
-   Sonarqube
-
----------------------------
 
 
 
