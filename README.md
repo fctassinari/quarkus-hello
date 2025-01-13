@@ -329,9 +329,9 @@ Ajustes básicos
     - Add CM for ArgoCD env in namespace
     - Add Secrets for ArgoCD env in namespace
     - Create OpenShift Objects for Openshift Pipeline Tasks
-      - clustertask-rox-image-check.yaml.j2
-      - clustertask-rox-deployment-check.yaml.j2
-      - clustertask-rox-image-scan.yaml.j2
+      - task-rox-image-check.yaml.j2
+      - task-rox-deployment-check.yaml.j2
+      - task-rox-image-scan.yaml.j2
       - task-integration-tests.yaml.j2
       - task-build-quarkus-image.yaml.j2
       - task-argo-sync-and-wait.yaml.j2

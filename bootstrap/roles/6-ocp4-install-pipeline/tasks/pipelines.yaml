@@ -12,9 +12,9 @@
   - task-s2i-java.yaml.j2
   - task-dependency-report.yaml.j2
   - task-update-release.yaml.j2
-  - clustertask-rox-image-check.yaml.j2
-  - clustertask-rox-deployment-check.yaml.j2
-  - clustertask-rox-image-scan.yaml.j2
+  - task-rox-image-check.yaml.j2
+  - task-rox-deployment-check.yaml.j2
+  - task-rox-image-scan.yaml.j2
 
 - name: Create OpenShift Objects for Openshift Pipeline Triggers
   k8s:

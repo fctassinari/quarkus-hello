@@ -326,7 +326,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-image-scan
 
     - name: image-check
@@ -344,7 +344,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-image-check
 
     - name: deploy-check
@@ -364,7 +364,7 @@ spec:
       runAfter:
         - build-image
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: rox-deployment-check
       workspaces:
         - name: workspace
