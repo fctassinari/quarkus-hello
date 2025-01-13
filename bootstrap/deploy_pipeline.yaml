@@ -85,13 +85,13 @@
 #      include_role:
 #        name: "4-ocp4-install-quay"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "5-ocp4-install-cicd-infra"
-
-#    - name: 'Install Pipeline'
+#    - name: 'Install CICD Infra'
 #      include_role:
-#        name: "6-ocp4-install-pipeline"
+#        name: "5-ocp4-install-cicd-infra"
+
+    - name: 'Install Pipeline'
+      include_role:
+        name: "6-ocp4-install-pipeline"
 
 #    - name: 'Install Application'
 #      include_role:
