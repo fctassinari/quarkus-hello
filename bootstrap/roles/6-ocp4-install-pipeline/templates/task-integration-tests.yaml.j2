@@ -19,8 +19,7 @@ spec:
         set -e
         STATUS=$(curl -sw '%{response_code}' -o /dev/null -H 'Content-Length: 0' http://rt-quarkus-hello-quarkus-hello-hml.apps.cluster-876kv.sandbox2100.opentlc.com/hello)
         echo "Status: " $STATUS
-        # 302 = found
-        if [ $STATUS != "302" ]; then
+        if [ $STATUS != "200" ]; then
           echo 'Integration Test Failed!'
           exit $STATUS
         fi
