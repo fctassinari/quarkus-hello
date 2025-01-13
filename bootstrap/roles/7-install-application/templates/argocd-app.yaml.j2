@@ -12,7 +12,12 @@ spec:
     path: environments/{{ app_environment }}
     repoURL: http://{{ r_gogs_route.resources[0].spec.host }}/gogs/{{ app_name }}-config
     targetRevision: HEAD
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
+#  syncPolicy:
+#    automated:
+#      prune: false
+#      selfHeal: false
+#
+#  syncPolicy:
+#    automated:
+#      prune: true                                   # Remove recursos obsoletos
+#      selfHeal: true                                # Restaura recursos modificados manualmente
