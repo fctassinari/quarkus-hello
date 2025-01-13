@@ -1,6 +1,4 @@
-<p align="center">
-  <img  src="imagens/smanager.png">
-</p>
+![img.png](imagens/smanager.png)
 
 # Introdução
 Este projeto visa a criação de um pipeline genérico para atender aplicações java sobre JBoss.
@@ -8,33 +6,33 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
 
 ## Contas
+- ArgoCD
+    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-876kv.sandbox2100.opentlc.com/
+    - user: admin
+    - pass: h7TOXYpi3LSnGy5VtcuoQbZqw8HgxEe6
+
 - ACS
-    - rota: https://central-stackrox.apps.cluster-jj9q2.sandbox1234.opentlc.com
+    - rota: https://central-stackrox.apps.cluster-876kv.sandbox2100.opentlc.com
     - user: admin
     - pass: admin1234
 
 - Quay
-    - rota: https://smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+    - rota: https://smanager-registry-quay-quay.apps.cluster-876kv.sandbox2100.opentlc.com/
     - user: admin
     - pass: admin1234
 
-- ArgoCD
-    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-jj9q2.sandbox1234.opentlc.com/
-    - user: admin
-    - pass: h7TOXYpi3LSnGy5VtcuoQbZqw8HgxEe6
-
 - Nexus
-  - rota: https://nexus.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+  - rota: https://nexus.apps.cluster-876kv.sandbox2100.opentlc.com/
   - user: admin
   - pass: admin1234
   
 - Sonarqube
-    - rota: https://sonarqube.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+    - rota: https://sonarqube.apps.cluster-876kv.sandbox2100.opentlc.com/
     - user: admin
     - pass: admin1234
 
 - Gogs
-    - rota: http://gogs-gogs.apps.cluster-jj9q2.sandbox1234.opentlc.com/
+    - rota: http://gogs-gogs.apps.cluster-876kv.sandbox2100.opentlc.com/
     - user: gogs
     - pass: gogs
 
@@ -72,6 +70,7 @@ pip3 install jmespath
 Ajustes básicos
 - No arquivo deploy_pipeline.yaml fazer os ajustes básicos
     - company_name
+    - pipeline_sufix
     - acs_central_password_base64
         - echo -n admin1234 | base64 R: YWRtaW4xMjM0
     - acs_central_password_plain_text
@@ -115,7 +114,7 @@ Ajustes básicos
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
 - No bastion autenticar no Openshift de des/hml
   ```
-  oc login -u <user> -p <pass> --server=https://apps.cluster-jj9q2.sandbox1234.opentlc.com:6443
+  oc login -u <user> -p <pass> --server=https://apps.cluster-876kv.sandbox2100.opentlc.com:6443
   ```
 - No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
   ```
@@ -385,7 +384,7 @@ Ajustes básicos
           spec:
             registrySources:
               insecureRegistries:
-              - smanager-registry-quay-quay.apps.cluster-jj9q2.sandbox1234.opentlc.com
+              - smanager-registry-quay-quay.apps.cluster-876kv.sandbox2100.opentlc.com
           ```
           [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
 

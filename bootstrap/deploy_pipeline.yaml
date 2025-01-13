@@ -3,12 +3,12 @@
   hosts: localhost
   connection: local
   vars:
-    pipeline_sufix: 'deploy'
 
     company_name: 'smanager'
 
     pipeline_namespace: "{{ company_name }}-pipeline"
     pipeline_name: "generic-pipeline"
+    pipeline_sufix: 'deploy'
 
     gitops_operator_namespace: 'openshift-gitops-operator'
 
@@ -34,8 +34,8 @@
     quay_org_name: "{{ company_name }}"
 
     sa_cluster_admin: 'cluster-admin-sa'
-    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6InVPaEs2eG55dUt6eVp6U3NjM3hpTGVhZUVZbW8wYXc2WVZxVlRWNEk3a1UifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNjE2OTIyOSwiaWF0IjoxNzM2MTcyODI5LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiIzN2JjM2RkMC1lMDVjLTRlYWEtYjQyYy05NmNmMjllYmRmYmQifX0sIm5iZiI6MTczNjE3MjgyOSwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.N_E41giNffPSvgwRdnQsjx7qp7kp-IPK2MZgyahcVs8wC-mQVHE-yOR7IV_73lPMAQkEHAN58u4IifXn8Zr91SLMNx6hZmF4E9mM-9eyEZU2QRl0BxOOfOOe6oXmIpo-qc5av922dXe-8aT0bOIUbgyFvjJlI7bBv8ahrkrZ5efPmN-H2TWQFdCQJi4wg9nJNWgcSvH7LPapu6SiPf2R4_mmzd8QDyWKpRyw4DfHaf8Uu2dv3hL-DwxN0Zn3dqclfhK8cO5ZxTJiO7hIqsES7MaOteM-emPg7pgBiSCU_CD5s1eZ6LGhzpSBYFL0nveHF7uI1dgcJu8cNt-ErQcz6sntV0N3fkjUCez0eorBTaQWqElBsjVvp16rKWLHK2J2cmgjo4xNLPU1_zx7XX2SNFJ52PlwWSLTYKm6EQVOrfMJc_MHtGpCwOxFCwcaxZIh5Aa7IUr80f-hPKHb0E4H-5_FRhsd6EO5d9U8cXWNzevCPSvzdrvy4A-BSOsjW55uIVeUDt0FkxMAdVuDneLl7qU19glW8ghNe7NDwGiCjxkDuq0TcwEUpXKQkAgZ0oU0XdT4ROoYGB74PfG-lQy1rFVglKQjiTAKIy7Lx8xISOMEjDVXnyS3Xa5A3-tLsPBBJwh3vhbVZ9m349pWTE-mNTeAloCrsZKnU87Y0RmYIwU'
-    cluster_url: 'apps.cluster-jj9q2.sandbox1234.opentlc.com'
+    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IkI1LVhEOHctdU1ycXcwRHBuMDhfVzFmOExKZG1fV3hlYkNQY01VeXhlam8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNjc3MDQzMywiaWF0IjoxNzM2Nzc0MDMzLCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiJkMzE5YWFlYi00NWViLTQ0MTgtOWFiMi01OWI0NzczODdkMzcifX0sIm5iZiI6MTczNjc3NDAzMywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.JQ1LZneS6zckyk2I4yD-DqZHTU90VXYeI5AIeFX8ISVkSMhcBSs6BDHKNRciXMQSdLtK1vGJj106f_Q2ryvY1RlHl5i33oT-H7gRBNLHt8_a2hgWbJBfYKqiVHJW-IQSc4o0lZDaKIkp7xysUNiszTrd9knMKdFf9Wqre9iaS3ZmVAgjczEuNvUG8BcwuA8GmEIl6RZZ9mXWrhISrpAJbrh7MpK7xaomMX0UhQGesREue28DpOafkbdh6eosj907z5dfnr6t0EUaq_A4mBV7KaiTjQklZRCzUO5KjdsEBHpxVN8m9dcuBCZduVyeGTrwJQU6tJ_1gmCmxYLDI4c7bk1z0cP_C-xwgPdqntzwJEce-h-NdIm0gfDMicAhyOVsTU6WcmNP-aXsoow-5-70Wp9jUT4ydN9AYuW_SSDNqRTj2iLwfJ2GTJWvx3kiGM6lqmIDJYt07Ao1yBlUH-bXOPNUR4VTiXRKNOYvTYg3HBW9aUQORi-vrIQ4_TXhu3uLL_gvOA3R8uhWthjToPEnstnair0o1Puxgsc1dhYlt2H1zzqTKuB7VqzRV9EX5Es6TaOQnRid4yNxq0eKNAK_COVBY5BauWNJqZpGdhVuxhZRnRgucs6tCJusOoPOmuHRJO8WkynR-PcFE4Oym9outRvB-AXFTzvrOUWRSBrtKXQ'
+    cluster_url: 'apps.cluster-876kv.sandbox2100.opentlc.com'
 
     gogs_namespace: 'gogs'
 
@@ -69,9 +69,9 @@
 
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
 
 #    - name: 'Install the ACS Central'
 #      include_role:
@@ -89,9 +89,9 @@
 #      include_role:
 #        name: "5-ocp4-install-cicd-infra"
 
-    - name: 'Install Pipeline'
-      include_role:
-        name: "6-ocp4-install-pipeline"
+#    - name: 'Install Pipeline'
+#      include_role:
+#        name: "6-ocp4-install-pipeline"
 
 #    - name: 'Install Application'
 #      include_role:
