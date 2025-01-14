@@ -391,6 +391,7 @@ Ajustes básicos
           [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
 
 - Create Namespaces
+- Add a label to enable the secure HTTPS connection to the Eventlistener resource
 - Get gogs route
 - Create ArgoCD App project
 - Create ArgoCD Hml App
