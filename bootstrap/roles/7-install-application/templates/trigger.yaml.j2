@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: trigger
+spec:
+  taskRunTemplate:
+    serviceAccountName: pipeline
+  bindings:
+    - ref: repo-triggerbinding
+  template:
+    ref: repo-triggertemplate
