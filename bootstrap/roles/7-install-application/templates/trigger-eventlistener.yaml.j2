@@ -1,11 +1,10 @@
-apiVersion: triggers.tekton.dev/v1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
   name: webhook
   namespace: "{{ app_namespace }}"
 spec:
-  taskRunTemplate:
-    serviceAccountName: pipeline
+  serviceAccountName: pipeline
   triggers:
     - triggerRef: trigger
 
