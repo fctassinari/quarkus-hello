@@ -1,4 +1,3 @@
----
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
@@ -6,13 +5,15 @@ metadata:
   namespace: "{{ app_namespace }}"
 spec:
   params:
-  - name: gitrevision
-    value: $(body.after)
-  - name: gitshortsha
-    value: $(body.short_sha)
-  - name: gitbranchname
-    value: $(body.branch_name)
-  - name: gitrepositoryurl
-    value: $(body.repository.clone_url)
-  - name: contenttype
-    value: $(header.Content-Type)
+    - name: git-revision
+      value: $(body.head_commit.id)
+    - name: git-commit-message
+      value: $(body.head_commit.message)
+    - name: git-repo-url
+      value: $(body.repository.url)
+    - name: git-repo-name
+      value: $(body.repository.name)
+    - name: content-type
+      value: $(header.Content-Type)
+    - name: pusher-name
+      value: $(body.pusher.name)

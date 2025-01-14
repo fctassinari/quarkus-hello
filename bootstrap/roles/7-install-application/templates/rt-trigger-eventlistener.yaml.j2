@@ -9,8 +9,9 @@ metadata:
     eventlistener: webhook
 spec:
   port:
-    targetPort: http-listener
+    targetPort: 8080
   to:
-    kind: "Service"
+    kind: Service
     name: el-webhook
     weight: 100
+  wildcardPolicy: None
