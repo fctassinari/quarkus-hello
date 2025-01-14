@@ -406,10 +406,17 @@ Ajustes básicos
   - Create Quay Secret in Namespaces that require secret
   - Create Quay Secret in Pipeline Namespace project
 
+# Ajustes pós-instalação
+- Copiar a rota da aplicação para a Task Integration Tests
     
 # FINITO !!! 
 
 
+# Próximos passos
+- Reports
+- Triggers
+- Coletar Urls - status.sh
+- [Using manual approval in OpenShift Pipelines](https://docs.openshift.com/pipelines/1.17/create/using-manual-approval.html)
 
 
 
@@ -417,10 +424,11 @@ Ajustes básicos
 
 
 
+[RedHat Openshift Pipelines](https://docs.openshift.com/pipelines/1.17/about/about-pipelines.html)
 
-.
+[OpenShift Pipelines Tasks Catalog](https://github.com/openshift/pipelines-catalog)
 
-
+[Tekton Tasks Catalog](https://github.com/tektoncd/catalog)
 
 
 
