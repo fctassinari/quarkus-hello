@@ -1,0 +1,29 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: webhook
+  namespace: "{{ app_namespace }}"
+spec:
+  taskRunTemplate:
+    serviceAccountName: pipeline
+  triggers:
+    - triggerRef: trigger
+
+#spec:
+#  serviceAccountName: pipeline
+#  triggers:
+#    - name: quarkus-hello-webhook
+#      interceptors:
+#        - cel:
+#            overlays:
+#            - key: short_sha
+#              expression: "body.after.truncate(7)"
+#            - key: branch_name
+#              expression: "body.ref.split('/')[2]"
+#      bindings:
+#        - ref: repo-triggerbinding
+#      template:
+#        ref: repo-triggertemplate
+#
+#
+#

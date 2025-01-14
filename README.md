@@ -283,6 +283,7 @@ Ajustes básicos
 - Get gogs route
 - Patch with specific route domain
 - Wait for gogs and gogs-postgresql to be running
+- Atualizar a variavel ```repo_url``` no arquivo deploy_pipeline.yaml
 ### Nexus
 - Install Nexus
 - Get nexus route
@@ -406,8 +407,6 @@ Ajustes básicos
   - Create Quay Secret in Namespaces that require secret
   - Create Quay Secret in Pipeline Namespace project
 
-# Ajustes pós-instalação
-- Copiar a rota da aplicação para a Task Integration Tests
     
 # FINITO !!! 
 

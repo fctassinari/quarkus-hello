@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: cm-gogs-config
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
   labels:
     app: gogs
 data:

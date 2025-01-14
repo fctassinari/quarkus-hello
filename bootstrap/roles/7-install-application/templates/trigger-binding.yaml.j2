@@ -1,9 +1,9 @@
 ---
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: gogs-triggerbinding
-  namespace: "{{ pipeline_namespace }}"
+  name: repo-triggerbinding
+  namespace: "{{ app_namespace }}"
 spec:
   params:
   - name: gitrevision

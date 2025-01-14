@@ -3,11 +3,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: allow-anyuid-to-git
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 subjects:
   - kind: ServiceAccount
     name: git
-    namespace: "{{ gogs_namespace }}"
+    namespace: "{{ repo_namespace }}"
 roleRef:
   kind: ClusterRole
   name: system:openshift:scc:anyuid
@@ -17,7 +17,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-gogs-data
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
   labels:
     app: gogs
 spec:
@@ -31,7 +31,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-gogs-postgres-data
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
   labels:
     app: gogs
 spec:
@@ -48,7 +48,7 @@ metadata:
   labels:
     app: gogs
   name: git
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 ---
 kind: Service
 apiVersion: v1
@@ -56,7 +56,7 @@ metadata:
   annotations:
     description: Exposes the database server
   name: gogs-postgresql
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
   labels:
     app: gogs
 spec:
@@ -73,7 +73,7 @@ metadata:
   annotations:
     description: Defines how to deploy the database
   name: gogs-postgresql
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
   labels:
     app: gogs
 spec:
@@ -151,7 +151,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 spec:
   tags:
     - name: latest
@@ -173,7 +173,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 spec:
   ports:
     - name: 3000-tcp
@@ -192,7 +192,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 spec:
   replicas: 1
   selector:
@@ -282,7 +282,7 @@ metadata:
   labels:
     app: gogs
   name: gogs
-  namespace: "{{ gogs_namespace }}"
+  namespace: "{{ repo_namespace }}"
 spec:
   to:
     name: gogs

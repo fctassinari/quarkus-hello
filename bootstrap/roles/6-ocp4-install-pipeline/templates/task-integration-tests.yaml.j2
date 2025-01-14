@@ -17,7 +17,7 @@ spec:
       script: |
         #!/bin/sh
         set -e
-        STATUS=$(curl -sw '%{response_code}' -o /dev/null -H 'Content-Length: 0' http://rt-quarkus-hello-quarkus-hello-hml.apps.cluster-876kv.sandbox2100.opentlc.com/hello)
+        STATUS=$(curl -sw '%{response_code}' -o /dev/null -H 'Content-Length: 0' http://rt-quarkus-hello-quarkus-hello-hml.{{ cluster_url }}/hello)
         echo "Status: " $STATUS
         if [ $STATUS != "200" ]; then
           echo 'Integration Test Failed!'
