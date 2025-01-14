@@ -1,8 +1,8 @@
 ---
-apiVersion: triggers.tekton.dev/v1beta1
+apiVersion: triggers.tekton.dev/v1
 kind: TriggerTemplate
 metadata:
-    name: repo-triggertemplate
+  name: repo-triggertemplate
   namespace: "{{ app_namespace }}"
 spec:
   params:
