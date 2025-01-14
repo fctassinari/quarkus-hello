@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: Trigger
 metadata:
-  name: trigger
+  name: repo-trigger
   namespace: "{{ app_namespace }}"
 spec:
   serviceAccountName: pipeline
