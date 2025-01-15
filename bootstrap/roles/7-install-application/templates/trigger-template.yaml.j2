@@ -5,78 +5,74 @@ metadata:
   namespace: "{{ app_namespace }}"
 spec:
   params:
-    - description: The git repository url
-      name: git-repo-url
-    - default: pipelines-1.16
+    - name: git-repo-url
+      description: The git repository url
+    - name: git-revision
       description: The git revision
-      name: git-revision
-    - description: The name of the deployment to be created / patched
-      name: git-repo-name
+      default: pipelines-1.17
+    - name: git-repo-name
+      description: The name of the deployment to be created / patched
   resourcetemplates:
-  - apiVersion: tekton.dev/v1beta1
-    kind: PipelineRun
-    metadata:
-      generateName: pipeline-qh-$(tt.params.git-repo-name)-
-      namespace: '{{ app_namespace }}'
-      labels:
-        tekton.dev/pipeline: generic-pipeline-deploy
-    spec:
-      pipelineRef:
-        resolver: cluster
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: pipeline-qh-$(tt.params.git-repo-name)-
+        namespace: '{{ app_namespace }}'
+        labels:
+          tekton.dev/pipeline: generic-pipeline-deploy
+      spec:
+        taskRunTemplate:
+          serviceAccountName: pipeline
+        pipelineRef:
+          resolver: cluster
+          params:
+            - name: name
+              value: generic-pipeline-deploy
+            - name: namespace
+              value: '{{ pipeline_namespace }}'
+            - name: kind
+              value: pipeline
         params:
-          - name: name
-            value: generic-pipeline-deploy
-          - name: namespace
-            value: '{{ pipeline_namespace }}'
-          - name: kind
-            value: pipeline
-      params:
-        - name: APP_NAME
-          value: quarkus-hello
-        - name: GIT_REPO
-          value: >-
-            {{ repo_url }}/gogs/quarkus-hello.git
-        - name: GIT_BRANCH
-          value: master
-        - name: PATH_CONTEXT
-          value: .
-        - name: QUAY_REPO_APP
-          value: quarkus-hello
-        - name: QUAY_ORGANIZATION
-          value: smanager
-        - name: QUAY_REGISTRY
-          value: smanager-registry-quay-quay.{{ cluster_url }}
-        - name: APP_NAMESPACE
-          value: quarkus-hello-hml
-        - name: IMAGE_TAG
-          value: latest
-        - name: APP_MANIFESTS_GIT
-          value: >-
-            {{ repo_url }}/gogs/quarkus-hello-config.git
-        - name: KUSTOMIZATION_PATH
-          value: environments/hml
-        - name: ARGO_CD_APPLICATION_NAME
-          value: quarkus-hello-hml
-        - name: ARTIFACT_NAME
-          value: quarkus-hello.war
-        - name: GIT_USER
-          value: gogs
-        - name: GIT_PASS
-          value: gogs
-        - name: JAVA_IMAGE
-          value: 'default-route-openshift-image-registry.{{ cluster_url }}/openshift/openjdk-21:1.21-3'
-      timeouts:
-        pipeline: 1h0m0s
-      workspaces:
-        - configMap:
-            name: cm-maven-settings
-          name: maven-settings
-        - name: workspace
-          persistentVolumeClaim:
-            claimName: pvc-workspace
-
-
-
-
-
-
+          - name: APP_NAME
+            value: quarkus-hello
+          - name: GIT_REPO
+            value: >-
+              {{ repo_url }}/gogs/quarkus-hello.git
+          - name: GIT_BRANCH
+            value: master
+          - name: PATH_CONTEXT
+            value: .
+          - name: QUAY_REPO_APP
+            value: quarkus-hello
+          - name: QUAY_ORGANIZATION
+            value: smanager
+          - name: QUAY_REGISTRY
+            value: smanager-registry-quay-quay.{{ cluster_url }}
+          - name: APP_NAMESPACE
+            value: quarkus-hello-hml
+          - name: IMAGE_TAG
+            value: latest
+          - name: APP_MANIFESTS_GIT
+            value: >-
+              {{ repo_url }}/gogs/quarkus-hello-config.git
+          - name: KUSTOMIZATION_PATH
+            value: environments/hml
+          - name: ARGO_CD_APPLICATION_NAME
+            value: quarkus-hello-hml
+          - name: ARTIFACT_NAME
+            value: quarkus-hello.war
+          - name: GIT_USER
+            value: gogs
+          - name: GIT_PASS
+            value: gogs
+          - name: JAVA_IMAGE
+            value: 'default-route-openshift-image-registry.{{ cluster_url }}/openshift/openjdk-21:1.21-3'
+        timeouts:
+          pipeline: 1h0m0s
+        workspaces:
+          - configMap:
+              name: cm-maven-settings
+            name: maven-settings
+          - name: workspace
+            persistentVolumeClaim:
+              claimName: pvc-workspace

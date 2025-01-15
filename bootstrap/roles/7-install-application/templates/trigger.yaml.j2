@@ -1,3 +1,4 @@
+---
 apiVersion: triggers.tekton.dev/v1beta1
 kind: Trigger
 metadata:
@@ -5,7 +6,25 @@ metadata:
   namespace: "{{ app_namespace }}"
 spec:
   serviceAccountName: pipeline
+  interceptors:
+    - ref:
+        name: "github"
+      params:
+        - name: "secretRef"
+          value:
+            secretName: github-secret
+            secretKey: secretToken
+        - name: "eventTypes"
+          value: ["push"]
   bindings:
     - ref: repo-triggerbinding
   template:
     ref: repo-triggertemplate
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-secret
+type: Opaque
+stringData:
+  secretToken: "{{ webhook_secret_token" }}

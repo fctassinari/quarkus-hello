@@ -367,6 +367,7 @@ Ajustes básicos
 - Atualizar o arquivo defaults/main.yaml
 
 - Atualizar o arquivo defaults/main.yaml
+    - webhook_secret_token
     - Quay
         - quay_route
         - quay_robot_token<br>
