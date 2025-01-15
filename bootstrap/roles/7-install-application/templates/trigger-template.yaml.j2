@@ -5,17 +5,18 @@ metadata:
   namespace: "{{ app_namespace }}"
 spec:
   params:
-    - name: git-revision
-    - name: git-commit-message
-    - name: git-repo-url
-    - name: git-repo-name
-    - name: content-type
-    - name: pusher-name
+    - description: The git repository url
+      name: git-repo-url
+    - default: pipelines-1.16
+      description: The git revision
+      name: git-revision
+    - description: The name of the deployment to be created / patched
+      name: git-repo-name
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      generateName: pipeline-qh-
+      generateName: pipeline-qh-$(tt.params.git-repo-name)-
       namespace: '{{ app_namespace }}'
       labels:
         tekton.dev/pipeline: generic-pipeline-deploy
