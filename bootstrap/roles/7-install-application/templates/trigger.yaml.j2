@@ -20,11 +20,3 @@ spec:
     - ref: repo-triggerbinding
   template:
     ref: repo-triggertemplate
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: github-secret
-type: Opaque
-stringData:
-  secretToken: "{{ webhook_secret_token }}"

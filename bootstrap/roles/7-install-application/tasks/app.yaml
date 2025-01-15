@@ -147,6 +147,7 @@
     state: present
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
+    - trigger-secret.yaml.j2
     - rt-trigger-eventlistener.yaml.j2
     - trigger.yaml.j2
     - trigger-eventlistener.yaml.j2
