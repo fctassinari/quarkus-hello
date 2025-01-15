@@ -4,6 +4,6 @@
     definition: "{{ lookup('template', 'namespaces.yaml.j2') }}"
   ignore_errors: true
 
-- name: Add a label to enable the secure HTTPS connection to the Eventlistener resource
-  shell: |
-    oc label namespace {{ app_namespace }} operator.tekton.dev/enable-annotation=enabled
+#- name: Add a label to enable the secure HTTPS connection to the Eventlistener resource
+#  shell: |
+#    oc label namespace {{ app_namespace }} operator.tekton.dev/enable-annotation=enabled
