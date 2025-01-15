@@ -142,13 +142,13 @@
     state: present
     definition: "{{ lookup('template', 'sct-argocd-env-pipeline-ns.yaml.j2') }}"
 
-- name: Create OpenShift Objects for Openshift Pipeline Triggers
-  k8s:
-    state: present
-    definition: "{{ lookup('template', item ) | from_yaml }}"
-  loop:
-    - rt-trigger-eventlistener.yaml.j2
-    - trigger.yaml.j2
-    - trigger-eventlistener.yaml.j2
-    - trigger-binding.yaml.j2
-    - trigger-template.yaml.j2
+#- name: Create OpenShift Objects for Openshift Pipeline Triggers
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', item ) | from_yaml }}"
+#  loop:
+#    - rt-trigger-eventlistener.yaml.j2
+#    - trigger.yaml.j2
+#    - trigger-eventlistener.yaml.j2
+#    - trigger-binding.yaml.j2
+#    - trigger-template.yaml.j2
