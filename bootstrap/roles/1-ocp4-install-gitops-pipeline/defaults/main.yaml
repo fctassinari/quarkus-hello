@@ -1,7 +1,7 @@
-#pipelines_expected_crds:
-#- pipelineruns.tekton.dev
-#- pipelines.tekton.dev
-#- tektonpipelines.operator.tekton.dev
+pipelines_expected_crds:
+- pipelineruns.tekton.dev
+- pipelines.tekton.dev
+- tektonpipelines.operator.tekton.dev
 
 gitops_expected_crds:
 - applications.argoproj.io
