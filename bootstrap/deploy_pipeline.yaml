@@ -70,9 +70,9 @@
 
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
 
 #    - name: 'Install the ACS Central'
 #      include_role:
@@ -90,9 +90,9 @@
 #      include_role:
 #        name: "5-ocp4-install-cicd-infra"
 
-#    - name: 'Install Pipeline'
-#      include_role:
-#        name: "6-ocp4-install-pipeline"
+    - name: 'Install Pipeline'
+      include_role:
+        name: "6-ocp4-install-pipeline"
 
     - name: 'Install Application'
       include_role:
