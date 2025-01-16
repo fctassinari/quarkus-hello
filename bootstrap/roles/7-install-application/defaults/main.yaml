@@ -1,5 +1,5 @@
 # hml ou pro
-app_environment: 'hml'
+app_environment: 'hml2'
 app_name: 'quarkus-hello'
 app_namespace: '{{ app_name }}-{{ app_environment }}'
 
