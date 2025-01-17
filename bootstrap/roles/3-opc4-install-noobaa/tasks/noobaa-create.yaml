@@ -72,14 +72,14 @@
   loop:
   - ./templates/noobaa-object.yaml.j2
 
-#- name: Wait Until NooBaa Object is Ready
-#  shell: |
-#    oc get noobaas.noobaa.io/noobaa -n openshift-storage -o jsonpath='{.status.phase}'
-#  register: noobaa_status
-#  retries: 10
-#  delay: 20
-#  until:
-#    - noobaa_status.stdout == "Ready"
+- name: Wait Until NooBaa Object is Ready
+  shell: |
+    oc get noobaas.noobaa.io/noobaa -n openshift-storage -o jsonpath='{.status.phase}'
+  register: noobaa_status
+  retries: 10
+  delay: 20
+  until:
+    - noobaa_status.stdout == "Ready"
 
 - name: Get Default Openshift Storage Class
   shell: |
@@ -110,14 +110,14 @@
   loop:
   - ./templates/noobaa-backingstore.yaml.j2
 
-#- name: Wait Until NooBaa Object is Ready
-#  shell: |
-#    oc get BackingStore/"{{ backing_store_name }}" -n openshift-storage -o jsonpath='{.status.phase}'
-#  register: backing_store
-#  retries: 10
-#  delay: 20
-#  until:
-#    - backing_store.stdout == "Ready"
+- name: Wait Until NooBaa Object is Ready
+  shell: |
+    oc get BackingStore/"{{ backing_store_name }}" -n openshift-storage -o jsonpath='{.status.phase}'
+  register: backing_store
+  retries: 10
+  delay: 20
+  until:
+    - backing_store.stdout == "Ready"
 
 - name: Patch Bucket Class with Backing Store
   shell: |
