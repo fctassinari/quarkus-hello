@@ -34,11 +34,11 @@
     quay_org_name: "{{ company_name }}"
 
     sa_cluster_admin: 'cluster-admin-sa'
-    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IkI1LVhEOHctdU1ycXcwRHBuMDhfVzFmOExKZG1fV3hlYkNQY01VeXhlam8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNjc3MDQzMywiaWF0IjoxNzM2Nzc0MDMzLCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiJkMzE5YWFlYi00NWViLTQ0MTgtOWFiMi01OWI0NzczODdkMzcifX0sIm5iZiI6MTczNjc3NDAzMywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.JQ1LZneS6zckyk2I4yD-DqZHTU90VXYeI5AIeFX8ISVkSMhcBSs6BDHKNRciXMQSdLtK1vGJj106f_Q2ryvY1RlHl5i33oT-H7gRBNLHt8_a2hgWbJBfYKqiVHJW-IQSc4o0lZDaKIkp7xysUNiszTrd9knMKdFf9Wqre9iaS3ZmVAgjczEuNvUG8BcwuA8GmEIl6RZZ9mXWrhISrpAJbrh7MpK7xaomMX0UhQGesREue28DpOafkbdh6eosj907z5dfnr6t0EUaq_A4mBV7KaiTjQklZRCzUO5KjdsEBHpxVN8m9dcuBCZduVyeGTrwJQU6tJ_1gmCmxYLDI4c7bk1z0cP_C-xwgPdqntzwJEce-h-NdIm0gfDMicAhyOVsTU6WcmNP-aXsoow-5-70Wp9jUT4ydN9AYuW_SSDNqRTj2iLwfJ2GTJWvx3kiGM6lqmIDJYt07Ao1yBlUH-bXOPNUR4VTiXRKNOYvTYg3HBW9aUQORi-vrIQ4_TXhu3uLL_gvOA3R8uhWthjToPEnstnair0o1Puxgsc1dhYlt2H1zzqTKuB7VqzRV9EX5Es6TaOQnRid4yNxq0eKNAK_COVBY5BauWNJqZpGdhVuxhZRnRgucs6tCJusOoPOmuHRJO8WkynR-PcFE4Oym9outRvB-AXFTzvrOUWRSBrtKXQ'
-    cluster_url: 'apps.cluster-876kv.sandbox2100.opentlc.com'
+    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImgwS21ZREZlYV9nYkx1Smd5RlRLemFHV29EZ3piZmpwS3F5aDJycnREOHcifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNzEyNjYzMSwiaWF0IjoxNzM3MTMwMjMxLCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiI3Y2JhOWJiNy0xNzJhLTQ4M2MtYjJjNS1mNDVjMzY4YmI3ZTIifX0sIm5iZiI6MTczNzEzMDIzMSwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.QcfUki7muMJW5r9cFCbzBja5Ucb_dQ6_hg4rivG0AviIarckxuyzms5oTHvNsewvb4AgROtgjJqDVBTVNYgFVnjQtKGyOJh2ziX70WXcyE1umIH7R7CavYgEhgafMc91pLGa85RCOT3SdZLKs5UNHZhqHX4s5ex8Dqizd-Q__pKlbggIdxDUr1pVXFyazQYXxw9XkzA6_aPKXRWnZwgFA-UgliYR1U_emsqFCoEDeU8Vh67FMUVYGzANgzXPf312_UIwX4YTd0XRFEvUU3M9vqqlwaG_bZ6lNv4u7oV4BngKKIHQv8oNSm-4D8WTwAOkeeYInkZsSQPndW7xKoenyxprokl9SHpn6f4TU4xFVEOLMS6MfwLjVG47IkTyuhTERzigb0A7ybJTc_SHM0p-JQWiR3HRHrxB0opg1jl6thE-RdYOmKUGF1LhCHTfthBC_TIA4TxqEv_ZB5V4Y8rgvjhTpCrYWoF18ZIJ5GiaRA3c2cxws_45m6gIB7XWxPbmaXfhKj9MtaQsXCMCI9dl4ks1hh93i7ZtwaSM8BQnsJONTCdQfkjATXjL-DxX29Izy10QoCuQ1vzuCzrp3KQe-o7slaB0VfvPIaNgM0hJbOA6j4l9uxnsnu_wK-u9LPtsUGHWZYUp6KWFdC_-mFW_QgddKaJRijxpPZP4yoTkHhs'
+    cluster_url: 'apps.cluster-w47zn.sandbox449.opentlc.com'
 
     repo_namespace: 'gogs'
-    repo_url: 'http://gogs-gogs.apps.cluster-876kv.sandbox2100.opentlc.com'
+    repo_url: 'http://gogs-gogs.apps.cluster-w47zn.sandbox449.opentlc.com'
 
     reports_namespace: 'reports-repo'
     nexus_namespace: 'nexus'
@@ -70,9 +70,9 @@
 
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
 
 #    - name: 'Install the ACS Central'
 #      include_role:
@@ -86,9 +86,9 @@
 #      include_role:
 #        name: "4-ocp4-install-quay"
 
-    - name: 'Install CICD Infra'
-      include_role:
-        name: "5-ocp4-install-cicd-infra"
+#    - name: 'Install CICD Infra'
+#      include_role:
+#        name: "5-ocp4-install-cicd-infra"
 
 #    - name: 'Install Pipeline'
 #      include_role:

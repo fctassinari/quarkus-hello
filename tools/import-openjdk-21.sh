@@ -4,3 +4,4 @@ oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21
 oc get is -n openshift | grep openjdk-21
 oc delete pod kube-openjdk-21-pod -n openshift
 oc delete secret 6095290-tassinari-pull-secret -n openshift
+
