@@ -227,19 +227,6 @@ Ajustes básicos
     - Create Robot Account
     - Set Robot Token from Creating New Robot Account
 
-
-- Copirar o robot token e atualizar no 7-install-application/defaults/main.yaml a variavel
-  - ```
-    quay_robot_token
-    ```
-
-- Gerar token no quay e atualizar no deployment_pipeline.yaml a variavel
-  - ```
-    https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
-   
-    quay_application_access_token
-    ```
-
 ## CICD Infra
 - No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   ```
@@ -372,7 +359,12 @@ Ajustes básicos
     - Quay
         - quay_route
         - quay_robot_token<br>
-        - quay-application-token
+          Copirar o robot token da organização SMANAGER
+          ![img.png](imagens/quay_robot_token-1.png)
+          ![img.png](imagens/quay_robot_token-2.png)
+      
+      - quay_application_access_token<br>
+        https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#creating-oauth-access-token
         ![img.png](imagens/quay-app-token-1.png)
         ![img.png](imagens/quay-app-token-2.png)
         ![img.png](imagens/quay-app-token-3.png)

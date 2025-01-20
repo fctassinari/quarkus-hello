@@ -7,7 +7,7 @@ quay_repository: '{{ app_name }}'
 quay_secret_name: 'sct-quay-robot'
 quay_route: 'smanager-registry-quay-quay.apps.cluster-5fflp.sandbox1066.opentlc.com'
 quay_org_name: "{{ company_name }}"
-quay_robot_token: 'HO3TOYUEAH8ZQI70O88ZIAV6XE495Q4FCN859VP1494CPATRQ76HAUCQFA4NO6W8'
+quay_robot_token: '7I2UQM7TFRRPJYFMSBG2CJBAQE3CYKG0VHAEWUCRKMLPF35M49LXAJYOWZY2R6M9'
 quay_application_access_token: '9lxBfVaxfGWxPQTzvFEAu4JUHFHBAIhEyXtfFwY5'
 
 webhook_secret_token: 'ajfu#LJKFÇ$#654684'
