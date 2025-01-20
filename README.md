@@ -11,32 +11,32 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 ## Contas
 - ArgoCD
-    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-5fflp.sandbox1066.opentlc.com/
+    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
     - user: admin
     - pass: l1ZoSL9fICDKzjt8HMExYBuwa5GFObc6
 
 - ACS
-    - rota: https://central-stackrox.apps.cluster-5fflp.sandbox1066.opentlc.com
+    - rota: https://central-stackrox.apps.cluster-n7ncd.dynamic.redhatworkshops.io
     - user: admin
     - pass: admin1234
 
 - Quay
-    - rota: https://smanager-registry-quay-quay.apps.cluster-5fflp.sandbox1066.opentlc.com/
+    - rota: https://smanager-registry-quay-quay.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
     - user: admin
     - pass: admin1234
 
 - Nexus
-  - rota: https://nexus.apps.cluster-5fflp.sandbox1066.opentlc.com/
+  - rota: https://nexus.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
   - user: admin
   - pass: admin1234
   
 - Sonarqube
-    - rota: https://sonarqube.apps.cluster-5fflp.sandbox1066.opentlc.com/
+    - rota: https://sonarqube.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
     - user: admin
     - pass: admin1234
 
 - Gogs
-    - rota: http://gogs-gogs.apps.cluster-5fflp.sandbox1066.opentlc.com/
+    - rota: http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
     - user: gogs
     - pass: gogs
 
@@ -119,7 +119,7 @@ Ajustes básicos
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
 - No bastion autenticar no Openshift de des/hml
   ```
-  oc login -u <user> -p <pass> --server=https://apps.cluster-5fflp.sandbox1066.opentlc.com:6443
+  oc login -u <user> -p <pass> --server=https://apps.cluster-n7ncd.dynamic.redhatworkshops.io:6443
   ```
 - No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
   ```
@@ -390,7 +390,7 @@ Ajustes básicos
           spec:
             registrySources:
               insecureRegistries:
-              - smanager-registry-quay-quay.apps.cluster-5fflp.sandbox1066.opentlc.com
+              - smanager-registry-quay-quay.apps.cluster-n7ncd.dynamic.redhatworkshops.io
           ```
           [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
 

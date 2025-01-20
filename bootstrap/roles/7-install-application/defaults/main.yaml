@@ -5,7 +5,7 @@ app_namespace: '{{ app_name }}-{{ app_environment }}'
 
 quay_repository: '{{ app_name }}'
 quay_secret_name: 'sct-quay-robot'
-quay_route: 'smanager-registry-quay-quay.apps.cluster-5fflp.sandbox1066.opentlc.com'
+quay_route: 'smanager-registry-quay-quay.apps.cluster-n7ncd.dynamic.redhatworkshops.io'
 quay_org_name: "{{ company_name }}"
 quay_robot_token: '7I2UQM7TFRRPJYFMSBG2CJBAQE3CYKG0VHAEWUCRKMLPF35M49LXAJYOWZY2R6M9'
 quay_application_access_token: 'ryElUCT9AkdSTM9H9j0vUjPj6m2GXpF9Lym77PDW'
