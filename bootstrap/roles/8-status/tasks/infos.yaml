@@ -18,7 +18,7 @@
 - name: Decodificar o valor Base64
   set_fact:
     encoded_value: "UkY0dlQ3QTh3eUQ1bWdXSnR1ZUNPclZJc0J6U0hpZDE="
-    decoded_value: "{{ encoded_value | b64decode }}"
+    decoded_value: "{{ {{ encoded_value }} | b64decode }}"
 
 - name: extract ACS hostname
   shell: |
