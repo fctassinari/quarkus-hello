@@ -8,7 +8,7 @@
     company_name: 'smanager'
 
     quay_registry_name: '{{ company_name }}-registry'
-
+    quay_namespace: 'quay'
 
 
 #
@@ -25,7 +25,7 @@
 #    acs_central_password_plain_text: 'admin1234'
 #    acs_central_user: 'admin'
 #
-#    quay_namespace: 'quay'
+
 #    quay_admin_username: 'admin'
 #    quay_admin_email: '{{ company_name }}@redhat.com'
 #    quay_admin_password: 'admin1234'
