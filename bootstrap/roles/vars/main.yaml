@@ -1,25 +1,25 @@
-#
-#company_name: 'smanager'
-#cluster_url: 'apps.cluster-n7ncd.dynamic.redhatworkshops.io'
-#app_environment: 'hml'
-#app_name: 'quarkus-hello'
-#app_namespace: '{{ app_name }}-{{ app_environment }}'
-#
-#quay_registry_name: '{{ company_name }}-registry'
-#quay_namespace: 'quay'
-#quay_admin_username: 'admin'
-#quay_admin_password: 'admin1234'
-#quay_robot_account: 'quay_robot'
-#
-#sonar_namespace: 'sonarqube'
-#sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
-#
-#repo_namespace: 'gogs'
-#
-#acs_central_services_namespace: 'stackrox'
-#acs_central_password_plain_text: 'admin1234'
-#acs_central_user: 'admin'
-#
-#nexus_namespace: 'nexus'
-#nexus_user: 'admin'
-#nexus_password: 'admin1234'
+
+company_name: 'smanager'
+cluster_url: 'apps.cluster-n7ncd.dynamic.redhatworkshops.io'
+app_environment: 'hml'
+app_name: 'quarkus-hello'
+app_namespace: '{{ app_name }}-{{ app_environment }}'
+
+quay_registry_name: '{{ company_name }}-registry'
+quay_namespace: 'quay'
+quay_admin_username: 'admin'
+quay_admin_password: 'admin1234'
+quay_robot_account: 'quay_robot'
+
+sonar_namespace: 'sonarqube'
+sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
+
+repo_namespace: 'gogs'
+
+acs_central_services_namespace: 'stackrox'
+acs_central_password_plain_text: 'admin1234'
+acs_central_user: 'admin'
+
+nexus_namespace: 'nexus'
+nexus_user: 'admin'
+nexus_password: 'admin1234'
