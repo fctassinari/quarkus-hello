@@ -15,6 +15,11 @@
     namespace: openshift-gitops
   register: r_argopass
 
+- name: Decodificar o valor Base64
+  set_fact:
+    encoded_value: "{{ r_argopass.resources[0].data['admin.password'] }}"
+    decoded_value: "{{ encoded_value | b64decode }}"
+
 - name: extract ACS hostname
   shell: |
     oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
@@ -81,7 +86,7 @@
       - "----- ArgoCD -----"
       - "Rota:      https://{{ gitops_hostname_result.stdout }}"
       - "User:      admin"
-      - "Pass:      {{ r_argopass.resources[0].data['admin.password'] }}"
+      - "Pass:      {{ decoded_value }}"
       - "Namespace: openshift-gitops"
       - "----- Quay -----"
       - "Rota:      https://{{ quay_hostname_result.stdout }}"
