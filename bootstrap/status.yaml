@@ -19,6 +19,9 @@
 
     repo_namespace: 'gogs'
 
+    nexus_namespace: 'nexus'
+    nexus_user: 'admin'
+    nexus_password: 'admin1234'
 
 #
 #    pipeline_namespace: "{{ company_name }}-pipeline"

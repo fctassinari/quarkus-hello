@@ -25,31 +25,15 @@
   until:
     - gogs_hostname_result.stdout != ""
 
+- name: extract nexus hostname
+  shell: |
+    oc get route nexus -o jsonpath='{.spec.host}' -n {{ nexus_namespace }}
+  register: nexus_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - nexus_hostname_result.stdout != ""
 
-
-#- name: Get sonarqube route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ sonar_namespace }}"
-#    name: sonarqube
-#  register: sonar_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - sonar_route.resources[0].spec.host is defined
-#
-#- name: Get gogs route
-#  kubernetes.core.k8s_info:
-#    kind: Route
-#    api_version: route.openshift.io/v1
-#    namespace: "{{ repo_namespace }}"
-#    name: gogs
-#  register: r_gogs_route
-#  retries: 10
-#  delay: 20
-#  until:
-#    - r_gogs_route.resources[0].spec.host is defined
 
 - name: Infos
   debug:
@@ -69,4 +53,9 @@
       - "Rota:      http://{{ gogs_hostname_result.stdout }}"
       - "User:      gogs"
       - "Pass:      gogs"
+      - "Namespace: {{ repo_namespace }}"
+      - "----- Nexus -----"
+      - "Rota:      http://{{ nexus_hostname_result.stdout }}"
+      - "User:      {{ nexus_user }}"
+      - "Pass:      {{ nexus_password }}"
       - "Namespace: {{ repo_namespace }}"

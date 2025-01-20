@@ -256,22 +256,32 @@ Ajustes básicos
 
 ### Gogs
 - Install Gogs ```trocar pelo Gitlab Operator ```
-  -  ``` 
+- Get gogs route
+- Patch with specific route domain
+- Wait for gogs and gogs-postgresql to be running
+    ``` 
       Configurar senha 
       oc get pods
       oc rsh <nome do pod >
       su git
       ./gogs admin create-user --name gogs --password gogs --email root@xyz.com.br --admin
-
-      Criar os repositorios 
+    
+      Criar os repositorios e subir codigo fonte 
       quarkus-hello
+          git clone http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/gogs/quarkus-hello.git
+          cp -r quarkus-hello-orig/* quarkus-hello
+          cd quarkus-hello
+          git add .
+          git commit -m "First Commit"
+          git push -u origin master
       quarkus-hello-config
-      Subir codigo fonte
+          git clone http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git
+          cp -r quarkus-hello-config-orig/* quarkus-hello-config
+          cd quarkus-hello-config
+          git add .
+          git commit -m "First Commit"
+          git push -u origin master 
       ```
-- Get gogs route
-- Patch with specific route domain
-- Wait for gogs and gogs-postgresql to be running
-- Atualizar a variavel ```repo_url``` no arquivo deploy_pipeline.yaml
 ### Nexus
 - Install Nexus
 - Get nexus route
