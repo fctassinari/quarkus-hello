@@ -13,6 +13,6 @@
 
 - name: Quay
   debug:
-    msg: >- 
+    msg:
       - "Rota:  https://{{ quay_route }} "
       - "Teste: ajfdçkjfaçjdsfas"
