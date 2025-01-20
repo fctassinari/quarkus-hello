@@ -13,4 +13,5 @@
 
 - name: Quay
   debug:
-    msg: "https://{{ quay_route }}"
+    rota: "https://{{ quay_route }}"
+    teste: "ffasdfasd"
