@@ -1,3 +1,13 @@
+
+- name: extract ACS hostname
+  shell: |
+    oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
+  register: acs_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - acs_hostname_result.stdout != ""
+
 - name: extract ArgoCD hostname
   shell: |
     oc get route openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops
@@ -20,15 +30,6 @@
   args:
     executable: /bin/bash
   register: shell_base64
-
-- name: extract ACS hostname
-  shell: |
-    oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
-  register: acs_hostname_result
-  delay: 5
-  retries: 10
-  until:
-    - acs_hostname_result.stdout != ""
 
 - name: extract quay hostname
   shell: |
