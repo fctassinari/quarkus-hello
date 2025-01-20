@@ -136,20 +136,16 @@ Ajustes básicos
 - Configurar os Operators GitOps e Pipelines para serem executados nos infra-nodes<br>
   Ajustar no Subscription yaml
   ![img.png](imagens/gitops-pipelines-tolerations.png)
-  - ```
-    spec:
-      channel: latest
-      config:
-        nodeSelector:
-          env: ocp-infra-dev
-          node-role.kubernetes.io/infra: ''
-        tolerations:
-          - effect: NoSchedule
-            key: node-role.kubernetes.io/infra
-            value: reserved
-          - effect: NoExecute
-            key: node-role.kubernetes.io/infra
-            value: reserved
+- ```
+  spec:
+    channel: latest
+    config:
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+        node-role.kubernetes.io/master: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
     ```
  - Pegar a senha do ArgoCD na openshift-gitops / secret / openshift-gitops-cluster para autenticação no console web  
   ![img.png](imagens/argocd-pass.png)
