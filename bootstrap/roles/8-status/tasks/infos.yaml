@@ -35,7 +35,7 @@
   debug:
     msg:
       - "----- Quay -----"
-      - "Rota:      https://{{ quay_hostname_result }}"
+      - "Rota:      https://{{ quay_hostname_result.stdout }}"
       - "User:      {{ quay_admin_username }}"
       - "Pass:      {{ quay_admin_password }}"
       - "Robot:     {{ quay_robot_account }}"
