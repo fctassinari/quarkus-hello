@@ -5,6 +5,10 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
 
+# Ambiente
+[Red Hat OpenShift Container Platform Cluster](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocpmulti-wksp-cnv.prod)
+
+
 ## Contas
 - ArgoCD
     - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-5fflp.sandbox1066.opentlc.com/
