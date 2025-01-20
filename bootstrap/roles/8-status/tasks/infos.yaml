@@ -55,7 +55,7 @@
       - "Pass:      gogs"
       - "Namespace: {{ repo_namespace }}"
       - "----- Nexus -----"
-      - "Rota:      http://{{ nexus_hostname_result.stdout }}"
+      - "Rota:      https://{{ nexus_hostname_result.stdout }}"
       - "User:      {{ nexus_user }}"
       - "Pass:      {{ nexus_password }}"
       - "Namespace: {{ repo_namespace }}"
