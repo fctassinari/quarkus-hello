@@ -6,12 +6,18 @@
 
 
     company_name: 'smanager'
+    cluster_url: 'apps.cluster-n7ncd.dynamic.redhatworkshops.io'
 
     quay_registry_name: '{{ company_name }}-registry'
     quay_namespace: 'quay'
     quay_admin_username: 'admin'
     quay_admin_password: 'admin1234'
     quay_robot_account: 'quay_robot'
+
+    sonar_namespace: 'sonarqube'
+    sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
+
+
 
 
 #

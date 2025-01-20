@@ -16,3 +16,8 @@
       - "Pass:      {{ quay_admin_password }}"
       - "Robot:     {{ quay_robot_account }}"
       - "Namespace: {{ quay_namespace }}"
+      - "----- Sonarqube -----"
+      - "Rota:      https://{{ sonar_url }}"
+      - "User:      admin"
+      - "Pass:      admin1234"
+      - "Namespace: {{ sonar_namespace }}"
