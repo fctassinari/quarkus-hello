@@ -7,11 +7,23 @@
   until:
     - quay_hostname_result.stdout != ""
 
+- name: Get gogs route
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ repo_namespace }}"
+    name: gogs
+  register: r_gogs_route
+  retries: 10
+  delay: 20
+  until:
+    - r_gogs_route.resources[0].spec.host is defined
+
 - name: Infos
   debug:
     msg:
       - "----- Quay -----"
-      - "Rota:      https://{{ quay_hostname_result.stdout }}"
+      - "Rota:      https://{{ quay_hostname_result }}"
       - "User:      {{ quay_admin_username }}"
       - "Pass:      {{ quay_admin_password }}"
       - "Robot:     {{ quay_robot_account }}"
@@ -21,3 +33,8 @@
       - "User:      admin"
       - "Pass:      admin1234"
       - "Namespace: {{ sonar_namespace }}"
+      - "----- Gogs -----"
+      - "Rota:      http://{{ r_gogs_route }}"
+      - "User:      gogs"
+      - "Pass:      gogs"
+      - "Namespace: {{ repo_namespace }}"
