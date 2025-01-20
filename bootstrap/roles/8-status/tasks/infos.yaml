@@ -34,7 +34,7 @@
       - "Pass:      admin1234"
       - "Namespace: {{ sonar_namespace }}"
       - "----- Gogs -----"
-      - "Rota:      http://{{ r_gogs_route }}"
+      - "Rota:      http://{{ r_gogs_route.resources[0].spec.host }}"
       - "User:      gogs"
       - "Pass:      gogs"
       - "Namespace: {{ repo_namespace }}"
