@@ -10,3 +10,7 @@
 - name: Set Quay hostname
   ansible.builtin.set_fact:
     quay_route: "{{ quay_hostname_result.stdout }}"
+
+- name: Quay
+  debug:
+    msg: "https://"quay_route
