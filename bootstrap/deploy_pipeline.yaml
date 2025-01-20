@@ -91,11 +91,11 @@
 #      include_role:
 #        name: "5-ocp4-install-cicd-infra"
 
-    - name: 'Install Pipeline'
-      include_role:
-        name: "6-ocp4-install-pipeline"
-
-#    - name: 'Install Application'
+#    - name: 'Install Pipeline'
 #      include_role:
-#        name: "7-install-application"
+#        name: "6-ocp4-install-pipeline"
+
+    - name: 'Install Application'
+      include_role:
+        name: "7-install-application"
 
