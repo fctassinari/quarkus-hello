@@ -7,14 +7,11 @@
   until:
     - quay_hostname_result.stdout != ""
 
-- name: Set Quay hostname
-  ansible.builtin.set_fact:
-    quay_route: "{{ quay_hostname_result.stdout }}"
-
-- name: Quay
+- name: Infos
   debug:
     msg:
-      - "Rota:      https://{{ quay_route }} "
+      - "----- Quay -----"
+      - "Rota:      https://{{ quay_hostname_result.stdout }} "
       - "User:      {{ quay_admin_username }}"
       - "Pass:      {{ quay_admin_password }}"
       - "Robot:     {{ quay_robot_account }}"
