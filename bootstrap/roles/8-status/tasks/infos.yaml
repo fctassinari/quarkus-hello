@@ -1,3 +1,29 @@
+- name: extract ArgoCD hostname
+  shell: |
+    oc get route openshift-gitops-server -o jsonpath='{.spec.host}' -n {{ openshift-gitops }}
+  register: gitops_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - gitops_hostname_result.stdout != ""
+
+- name: Get argocd password
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: openshift-gitops-cluster
+    namespace: openshift-gitops
+  register: r_argopass
+
+- name: extract ACS hostname
+  shell: |
+    oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
+  register: acs_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - acs_hostname_result.stdout != ""
+
 - name: extract quay hostname
   shell: |
     oc get route {{ quay_registry_name }}-quay -o jsonpath='{.spec.host}' -n {{ quay_namespace }}
@@ -43,14 +69,6 @@
   until:
     - wh_hostname_result.stdout != ""
 
-- name: extract ACS hostname
-  shell: |
-    oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
-  register: acs_hostname_result
-  delay: 5
-  retries: 10
-  until:
-    - acs_hostname_result.stdout != ""
 
 - name: Infos
   debug:
@@ -60,6 +78,11 @@
       - "User:      {{ acs_central_user }}"
       - "Pass:      {{ acs_central_password_plain_text }}"
       - "Namespace: {{ acs_central_services_namespace }}"
+      - "----- ArgoCD -----"
+      - "Rota:      https://{{ gitops_hostname_result.stdout }}"
+      - "User:      admin"
+      - "Pass:      {{ r_argopass.resources[0].data['admin.password'] }}"
+      - "Namespace: openshift-gitops"
       - "----- Quay -----"
       - "Rota:      https://{{ quay_hostname_result.stdout }}"
       - "User:      {{ quay_admin_username }}"
