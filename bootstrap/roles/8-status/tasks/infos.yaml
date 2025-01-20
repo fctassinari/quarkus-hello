@@ -50,7 +50,7 @@
   delay: 5
   retries: 10
   until:
-    - ace_hostname_result.stdout != ""
+    - acs_hostname_result.stdout != ""
 
 - name: Infos
   debug:
