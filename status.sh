@@ -17,7 +17,7 @@ err() {
 }
 
 info "Status"
-ansible-playbook bootstrap/status.yaml -v
+ansible-playbook bootstrap/status.yaml
 
 
 
