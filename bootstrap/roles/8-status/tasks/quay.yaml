@@ -13,4 +13,4 @@
 
 - name: Quay
   debug:
-    msg: "https://"quay_route
+    msg: "https://{{ quay_route }}"
