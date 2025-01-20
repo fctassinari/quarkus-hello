@@ -15,11 +15,6 @@
     namespace: openshift-gitops
   register: r_argopass
 
-- name: Decodificar o valor Base64
-  set_fact:
-    encoded_value: "{{ r_argopass.resources[0].data['admin.password'] }}"
-    decoded_value: "{{ encoded_value | b64decode }}"
-
 - name: dencode with shell
   shell: "echo -n {{ r_argopass.resources[0].data['admin.password'] }}  | base64 --decode"
   args:
