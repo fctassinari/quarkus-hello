@@ -78,6 +78,7 @@
 #      include_role:
 #        name: "2-ocp4-install-acs"
 
+# Instalar o Noobaa somente em ambientes sem ODF
 #    - name: 'Install and configure Noobaa Object Storage'
 #      include_role:
 #        name: "3-opc4-install-noobaa"
