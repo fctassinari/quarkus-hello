@@ -22,6 +22,10 @@
 
     repo_namespace: 'gogs'
 
+    acs_central_services_namespace: 'stackrox'
+    acs_central_password_plain_text: 'admin1234'
+    acs_central_user: 'admin'
+
     nexus_namespace: 'nexus'
     nexus_user: 'admin'
     nexus_password: 'admin1234'

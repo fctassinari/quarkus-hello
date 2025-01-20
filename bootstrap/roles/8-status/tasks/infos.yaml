@@ -43,9 +43,23 @@
   until:
     - wh_hostname_result.stdout != ""
 
+- name: extract ACS hostname
+  shell: |
+    oc get route central -o jsonpath='{.spec.host}' -n {{ acs_central_services_namespace }}
+  register: acs_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - ace_hostname_result.stdout != ""
+
 - name: Infos
   debug:
     msg:
+      - "----- ACS -----"
+      - "Rota:      https://{{ acs_hostname_result.stdout }}"
+      - "User:      {{ acs_central_user }}"
+      - "Pass:      {{ acs_central_password_plain_text }}"
+      - "Namespace: {{ acs_central_services_namespace }}"
       - "----- Quay -----"
       - "Rota:      https://{{ quay_hostname_result.stdout }}"
       - "User:      {{ quay_admin_username }}"
@@ -68,4 +82,4 @@
       - "Pass:      {{ nexus_password }}"
       - "Namespace: {{ repo_namespace }}"
       - "----- WebHook -----"
-      - "Rota:      https://{{ wh_hostname_result.stdout }}"
+      - "Rota:      http://{{ wh_hostname_result.stdout }}"

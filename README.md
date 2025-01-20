@@ -442,9 +442,10 @@ Acesse o repositório Git clique nas seguintes opções:
 - Reports
 - Instalar Gitlab Operator
 - Coletar Urls - status.sh
-- Somente na versão 1.17 do pipelines<br>
-  Consegui instalar a 1.14, a 1.17 ainda dá pau <br>
-  Testar depois <br> 
-  [Using manual approval in OpenShift Pipelines](https://docs.openshift.com/pipelines/1.17/create/using-manual-approval.html)
+- Autorização manual
+  - Somente na versão 1.17 do pipelines<br>
+    Consegui instalar a 1.14, a 1.17 ainda dá pau <br>
+    Testar depois <br> 
+    [Using manual approval in OpenShift Pipelines](https://docs.openshift.com/pipelines/1.17/create/using-manual-approval.html)
 
 
