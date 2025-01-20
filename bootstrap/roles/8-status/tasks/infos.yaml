@@ -1,6 +1,6 @@
 - name: extract ArgoCD hostname
   shell: |
-    oc get route openshift-gitops-server -o jsonpath='{.spec.host}' -n {{ openshift-gitops }}
+    oc get route openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops
   register: gitops_hostname_result
   delay: 5
   retries: 10
