@@ -7,29 +7,49 @@
   until:
     - quay_hostname_result.stdout != ""
 
-- name: Get sonarqube route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace: "{{ sonar_namespace }}"
-    name: sonarqube
-  register: sonar_route
+- name: extract sonarqube hostname
+  shell: |
+    oc get route sonarqube -o jsonpath='{.spec.host}' -n {{ sonar_namespace }}
+  register: sonar_hostname_result
+  delay: 5
   retries: 10
-  delay: 20
   until:
-    - sonar_route.resources[0].spec.host is defined
+    - sonar_hostname_result.stdout != ""
 
-- name: Get gogs route
-  kubernetes.core.k8s_info:
-    kind: Route
-    api_version: route.openshift.io/v1
-    namespace: "{{ repo_namespace }}"
-    name: gogs
-  register: r_gogs_route
+- name: extract gogs hostname
+  shell: |
+    oc get route gogs -o jsonpath='{.spec.host}' -n {{ repo_namespace }}
+  register: gogs_hostname_result
+  delay: 5
   retries: 10
-  delay: 20
   until:
-    - r_gogs_route.resources[0].spec.host is defined
+    - gogs_hostname_result.stdout != ""
+
+
+
+#- name: Get sonarqube route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ sonar_namespace }}"
+#    name: sonarqube
+#  register: sonar_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - sonar_route.resources[0].spec.host is defined
+#
+#- name: Get gogs route
+#  kubernetes.core.k8s_info:
+#    kind: Route
+#    api_version: route.openshift.io/v1
+#    namespace: "{{ repo_namespace }}"
+#    name: gogs
+#  register: r_gogs_route
+#  retries: 10
+#  delay: 20
+#  until:
+#    - r_gogs_route.resources[0].spec.host is defined
 
 - name: Infos
   debug:
@@ -41,12 +61,12 @@
       - "Robot:     {{ quay_robot_account }}"
       - "Namespace: {{ quay_namespace }}"
       - "----- Sonarqube -----"
-      - "Rota:      https://{{ sonar_url }}"
+      - "Rota:      https://{{ sonar_hostname_result.stdout }}"
       - "User:      admin"
       - "Pass:      admin1234"
       - "Namespace: {{ sonar_namespace }}"
       - "----- Gogs -----"
-      - "Rota:      http://{{ r_gogs_route.resources[0].spec.host }}"
+      - "Rota:      http://{{ gogs_hostname_result.stdout }}"
       - "User:      gogs"
       - "Pass:      gogs"
       - "Namespace: {{ repo_namespace }}"
