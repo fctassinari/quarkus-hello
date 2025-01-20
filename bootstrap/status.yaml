@@ -9,6 +9,9 @@
 
     quay_registry_name: '{{ company_name }}-registry'
     quay_namespace: 'quay'
+    quay_admin_username: 'admin'
+    quay_admin_password: 'admin1234'
+    quay_robot_account: 'quay_robot'
 
 
 #
@@ -26,10 +29,6 @@
 #    acs_central_user: 'admin'
 #
 
-#    quay_admin_username: 'admin'
-#    quay_admin_email: '{{ company_name }}@redhat.com'
-#    quay_admin_password: 'admin1234'
-#    quay_robot_account: 'quay_robot'
 #
 #    #Can obtain status codes from Swagger of quay route/api/v1/discovery
 #    quay_org_created_success_status_code: '201'

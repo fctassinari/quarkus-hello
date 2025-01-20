@@ -14,5 +14,8 @@
 - name: Quay
   debug:
     msg:
-      - "Rota:  https://{{ quay_route }} "
-      - "Teste: ajfdçkjfaçjdsfas"
+      - "Rota:      https://{{ quay_route }} "
+      - "User:      {{ quay_admin_username }}"
+      - "Pass:      {{ quay_admin_password }}"
+      - "Robot:     {{ quay_robot_account }}"
+      - "Namespace: {{ quay_namespace }}"
