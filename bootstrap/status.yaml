@@ -17,7 +17,7 @@
     sonar_namespace: 'sonarqube'
     sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
 
-
+    repo_namespace: 'gogs'
 
 
 #
