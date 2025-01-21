@@ -44,11 +44,6 @@ Quantidade de etapas: 12
     "Pass:      admin1234",
     "Namespace: nexus"
 
-
-
-## Clusters
-[Produção](https://console-openshift-console.apps.kilpro4820.pro.intra.rs.gov.br/)<br>
-[Homologação](https://console-openshift-console.apps.kildes4830.des.intra.rs.gov.br/)
 ## Pré requisitos
 ### Ferramentas
 - Uma máquina bastion com RHEL 8+
