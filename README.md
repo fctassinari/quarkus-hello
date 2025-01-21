@@ -10,35 +10,37 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 
 ## Contas
-- ArgoCD
-    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-crq5k.dynamic.redhatworkshops.io/
-    - user: admin
-    - pass: l1ZoSL9fICDKzjt8HMExYBuwa5GFObc6
-
-- ACS
-    - rota: https://central-stackrox.apps.cluster-crq5k.dynamic.redhatworkshops.io
-    - user: admin
-    - pass: admin1234
-
-- Quay
-    - rota: https://smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io/
-    - user: admin
-    - pass: admin1234
-
-- Nexus
-  - rota: https://nexus.apps.cluster-crq5k.dynamic.redhatworkshops.io/
-  - user: admin
-  - pass: admin1234
-  
-- Sonarqube
-    - rota: https://sonarqube.apps.cluster-crq5k.dynamic.redhatworkshops.io/
-    - user: admin
-    - pass: admin1234
-
-- Gogs
-    - rota: http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/
-    - user: gogs
-    - pass: gogs
+        "----- ACS -----",
+        "Rota:      https://central-stackrox.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      admin",
+        "Pass:      admin1234",
+        "Namespace: stackrox",
+        "----- ArgoCD -----",
+        "Rota:      https://openshift-gitops-server-openshift-gitops.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      admin",
+        "Pass:      NQMgZns49dlEBDj5kv6ALatyzXc8Cqwp",
+        "Namespace: openshift-gitops",
+        "----- Quay -----",
+        "Rota:      https://smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      admin",
+        "Pass:      admin1234",
+        "Robot:     quay_robot",
+        "Namespace: quay",
+        "----- Sonarqube -----",
+        "Rota:      https://sonarqube.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      admin",
+        "Pass:      admin1234",
+        "Namespace: sonarqube",
+        "----- Gogs -----",
+        "Rota:      http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      gogs",
+        "Pass:      gogs",
+        "Namespace: gogs",
+        "----- Nexus -----",
+        "Rota:      https://nexus.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+        "User:      admin",
+        "Pass:      admin1234",
+        "Namespace: gogs"
 
 
 
@@ -247,7 +249,7 @@ Ajustes básicos
     - Criar token da conta admin <br>
       Clicar em Avatar / My Account / Security<br>
       ![img_1.png](imagens/sonar-token.png)<br>
-      Copiar o token e armazenar em deploy_pipeline / sonar_token
+      Copiar o token e armazenar em **deploy_pipeline / sonar_token**
   
 ### Reports
 - Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```
