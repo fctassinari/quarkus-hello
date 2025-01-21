@@ -34,11 +34,11 @@
     quay_org_name: "{{ company_name }}"
 
     sa_cluster_admin: 'cluster-admin-sa'
-    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IkQzV1JuX2s2RC1pZ2JXZ3NhaWRBUVY5RUVneGE1LXB2TEd0ejYwQXY3bkEifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNzQ1NjA2MywiaWF0IjoxNzM3NDU5NjYzLCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJqdGkiOiI4OTJlMDkwZC00YzY2LTQ1MjYtOWQ5NC03NjhiZmY1MDJkYmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiI3ODJhMzdiNC0zMGYwLTQ0ZGItODEzYi0wNDM1NGNmOWE4ZjIifX0sIm5iZiI6MTczNzQ1OTY2Mywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.Th0nNbIRRg5kCgY-sMTPQ2cwx359pUjV4ljxc8IQ8FAsknHkorUHG_VT9-LDtoLleZRBKok-V7omkqikU4L0uYtdd-uL4X2AVcOgMDICDl9b4YXFNXEIgdlourTIHiI1eWwKGZVA70ZK5UCOlGp9sKDP4krs1wVxYphJDihVDDECoVgkvboiwiSge6i2yIDib-mgCRgYdriLuVsmga_Dd_3udyz0_dIhMFK2GFZu1NB0q1YuIxbk9SSyoe8MUqNksTTb-rHRSWonekP2-JnsEY37x8MRWfkT4j4ZkrTL2e1HEoJ17B7IKlEHT9LdSpga6x0o9RgVw02bdxcpfftHLG1a960JLCId2C_SPZjjkXTuV89QWLGfidiGiePQNsODHAODIZ3cy8g3AOxpyt0YUh1rnRybXtU1TI85WgBKU7ehWWA6jpOm7ABKUeFdrqUyyNYE-Qj_joOK3f_2gpkmZcozkDlvzQiq7TU24g0wHcQfMhiIkbBUZvZO6spUPPvRsZrL8UP3_G2tTvr8GLOKsCUvA6XziEpW52SodfUSUWoityCkLbrZHrQD1UpsCnjpzMS7Ju0xbDuyIL6zgA6uNxmZgc2LQPgiFw5peyP02Xs5h3X4r9VpktglX0GJGhRmnaMMY5kkdeyWAiVbZcGnh_v8htZ2QzGMzCH1V7LTUdY'
-    cluster_url: 'apps.cluster-crq5k.dynamic.redhatworkshops.io'
+    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5VeVNsaXpyYlFkMVBJdmNJa09IVFVvS2JpeU9YRUplbkF5b0szMEE2RW8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNzQ2NzU0OCwiaWF0IjoxNzM3NDcxMTQ4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiIzMmM0M2JmMy1lYmI4LTRmMzgtYjA3My05N2FjMDEyZWZjYzQifX0sIm5iZiI6MTczNzQ3MTE0OCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.P6oHyMpjWSNqWVp-cXqBtxv0lUl6tbVKk1uJSeCjknKLFEK5rw4ecbOCsRBA06GD1P2JM87LI117TyKEx8cWbytFq8yBIVSDKrM_BI6wG6fTa-OQ2rnASjKB9FsXTYMxchVC93l6sUPHi9BkJ76s6adGZyudAWXBpVMZE9y2z6G687YPerVViAVmzrK-3ZXs0_AL3NedW45Evv_7CgXAeErtF6xgbW_8SQcCumNeywLFFEtYai_aZdPbhTEY0ra8QtAHfaLcvR62cb4DtkcmKDvjGYdBiECxBYm_nnP9Y2KrDFFwXAPF7L8kRZdQYRoId44iWlwcQU59hp8ZU2FhEZ9udc5hbqhd1IcKOGkYCBSXqpA6XhlAibiNf7SKu6zTWpBt3rdJBo6kN5stRrGvMb2UJR8s9nDhb5trx-yrfH-iyjEAXG3_CFQYo0zV3Bs-5LlsqQEaSuXvERABQaJ_k9G2r08Ag3wxBhjx2u-VFIKTLAgUz8t0MIWiXLRuaOMjXr0Tw8AGoTOoHiNr2c3ougDOa46DqaCimobe1HFo5aN83jqFC3xpMmLML2tuy_ckbQ2TuTe_TSlSlvTVidONZeqGOD5M7Rky-xZsSd9sz6NsN34u160JelIoMad-T9b_8yUm-Zhyce25jgmVdSd74-aB0LjZ-XiM9CMMTYMlJyk'
+    cluster_url: 'apps.cluster-qq995.sandbox2890.opentlc.com'
 
     repo_namespace: 'gogs'
-    repo_url: 'http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io'
+    repo_url: 'http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com'
 
     reports_namespace: 'reports-repo'
     nexus_namespace: 'nexus'
@@ -70,26 +70,26 @@
 
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
 
-#    - name: 'Install the ACS Central'
-#      include_role:
-#        name: "2-ocp4-install-acs"
+    - name: 'Install the ACS Central'
+      include_role:
+        name: "2-ocp4-install-acs"
 
-## Instalar o Noobaa somente em ambientes sem ODF
-#    - name: 'Install and configure Noobaa Object Storage'
-#      include_role:
-#        name: "3-opc4-install-noobaa"
+# Instalar o Noobaa somente em ambientes sem ODF
+    - name: 'Install and configure Noobaa Object Storage'
+      include_role:
+        name: "3-opc4-install-noobaa"
 
-#    - name: 'Install and configure Quay'
-#      include_role:
-#        name: "4-ocp4-install-quay"
+    - name: 'Install and configure Quay'
+      include_role:
+        name: "4-ocp4-install-quay"
 
-#    - name: 'Install CICD Infra'
-#      include_role:
-#        name: "5-ocp4-install-cicd-infra"
+    - name: 'Install CICD Infra'
+      include_role:
+        name: "5-ocp4-install-cicd-infra"
 
 #    - name: 'Install Pipeline'
 #      include_role:

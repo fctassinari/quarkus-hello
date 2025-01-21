@@ -6,38 +6,38 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
 
 # Ambiente
+[Gartner Magic Quadrant - DevOps Best Practices on Red Hat Openshift](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocp-gartner.prod)
 [Red Hat OpenShift Container Platform Cluster](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocpmulti-wksp-cnv.prod)
-
 
 ## Contas
     "----- ACS -----",
-    "Rota:      https://central-stackrox.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      https://central-stackrox.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      admin1234",
     "Namespace: stackrox",
     "----- ArgoCD -----",
-    "Rota:      https://openshift-gitops-server-openshift-gitops.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      https://openshift-gitops-server-openshift-gitops.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      NQMgZns49dlEBDj5kv6ALatyzXc8Cqwp",
     "Namespace: openshift-gitops",
     "----- Quay -----",
-    "Rota:      https://smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      https://smanager-registry-quay-quay.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      admin1234",
     "Robot:     quay_robot",
     "Namespace: quay",
     "----- Sonarqube -----",
-    "Rota:      https://sonarqube.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      https://sonarqube.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      admin1234",
     "Namespace: sonarqube",
     "----- Gogs -----",
-    "Rota:      http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      gogs",
     "Pass:      gogs",
     "Namespace: gogs",
     "----- Nexus -----",
-    "Rota:      https://nexus.apps.cluster-crq5k.dynamic.redhatworkshops.io",
+    "Rota:      https://nexus.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      admin1234",
     "Namespace: gogs"
@@ -121,7 +121,7 @@ Ajustes básicos
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
 - No bastion autenticar no Openshift de des/hml
   ```
-  oc login -u <user> -p <pass> --server=https://apps.cluster-crq5k.dynamic.redhatworkshops.io:6443
+  oc login -u <user> -p <pass> --server=https://apps.cluster-qq995.sandbox2890.opentlc.com:6443
   ```
 - No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
   ```
@@ -270,14 +270,14 @@ Ajustes básicos
     
       Criar os repositorios e subir codigo fonte 
       quarkus-hello
-          git clone http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/gogs/quarkus-hello.git
+          git clone http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com/gogs/quarkus-hello.git
           cp -r quarkus-hello-orig/* quarkus-hello
           cd quarkus-hello
           git add .
           git commit -m "First Commit"
           git push -u origin master
       quarkus-hello-config
-          git clone http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git
+          git clone http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com/gogs/quarkus-hello-config.git
           cp -r quarkus-hello-config-orig/* quarkus-hello-config
           cd quarkus-hello-config
           git add .
@@ -390,7 +390,7 @@ Ajustes básicos
           spec:
             registrySources:
               insecureRegistries:
-              - smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io
+              - smanager-registry-quay-quay.apps.cluster-qq995.sandbox2890.opentlc.com
           ```
           [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
 
