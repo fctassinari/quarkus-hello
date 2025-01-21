@@ -99,6 +99,6 @@
 #      include_role:
 #        name: "7-install-application"
 
-    - name: 'Show Informations'
-      include_role:
-        name: "8-info"
+#    - name: 'Show Informations'
+#      include_role:
+#        name: "8-info"
