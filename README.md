@@ -11,32 +11,32 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 
 ## Contas
 - ArgoCD
-    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
+    - rota: https://openshift-gitops-server-openshift-gitops.apps.cluster-crq5k.dynamic.redhatworkshops.io/
     - user: admin
     - pass: l1ZoSL9fICDKzjt8HMExYBuwa5GFObc6
 
 - ACS
-    - rota: https://central-stackrox.apps.cluster-n7ncd.dynamic.redhatworkshops.io
+    - rota: https://central-stackrox.apps.cluster-crq5k.dynamic.redhatworkshops.io
     - user: admin
     - pass: admin1234
 
 - Quay
-    - rota: https://smanager-registry-quay-quay.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
+    - rota: https://smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io/
     - user: admin
     - pass: admin1234
 
 - Nexus
-  - rota: https://nexus.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
+  - rota: https://nexus.apps.cluster-crq5k.dynamic.redhatworkshops.io/
   - user: admin
   - pass: admin1234
   
 - Sonarqube
-    - rota: https://sonarqube.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
+    - rota: https://sonarqube.apps.cluster-crq5k.dynamic.redhatworkshops.io/
     - user: admin
     - pass: admin1234
 
 - Gogs
-    - rota: http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/
+    - rota: http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/
     - user: gogs
     - pass: gogs
 
@@ -119,7 +119,7 @@ Ajustes básicos
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
 - No bastion autenticar no Openshift de des/hml
   ```
-  oc login -u <user> -p <pass> --server=https://apps.cluster-n7ncd.dynamic.redhatworkshops.io:6443
+  oc login -u <user> -p <pass> --server=https://apps.cluster-crq5k.dynamic.redhatworkshops.io:6443
   ```
 - No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
   ```
@@ -268,14 +268,14 @@ Ajustes básicos
     
       Criar os repositorios e subir codigo fonte 
       quarkus-hello
-          git clone http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/gogs/quarkus-hello.git
+          git clone http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/gogs/quarkus-hello.git
           cp -r quarkus-hello-orig/* quarkus-hello
           cd quarkus-hello
           git add .
           git commit -m "First Commit"
           git push -u origin master
       quarkus-hello-config
-          git clone http://gogs-gogs.apps.cluster-n7ncd.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git
+          git clone http://gogs-gogs.apps.cluster-crq5k.dynamic.redhatworkshops.io/gogs/quarkus-hello-config.git
           cp -r quarkus-hello-config-orig/* quarkus-hello-config
           cd quarkus-hello-config
           git add .
@@ -390,7 +390,7 @@ Ajustes básicos
           spec:
             registrySources:
               insecureRegistries:
-              - smanager-registry-quay-quay.apps.cluster-n7ncd.dynamic.redhatworkshops.io
+              - smanager-registry-quay-quay.apps.cluster-crq5k.dynamic.redhatworkshops.io
           ```
           [Allowing Insecure Registry](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/images/image-configuration#images-configuration-insecure_image-configuration)
 
