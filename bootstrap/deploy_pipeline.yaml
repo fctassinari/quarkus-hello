@@ -70,13 +70,13 @@
 
 
   tasks:
-    - name: 'Install Gitops and Pipeline'
-      include_role:
-        name: "1-ocp4-install-gitops-pipeline"
+#    - name: 'Install Gitops and Pipeline'
+#      include_role:
+#        name: "1-ocp4-install-gitops-pipeline"
 
-    - name: 'Install the ACS Central'
-      include_role:
-        name: "2-ocp4-install-acs"
+#    - name: 'Install the ACS Central'
+#      include_role:
+#        name: "2-ocp4-install-acs"
 
 ## Instalar o Noobaa somente em ambientes sem ODF
 #    - name: 'Install and configure Noobaa Object Storage'
