@@ -1,9 +1,11 @@
 ![img.png](imagens/smanager.png)
 
 # Introdução
-Este projeto visa a criação de um pipeline genérico para atender aplicações java sobre JBoss.
-
+Este projeto visa a criação de um pipeline genérico para atender aplicações java sobre JBoss.<br>
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
+
+Instalação / configuração: 1:30<br>
+Quantidade de etapas: 12
 
 # Ambiente
 [Gartner Magic Quadrant - DevOps Best Practices on Red Hat Openshift](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocp-gartner.prod)
@@ -91,6 +93,11 @@ Ajustes básicos
     - sa_cluster_admin_token **com o token gerado pelos comandos acima**
     - cluster_url **aproveite para fazer um replace em todos os arquivos do projeto**
     - nexus_password
+  
+  
+- No repositorio de config ajustar o arquivo deployment com a url da imagem do Quay<br>
+  Ajustar somente o trecho do cluster url
+   ![img.png](imagens/git-config.png)
 
 
 - Criar rota do registry
@@ -99,23 +106,38 @@ Ajustes básicos
     oc get route -n openshift-image-registry
     ```
     
-- Importar a imagem java do repositorio redhat para o registry do OCP<br>
-  - Acessar a página do container quarkus
-  - ```
-    https://catalog.redhat.com/software/containers/ubi9/openjdk-21/6501cdb5c34ae048c44f7814
-    ```
-    - Seguir as instruções do link no destaque amarelo abaixo, o arquivo gerado colar na pasta tools
-      ![img.png](imagens/openjdk-21.png)
-    - Executar os comandos oc abaixo:
- 
-  - ```
-    oc create -f 6095290_tassinari-secret-redhat.yaml -n openshift
-    oc create -f kube-openjdk-21-pod.yaml -n openshift
-    oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21:1.21-3 --confirm -n openshift
-    oc get is -n openshift | grep openjdk-21
-    oc delete pod kube-openjdk-21-pod -n openshift
-    oc delete secret 6095290-tassinari-pull-secret -n openshift
-    ```
+[//]: # (- Importar a imagem java do repositorio redhat para o registry do OCP<br>)
+
+[//]: # (  - Acessar a página do container quarkus)
+
+[//]: # (  - ```)
+
+[//]: # (    https://catalog.redhat.com/software/containers/ubi9/openjdk-21/6501cdb5c34ae048c44f7814)
+
+[//]: # (    ```)
+
+[//]: # (    - Seguir as instruções do link no destaque amarelo abaixo, o arquivo gerado colar na pasta tools)
+
+[//]: # (      ![img.png]&#40;imagens/openjdk-21.png&#41;)
+
+[//]: # (    - Executar os comandos oc abaixo:)
+
+[//]: # ( )
+[//]: # (  - ```)
+
+[//]: # (    oc create -f 6095290_tassinari-secret-redhat.yaml -n openshift)
+
+[//]: # (    oc create -f kube-openjdk-21-pod.yaml -n openshift)
+
+[//]: # (    oc import-image ubi9/openjdk-21:1.21-3 --from=registry.redhat.io/ubi9/openjdk-21:1.21-3 --confirm -n openshift)
+
+[//]: # (    oc get is -n openshift | grep openjdk-21)
+
+[//]: # (    oc delete pod kube-openjdk-21-pod -n openshift)
+
+[//]: # (    oc delete secret 6095290-tassinari-pull-secret -n openshift)
+
+[//]: # (    ```)
 
 # Instalação
 ## RedHat Openshift Pipelines e RedHat Openshift GitOps
@@ -427,6 +449,14 @@ Acesse o repositório Git clique nas seguintes opções:
 6. **Active:** *checked*
 7. **Add Webhook**
 ![img.png](imagens/webhook-2.png)
+
+# Executar a Pipeline
+1. No Openshift acessar o menu Pipelines, escolher o projeto da aplicação, clicar em PipelineRuns e botão Create / PipelineRun.
+![img.png](imagens/x-pipeline-1.png)
+2. Copiar o conteudo de **7-install-application/qh-pipelinerun.yaml**
+![img.png](imagens/x-pipeline-2.png)
+ 
+# Divirta-se!
 
 
 # Info

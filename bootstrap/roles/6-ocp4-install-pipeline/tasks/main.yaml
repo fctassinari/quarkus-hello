@@ -2,5 +2,3 @@
 - import_tasks: pre.yaml
 - import_tasks: pipelines.yaml
 
-# A linha abaixo pode ser excluida
-# - import_tasks: secret-quay.yaml
