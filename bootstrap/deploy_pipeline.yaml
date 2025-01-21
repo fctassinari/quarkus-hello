@@ -95,10 +95,10 @@
 #      include_role:
 #        name: "6-ocp4-install-pipeline"
 
-#    - name: 'Install Application'
-#      include_role:
-#        name: "7-install-application"
+    - name: 'Install Application'
+      include_role:
+        name: "7-install-application"
 
-    - name: 'Show Status'
+    - name: 'Show Informations'
       include_role:
         name: "8-info"

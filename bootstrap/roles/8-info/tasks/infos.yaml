@@ -67,14 +67,14 @@
   until:
     - nexus_hostname_result.stdout != ""
 
-#- name: extract trigger hostname
-#  shell: |
-#    oc get route el-webhook -o jsonpath='{.spec.host}' -n {{ app_namespace }}
-#  register: wh_hostname_result
-#  delay: 5
-#  retries: 10
-#  until:
-#    - wh_hostname_result.stdout != ""
+- name: extract trigger hostname
+  shell: |
+    oc get route el-webhook -o jsonpath='{.spec.host}' -n {{ app_namespace }}
+  register: wh_hostname_result
+  delay: 5
+  retries: 10
+  until:
+    - wh_hostname_result.stdout != ""
 
 
 - name: Infos
@@ -111,5 +111,5 @@
       - "User:      {{ nexus_user }}"
       - "Pass:      {{ nexus_password }}"
       - "Namespace: {{ repo_namespace }}"
-#      - "----- WebHook -----"
-#      - "Rota:      http://{{ wh_hostname_result.stdout }}"
+      - "----- WebHook -----"
+      - "Rota:      http://{{ wh_hostname_result.stdout }}"
