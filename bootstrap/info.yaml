@@ -31,6 +31,3 @@
     nexus_password: 'admin1234'
 
   tasks:
-    - name: 'Show Status'
-      include_role:
-        name: "8-info"
