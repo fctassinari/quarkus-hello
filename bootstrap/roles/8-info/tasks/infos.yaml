@@ -100,4 +100,4 @@
       - "Rota:      https://{{ nexus_hostname_result.stdout }}"
       - "User:      {{ nexus_user }}"
       - "Pass:      {{ nexus_password }}"
-      - "Namespace: {{ repo_namespace }}"
+      - "Namespace: {{ nexus_namespace }}"

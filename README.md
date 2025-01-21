@@ -18,7 +18,7 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
     "----- ArgoCD -----",
     "Rota:      https://openshift-gitops-server-openshift-gitops.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
-    "Pass:      NQMgZns49dlEBDj5kv6ALatyzXc8Cqwp",
+    "Pass:      R0SGELWri5osKdcJAP4Zgvt6FDuXx9Ve",
     "Namespace: openshift-gitops",
     "----- Quay -----",
     "Rota:      https://smanager-registry-quay-quay.apps.cluster-qq995.sandbox2890.opentlc.com",
@@ -40,7 +40,7 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
     "Rota:      https://nexus.apps.cluster-qq995.sandbox2890.opentlc.com",
     "User:      admin",
     "Pass:      admin1234",
-    "Namespace: gogs"
+    "Namespace: nexus"
 
 
 
@@ -276,13 +276,15 @@ Ajustes básicos
           git add .
           git commit -m "First Commit"
           git push -u origin master
+          cd ..
       quarkus-hello-config
           git clone http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com/gogs/quarkus-hello-config.git
           cp -r quarkus-hello-config-orig/* quarkus-hello-config
           cd quarkus-hello-config
           git add .
           git commit -m "First Commit"
-          git push -u origin master 
+          git push -u origin master
+          cd .. 
       ```
 ### Nexus
 - Install Nexus
