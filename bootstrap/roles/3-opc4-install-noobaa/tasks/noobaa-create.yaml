@@ -31,7 +31,7 @@
       loop:
       - ./templates/odf-namespace.yaml.j2
       - ./templates/operatorgroup-storage.yaml.j2
-      - ./templates/ocs-subscription.yaml.j2
+      - ./templates/ocs-gitlab-subscription.yaml.j2
 
     - name: Wait for NooBaa CRD to exist
       kubernetes.core.k8s_info:
@@ -53,7 +53,7 @@
       loop:
       - ./templates/odf-namespace.yaml.j2
       - ./templates/operatorgroup-storage.yaml.j2
-      - ./templates/odf-subscription.yaml.j2
+      - ./templates/odf-gitlab-subscription.yaml.j2
 
     - name: Wait for NooBaa CRD to exist
       kubernetes.core.k8s_info:

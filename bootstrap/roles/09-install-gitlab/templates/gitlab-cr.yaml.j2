@@ -1,0 +1,48 @@
+kind: GitLab
+apiVersion: apps.gitlab.com/v1beta1
+metadata:
+  name: gitlab
+  namespace: "{{ gitlab_namespace }}"
+spec:
+  chart:
+    values:
+      certmanager:
+        install: false
+      gitlab:
+        persistence:
+          size: 5Gi
+      global:
+        hosts:
+          domain: apps.ocp-hml.ati.to.gov.br
+          hostSuffix: null
+        ingress:
+          annotations:
+            route.openshift.io/termination: edge
+          class: none
+          configureCertmanager: false
+          tls:
+            secretName: null
+        nginx-ingress:
+          enabled: false
+      postgresql:
+        persistence:
+          size: 10Gi
+        primary:
+          extendedConfiguration: max_connections = 200
+    version: 8.5.1
+
+
+#        nginx-ingress:
+#          enabled: false
+#        smtp:
+#          port: 25
+#          enabled: true
+#          domain: ati.to.gov.br
+#          address: smtp.ati.to.gov.br
+#          starttls_auto: false
+#          authentication: login
+#          tls: false
+#          password:
+#            key: smtp-password
+#            secret: gitlab-smtp-secret
+#          user_name: gitea@ati.to.gov.br

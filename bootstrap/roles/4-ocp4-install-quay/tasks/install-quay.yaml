@@ -4,7 +4,7 @@
     definition: "{{ lookup('template', item ) | from_yaml }}"
   loop:
   - ./templates/quay-namespace.yaml.j2
-  - ./templates/quay-subscription.yaml.j2
+  - ./templates/quay-gitlab-subscription.yaml.j2
 
 - name: Wait for QuayRegistry CRD to exist
   kubernetes.core.k8s_info:

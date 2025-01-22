@@ -69,6 +69,8 @@
     sonar_token: 'squ_c66651edcaa466fb8d8e13a02d09402b14a50a86'
 
 
+    gitlab_namespace: 'gitlab-system'
+    cert-namespace: 'cert-manager'
   tasks:
 #    - name: 'Install Gitops and Pipeline'
 #      include_role:
@@ -99,8 +101,11 @@
 #      include_role:
 #        name: "7-install-application"
 
-    - name: 'Show Informations'
-      include_role:
-        name: "8-info"
+#    - name: 'Show Informations'
+#      include_role:
+#        name: "8-info"
 
+    - name: 'Install Gitlab'
+      include_role:
+        name: "9-install-gitlab"
 

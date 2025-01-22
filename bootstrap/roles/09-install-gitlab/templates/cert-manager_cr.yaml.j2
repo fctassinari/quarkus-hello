@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1alpha1
+kind: CertManager
+metadata:
+  name: cert-manager
+  namespace: "{{ cert-namespace }}"
+spec:
+  featureGates: []
+  namespaceSelector: {}
+  webhook:
+    replicas: 1

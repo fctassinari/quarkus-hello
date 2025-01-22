@@ -1,0 +1,17 @@
+- name: Instalar Cert-Manager no OpenShift
+  hosts: localhost
+  tasks:
+    - name: Criar OperatorGroup
+      k8s:
+        state: present
+        definition: "{{ lookup('templates', 'cert-operatorgroup.yaml') }}"
+
+    - name: Criar Subscription
+      k8s:
+        state: present
+        definition: "{{ lookup('templates', 'cert-subscription.yaml') }}"
+
+    - name: Criar CertManager Custom Resource
+      k8s:
+        state: present
+        definition: "{{ lookup('templates', 'cert-manager_cr.yaml') }}"
