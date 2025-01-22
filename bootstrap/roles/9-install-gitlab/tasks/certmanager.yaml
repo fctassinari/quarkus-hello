@@ -1,14 +1,14 @@
 - name: Criar OperatorGroup
   k8s:
     state: present
-    definition: "{{ lookup('templates', 'cert-operatorgroup.yaml') }}"
+    definition: "{{ lookup('template', 'cert-operatorgroup.yaml') }}"
 
 - name: Criar Subscription
   k8s:
     state: present
-    definition: "{{ lookup('templates', 'cert-subscription.yaml') }}"
+    definition: "{{ lookup('template', 'cert-subscription.yaml') }}"
 
 - name: Criar CertManager Custom Resource
   k8s:
     state: present
-    definition: "{{ lookup('templates', 'cert-manager_cr.yaml') }}"
+    definition: "{{ lookup('template', 'cert-manager_cr.yaml') }}"

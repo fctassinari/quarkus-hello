@@ -5,14 +5,14 @@
     - name: Create OperatorGroup
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('templates', 'gitlab-operator-group.yaml') }}"
+        definition: "{{ lookup('template', 'gitlab-operator-group.yaml') }}"
 
     - name: Create Subscription
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('templates', 'gitlab-subscription.yaml') }}"
+        definition: "{{ lookup('template', 'gitlab-subscription.yaml') }}"
 
     - name: Deploy GitLab Custom Resource
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('templates', 'gitlab-cr.yaml') }}"
+        definition: "{{ lookup('template', 'gitlab-cr.yaml') }}"
