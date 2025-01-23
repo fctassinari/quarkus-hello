@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ocp-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: openshift-default
+spec:
+  rules:
+    - host: meu-dominio.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meu-servico
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - meu-dominio.com
+      secretName: meu-certificado-tls
+
+#Explicação dos campos:
+#cert-manager.io/cluster-issuer: Faz referência ao ClusterIssuer configurado.
+#tls.secretName: Nome do Secret onde o certificado TLS será armazenado.
+#host: Substitua pelo seu domínio.

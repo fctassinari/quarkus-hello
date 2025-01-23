@@ -8,7 +8,7 @@
     state: present
     definition: "{{ lookup('template', 'cert-subscription.yaml') }}"
 
-- name: Criar CertManager Custom Resource
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'cert-manager_cr.yaml') }}"
+#- name: Criar CertManager Custom Resource
+#  k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cert-manager_cr.yaml') }}"

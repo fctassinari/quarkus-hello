@@ -70,7 +70,7 @@
 
 
     gitlab_namespace: 'gitlab-system'
-    cert_namespace: 'cert-manager'
+    cert_namespace: 'cert-manager-operator'
   tasks:
 #    - name: 'Install Gitops and Pipeline'
 #      include_role:

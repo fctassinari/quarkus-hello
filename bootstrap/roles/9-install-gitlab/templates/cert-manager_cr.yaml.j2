@@ -1,10 +1,18 @@
-apiVersion: cert-manager.io/v1alpha1
+apiVersion: operator.openshift.io/v1alpha1
 kind: CertManager
 metadata:
-  name: cert-manager
+  finalizers:
+    - cert-manager-operator.operator.openshift.io/cert-manager-webhook-deployment
+    - cert-manager-operator.operator.openshift.io/cert-manager-cainjector-deployment
+    - cert-manager-operator.operator.openshift.io/cert-manager-controller-deployment
+  name: cluster
   namespace: "{{ cert_namespace }}"
 spec:
-  featureGates: []
-  namespaceSelector: {}
-  webhook:
-    replicas: 1
+  logLevel: Normal
+  managementState: Managed
+  operatorLogLevel: Normal
+  unsupportedConfigOverrides:
+    controller:
+      args:
+        - '--dns01-recursive-nameservers=1.1.1.1:53'
+        - '--dns01-recursive-nameservers-only'
