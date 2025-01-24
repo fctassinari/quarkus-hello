@@ -4,18 +4,11 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    preferredChain: ""
-    privateKeySecretRef:
-      name: letsencrypt-key
-    server: https://acme-v02.api.letsencrypt.org/directory
     email: fabio.tassinari@smanager.tec.br
+    privateKeySecretRef:
+      name: sct-cluster-issuer-acme
+    server: 'https://acme-v02.api.letsencrypt.org/directory'
     solvers:
       - http01:
           ingress:
             class: openshift-default
-
-#Explicação dos campos:
-#email: Substitua pelo seu e-mail para receber notificações do Let's Encrypt.
-#server: Use o servidor de produção ou o de staging (https://acme-staging-v02.api.letsencrypt.org/directory) para testes.
-#privateKeySecretRef: Nome do Secret que armazenará a chave privada.
-#solvers: Define o método de validação (neste caso, HTTP-01 via Ingress).

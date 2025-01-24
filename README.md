@@ -1,11 +1,11 @@
 ![img.png](imagens/smanager.png)
-
+![img.png](imagens/fluxo-cicd_v1.drawio.png)
 # Introdução
 Este projeto visa a criação de um pipeline genérico para atender aplicações java sobre JBoss.<br>
 É possivel encontrar aqui a instalação do ferramental e a criação da esteira e suas tasks.
 
 Instalação / configuração: 1:30<br>
-Quantidade de etapas: 12
+Quantidade de etapas: 14
 
 # Ambiente
 [Gartner Magic Quadrant - DevOps Best Practices on Red Hat Openshift](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocp-gartner.prod)
@@ -461,7 +461,7 @@ Acesse o repositório Git clique nas seguintes opções:
 
 [Tekton Tasks Catalog](https://github.com/tektoncd/catalog)
 
-
+[Red Hat Cert Manager](https://docs.openshift.com/container-platform/4.17/security/cert_manager_operator/)
 # FINITO !!! 
 
 
