@@ -8,3 +8,7 @@
     state: present
     definition: "{{ lookup('template', 'cert-subscription.yaml.j2') }}"
 
+- name: Criar ClusterIssuer
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'cert-clusterissuer.yaml.j2') }}"
