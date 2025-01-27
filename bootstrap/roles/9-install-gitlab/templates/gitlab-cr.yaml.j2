@@ -15,17 +15,12 @@ spec:
           domain: apps.cluster-qq995.sandbox2890.opentlc.com
           hostSuffix: null
         ingress:
-          enabled: false
-        route:
-          enabled: true
           annotations:
             route.openshift.io/termination: edge
-            cert-manager.io/cluster-issuer: letsencrypt-staging
-            haproxy.router.openshift.io/timeout: "5m"
           class: none
-          configureCertmanager: true
+          configureCertmanager: false
           tls:
-            secretName: sct-gitlab-tls
+            secretName: null
         nginx-ingress:
           enabled: false
       postgresql:
