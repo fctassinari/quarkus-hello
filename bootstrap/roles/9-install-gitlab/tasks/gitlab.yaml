@@ -13,3 +13,39 @@
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
+
+
+- name: Get all Gitlab routes
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ gitlab_namespace }}"
+  register: gitlab_routes
+
+- name: Filter the route with the desired prefix
+  set_fact:
+    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
+
+- name: Check if the filtered route exists
+  fail:
+    msg: "No route found with the prefix 'gitlab-webservice-default'"
+  when: gitlab_route is not defined
+
+- name: Wait for the route to have a defined spec.host
+  retries: 10
+  delay: 20
+  until: gitlab_route.spec.host is defined
+  debug:
+    msg: "Gitlab route host is {{ gitlab_route.spec.host }}"
+
+
+
+- name: Wait for Gitlab to be running
+  uri:
+    url: https://{{ gitlab_route.spec.host }}
+    status_code: 200
+    validate_certs: no
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 30
