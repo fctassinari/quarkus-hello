@@ -50,6 +50,6 @@
 
 - name: Print Gitlab Password
   debug:
-    msg: "{{ shell_base64 }}"
+    msg: "{{ shell_base64.stdout }}"
 
 #  oc create route edge rt-cert --service=gitlab-webservice-default --hostname=gitl.apps.cluster-qq995.sandbox2890.opentlc.com --path=/ --port=http-workhorse
