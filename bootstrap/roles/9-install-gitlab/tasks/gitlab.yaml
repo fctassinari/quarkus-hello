@@ -15,6 +15,25 @@
     definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
 
 
+- name: Wait for route Gitlab with the desired prefix to appear
+  until: gitlab_filtered_routes | length > 0
+  retries: 40
+  delay: 10
+  set_fact:
+    gitlab_filtered_routes: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
+  vars:
+    gitlab_routes: >-
+      {{
+        (lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab_namespace) | list)
+        if gitlab_routes is undefined else gitlab_routes
+      }}
+
+- name: Print Gitlab Route
+  debug:
+    msg: "{{ gitlab_routes }}"
+
+
+
 - name: Get Gitlab password
   kubernetes.core.k8s_info:
     kind: Secret
@@ -27,7 +46,7 @@
   debug:
     msg: "{{ gitlab_pass.resources[0].data['password'] }}"
 
-- name: dencode with shell
+- name: Print Gitlab Password
   shell: "echo -n {{ gitlab_pass.resources[0].data['password'] }}  | base64 --decode"
   args:
     executable: /bin/bash
