@@ -25,13 +25,13 @@
     api_version: route.openshift.io/v1
     namespace: "{{ gitlab_namespace }}"
   register: gitlab_routes
-  until: gitlab_routes|length > 4
+  until: gitlab_routes.resources|length > 4
   retries: 40
   delay: 10
 
 - name: Wait for route Gitlab with the desired prefix to appear
   set_fact:
-    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
+    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
 
 - name: Get Gitlab password
   kubernetes.core.k8s_info:
