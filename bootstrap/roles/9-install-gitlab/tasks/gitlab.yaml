@@ -9,10 +9,22 @@
 #    state: present
 #    definition: "{{ lookup('template', 'gitlab-subscription.yaml.j2') }}"
 
-#- name: Gitlab Certificate
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'gitlab-cert.yaml.j2') }}"
+- name: Gitlab Certificate
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-cert.yaml.j2') }}"
+
+- name: Gitlab Rolebinding
+  shell: |
+    # Create a Role to provide the router service account permissions to read the referenced secret by using the following command:
+    oc create role secret-reader --verb=get,list,watch --resource=secrets --resource-name=sct-gitlab-tls --namespace={{ gitlab_namespace }}
+    # Create a RoleBinding resource to bind the router service account with the newly created Role resource by using the following command:
+    oc create rolebinding secret-reader-binding --role=secret-reader --serviceaccount=openshift-ingress:router --namespace={{ gitlab_namespace }}
+    
+    
+
+
+
 
 - name: Deploy GitLab Custom Resource
   kubernetes.core.k8s:
