@@ -43,6 +43,12 @@ Quantidade de etapas: 14
     "User:      admin",
     "Pass:      admin1234",
     "Namespace: nexus"
+    "----- GitLab -----",
+    "Rota:      https://gitl.apps.cluster-qq995.sandbox2890.opentlc.com",
+    "User:      root",
+    "Pass:      TLIfUPZTYbOHLCppBCFvsqan2b8qKnrlqgvwOtoAPqwzJ1y7Z3qbgrwnVrX5pwly",
+    "Namespace: gitlab-system"
+
 
 ## Pré requisitos
 ### Ferramentas

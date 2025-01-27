@@ -5,9 +5,8 @@ metadata:
   namespace: "{{ gitlab_namespace }}"
 spec:
   chart:
+    version: 8.8.1
     values:
-      certmanager:
-        install: false
       gitlab:
         persistence:
           size: 20Gi
@@ -19,7 +18,7 @@ spec:
           annotations:
             route.openshift.io/termination: edge
           class: none
-          configureCertmanager: false
+          configureCertmanager: true
           tls:
             secretName: null
         nginx-ingress:
@@ -29,4 +28,4 @@ spec:
           size: 10Gi
         primary:
           extendedConfiguration: max_connections = 200
-    version: 8.8.1
+
