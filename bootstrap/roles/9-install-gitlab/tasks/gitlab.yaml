@@ -27,12 +27,12 @@
   register: gitlab_routes
   until: gitlab_routes | length > 0
   ignore_errors: true
-  retries: 30
+  retries: 40
   delay: 10
 
 - name: Wait for route Gitlab with the desired prefix to appear
   set_fact:
-    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
+    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
 
 - name: Get Gitlab password
   kubernetes.core.k8s_info:
