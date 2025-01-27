@@ -10,10 +10,10 @@ spec:
         install: false
       gitlab:
         persistence:
-          size: 5Gi
+          size: 20Gi
       global:
         hosts:
-          domain: gitlab.apps.ocp-hml.ati.to.gov.br
+          domain: apps.cluster-qq995.sandbox2890.opentlc.com
           hostSuffix: null
         ingress:
           annotations:
@@ -26,23 +26,7 @@ spec:
           enabled: false
       postgresql:
         persistence:
-          size: 5Gi
+          size: 10Gi
         primary:
           extendedConfiguration: max_connections = 200
     version: 8.8.1
-
-
-#        nginx-ingress:
-#          enabled: false
-#        smtp:
-#          port: 25
-#          enabled: true
-#          domain: ati.to.gov.br
-#          address: smtp.ati.to.gov.br
-#          starttls_auto: false
-#          authentication: login
-#          tls: false
-#          password:
-#            key: smtp-password
-#            secret: gitlab-smtp-secret
-#          user_name: gitea@ati.to.gov.br
