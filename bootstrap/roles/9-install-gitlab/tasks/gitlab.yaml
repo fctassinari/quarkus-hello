@@ -1,18 +1,15 @@
----
-- name: Deploy GitLab Operator on OpenShift
-  hosts: localhost
-  tasks:
-    - name: Create OperatorGroup
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('template', 'gitlab-operator-group.yaml') }}"
 
-    - name: Create Subscription
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('template', 'gitlab-subscription.yaml') }}"
+- name: Create OperatorGroup
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-operator-group.yaml') }}"
 
-    - name: Deploy GitLab Custom Resource
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('template', 'gitlab-cr.yaml') }}"
+- name: Create Subscription
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-subscription.yaml') }}"
+
+- name: Deploy GitLab Custom Resource
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-cr.yaml') }}"
