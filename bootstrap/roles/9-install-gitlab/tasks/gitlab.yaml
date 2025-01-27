@@ -21,15 +21,13 @@
 #    gitlab_filtered_routes: []
 
 - name: Wait for route Gitlab with the desired prefix to appear
-  vars:
-    gitlab_namespace: "{{ gitlab_namespace }}"
   retries: 40
   delay: 10
   until: gitlab_filtered_routes | length > 0
   task:
     - name: Fetch routes from the namespace
       set_fact:
-        gitlab_routes: "{{ lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab_namespace) | list }}"
+        gitlab_routes: "{{ lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab-system) | list }}"
 
     - name: Filter routes with the desired prefix
       set_fact:
