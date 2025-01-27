@@ -30,13 +30,6 @@
   set_fact:
     gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
 
-
-- name: Print Gitlab Route
-  debug:
-    msg: "{{ gitlab_route.spec.host }}"
-
-
-
 - name: Get Gitlab password
   kubernetes.core.k8s_info:
     kind: Secret
@@ -45,14 +38,18 @@
     namespace: "{{ gitlab_namespace }}"
   register: gitlab_pass
 
-- name: debug
-  debug:
-    msg: "{{ gitlab_pass.resources[0].data['password'] }}"
-
-- name: Print Gitlab Password
+- name: Decode base64 Gitlab Password
   shell: "echo -n {{ gitlab_pass.resources[0].data['password'] }}  | base64 --decode"
+  register: shell_base64
   args:
     executable: /bin/bash
-  register: shell_base64
+
+- name: Print Gitlab Route
+  debug:
+    msg: "{{ gitlab_route.spec.host }}"
+
+- name: Print Gitlab Password
+  debug:
+    msg: "{{ shell_base64 }}"
 
 #  oc create route edge rt-cert --service=gitlab-webservice-default --hostname=gitl.apps.cluster-qq995.sandbox2890.opentlc.com --path=/ --port=http-workhorse
