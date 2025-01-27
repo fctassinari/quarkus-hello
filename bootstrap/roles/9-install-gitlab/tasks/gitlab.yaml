@@ -25,7 +25,7 @@
     api_version: route.openshift.io/v1
     namespace: "{{ gitlab_namespace }}"
   register: gitlab_routes
-  until: gitlab_routes | length > 4
+  until: gitlab_routes|length > 4
   retries: 40
   delay: 10
 
