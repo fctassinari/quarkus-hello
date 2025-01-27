@@ -9,11 +9,11 @@
 #    state: present
 #    definition: "{{ lookup('template', 'gitlab-subscription.yaml.j2') }}"
 #
-- name: Deploy GitLab Custom Resource
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
-
+#- name: Deploy GitLab Custom Resource
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
+#
 
 - name: Wait for route Gitlab with the desired prefix to appear
   until: gitlab_filtered_routes | length > 0
@@ -24,7 +24,7 @@
   vars:
     gitlab_routes: >-
       {{
-        (lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab_namespace) | list)
+        (lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace={{ gitlab_namespace }}) | list)
         if gitlab_routes is undefined else gitlab_routes
       }}
 
