@@ -27,11 +27,11 @@
   task:
     - name: Fetch routes from the namespace
       set_fact:
-        gitlab_routes: "{{ lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab-system) | list }}"
+        gitlab_routes: "x"
 
     - name: Filter routes with the desired prefix
       set_fact:
-        gitlab_filtered_routes: "{{ gitlab_routes | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
+        gitlab_filtered_routes: "y"
 
 - name: Fail if no routes were found
   fail:
