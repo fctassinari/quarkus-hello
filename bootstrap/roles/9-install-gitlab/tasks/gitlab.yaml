@@ -15,14 +15,20 @@
 #    definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
 #
 
+- name: Get all Gitlab routes
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ gitlab_namespace }}"
+  register: gitlab_routes
+  until: gitlab_routes | length > 0
+  ignore_errors: true
+  retries: 30
+  delay: 10
 
 - name: Wait for route Gitlab with the desired prefix to appear
   set_fact:
     gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
-  until: gitlab_route | length > 0
-  ignore_errors: true
-  retries: 30
-  delay: 10
 
 
 - name: Print Gitlab Route
