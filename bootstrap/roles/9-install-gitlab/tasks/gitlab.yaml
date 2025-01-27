@@ -23,7 +23,7 @@
 - name: Wait for route Gitlab with the desired prefix to appear
   vars:
     gitlab_namespace: "{{ gitlab_namespace }}"
-  task:
+  block:
     - name: Fetch routes from the namespace
       set_fact:
         gitlab_routes: "{{ lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab_namespace) | list }}"
