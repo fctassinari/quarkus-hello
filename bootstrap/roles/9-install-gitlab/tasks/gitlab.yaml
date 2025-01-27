@@ -16,21 +16,29 @@
 #
 
 - name: Wait for route Gitlab with the desired prefix to appear
+  vars:
+    gitlab_namespace: "{{ gitlab_namespace }}"
   until: gitlab_filtered_routes | length > 0
   retries: 40
   delay: 10
-  set_fact:
-    gitlab_filtered_routes: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
-  vars:
-    gitlab_routes: >-
-      {{
-        (lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace={{ gitlab_namespace }}) | list)
-        if gitlab_routes is undefined else gitlab_routes
-      }}
+  block:
+    - name: Fetch routes from the namespace
+      set_fact:
+        gitlab_routes: "{{ lookup('k8s', kind='Route', api_version='route.openshift.io/v1', namespace=gitlab_namespace) | list }}"
+
+    - name: Filter routes with the desired prefix
+      set_fact:
+        gitlab_filtered_routes: "{{ gitlab_routes | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list }}"
+  rescue:
+    - name: Fail if no routes were found after retries
+      fail:
+        msg: "No route found with the prefix 'gitlab-webservice-default' after waiting."
+
+
 
 - name: Print Gitlab Route
   debug:
-    msg: "{{ gitlab_routes }}"
+    msg: "{{ gitlab_filtered_routes }}"
 
 
 
