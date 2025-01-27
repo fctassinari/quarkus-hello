@@ -33,7 +33,7 @@
 
 - name: Print Gitlab Route
   debug:
-    msg: "{{ gitlab_route[0].spec.host }}"
+    msg: "{{ gitlab_route.spec.host }}"
 
 
 
