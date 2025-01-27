@@ -47,6 +47,26 @@
   args:
     executable: /bin/bash
 
+
+- name: Wait for Gitlab availability
+  uri:
+    url: "https://{{ gitlab_route.spec.host }}"
+    method: GET
+    user: root
+    password: "{{ shell_base64.stdout }}"
+    force_basic_auth: true
+    validate_certs: false
+  register: result
+  until: result.status == 200
+  retries: 15
+  delay: 20
+
+
+
+
+
+
+
 - name: Print Gitlab Route
   debug:
     msg: "{{ gitlab_route.spec.host }}"
