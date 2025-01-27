@@ -9,10 +9,13 @@
 #    state: present
 #    definition: "{{ lookup('template', 'gitlab-subscription.yaml.j2') }}"
 
-- name: Gitlab Certificate
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'gitlab-cert.yaml.j2') }}"
+
+# Os certificados do certmanager nao estão funcionando com o gitlab
+# qdo setamos o nome do secret na variavel tls do arquivo gitlab-cr.yaml.j2 as rotas não são criadas
+#- name: Gitlab Certificate
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'gitlab-cert.yaml.j2') }}"
 
 #- name: Gitlab Rolebinding
 #  shell: |
