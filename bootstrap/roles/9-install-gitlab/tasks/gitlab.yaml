@@ -15,10 +15,10 @@
 #    definition: "{{ lookup('template', 'gitlab-cr.yaml.j2') }}"
 #
 
-- name: Initialize empty variables
-  set_fact:
-    gitlab_routes: []
-    gitlab_filtered_routes: []
+#- name: Initialize empty variables
+#  set_fact:
+#    gitlab_routes: []
+#    gitlab_filtered_routes: []
 
 - name: Wait for route Gitlab with the desired prefix to appear
   vars:
