@@ -19,19 +19,6 @@
     acs_central_password_plain_text: 'admin1234'
     acs_central_user: 'admin'
 
-    quay_namespace: 'quay'
-    quay_admin_username: 'admin'
-    quay_admin_email: '{{ company_name }}@redhat.com'
-    quay_admin_password: 'admin1234'
-    quay_registry_name: '{{ company_name }}-registry'
-    quay_robot_account: 'quay_robot'
-
-    #Can obtain status codes from Swagger of quay route/api/v1/discovery
-    quay_org_created_success_status_code: '201'
-    quay_repo_created_success_status_code: '201'
-    quay_robot_created_success_status_code: '201'
-    quay_perm_success_status_code: '200'
-    quay_org_name: "{{ company_name }}"
 
     sa_cluster_admin: 'cluster-admin-sa'
     sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5VeVNsaXpyYlFkMVBJdmNJa09IVFVvS2JpeU9YRUplbkF5b0szMEE2RW8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNzQ2NzU0OCwiaWF0IjoxNzM3NDcxMTQ4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiIzMmM0M2JmMy1lYmI4LTRmMzgtYjA3My05N2FjMDEyZWZjYzQifX0sIm5iZiI6MTczNzQ3MTE0OCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.P6oHyMpjWSNqWVp-cXqBtxv0lUl6tbVKk1uJSeCjknKLFEK5rw4ecbOCsRBA06GD1P2JM87LI117TyKEx8cWbytFq8yBIVSDKrM_BI6wG6fTa-OQ2rnASjKB9FsXTYMxchVC93l6sUPHi9BkJ76s6adGZyudAWXBpVMZE9y2z6G687YPerVViAVmzrK-3ZXs0_AL3NedW45Evv_7CgXAeErtF6xgbW_8SQcCumNeywLFFEtYai_aZdPbhTEY0ra8QtAHfaLcvR62cb4DtkcmKDvjGYdBiECxBYm_nnP9Y2KrDFFwXAPF7L8kRZdQYRoId44iWlwcQU59hp8ZU2FhEZ9udc5hbqhd1IcKOGkYCBSXqpA6XhlAibiNf7SKu6zTWpBt3rdJBo6kN5stRrGvMb2UJR8s9nDhb5trx-yrfH-iyjEAXG3_CFQYo0zV3Bs-5LlsqQEaSuXvERABQaJ_k9G2r08Ag3wxBhjx2u-VFIKTLAgUz8t0MIWiXLRuaOMjXr0Tw8AGoTOoHiNr2c3ougDOa46DqaCimobe1HFo5aN83jqFC3xpMmLML2tuy_ckbQ2TuTe_TSlSlvTVidONZeqGOD5M7Rky-xZsSd9sz6NsN34u160JelIoMad-T9b_8yUm-Zhyce25jgmVdSd74-aB0LjZ-XiM9CMMTYMlJyk'
@@ -68,9 +55,9 @@
     sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
     sonar_token: 'squ_c66651edcaa466fb8d8e13a02d09402b14a50a86'
 
-
     gitlab_namespace: 'gitlab-system'
     cert_namespace: 'cert-manager-operator'
+
   tasks:
 #    - name: 'Install Gitops and Pipeline'
 #      include_role:
@@ -85,9 +72,10 @@
 #      include_role:
 #        name: "3-opc4-install-noobaa"
 
-#    - name: 'Install and configure Quay'
-#      include_role:
-#        name: "4-ocp4-install-quay"
+    - name: 'Install and configure Quay'
+      include_role:
+        name: "4-ocp4-install-quay"
+      when: "'quay' in install"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
@@ -105,7 +93,7 @@
 #      include_role:
 #        name: "8-info"
 
-    - name: 'Install Gitlab'
-      include_role:
-        name: "9-install-gitlab"
+#    - name: 'Install Gitlab'
+#      include_role:
+#        name: "9-install-gitlab"
 

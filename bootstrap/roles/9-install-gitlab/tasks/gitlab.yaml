@@ -1,17 +1,20 @@
-#
-#- name: Create OperatorGroup
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'gitlab-operator-group.yaml.j2') }}"
-#
-#- name: Create Subscription
-#  kubernetes.core.k8s:
-#    state: present
-#    definition: "{{ lookup('template', 'gitlab-subscription.yaml.j2') }}"
+
+- name: Create OperatorGroup
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-operator-group.yaml.j2') }}"
+
+- name: Create Subscription
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'gitlab-subscription.yaml.j2') }}"
 
 
 # Os certificados do certmanager nao estão funcionando com o gitlab
 # qdo setamos o nome do secret na variavel tls do arquivo gitlab-cr.yaml.j2 as rotas não são criadas
+# mas os ingress recebem o certificado válido
+# o comando abaixo cria uma rota que funciona com o certificado
+#  oc create route edge rt-cert --service=gitlab-webservice-default --hostname=gitl.apps.cluster-qq995.sandbox2890.opentlc.com --path=/ --port=http-workhorse
 #- name: Gitlab Certificate
 #  kubernetes.core.k8s:
 #    state: present
@@ -24,11 +27,6 @@
 #    # Create a RoleBinding resource to bind the router service account with the newly created Role resource by using the following command:
 #    oc create rolebinding secret-reader-binding --role=secret-reader --serviceaccount=openshift-ingress:router --namespace={{ gitlab_namespace }}
     
-    
-
-
-
-
 - name: Deploy GitLab Custom Resource
   kubernetes.core.k8s:
     state: present
@@ -76,12 +74,6 @@
   retries: 15
   delay: 20
 
-
-
-
-
-
-
 - name: Print Gitlab Route
   debug:
     msg: "{{ gitlab_route.spec.host }}"
@@ -90,4 +82,4 @@
   debug:
     msg: "{{ shell_base64.stdout }}"
 
-#  oc create route edge rt-cert --service=gitlab-webservice-default --hostname=gitl.apps.cluster-qq995.sandbox2890.opentlc.com --path=/ --port=http-workhorse
+

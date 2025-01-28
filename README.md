@@ -456,7 +456,30 @@ Acesse o repositório Git clique nas seguintes opções:
 ![img.png](imagens/x-pipeline-1.png)
 2. Copiar o conteudo de **7-install-application/qh-pipelinerun.yaml**
 ![img.png](imagens/x-pipeline-2.png)
- 
+
+# Certmanager e Gitlab
+- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+    ```
+    - name: 'Install Gitlab'
+      include_role:
+        name: "9-install-gitlab"
+    ```
+- Create Namespaces
+- Cert Manager
+  - Criar OperatorGroup
+  - Criar Subscription
+  - Criar ClusterIssuer
+-Gitlab
+  - Create OperatorGroup
+  - Create Subscription
+  - Deploy GitLab Custom Resource
+  - Get all Gitlab routes
+  - Wait for route Gitlab with the desired prefix to appear
+  - Get Gitlab password
+  - Decode base64 Gitlab Password
+  - Wait for Gitlab availability
+
+
 # Divirta-se!
 
 
@@ -472,9 +495,39 @@ Acesse o repositório Git clique nas seguintes opções:
 
 
 # Próximos passos
-- Reports
-- Instalar Gitlab Operator
-- Coletar Urls - status.sh
+- Reports -fazer funcionar
+- 4. PostCI - Pentesting and Performance Tests
+- 5. Notifications
+- 6. Image Signing and Pipeline Signing
+- Testar
+    - name: Search for Pods labelled name=gogs
+      kubernetes.core.k8s_info:
+      kind: Pod
+      namespace: gogs
+      label_selectors:
+      - name = gogs
+      register: result
+
+    - name: Display Pod Name
+      debug:
+      var: result.resources.0.metadata.name
+
+    - name: Executar comando
+      kubernetes.core.k8s_exec:
+      namespace: gogs
+      pod: "{{ result.resources.0.metadata.name }}"
+      command: su git -c './gogs admin create-user --name=root --password=Smanager00# --email=root@xyz.com.br --admin'
+      register: resultado_execucao
+
+    - name: Exibir saída do comando
+      debug:
+      var: resultado_execucao.stdout_lines
+
+
+
+
+
+
 - Autorização manual
   - Somente na versão 1.17 do pipelines<br>
     Consegui instalar a 1.14, a 1.17 ainda dá pau <br>
