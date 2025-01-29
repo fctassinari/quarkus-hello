@@ -20,14 +20,14 @@ quay_registry_name: '{{ company_name }}-registry'
 sonar_namespace: 'sonarqube'
 sonar_token: 'squ_c66651edcaa466fb8d8e13a02d09402b14a50a86'
 sonar_user: 'admin'
-sonar_pass: 'admin1234'
+sonar_password: 'admin1234'
 
 gitlab_user: 'root'
 gitlab_namespace: 'gitlab-system'
   
 gogs_namespace: 'gogs'
 gogs_user: 'gogs'
-gogs_pass: 'gogs'
+gogs_password: 'gogs'
 
 nexus_namespace: 'nexus'
 nexus_user: 'admin'

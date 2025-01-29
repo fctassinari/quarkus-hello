@@ -7,47 +7,9 @@ Este projeto visa a criação de um pipeline genérico para atender aplicações
 Instalação / configuração: 1:30<br>
 Quantidade de etapas: 14
 
-# Ambiente
-[Gartner Magic Quadrant - DevOps Best Practices on Red Hat Openshift](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocp-gartner.prod)
+# Ambientes para demonstração
+[Gartner Magic Quadrant - DevOps Best Practices on Red Hat Openshift](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocp-gartner.prod) <br>
 [Red Hat OpenShift Container Platform Cluster](https://catalog.partner.demo.redhat.com/catalog?category=favorites&item=babylon-catalog-prod%2Fpartner.ocpmulti-wksp-cnv.prod)
-
-## Contas
-    "----- ACS -----",
-    "Rota:      https://central-stackrox.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      admin",
-    "Pass:      admin1234",
-    "Namespace: stackrox",
-    "----- ArgoCD -----",
-    "Rota:      https://openshift-gitops-server-openshift-gitops.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      admin",
-    "Pass:      R0SGELWri5osKdcJAP4Zgvt6FDuXx9Ve",
-    "Namespace: openshift-gitops",
-    "----- Quay -----",
-    "Rota:      https://smanager-registry-quay-quay.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      admin",
-    "Pass:      admin1234",
-    "Robot:     quay_robot",
-    "Namespace: quay",
-    "----- Sonarqube -----",
-    "Rota:      https://sonarqube.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      admin",
-    "Pass:      admin1234",
-    "Namespace: sonarqube",
-    "----- Gogs -----",
-    "Rota:      http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      gogs",
-    "Pass:      gogs",
-    "Namespace: gogs",
-    "----- Nexus -----",
-    "Rota:      https://nexus.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      admin",
-    "Pass:      admin1234",
-    "Namespace: nexus"
-    "----- GitLab -----",
-    "Rota:      https://gitl.apps.cluster-qq995.sandbox2890.opentlc.com",
-    "User:      root",
-    "Pass:      TLIfUPZTYbOHLCppBCFvsqan2b8qKnrlqgvwOtoAPqwzJ1y7Z3qbgrwnVrX5pwly",
-    "Namespace: gitlab-system"
 
 
 ## Pré requisitos
@@ -77,9 +39,8 @@ pip3 install jmespath
 ### Projeto
 
 Ajustes básicos
-- No arquivo deploy_pipeline.yaml fazer os ajustes básicos
+- No arquivo all.yaml fazer os ajustes básicos
     - company_name
-    - pipeline_sufix
     - acs_central_password_base64
         - echo -n admin1234 | base64 R: YWRtaW4xMjM0
     - acs_central_password_plain_text
@@ -93,6 +54,8 @@ Ajustes básicos
         ```
     - sa_cluster_admin_token **com o token gerado pelos comandos acima**
     - cluster_url **aproveite para fazer um replace em todos os arquivos do projeto**
+    - sonar_password
+    - gogs_password
     - nexus_password
   
   
@@ -146,7 +109,7 @@ Ajustes básicos
   ```
   oc login -u <user> -p <pass> --server=https://apps.cluster-qq995.sandbox2890.opentlc.com:6443
   ```
-- No arquivo deployment_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml descomentar o bloco abaixo e executar o arquivo install.sh
   ```
     - name: 'Install Gitops and Pipeline'
       include_role:
@@ -181,7 +144,7 @@ Ajustes básicos
 
 
 ## Advanced Cluster Security for Kubernetes
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   - ```
     - name: 'Install the ACS Central'
       include_role:
@@ -207,7 +170,7 @@ Ajustes básicos
     - Creating ACS Integration with the Openshift Internal Registry
 
 # Install NooBaa
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   ```
     - name: 'Install Pipeline'
       include_role:
@@ -230,12 +193,13 @@ Ajustes básicos
 
 
 # Install Quay
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   ```
     - name: 'Install Pipeline'
       include_role:
       name: "4-ocp4-install-quay"
     ```
+- Verificar as variaveis no diretório **vars**
 - install-quay
   - quay-namespace
   - quay-subscription
@@ -253,12 +217,13 @@ Ajustes básicos
     - Set Robot Token from Creating New Robot Account
 
 ## CICD Infra
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
   ```
     - name: 'Install Pipeline'
       include_role:
       name: "5-ocp4-install-cicd-infra"
     ```
+- Verificar as variaveis no diretório **vars**  
 - Create Namespaces
 ### Sonarqube
 - Install sonarqube
@@ -339,12 +304,13 @@ Ajustes básicos
     ```
 
 # Install Pipelines
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
     ```
     - name: 'Install Pipeline'
       include_role:
       name: "6-ocp4-install-pipeline"
     ```
+- Verificar as variaveis no diretório **vars**  
 - Create Namespaces
 - pipelines.yaml
     - Get argocd password
@@ -382,14 +348,14 @@ Ajustes básicos
     - Create ACS API Token secret for using in the pipelines
 
 # Install Application
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
     ```
     - name: 'Install Application'
       include_role:
       name: "7-install-application"
     ```
 
-- Atualizar o arquivo defaults/main.yaml
+- Atualizar o arquivo vars/main.yaml
     - webhook_secret_token
     - Quay
         - quay_route
@@ -458,7 +424,7 @@ Acesse o repositório Git clique nas seguintes opções:
 ![img.png](imagens/x-pipeline-2.png)
 
 # Certmanager e Gitlab
-- No arquivo deployment_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
+- No arquivo deploy_pipeline.yaml comentar o bloco anterior, descomentar o bloco abaixo e executar o arquivo install.sh
     ```
     - name: 'Install Gitlab'
       include_role:

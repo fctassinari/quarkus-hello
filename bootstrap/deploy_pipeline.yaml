@@ -2,19 +2,6 @@
 - name: 'Install the Pipeline'
   hosts: localhost
   connection: local
-  vars:
-
-
-
-
-
-
-
-
-
-
-
-
 
   tasks:
     - name: 'Install Gitops and Pipeline'

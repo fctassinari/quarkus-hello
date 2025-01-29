@@ -10,7 +10,7 @@ spec:
         type: string
         description: Gogs admin username
         default: gogs
-      - name: GOGS_PASSWORD
+      - name: gogs_passwordWORD
         type: string
         description: Gogs admin password
         default: gogs
@@ -33,7 +33,7 @@ spec:
           fct_pass = "Ipc@Chip2024"
           
           gogs_user = "$(params.GOGS_USER)"
-          gogs_pwd = "$(params.GOGS_PASSWORD)"
+          gogs_pwd = "$(params.gogs_passwordWORD)"
           webhookURL = "http://" + os.popen('oc get route el-webhook -n {{ pipeline_namespace }} -o template --template="{{.spec.host}}"').read()
           gogsURL = "http://" + os.popen('oc get svc gogs -n gogs -o template --template="{{.spec.clusterIP}}"').read() + ":3000"
           
