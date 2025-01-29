@@ -99,7 +99,6 @@
   debug:
     msg:
       - "{{ info }}"
-      - " "
       - "----- ACS -----"
       - "Rota:      https://{{ acs_hostname_result.stdout }}"
       - "User:      {{ acs_central_user }}"
