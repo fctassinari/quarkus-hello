@@ -27,7 +27,7 @@ gitlab_namespace: 'gitlab-system'
   
 gogs_namespace: 'gogs'
 gogs_user: 'gogs'
-gogs_pass: 'gogs_user'
+gogs_pass: 'gogs'
 
 nexus_namespace: 'nexus'
 nexus_user: 'admin'
