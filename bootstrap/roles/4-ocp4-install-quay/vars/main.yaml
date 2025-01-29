@@ -1,6 +1,5 @@
 quay_admin_email: '{{ company_name }}@redhat.com'
 
-
 #Can obtain status codes from Swagger of quay route/api/v1/discovery
 quay_org_created_success_status_code: '201'
 quay_repo_created_success_status_code: '201'

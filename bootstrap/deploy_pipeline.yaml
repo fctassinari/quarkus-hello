@@ -4,20 +4,9 @@
   connection: local
   vars:
 
-    company_name: 'smanager'
-
     pipeline_namespace: "{{ company_name }}-pipeline"
     pipeline_name: "generic-pipeline"
     pipeline_sufix: 'deploy'
-
-    gitops_operator_namespace: 'openshift-gitops-operator'
-
-    pipeline_operator_namspace: 'openshift-operators'
-
-    acs_central_services_namespace: 'stackrox'
-    acs_central_password_base64: 'YWRtaW4xMjM0' #base64
-    acs_central_password_plain_text: 'admin1234'
-    acs_central_user: 'admin'
 
 
     sa_cluster_admin: 'cluster-admin-sa'
@@ -36,27 +25,7 @@
     nexus_user: 'admin'
     nexus_password: 'admin1234'
 
-    sonar_namespace: 'sonarqube'
-    sonar_database_service_name: 'sonar-postgres'
-    sonar_postgresql_database: 'sonar'
-    sonar_postgresql_password: 'sonar'
-    sonar_postgresql_user: 'sonar'
-    sonar_postgresql_volume_capacity: '1Gi'
-    sonar_postgresql_memory_limit: '512Mi'
-    sonar_postgresql_version: '12-el8'
-    sonar_postgresql_max_connections: '100'
-    sonar_postgresql_shared_buffers: '12MB'
-    sonar_postgresql_admin_password: 'sonar'
-    sonar_data_volume_capacity: '2Gi'
-    sonar_logs_volume_capacity: '2Gi'
-    sonar_conf_volume_capacity: '2Gi'
-    sonar_extensions_volume_capacity: '2Gi'
-    sonar_image: 'sonarqube:9.9.7-community'
-    sonar_url: "{{ sonar_namespace }}.{{ cluster_url }}"
-    sonar_token: 'squ_c66651edcaa466fb8d8e13a02d09402b14a50a86'
 
-    gitlab_namespace: 'gitlab-system'
-    cert_namespace: 'cert-manager-operator'
 
   tasks:
     - name: 'Install Gitops and Pipeline'

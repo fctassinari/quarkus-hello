@@ -272,7 +272,7 @@ Ajustes básicos
     - Criar token da conta admin <br>
       Clicar em Avatar / My Account / Security<br>
       ![img_1.png](imagens/sonar-token.png)<br>
-      Copiar o token e armazenar em **deploy_pipeline / sonar_token**
+      Copiar o token e armazenar em **bootstrap / group_vars / all.yaml / sonar_token**
   
 ### Reports
 - Install Reports Repo ``` analisar se mantem; se sim criar um novo / analisar os parametros informados```

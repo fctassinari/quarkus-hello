@@ -29,7 +29,7 @@
   shell: "echo -n {{ r_argopass.resources[0].data['admin.password'] }}  | base64 --decode"
   args:
     executable: /bin/bash
-  register: shell_base64
+  register: argocd_pass
 
 - name: extract quay hostname
   shell: |
@@ -91,7 +91,7 @@
 
 - name: Decode base64 Gitlab Password
   shell: "echo -n {{ gitlab_pass.resources[0].data['password'] }}  | base64 --decode"
-  register: shell_base64
+  register: gitlab_pass
   args:
     executable: /bin/bash
 
@@ -106,7 +106,7 @@
       - "----- ArgoCD -----"
       - "Rota:      https://{{ gitops_hostname_result.stdout }}"
       - "User:      admin"
-      - "Pass:      {{ shell_base64.stdout }}"
+      - "Pass:      {{ argocd_pass.stdout }}"
       - "Namespace: openshift-gitops"
       - "----- Quay -----"
       - "Rota:      https://{{ quay_hostname_result.stdout }}"
@@ -132,5 +132,5 @@
       - "----- Gitlab -----"
       - "Rota:      https://{{ gitlab_route.spec.host }}"
       - "User:      {{ gitlab_user }}"
-      - "Pass:      {{ shell_base64.stdout }}"
+      - "Pass:      {{ gitlab_pass.stdout }}"
       - "Namespace: {{ gitlab_namespace }}"
