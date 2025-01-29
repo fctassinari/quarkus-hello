@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   generateName: init-gogs-
-  namespace: {{ pipeline_name }}
+  namespace: {{ pipeline_namespace }}
 spec:
   taskSpec:
     params:
@@ -34,7 +34,7 @@ spec:
           
           gogs_user = "$(params.GOGS_USER)"
           gogs_pwd = "$(params.GOGS_PASSWORD)"
-          webhookURL = "http://" + os.popen('oc get route el-webhook -n {{ pipeline_name }} -o template --template="{{.spec.host}}"').read()
+          webhookURL = "http://" + os.popen('oc get route el-webhook -n {{ pipeline_namespace }} -o template --template="{{.spec.host}}"').read()
           gogsURL = "http://" + os.popen('oc get svc gogs -n gogs -o template --template="{{.spec.clusterIP}}"').read() + ":3000"
           
           

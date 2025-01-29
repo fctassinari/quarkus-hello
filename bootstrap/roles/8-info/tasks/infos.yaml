@@ -51,7 +51,7 @@
 
 - name: extract gogs hostname
   shell: |
-    oc get route gogs -o jsonpath='{.spec.host}' -n {{ repo_namespace }}
+    oc get route gogs -o jsonpath='{.spec.host}' -n {{ gogs_namespace }}
   register: gogs_hostname_result
   delay: 5
   retries: 10
@@ -116,14 +116,14 @@
       - "Namespace: {{ quay_namespace }}"
       - "----- Sonarqube -----"
       - "Rota:      https://{{ sonar_hostname_result.stdout }}"
-      - "User:      admin"
-      - "Pass:      admin1234"
+      - "User:      {{ sonar_user }}"
+      - "Pass:      {{ sonar_pass }}"
       - "Namespace: {{ sonar_namespace }}"
       - "----- Gogs -----"
       - "Rota:      http://{{ gogs_hostname_result.stdout }}"
-      - "User:      gogs"
-      - "Pass:      gogs"
-      - "Namespace: {{ repo_namespace }}"
+      - "User:      {{ gogs_user }}"
+      - "Pass:      {{ gogs_pass }}"
+      - "Namespace: {{ gogs_namespace }}"
       - "----- Nexus -----"
       - "Rota:      https://{{ nexus_hostname_result.stdout }}"
       - "User:      {{ nexus_user }}"

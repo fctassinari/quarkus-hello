@@ -4,26 +4,15 @@
   connection: local
   vars:
 
-    pipeline_namespace: "{{ company_name }}-pipeline"
-    pipeline_name: "generic-pipeline"
-    pipeline_sufix: 'deploy'
 
 
-    sa_cluster_admin: 'cluster-admin-sa'
-    sa_cluster_admin_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5VeVNsaXpyYlFkMVBJdmNJa09IVFVvS2JpeU9YRUplbkF5b0szMEE2RW8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjIl0sImV4cCI6NTMzNzQ2NzU0OCwiaWF0IjoxNzM3NDcxMTQ4LCJpc3MiOiJodHRwczovL2t1YmVybmV0ZXMuZGVmYXVsdC5zdmMiLCJrdWJlcm5ldGVzLmlvIjp7Im5hbWVzcGFjZSI6Imt1YmUtc3lzdGVtIiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImNsdXN0ZXItYWRtaW4tc2EiLCJ1aWQiOiIzMmM0M2JmMy1lYmI4LTRmMzgtYjA3My05N2FjMDEyZWZjYzQifX0sIm5iZiI6MTczNzQ3MTE0OCwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmNsdXN0ZXItYWRtaW4tc2EifQ.P6oHyMpjWSNqWVp-cXqBtxv0lUl6tbVKk1uJSeCjknKLFEK5rw4ecbOCsRBA06GD1P2JM87LI117TyKEx8cWbytFq8yBIVSDKrM_BI6wG6fTa-OQ2rnASjKB9FsXTYMxchVC93l6sUPHi9BkJ76s6adGZyudAWXBpVMZE9y2z6G687YPerVViAVmzrK-3ZXs0_AL3NedW45Evv_7CgXAeErtF6xgbW_8SQcCumNeywLFFEtYai_aZdPbhTEY0ra8QtAHfaLcvR62cb4DtkcmKDvjGYdBiECxBYm_nnP9Y2KrDFFwXAPF7L8kRZdQYRoId44iWlwcQU59hp8ZU2FhEZ9udc5hbqhd1IcKOGkYCBSXqpA6XhlAibiNf7SKu6zTWpBt3rdJBo6kN5stRrGvMb2UJR8s9nDhb5trx-yrfH-iyjEAXG3_CFQYo0zV3Bs-5LlsqQEaSuXvERABQaJ_k9G2r08Ag3wxBhjx2u-VFIKTLAgUz8t0MIWiXLRuaOMjXr0Tw8AGoTOoHiNr2c3ougDOa46DqaCimobe1HFo5aN83jqFC3xpMmLML2tuy_ckbQ2TuTe_TSlSlvTVidONZeqGOD5M7Rky-xZsSd9sz6NsN34u160JelIoMad-T9b_8yUm-Zhyce25jgmVdSd74-aB0LjZ-XiM9CMMTYMlJyk'
-    cluster_url: 'apps.cluster-qq995.sandbox2890.opentlc.com'
 
-    repo_namespace: 'gogs'
-    repo_url: 'http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com'
 
-    reports_namespace: 'reports-repo'
-    nexus_namespace: 'nexus'
-    nexus_data_volume_capacity: '2Gi'
-    nexus_url: "{{ nexus_namespace }}.{{ cluster_url }}"
-    nexus_registry_url: "{{ nexus_namespace }}-registry.{{ cluster_url }}"
-    nexus_image: 'registry.connect.redhat.com/sonatype/nexus-repository-manager:3.74.0-ubi-1'
-    nexus_user: 'admin'
-    nexus_password: 'admin1234'
+
+
+
+
+
 
 
 

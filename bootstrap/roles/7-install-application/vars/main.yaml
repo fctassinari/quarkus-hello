@@ -11,3 +11,5 @@ quay_robot_token: 'QBTKS345CQ394KZVZ4CD614F58QODAV3IVVDAFO93UOC3SOVCHJHSGRDGOP2V
 quay_application_access_token: '1ziR7Ejtb81rKrQ6FMjiBahX3AO0a2XuE63Dh53X'
 
 webhook_secret_token: 'defina-seu-token-aqui-para-webhook'
+
+repo_url: 'http://gogs-gogs.apps.cluster-qq995.sandbox2890.opentlc.com'
