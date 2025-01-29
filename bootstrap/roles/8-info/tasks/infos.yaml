@@ -67,6 +67,34 @@
   until:
     - nexus_hostname_result.stdout != ""
 
+- name: Get all Gitlab routes
+  kubernetes.core.k8s_info:
+    kind: Route
+    api_version: route.openshift.io/v1
+    namespace: "{{ gitlab_namespace }}"
+  register: gitlab_routes
+  until: gitlab_routes.resources|length > 4
+  retries: 40
+  delay: 10
+
+- name: Wait for route Gitlab with the desired prefix to appear
+  set_fact:
+    gitlab_route: "{{ gitlab_routes.resources | selectattr('metadata.name', 'search', '^gitlab-webservice-default.*') | list | first }}"
+
+- name: Get Gitlab password
+  kubernetes.core.k8s_info:
+    kind: Secret
+    api_version: /v1
+    name: gitlab-gitlab-initial-root-password
+    namespace: "{{ gitlab_namespace }}"
+  register: gitlab_pass
+
+- name: Decode base64 Gitlab Password
+  shell: "echo -n {{ gitlab_pass.resources[0].data['password'] }}  | base64 --decode"
+  register: shell_base64
+  args:
+    executable: /bin/bash
+
 - name: Infos
   debug:
     msg:
@@ -101,3 +129,8 @@
       - "User:      {{ nexus_user }}"
       - "Pass:      {{ nexus_password }}"
       - "Namespace: {{ nexus_namespace }}"
+      - "----- Gitlab -----"
+      - "Rota:      https://{{ gitlab_route.spec.host }}"
+      - "User:      {{ gitlab_user }}"
+      - "Pass:      {{ shell_base64.stdout }}"
+      - "Namespace: {{ gitlab_namespace }}"

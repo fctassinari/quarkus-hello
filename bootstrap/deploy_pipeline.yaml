@@ -59,42 +59,49 @@
     cert_namespace: 'cert-manager-operator'
 
   tasks:
-#    - name: 'Install Gitops and Pipeline'
-#      include_role:
-#        name: "1-ocp4-install-gitops-pipeline"
+    - name: 'Install Gitops and Pipeline'
+      include_role:
+        name: "1-ocp4-install-gitops-pipeline"
+      when: "'gitops' in install"
 
-#    - name: 'Install the ACS Central'
-#      include_role:
-#        name: "2-ocp4-install-acs"
+    - name: 'Install the ACS Central'
+      include_role:
+        name: "2-ocp4-install-acs"
+      when: "'acs' in install"
 
-## Instalar o Noobaa somente em ambientes sem ODF
-#    - name: 'Install and configure Noobaa Object Storage'
-#      include_role:
-#        name: "3-opc4-install-noobaa"
+# Instalar o Noobaa somente em ambientes sem ODF
+    - name: 'Install and configure Noobaa Object Storage'
+      include_role:
+        name: "3-opc4-install-noobaa"
+      when: "'nooba' in install"
 
-#    - name: 'Install and configure Quay'
-#      include_role:
-#        name: "4-ocp4-install-quay"
-#      when: "'quay' in install"
+    - name: 'Install and configure Quay'
+      include_role:
+        name: "4-ocp4-install-quay"
+      when: "'quay' in install"
 
-#    - name: 'Install CICD Infra'
-#      include_role:
-#        name: "5-ocp4-install-cicd-infra"
+    - name: 'Install CICD Infra'
+      include_role:
+        name: "5-ocp4-install-cicd-infra"
+      when: "'infra' in install"
 
-#    - name: 'Install Pipeline'
-#      include_role:
-#        name: "6-ocp4-install-pipeline"
+    - name: 'Install Pipeline'
+      include_role:
+        name: "6-ocp4-install-pipeline"
+      when: "'pipeline' in install"
 
-#    - name: 'Install Application'
-#      include_role:
-#        name: "7-install-application"
+    - name: 'Install Application'
+      include_role:
+        name: "7-install-application"
+      when: "'app' in install"
 
     - name: 'Show Informations'
       include_role:
         name: "8-info"
       when: "'info' in install"
 
-#    - name: 'Install Gitlab'
-#      include_role:
-#        name: "9-install-gitlab"
+    - name: 'Install Gitlab'
+      include_role:
+        name: "9-install-gitlab"
+      when: "'gitlab' in install"
 

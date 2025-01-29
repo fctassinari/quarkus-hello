@@ -1,10 +1,12 @@
-user_admin: admin
-user_password: xpto
+gitlab_user: "root"
+gitlab_namespace: "gitlab-system"
+
+
+
+
   
-  
-  
-  ansible-vault encrypt all.yaml
-  ansible-vault dencrypt all.yaml
-  ansible-vault view all.yaml
-  
-  ansible-playbook bootstrap/deploy_pipeline.yaml -v -e "install=quay,acs" --ask-vault-pass
+#  ansible-vault encrypt all.yaml
+#  ansible-vault dencrypt all.yaml
+#  ansible-vault view all.yaml
+#
+#  ansible-playbook bootstrap/deploy_pipeline.yaml -v -e "install=quay,acs" --ask-vault-pass
