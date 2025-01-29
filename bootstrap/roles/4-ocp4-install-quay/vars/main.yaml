@@ -1,5 +1,5 @@
 quay_admin_email: '{{ company_name }}@redhat.com'
-quay_registry_name: '{{ company_name }}-registry'
+
 
 #Can obtain status codes from Swagger of quay route/api/v1/discovery
 quay_org_created_success_status_code: '201'

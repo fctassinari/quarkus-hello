@@ -5,6 +5,7 @@ quay_admin_username: 'admin'
 quay_admin_password: 'admin1234'
 quay_robot_account: 'quay_robot'
 quay_namespace: 'quay'
+quay_registry_name: '{{ company_name }}-registry'
 
 
 
