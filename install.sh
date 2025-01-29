@@ -17,4 +17,4 @@ err() {
 }
 
 info "Installing Pipeline"
-ansible-playbook bootstrap/deploy_pipeline.yaml -v -e "install=quay,acs"
+ansible-playbook bootstrap/deploy_pipeline.yaml -v -e "install=$1"

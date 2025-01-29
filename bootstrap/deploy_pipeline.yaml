@@ -72,10 +72,10 @@
 #      include_role:
 #        name: "3-opc4-install-noobaa"
 
-    - name: 'Install and configure Quay'
-      include_role:
-        name: "4-ocp4-install-quay"
-      when: "'quay' in install"
+#    - name: 'Install and configure Quay'
+#      include_role:
+#        name: "4-ocp4-install-quay"
+#      when: "'quay' in install"
 
 #    - name: 'Install CICD Infra'
 #      include_role:
@@ -89,9 +89,10 @@
 #      include_role:
 #        name: "7-install-application"
 
-#    - name: 'Show Informations'
-#      include_role:
-#        name: "8-info"
+    - name: 'Show Informations'
+      include_role:
+        name: "8-info"
+      when: "'info' in install"
 
 #    - name: 'Install Gitlab'
 #      include_role:
