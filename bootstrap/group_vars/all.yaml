@@ -1,6 +1,10 @@
 gitlab_user: "root"
 gitlab_namespace: "gitlab-system"
 
+quay_admin_username: 'admin'
+quay_admin_password: 'admin1234'
+quay_robot_account: 'quay_robot'
+quay_namespace: 'quay'
 
 
 
